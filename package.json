@@ -1,0 +1,42 @@
+{
+  "name": "three.js-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "predev": "npm run clean",
+    "dev": "parcel src/index.html -p 1234 --open",
+    "prebuild": "npm run clean",
+    "build": "parcel build src/index.html --out-dir ./dist --public-url . --detailed-report",
+    "clean": "shx rm -rf dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brunosimon/three.js-template.git"
+  },
+  "author": "brunosimon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brunosimon/three.js-template/issues"
+  },
+  "homepage": "https://github.com/brunosimon/three.js-template#readme",
+  "devDependencies": {
+    "dat.gui": "^0.7.3",
+    "glslify-bundle": "^5.1.1",
+    "glslify-deps": "^1.3.1",
+    "parcel-bundler": "^1.12.3",
+    "parcel-plugin-asset-copier": "^1.0.0",
+    "parcel-plugin-static-files-copy": "^2.1.2",
+    "shx": "^0.3.2",
+    "three": "^0.106.2",
+    "three-orbit-controls": "^82.1.0"
+  },
+  "staticFiles": {
+    "staticPath": "static",
+    "watcherGlob": "**"
+  },
+  "dependencies": {
+    "gsap": "^2.1.2"
+  }
+}
