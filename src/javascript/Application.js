@@ -10,8 +10,11 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 
+import BackgroundMaterial from './Materials/Background.js'
+
 import matcapBuildingSource from '../models/matcap-building.png'
 import matcapRockSource from '../models/matcap-rock.png'
+import floorShadowSource from '../models/floor-shadow.png'
 import modelSource from '../models/model-1.glb'
 
 export default class Application
@@ -33,7 +36,8 @@ export default class Application
         this.resources.load([
             { name: 'model', source: modelSource },
             { name: 'matcapBuilding', source: matcapBuildingSource },
-            { name: 'matcapRock', source: matcapRockSource }
+            { name: 'matcapRock', source: matcapRockSource },
+            { name: 'floorShadow', source: floorShadowSource }
         ])
 
         this.resources.on('end', () =>
@@ -43,6 +47,20 @@ export default class Application
 
             this.resources.items.matcapRockTexture = new THREE.Texture(this.resources.items.matcapRock)
             this.resources.items.matcapRockTexture.needsUpdate = true
+
+            this.resources.items.floorShadowTexture = new THREE.Texture(this.resources.items.floorShadow)
+            this.resources.items.floorShadowTexture.needsUpdate = true
+
+            const data = new Uint8Array([
+                234, 168, 96, // Bottom left: #eaa860
+                243, 193, 125, // Bottom right: #f3c17d
+                217, 132, 65, // Top left: #d98441
+                235, 169, 98 // Top right: #eba962
+            ])
+
+            this.resources.items.backgroundTexture = new THREE.DataTexture(data, 2, 2, THREE.RGBFormat)
+            this.resources.items.backgroundTexture.magFilter = THREE.LinearFilter
+            this.resources.items.backgroundTexture.needsUpdate = true
 
             this.setColors()
             this.setRenderer()

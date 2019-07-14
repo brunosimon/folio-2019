@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import FloorMaterial from './Materials/Floor.js'
 
 export default class
 {
@@ -20,6 +21,7 @@ export default class
 
         this.setMaterials()
         this.setModel()
+        this.setFloor()
         // this.setDummy()
     }
 
@@ -97,6 +99,20 @@ export default class
 
             folder.add(this.model.container.rotation, 'y').min(- Math.PI).max(Math.PI).step(0.001).name('rotation y')
         }
+    }
+
+    setFloor()
+    {
+        this.floor = {}
+        this.floor.geometry = new THREE.PlaneBufferGeometry(1.084, 1.084, 10, 10)
+        this.floor.material = new FloorMaterial({
+            background: this.resources.items.backgroundTexture,
+            shadow: this.resources.items.floorShadowTexture,
+            color: new THREE.Color(0xd04500)
+        })
+        this.floor.mesh = new THREE.Mesh(this.floor.geometry, this.floor.material)
+        this.floor.mesh.rotation.x = - Math.PI * 0.5
+        this.container.add(this.floor.mesh)
     }
 
     setDummy()
