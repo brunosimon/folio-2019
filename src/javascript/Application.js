@@ -10,8 +10,6 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 
-import BackgroundMaterial from './Materials/Background.js'
-
 import matcapBuildingSource from '../models/matcap-building.png'
 import matcapRockSource from '../models/matcap-rock.png'
 import floorShadowSource from '../models/floor-shadow.png'
