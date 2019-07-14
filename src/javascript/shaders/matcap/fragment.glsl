@@ -1,3 +1,4 @@
+#define TOTO
 #define MATCAP
 #define USE_MATCAP
 
@@ -6,6 +7,11 @@ uniform float opacity;
 uniform sampler2D matcap;
 
 varying vec3 vViewPosition;
+
+// Custom start
+varying vec3 vWorldPosition;
+varying vec3 vObjectNormal;
+// Custom end
 
 #ifndef FLAT_SHADED
 
@@ -56,6 +62,21 @@ void main() {
 	vec3 outgoingLight = diffuseColor.rgb * matcapColor.rgb;
 
 	gl_FragColor = vec4( outgoingLight, diffuseColor.a );
+
+    // Custom start
+    float uIndirectDistanceStrength = 10.0;
+    float uIndirectDistancePower = 2.0;
+    float indirectDistanceStrength = clamp(1.0 - vWorldPosition.y * uIndirectDistanceStrength, 0.0, 1.0);
+    indirectDistanceStrength = pow(indirectDistanceStrength, uIndirectDistancePower);
+
+    float uIndirectAngleStrength = 1.0;
+    float uIndirectAngleOffset = 0.4;
+    float uIndirectAnglePower = 1.0;
+    float indirectAngleStrength = dot(vec3(0.0, - 1.0, 0.0), normalize(vObjectNormal)) * uIndirectAngleStrength + uIndirectAngleOffset;
+    indirectAngleStrength = pow(indirectAngleStrength, uIndirectAnglePower);
+
+	gl_FragColor = vec4(vec3(indirectAngleStrength), 1.0);
+    // Custom end
 
 	#include <premultiplied_alpha_fragment>
 	#include <tonemapping_fragment>

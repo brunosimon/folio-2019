@@ -1,3 +1,4 @@
+#define TOTO
 #define MATCAP
 #define USE_MATCAP
 
@@ -19,6 +20,11 @@ varying vec3 vViewPosition;
 #include <logdepthbuf_pars_vertex>
 #include <clipping_planes_pars_vertex>
 
+// Custom start
+varying vec3 vWorldPosition;
+varying vec3 vObjectNormal;
+// Custom end
+
 void main() {
 
 	#include <uv_vertex>
@@ -39,6 +45,15 @@ void main() {
 	#include <morphtarget_vertex>
 	#include <skinning_vertex>
 	#include <displacementmap_vertex>
+
+    // Custom start
+    vec4 worldNormal = modelMatrix * vec4(objectNormal, 1.0);
+    vObjectNormal = normalize(worldNormal.xyz);
+
+    vec4 worldPosition = modelMatrix * vec4(transformed, 1.0);
+    vWorldPosition = worldPosition.xyz;
+    // Custom end
+
 	#include <project_vertex>
 
 	#include <logdepthbuf_vertex>
