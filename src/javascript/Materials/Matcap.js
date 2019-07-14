@@ -17,7 +17,7 @@ export default function(_parameters = {})
     uniforms.matcap.value = _parameters.matcap
 
     const extensions = {
-        derivatives: true,
+        derivatives: false,
         fragDepth: false,
         drawBuffers: false,
         shaderTextureLOD: false

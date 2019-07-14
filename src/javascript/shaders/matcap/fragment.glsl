@@ -9,6 +9,8 @@ uniform sampler2D matcap;
 varying vec3 vViewPosition;
 
 // Custom start
+uniform mat3 normalMatrix;
+
 varying vec3 vWorldPosition;
 varying vec3 vObjectNormal;
 // Custom end
@@ -61,22 +63,29 @@ void main() {
 
 	vec3 outgoingLight = diffuseColor.rgb * matcapColor.rgb;
 
-	gl_FragColor = vec4( outgoingLight, diffuseColor.a );
-
     // Custom start
-    float uIndirectDistanceStrength = 10.0;
+    float uIndirectDistanceAmplitude = 10.0;
+    float uIndirectDistanceStrength = 0.7;
     float uIndirectDistancePower = 2.0;
-    float indirectDistanceStrength = clamp(1.0 - vWorldPosition.y * uIndirectDistanceStrength, 0.0, 1.0);
+    float indirectDistanceStrength = clamp(1.0 - vWorldPosition.y * uIndirectDistanceAmplitude, 0.0, 1.0) * uIndirectDistanceStrength;
     indirectDistanceStrength = pow(indirectDistanceStrength, uIndirectDistancePower);
+    indirectDistanceStrength = clamp(indirectDistanceStrength, 0.0, 1.0);
 
-    float uIndirectAngleStrength = 1.0;
+    float uIndirectAngleStrength = 0.7;
     float uIndirectAngleOffset = 0.4;
     float uIndirectAnglePower = 1.0;
-    float indirectAngleStrength = dot(vec3(0.0, - 1.0, 0.0), normalize(vObjectNormal)) * uIndirectAngleStrength + uIndirectAngleOffset;
+    float indirectAngleStrength = dot(normalize(vNormal), vec3(0.0, - 1.0, 0.0)) * uIndirectAngleStrength + uIndirectAngleOffset;
     indirectAngleStrength = pow(indirectAngleStrength, uIndirectAnglePower);
+    indirectAngleStrength = clamp(indirectAngleStrength, 0.0, 1.0);
 
-	gl_FragColor = vec4(vec3(indirectAngleStrength), 1.0);
+    vec3 uIndirectColor = vec3(208.0 / 255.0, 69.0 / 255.0, 0.0 / 255.0);
+    float indirectStrength = indirectDistanceStrength * indirectAngleStrength;
+
+	// gl_FragColor = vec4(vec3(indirectStrength), 1.0);
+	gl_FragColor = vec4(mix(outgoingLight, uIndirectColor, indirectStrength), diffuseColor.a);
     // Custom end
+
+	// gl_FragColor = vec4( outgoingLight, diffuseColor.a );
 
 	#include <premultiplied_alpha_fragment>
 	#include <tonemapping_fragment>

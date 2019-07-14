@@ -47,7 +47,7 @@ void main() {
 	#include <displacementmap_vertex>
 
     // Custom start
-    vec4 worldNormal = modelMatrix * vec4(objectNormal, 1.0);
+    vec4 worldNormal = modelMatrix * vec4(normal, 1.0);
     vObjectNormal = normalize(worldNormal.xyz);
 
     vec4 worldPosition = modelMatrix * vec4(transformed, 1.0);
