@@ -6,7 +6,7 @@ varying vec3 vViewPosition;
 
 #ifndef FLAT_SHADED
 
-	varying vec3 vNormal;
+    varying vec3 vNormal;
 
 #endif
 
@@ -27,24 +27,24 @@ varying vec3 vObjectNormal;
 
 void main() {
 
-	#include <uv_vertex>
+    #include <uv_vertex>
 
-	#include <beginnormal_vertex>
-	#include <morphnormal_vertex>
-	#include <skinbase_vertex>
-	#include <skinnormal_vertex>
-	#include <defaultnormal_vertex>
+    #include <beginnormal_vertex>
+    #include <morphnormal_vertex>
+    #include <skinbase_vertex>
+    #include <skinnormal_vertex>
+    #include <defaultnormal_vertex>
 
-	#ifndef FLAT_SHADED // Normal computed with derivatives when FLAT_SHADED
+    #ifndef FLAT_SHADED // Normal computed with derivatives when FLAT_SHADED
 
-		vNormal = normalize( transformedNormal );
+        vNormal = normalize( transformedNormal );
 
-	#endif
+    #endif
 
-	#include <begin_vertex>
-	#include <morphtarget_vertex>
-	#include <skinning_vertex>
-	#include <displacementmap_vertex>
+    #include <begin_vertex>
+    #include <morphtarget_vertex>
+    #include <skinning_vertex>
+    #include <displacementmap_vertex>
 
     // Custom start
     vec4 worldNormal = modelMatrix * vec4(normal, 1.0);
@@ -54,12 +54,12 @@ void main() {
     vWorldPosition = worldPosition.xyz;
     // Custom end
 
-	#include <project_vertex>
+    #include <project_vertex>
 
-	#include <logdepthbuf_vertex>
-	#include <clipping_planes_vertex>
-	#include <fog_vertex>
+    #include <logdepthbuf_vertex>
+    #include <clipping_planes_vertex>
+    #include <fog_vertex>
 
-	vViewPosition = - mvPosition.xyz;
+    vViewPosition = - mvPosition.xyz;
 
 }

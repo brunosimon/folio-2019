@@ -17,7 +17,7 @@ varying vec3 vObjectNormal;
 
 #ifndef FLAT_SHADED
 
-	varying vec3 vNormal;
+    varying vec3 vNormal;
 
 #endif
 
@@ -34,34 +34,34 @@ varying vec3 vObjectNormal;
 
 void main() {
 
-	#include <clipping_planes_fragment>
+    #include <clipping_planes_fragment>
 
-	vec4 diffuseColor = vec4( diffuse, opacity );
+    vec4 diffuseColor = vec4( diffuse, opacity );
 
-	#include <logdepthbuf_fragment>
-	#include <map_fragment>
-	#include <alphamap_fragment>
-	#include <alphatest_fragment>
-	#include <normal_fragment_begin>
-	#include <normal_fragment_maps>
+    #include <logdepthbuf_fragment>
+    #include <map_fragment>
+    #include <alphamap_fragment>
+    #include <alphatest_fragment>
+    #include <normal_fragment_begin>
+    #include <normal_fragment_maps>
 
-	vec3 viewDir = normalize( vViewPosition );
-	vec3 x = normalize( vec3( viewDir.z, 0.0, - viewDir.x ) );
-	vec3 y = cross( viewDir, x );
-	vec2 uv = vec2( dot( x, normal ), dot( y, normal ) ) * 0.495 + 0.5; // 0.495 to remove artifacts caused by undersized matcap disks
+    vec3 viewDir = normalize( vViewPosition );
+    vec3 x = normalize( vec3( viewDir.z, 0.0, - viewDir.x ) );
+    vec3 y = cross( viewDir, x );
+    vec2 uv = vec2( dot( x, normal ), dot( y, normal ) ) * 0.495 + 0.5; // 0.495 to remove artifacts caused by undersized matcap disks
 
-	#ifdef USE_MATCAP
+    #ifdef USE_MATCAP
 
-		vec4 matcapColor = texture2D( matcap, uv );
-		matcapColor = matcapTexelToLinear( matcapColor );
+        vec4 matcapColor = texture2D( matcap, uv );
+        matcapColor = matcapTexelToLinear( matcapColor );
 
-	#else
+    #else
 
-		vec4 matcapColor = vec4( 1.0 );
+        vec4 matcapColor = vec4( 1.0 );
 
-	#endif
+    #endif
 
-	vec3 outgoingLight = diffuseColor.rgb * matcapColor.rgb;
+    vec3 outgoingLight = diffuseColor.rgb * matcapColor.rgb;
 
     // Custom start
     float uIndirectDistanceAmplitude = 10.0;
@@ -83,15 +83,15 @@ void main() {
     vec3 uIndirectColor = vec3(208.0 / 255.0, 69.0 / 255.0, 0.0 / 255.0);
     float indirectStrength = indirectDistanceStrength * indirectAngleStrength;
 
-	// gl_FragColor = vec4(vec3(worldNormal), 1.0);
-	gl_FragColor = vec4(mix(outgoingLight, uIndirectColor, indirectStrength), diffuseColor.a);
+    // gl_FragColor = vec4(vec3(worldNormal), 1.0);
+    gl_FragColor = vec4(mix(outgoingLight, uIndirectColor, indirectStrength), diffuseColor.a);
     // Custom end
 
-	// gl_FragColor = vec4( outgoingLight, diffuseColor.a );
+    // gl_FragColor = vec4( outgoingLight, diffuseColor.a );
 
-	#include <premultiplied_alpha_fragment>
-	#include <tonemapping_fragment>
-	#include <encodings_fragment>
-	#include <fog_fragment>
+    #include <premultiplied_alpha_fragment>
+    #include <tonemapping_fragment>
+    #include <encodings_fragment>
+    #include <fog_fragment>
 
 }

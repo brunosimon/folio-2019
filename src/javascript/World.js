@@ -28,7 +28,8 @@ export default class
 
     setMaterials()
     {
-        this.materials = [
+        this.materials = {}
+        this.materials.items = [
             {
                 regex: /^rock[0-9]{0,3}?$/,
                 material: new MatcapMaterial({ matcap: this.resources.items.matcapRockTexture })
@@ -61,7 +62,7 @@ export default class
             object.geometry = child.geometry
             object.mesh = child
 
-            const material = this.materials.find((_material) =>
+            const material = this.materials.items.find((_material) =>
             {
                 return _material.regex.test(object.mesh.name)
             })
@@ -108,21 +109,21 @@ export default class
 
         this.dummy.box = {}
         this.dummy.box.geometry = new THREE.BoxBufferGeometry(0.2, 0.2, 0.2)
-        this.dummy.box.mesh = new THREE.Mesh(this.dummy.box.geometry, this.materials[0].material)
+        this.dummy.box.mesh = new THREE.Mesh(this.dummy.box.geometry, this.materials.items[0].material)
         this.dummy.box.mesh.castShadow = true
         this.dummy.box.mesh.receiveShadow = true
         this.dummy.container.add(this.dummy.box.mesh)
 
         this.dummy.torusKnot = {}
         this.dummy.torusKnot.geometry = new THREE.TorusKnotBufferGeometry(0.08, 0.03, 100, 20)
-        this.dummy.torusKnot.mesh = new THREE.Mesh(this.dummy.torusKnot.geometry, this.materials[0].material)
+        this.dummy.torusKnot.mesh = new THREE.Mesh(this.dummy.torusKnot.geometry, this.materials.items[0].material)
         this.dummy.torusKnot.mesh.position.x = 0.3
         this.dummy.torusKnot.mesh.castShadow = true
         this.dummy.container.add(this.dummy.torusKnot.mesh)
 
         this.dummy.sphere = {}
         this.dummy.sphere.geometry = new THREE.SphereBufferGeometry(0.12, 32, 32)
-        this.dummy.sphere.mesh = new THREE.Mesh(this.dummy.sphere.geometry, this.materials[0].material)
+        this.dummy.sphere.mesh = new THREE.Mesh(this.dummy.sphere.geometry, this.materials.items[0].material)
         this.dummy.sphere.mesh.position.x = - 0.3
         this.dummy.sphere.mesh.castShadow = true
         this.dummy.container.add(this.dummy.sphere.mesh)

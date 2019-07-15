@@ -7,7 +7,7 @@ varying vec2 vScreenPosition;
 
 void main()
 {
-    vec4 backgroundColor = texture2D(tBackground, vUv);
+    vec4 backgroundColor = texture2D(tBackground, vScreenPosition);
 
     float shadowAlpha = 1.0 - texture2D(tShadow, vUv).r;
 
