@@ -49,17 +49,6 @@ export default class Application
             this.resources.items.floorShadowTexture = new THREE.Texture(this.resources.items.floorShadow)
             this.resources.items.floorShadowTexture.needsUpdate = true
 
-            const data = new Uint8Array([
-                234, 168, 96, // Bottom left: #eaa860
-                243, 193, 125, // Bottom right: #f3c17d
-                217, 132, 65, // Top left: #d98441
-                235, 169, 98 // Top right: #eba962
-            ])
-
-            this.resources.items.backgroundTexture = new THREE.DataTexture(data, 2, 2, THREE.RGBFormat)
-            this.resources.items.backgroundTexture.magFilter = THREE.LinearFilter
-            this.resources.items.backgroundTexture.needsUpdate = true
-
             this.setRenderer()
             this.setCamera()
             this.setPasses()

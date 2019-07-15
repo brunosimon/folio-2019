@@ -90,11 +90,35 @@ export default class
          * Floor
          */
         this.materials.floor = new FloorMaterial()
+
         this.materials.floor.shadowColor = '#d04500'
+
+        this.materials.floor.colors = {}
+        this.materials.floor.colors.topLeft = '#d98441'
+        this.materials.floor.colors.topRight = '#eba962'
+        this.materials.floor.colors.bottomRight = '#f3c17d'
+        this.materials.floor.colors.bottomLeft = '#eaa860'
 
         this.materials.floor.updateUniforms = () =>
         {
-            this.materials.floor.uniforms.tBackground.value = this.resources.items.backgroundTexture
+            const topLeft = new THREE.Color(this.materials.floor.colors.topLeft)
+            const topRight = new THREE.Color(this.materials.floor.colors.topRight)
+            const bottomRight = new THREE.Color(this.materials.floor.colors.bottomRight)
+            const bottomLeft = new THREE.Color(this.materials.floor.colors.bottomLeft)
+
+            const data = new Uint8Array([
+                Math.round(bottomLeft.r * 255), Math.round(bottomLeft.g * 255), Math.round(bottomLeft.b * 255), // Bottom left: #eaa860
+                Math.round(bottomRight.r * 255), Math.round(bottomRight.g * 255), Math.round(bottomRight.b * 255), // Bottom right: #f3c17d
+                Math.round(topLeft.r * 255), Math.round(topLeft.g * 255), Math.round(topLeft.b * 255), // Top left: #d98441
+                Math.round(topRight.r * 255), Math.round(topRight.g * 255), Math.round(topRight.b * 255) // Top right: #eba962
+            ])
+
+            this.materials.floor.backgroundTexture = new THREE.DataTexture(data, 2, 2, THREE.RGBFormat)
+            this.materials.floor.backgroundTexture.magFilter = THREE.LinearFilter
+            this.materials.floor.backgroundTexture.needsUpdate = true
+
+            this.materials.floor.uniforms.tBackground.value = this.materials.floor.backgroundTexture
+
             this.materials.floor.uniforms.tShadow.value = this.resources.items.floorShadowTexture
             this.materials.floor.uniforms.uShadowColor.value = new THREE.Color(this.materials.floor.shadowColor)
         }
@@ -108,6 +132,10 @@ export default class
             folder.open()
 
             folder.addColor(this.materials.floor, 'shadowColor').onChange(this.materials.floor.updateUniforms)
+            folder.addColor(this.materials.floor.colors, 'topLeft').onChange(this.materials.floor.updateUniforms)
+            folder.addColor(this.materials.floor.colors, 'topRight').onChange(this.materials.floor.updateUniforms)
+            folder.addColor(this.materials.floor.colors, 'bottomRight').onChange(this.materials.floor.updateUniforms)
+            folder.addColor(this.materials.floor.colors, 'bottomLeft').onChange(this.materials.floor.updateUniforms)
         }
 
         /**
