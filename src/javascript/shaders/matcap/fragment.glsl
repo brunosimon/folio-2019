@@ -71,17 +71,19 @@ void main() {
     indirectDistanceStrength = pow(indirectDistanceStrength, uIndirectDistancePower);
     indirectDistanceStrength = clamp(indirectDistanceStrength, 0.0, 1.0);
 
+    vec3 worldNormal = inverseTransformDirection(vNormal, viewMatrix);
+
     float uIndirectAngleStrength = 0.7;
-    float uIndirectAngleOffset = 0.4;
+    float uIndirectAngleOffset = 0.6;
     float uIndirectAnglePower = 1.0;
-    float indirectAngleStrength = dot(normalize(vNormal), vec3(0.0, - 1.0, 0.0)) * uIndirectAngleStrength + uIndirectAngleOffset;
+    float indirectAngleStrength = dot(normalize(worldNormal), vec3(0.0, - 1.0, 0.0)) * uIndirectAngleStrength + uIndirectAngleOffset;
     indirectAngleStrength = pow(indirectAngleStrength, uIndirectAnglePower);
     indirectAngleStrength = clamp(indirectAngleStrength, 0.0, 1.0);
 
     vec3 uIndirectColor = vec3(208.0 / 255.0, 69.0 / 255.0, 0.0 / 255.0);
     float indirectStrength = indirectDistanceStrength * indirectAngleStrength;
 
-	// gl_FragColor = vec4(vec3(indirectStrength), 1.0);
+	// gl_FragColor = vec4(vec3(worldNormal), 1.0);
 	gl_FragColor = vec4(mix(outgoingLight, uIndirectColor, indirectStrength), diffuseColor.a);
     // Custom end
 
