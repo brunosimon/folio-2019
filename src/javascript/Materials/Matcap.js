@@ -11,10 +11,15 @@ export default function(_parameters = {})
         ...THREE.UniformsLib.normalmap,
         ...THREE.UniformsLib.displacementmap,
         ...THREE.UniformsLib.fog,
-        matcap: { value: null }
+        matcap: { value: null },
+        uIndirectDistanceAmplitude: { value: null },
+        uIndirectDistanceStrength: { value: null },
+        uIndirectDistancePower: { value: null },
+        uIndirectAngleStrength: { value: null },
+        uIndirectAngleOffset: { value: null },
+        uIndirectAnglePower: { value: null },
+        uIndirectColor: { value: null }
     }
-
-    uniforms.matcap.value = _parameters.matcap
 
     const extensions = {
         derivatives: false,

@@ -10,6 +10,13 @@ varying vec3 vViewPosition;
 
 // Custom start
 uniform mat3 normalMatrix;
+uniform float uIndirectDistanceAmplitude;
+uniform float uIndirectDistanceStrength;
+uniform float uIndirectDistancePower;
+uniform float uIndirectAngleStrength;
+uniform float uIndirectAngleOffset;
+uniform float uIndirectAnglePower;
+uniform vec3 uIndirectColor;
 
 varying vec3 vWorldPosition;
 varying vec3 vObjectNormal;
@@ -64,24 +71,19 @@ void main() {
     vec3 outgoingLight = diffuseColor.rgb * matcapColor.rgb;
 
     // Custom start
-    float uIndirectDistanceAmplitude = 10.0;
-    float uIndirectDistanceStrength = 0.7;
-    float uIndirectDistancePower = 2.0;
-    float indirectDistanceStrength = clamp(1.0 - vWorldPosition.y * uIndirectDistanceAmplitude, 0.0, 1.0) * uIndirectDistanceStrength;
+    float indirectDistanceStrength = clamp(1.0 - vWorldPosition.y / uIndirectDistanceAmplitude, 0.0, 1.0) * uIndirectDistanceStrength;
     indirectDistanceStrength = pow(indirectDistanceStrength, uIndirectDistancePower);
     indirectDistanceStrength = clamp(indirectDistanceStrength, 0.0, 1.0);
 
     vec3 worldNormal = inverseTransformDirection(vNormal, viewMatrix);
 
-    float uIndirectAngleStrength = 0.7;
-    float uIndirectAngleOffset = 0.6;
-    float uIndirectAnglePower = 1.0;
-    float indirectAngleStrength = dot(normalize(worldNormal), vec3(0.0, - 1.0, 0.0)) * uIndirectAngleStrength + uIndirectAngleOffset;
+    float indirectAngleStrength = dot(normalize(worldNormal), vec3(0.0, - 1.0, 0.0)) + uIndirectAngleOffset;
+    indirectAngleStrength = clamp(indirectAngleStrength * uIndirectAngleStrength, 0.0, 1.0);
     indirectAngleStrength = pow(indirectAngleStrength, uIndirectAnglePower);
-    indirectAngleStrength = clamp(indirectAngleStrength, 0.0, 1.0);
 
-    vec3 uIndirectColor = vec3(208.0 / 255.0, 69.0 / 255.0, 0.0 / 255.0);
+    // vec3 uIndirectColor = vec3(208.0 / 255.0, 69.0 / 255.0, 0.0 / 255.0);
     float indirectStrength = indirectDistanceStrength * indirectAngleStrength;
+    // float indirectStrength = indirectAngleStrength;
 
     // gl_FragColor = vec4(vec3(worldNormal), 1.0);
     gl_FragColor = vec4(mix(outgoingLight, uIndirectColor, indirectStrength), diffuseColor.a);

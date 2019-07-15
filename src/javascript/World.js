@@ -29,14 +29,72 @@ export default class
     setMaterials()
     {
         this.materials = {}
+
+        if(this.debug)
+        {
+            this.materials.debugFolder = this.debugFolder.addFolder('materials')
+            this.materials.debugFolder.open()
+        }
+
+        // Matcaps
+        this.materials.matcaps = {}
+        this.materials.matcaps.indirectColor = '#d04500'
+        this.materials.matcaps.uniforms = {
+            uIndirectDistanceAmplitude: 0.1,
+            uIndirectDistanceStrength: 0.7,
+            uIndirectDistancePower: 2.0,
+            uIndirectAngleStrength: 1.5,
+            uIndirectAngleOffset: 0.6,
+            uIndirectAnglePower: 1.0,
+            uIndirectColor: null
+        }
+
+        this.materials.matcaps.rockMatcap = new MatcapMaterial()
+        this.materials.matcaps.rockMatcap.uniforms.matcap.value = this.resources.items.matcapRockTexture
+
+        this.materials.matcaps.buildingMatcap = new MatcapMaterial()
+        this.materials.matcaps.buildingMatcap.uniforms.matcap.value = this.resources.items.matcapBuildingTexture
+
+        this.materials.matcaps.updateUniforms = () =>
+        {
+            this.materials.matcaps.uniforms.uIndirectColor = new THREE.Color(this.materials.matcaps.indirectColor)
+            for(const _uniformName in this.materials.matcaps.uniforms)
+            {
+                const _uniformValue = this.materials.matcaps.uniforms[_uniformName]
+                this.materials.matcaps.rockMatcap.uniforms[_uniformName].value = _uniformValue
+                this.materials.matcaps.buildingMatcap.uniforms[_uniformName].value = _uniformValue
+            }
+        }
+
+        this.materials.matcaps.updateUniforms()
+
+        if(this.debug)
+        {
+            this.materials.debugFolder.add(this.materials.matcaps.uniforms, 'uIndirectDistanceAmplitude').step(0.001).min(0).max(0.5).onChange(this.materials.matcaps.updateUniforms)
+            this.materials.debugFolder.add(this.materials.matcaps.uniforms, 'uIndirectDistanceStrength').step(0.001).min(0).max(2).onChange(this.materials.matcaps.updateUniforms)
+            this.materials.debugFolder.add(this.materials.matcaps.uniforms, 'uIndirectDistancePower').step(0.001).min(0).max(5).onChange(this.materials.matcaps.updateUniforms)
+            this.materials.debugFolder.add(this.materials.matcaps.uniforms, 'uIndirectAngleStrength').step(0.001).min(0).max(2).onChange(this.materials.matcaps.updateUniforms)
+            this.materials.debugFolder.add(this.materials.matcaps.uniforms, 'uIndirectAngleOffset').step(0.001).min(- 2).max(2).onChange(this.materials.matcaps.updateUniforms)
+            this.materials.debugFolder.add(this.materials.matcaps.uniforms, 'uIndirectAnglePower').step(0.001).min(0).max(5).onChange(this.materials.matcaps.updateUniforms)
+            this.materials.debugFolder.addColor(this.materials.matcaps, 'indirectColor').onChange(this.materials.matcaps.updateUniforms)
+        }
+
+        // Floor
+        this.materials.floor = new FloorMaterial({
+            background: this.resources.items.backgroundTexture,
+            shadow: this.resources.items.floorShadowTexture,
+            color: new THREE.Color(0xd04500)
+        })
+
+        // Auto assign
         this.materials.items = [
             {
                 regex: /^rock[0-9]{0,3}?$/,
-                material: new MatcapMaterial({ matcap: this.resources.items.matcapRockTexture })
+                material: this.materials.matcaps.rockMatcap
             },
             {
                 regex: /^slabe[0-9]{0,3}?|cube[0-9]{0,3}?$/,
-                material: new MatcapMaterial({ matcap: this.resources.items.matcapBuildingTexture })
+                material: this.materials.matcaps.buildingMatcap
             }
         ]
     }
@@ -73,27 +131,13 @@ export default class
 
             this.model.items[child.name] = object
         }
-
-        // Debug
-        if(this.debug)
-        {
-            const folder = this.debugFolder.addFolder('model')
-            folder.open()
-
-            folder.add(this.model.container.rotation, 'y').min(- Math.PI).max(Math.PI).step(0.001).name('rotation y')
-        }
     }
 
     setFloor()
     {
         this.floor = {}
         this.floor.geometry = new THREE.PlaneBufferGeometry(1.084, 1.084, 10, 10)
-        this.floor.material = new FloorMaterial({
-            background: this.resources.items.backgroundTexture,
-            shadow: this.resources.items.floorShadowTexture,
-            color: new THREE.Color(0xd04500)
-        })
-        this.floor.mesh = new THREE.Mesh(this.floor.geometry, this.floor.material)
+        this.floor.mesh = new THREE.Mesh(this.floor.geometry, this.materials.floor)
         this.floor.mesh.rotation.x = - Math.PI * 0.5
         this.container.add(this.floor.mesh)
     }
