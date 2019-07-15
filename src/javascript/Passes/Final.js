@@ -7,12 +7,8 @@ export default {
     uniforms:
     {
         tDiffuse: { type: 't', value: null },
-        tStroke: { type: 't', value: null },
-        uPencilColor: { type: 'v3', value: new THREE.Color('#414141') },
-        uVignetteStrength: { type: 'f', value: 2 },
-        uVignetteOffset: { type: 'f', value: - 0.5 },
-        uNoiseStrength: { type: 'f', value: 0.1 }
+        uResolution: { type: 'v2', value: null }
     },
-    vertexShader:shaderVertex,
+    vertexShader: shaderVertex,
     fragmentShader: shaderFragment
 }

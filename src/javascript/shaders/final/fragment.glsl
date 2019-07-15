@@ -1,36 +1,22 @@
+#define M_PI 3.1415926535897932384626433832795
+
 uniform sampler2D tDiffuse;
-uniform sampler2D tStroke;
-uniform vec3 uPencilColor;
-uniform float uVignetteStrength;
-uniform float uVignetteOffset;
-uniform float uNoiseStrength;
+uniform vec2 uResolution;
 
 varying vec2 vUv;
 
-#pragma glslify: random = require(../partials/random.glsl)
-#pragma glslify: easeSin = require(../partials/ease-sin.glsl)
+#pragma glslify: blur13 = require(../partials/blur13.glsl)
 
 void main()
 {
     // Base
-    vec3 diffuseColor = texture2D(tDiffuse, vUv).rgb;
-
-    // Strokes
-    float strokeStrength = texture2D(tStroke, vUv).r;
-    diffuseColor = mix(diffuseColor, uPencilColor, strokeStrength);
-
-    // Noise
-    diffuseColor += (random(vUv) - 0.5) * uNoiseStrength;
-
-    // Vignette
-    float vignetteStrength = distance(vUv, vec2(0.5, 0.5));
-    vignetteStrength *= uVignetteStrength;
-    vignetteStrength += uVignetteOffset;
-    vignetteStrength = min(max(vignetteStrength, 0.0), 1.0);
-    vignetteStrength = easeSin(vignetteStrength);
-    // vignetteStrength = smoothstep(0.0, 1.0, vignetteStrength);
-    diffuseColor = mix(diffuseColor, uPencilColor, vignetteStrength);
+    vec4 diffuseColor = texture2D(tDiffuse, vUv);
 
     // Final
-    gl_FragColor = vec4(diffuseColor, 1.0);
+    // gl_FragColor = diffuseColor;
+    vec4 hBlur = blur13(tDiffuse, vUv, uResolution, vec2(2.0, 0.0));
+    vec4 vBlur = blur13(tDiffuse, vUv, uResolution, vec2(0.0, 2.0));
+    float blurStrength = 1.0 - sin(vUv.y * M_PI);
+    vec4 blurColor = hBlur * 0.5 + vBlur * 0.5;
+    gl_FragColor = mix(diffuseColor, blurColor, blurStrength);
 }

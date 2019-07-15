@@ -8,8 +8,10 @@ import World from './World.js'
 
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
+import FinalPass from './Passes/Final.js'
 
 import matcapBuildingSource from '../models/matcap-building.png'
 import matcapRockSource from '../models/matcap-rock.png'
@@ -126,6 +128,11 @@ export default class Application
         this.passes.unrealBloomPass.strength = 0.1
         this.passes.unrealBloomPass.radius = 2
 
+        this.passes.finalPass = new ShaderPass(FinalPass)
+        this.passes.finalPass.material.uniforms.uResolution.value = new THREE.Vector2()
+        this.passes.finalPass.material.uniforms.uResolution.value.x = this.sizes.viewport.width
+        this.passes.finalPass.material.uniforms.uResolution.value.y = this.sizes.viewport.height
+
         // Debug
         if(this.debug)
         {
@@ -140,6 +147,7 @@ export default class Application
         // Add passes
         this.passes.composer.addPass(this.passes.renderPass)
         this.passes.composer.addPass(this.passes.unrealBloomPass)
+        this.passes.composer.addPass(this.passes.finalPass)
 
         // Time tick
         this.time.on('tick', () =>
