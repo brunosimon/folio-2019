@@ -60,43 +60,12 @@ export default class Application
             this.resources.items.backgroundTexture.magFilter = THREE.LinearFilter
             this.resources.items.backgroundTexture.needsUpdate = true
 
-            this.setColors()
             this.setRenderer()
             this.setCamera()
             this.setPasses()
             this.setOrbitControls()
             this.setWorld()
         })
-    }
-
-    /**
-     * Set colors
-     */
-    setColors()
-    {
-        this.colors = {}
-
-        this.colors.pencil = {}
-        this.colors.pencil.string = '#414141'
-        this.colors.pencil.three = new THREE.Color(this.colors.pencil.string)
-
-        this.colors.paper = {}
-        this.colors.paper.string = '#ffffff'
-        this.colors.paper.three = new THREE.Color(this.colors.paper.string)
-
-        this.colors.change = () =>
-        {
-            this.colors.pencil.three.set(this.colors.pencil.string)
-            this.colors.paper.three.set(this.colors.paper.string)
-
-            this.renderer.setClearColor(this.colors.pencil.three.getHex(), 1)
-        }
-
-        if(this.debug)
-        {
-            const folder = this.debug.addFolder('colors')
-            folder.open()
-        }
     }
 
     /**

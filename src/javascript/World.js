@@ -30,13 +30,16 @@ export default class
     {
         this.materials = {}
 
+        // Debug
         if(this.debug)
         {
             this.materials.debugFolder = this.debugFolder.addFolder('materials')
             this.materials.debugFolder.open()
         }
 
-        // Matcaps
+        /**
+         * Matcaps
+         */
         this.materials.matcaps = {}
         this.materials.matcaps.indirectColor = '#d04500'
         this.materials.matcaps.uniforms = {
@@ -68,25 +71,48 @@ export default class
 
         this.materials.matcaps.updateUniforms()
 
+        // Debug
         if(this.debug)
         {
-            this.materials.debugFolder.add(this.materials.matcaps.uniforms, 'uIndirectDistanceAmplitude').step(0.001).min(0).max(0.5).onChange(this.materials.matcaps.updateUniforms)
-            this.materials.debugFolder.add(this.materials.matcaps.uniforms, 'uIndirectDistanceStrength').step(0.001).min(0).max(2).onChange(this.materials.matcaps.updateUniforms)
-            this.materials.debugFolder.add(this.materials.matcaps.uniforms, 'uIndirectDistancePower').step(0.001).min(0).max(5).onChange(this.materials.matcaps.updateUniforms)
-            this.materials.debugFolder.add(this.materials.matcaps.uniforms, 'uIndirectAngleStrength').step(0.001).min(0).max(2).onChange(this.materials.matcaps.updateUniforms)
-            this.materials.debugFolder.add(this.materials.matcaps.uniforms, 'uIndirectAngleOffset').step(0.001).min(- 2).max(2).onChange(this.materials.matcaps.updateUniforms)
-            this.materials.debugFolder.add(this.materials.matcaps.uniforms, 'uIndirectAnglePower').step(0.001).min(0).max(5).onChange(this.materials.matcaps.updateUniforms)
-            this.materials.debugFolder.addColor(this.materials.matcaps, 'indirectColor').onChange(this.materials.matcaps.updateUniforms)
+            const folder = this.materials.debugFolder.addFolder('matcaps')
+            folder.open()
+
+            folder.add(this.materials.matcaps.uniforms, 'uIndirectDistanceAmplitude').step(0.001).min(0).max(0.5).onChange(this.materials.matcaps.updateUniforms)
+            folder.add(this.materials.matcaps.uniforms, 'uIndirectDistanceStrength').step(0.001).min(0).max(2).onChange(this.materials.matcaps.updateUniforms)
+            folder.add(this.materials.matcaps.uniforms, 'uIndirectDistancePower').step(0.001).min(0).max(5).onChange(this.materials.matcaps.updateUniforms)
+            folder.add(this.materials.matcaps.uniforms, 'uIndirectAngleStrength').step(0.001).min(0).max(2).onChange(this.materials.matcaps.updateUniforms)
+            folder.add(this.materials.matcaps.uniforms, 'uIndirectAngleOffset').step(0.001).min(- 2).max(2).onChange(this.materials.matcaps.updateUniforms)
+            folder.add(this.materials.matcaps.uniforms, 'uIndirectAnglePower').step(0.001).min(0).max(5).onChange(this.materials.matcaps.updateUniforms)
+            folder.addColor(this.materials.matcaps, 'indirectColor').onChange(this.materials.matcaps.updateUniforms)
         }
 
-        // Floor
-        this.materials.floor = new FloorMaterial({
-            background: this.resources.items.backgroundTexture,
-            shadow: this.resources.items.floorShadowTexture,
-            color: new THREE.Color(0xd04500)
-        })
+        /**
+         * Floor
+         */
+        this.materials.floor = new FloorMaterial()
+        this.materials.floor.shadowColor = '#d04500'
 
-        // Auto assign
+        this.materials.floor.updateUniforms = () =>
+        {
+            this.materials.floor.uniforms.tBackground.value = this.resources.items.backgroundTexture
+            this.materials.floor.uniforms.tShadow.value = this.resources.items.floorShadowTexture
+            this.materials.floor.uniforms.uShadowColor.value = new THREE.Color(this.materials.floor.shadowColor)
+        }
+
+        this.materials.floor.updateUniforms()
+
+        // Debug
+        if(this.debug)
+        {
+            const folder = this.materials.debugFolder.addFolder('floor')
+            folder.open()
+
+            folder.addColor(this.materials.floor, 'shadowColor').onChange(this.materials.floor.updateUniforms)
+        }
+
+        /**
+         * Auto assign
+         */
         this.materials.items = [
             {
                 regex: /^rock[0-9]{0,3}?$/,
