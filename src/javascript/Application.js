@@ -9,6 +9,7 @@ import World from './World.js'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
 
 import matcapBuildingSource from '../models/matcap-building.png'
 import matcapRockSource from '../models/matcap-rock.png'
@@ -70,7 +71,8 @@ export default class Application
             canvas: this.$canvas,
             alpha: true
         })
-        this.renderer.setClearColor(0x414141, 1)
+        // this.renderer.setClearColor(0x414141, 1)
+        this.renderer.setClearColor(0x000000, 1)
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
         this.renderer.setSize(this.sizes.viewport.width, this.sizes.viewport.height)
         this.renderer.physicallyCorrectLights = true
@@ -107,12 +109,37 @@ export default class Application
     {
         this.passes = {}
 
+        // Debug
+        if(this.debug)
+        {
+            this.passes.debugFolder = this.debug.addFolder('postprocess')
+            this.passes.debugFolder.open()
+        }
+
         this.passes.composer = new EffectComposer(this.renderer)
 
         // Create passes
         this.passes.renderPass = new RenderPass(this.scene, this.camera)
 
+        this.passes.unrealBloomPass = new UnrealBloomPass(new THREE.Vector2(this.sizes.viewport.width, this.sizes.viewport.height), 0.5, 0.4, 0.85)
+        this.passes.unrealBloomPass.threshold = 0
+        this.passes.unrealBloomPass.strength = 0.1
+        this.passes.unrealBloomPass.radius = 2
+
+        // Debug
+        if(this.debug)
+        {
+            const folder = this.passes.debugFolder.addFolder('unreal bloom')
+            folder.open()
+
+            folder.add(this.passes.unrealBloomPass, 'threshold').step(0.001).min(0).max(1)
+            folder.add(this.passes.unrealBloomPass, 'strength').step(0.001).min(0).max(1)
+            folder.add(this.passes.unrealBloomPass, 'radius').step(0.001).min(0).max(10)
+        }
+
+        // Add passes
         this.passes.composer.addPass(this.passes.renderPass)
+        this.passes.composer.addPass(this.passes.unrealBloomPass)
 
         // Time tick
         this.time.on('tick', () =>
@@ -125,15 +152,9 @@ export default class Application
         // Resize event
         this.sizes.on('resize', () =>
         {
+            this.renderer.setSize(this.sizes.viewport.width, this.sizes.viewport.height)
             this.passes.composer.setSize(this.sizes.viewport.width, this.sizes.viewport.height)
         })
-
-        // Debug
-        if(this.debug)
-        {
-            const folder = this.debug.addFolder('postprocess')
-            folder.open()
-        }
     }
 
     /**

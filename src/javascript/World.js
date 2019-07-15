@@ -107,10 +107,10 @@ export default class
             const bottomLeft = new THREE.Color(this.materials.floor.colors.bottomLeft)
 
             const data = new Uint8Array([
-                Math.round(bottomLeft.r * 255), Math.round(bottomLeft.g * 255), Math.round(bottomLeft.b * 255), // Bottom left: #eaa860
-                Math.round(bottomRight.r * 255), Math.round(bottomRight.g * 255), Math.round(bottomRight.b * 255), // Bottom right: #f3c17d
-                Math.round(topLeft.r * 255), Math.round(topLeft.g * 255), Math.round(topLeft.b * 255), // Top left: #d98441
-                Math.round(topRight.r * 255), Math.round(topRight.g * 255), Math.round(topRight.b * 255) // Top right: #eba962
+                Math.round(bottomLeft.r * 255), Math.round(bottomLeft.g * 255), Math.round(bottomLeft.b * 255),
+                Math.round(bottomRight.r * 255), Math.round(bottomRight.g * 255), Math.round(bottomRight.b * 255),
+                Math.round(topLeft.r * 255), Math.round(topLeft.g * 255), Math.round(topLeft.b * 255),
+                Math.round(topRight.r * 255), Math.round(topRight.g * 255), Math.round(topRight.b * 255)
             ])
 
             this.materials.floor.backgroundTexture = new THREE.DataTexture(data, 2, 2, THREE.RGBFormat)
