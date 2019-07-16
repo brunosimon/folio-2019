@@ -11,7 +11,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
-import FinalPass from './Passes/Final.js'
+import BlurPass from './Passes/Blur.js'
 
 import matcapBuildingSource from '../models/matcap-building.png'
 import matcapRockSource from '../models/matcap-rock.png'
@@ -128,11 +128,6 @@ export default class Application
         this.passes.unrealBloomPass.strength = 0.1
         this.passes.unrealBloomPass.radius = 2
 
-        this.passes.finalPass = new ShaderPass(FinalPass)
-        this.passes.finalPass.material.uniforms.uResolution.value = new THREE.Vector2()
-        this.passes.finalPass.material.uniforms.uResolution.value.x = this.sizes.viewport.width
-        this.passes.finalPass.material.uniforms.uResolution.value.y = this.sizes.viewport.height
-
         // Debug
         if(this.debug)
         {
@@ -144,10 +139,29 @@ export default class Application
             folder.add(this.passes.unrealBloomPass, 'radius').step(0.001).min(0).max(10)
         }
 
+        this.passes.horizontalBlurPass = new ShaderPass(BlurPass)
+        this.passes.horizontalBlurPass.material.uniforms.uResolution.value = new THREE.Vector2(this.sizes.viewport.width, this.sizes.viewport.height)
+        this.passes.horizontalBlurPass.material.uniforms.uStrength.value = new THREE.Vector2(2.0, 0.0)
+
+        this.passes.verticalBlurPass = new ShaderPass(BlurPass)
+        this.passes.verticalBlurPass.material.uniforms.uResolution.value = new THREE.Vector2(this.sizes.viewport.width, this.sizes.viewport.height)
+        this.passes.verticalBlurPass.material.uniforms.uStrength.value = new THREE.Vector2(0.0, 2.0)
+
+        // Debug
+        if(this.debug)
+        {
+            const folder = this.passes.debugFolder.addFolder('blur')
+            folder.open()
+
+            folder.add(this.passes.horizontalBlurPass.material.uniforms.uStrength.value, 'x').step(0.001).min(0).max(10)
+            folder.add(this.passes.verticalBlurPass.material.uniforms.uStrength.value, 'y').step(0.001).min(0).max(10)
+        }
+
         // Add passes
         this.passes.composer.addPass(this.passes.renderPass)
         this.passes.composer.addPass(this.passes.unrealBloomPass)
-        this.passes.composer.addPass(this.passes.finalPass)
+        this.passes.composer.addPass(this.passes.horizontalBlurPass)
+        this.passes.composer.addPass(this.passes.verticalBlurPass)
 
         // Time tick
         this.time.on('tick', () =>
@@ -162,6 +176,10 @@ export default class Application
         {
             this.renderer.setSize(this.sizes.viewport.width, this.sizes.viewport.height)
             this.passes.composer.setSize(this.sizes.viewport.width, this.sizes.viewport.height)
+            this.passes.horizontalBlurPass.material.uniforms.uResolution.value.x = this.sizes.viewport.width
+            this.passes.horizontalBlurPass.material.uniforms.uResolution.value.y = this.sizes.viewport.height
+            this.passes.verticalBlurPass.material.uniforms.uResolution.value.x = this.sizes.viewport.width
+            this.passes.verticalBlurPass.material.uniforms.uResolution.value.y = this.sizes.viewport.height
         })
     }
 
