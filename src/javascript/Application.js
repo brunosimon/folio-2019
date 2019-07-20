@@ -203,6 +203,11 @@ export default class Application
             time: this.time
         })
         this.scene.add(this.world.container)
+
+        this.world.addObject({
+            type: 'static',
+            model: this.resources.items.model.scene
+        })
     }
 
     /**

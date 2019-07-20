@@ -20,12 +20,11 @@ export default class
         }
 
         this.container = new THREE.Object3D()
+        this.objects = []
 
         this.setMaterials()
-        this.setModel()
-        this.setFloor()
-        // this.setDummy()
         this.setPhysics()
+        // this.setFloor()
     }
 
     setMaterials()
@@ -155,37 +154,6 @@ export default class
         ]
     }
 
-    setModel()
-    {
-        this.model = {}
-
-        this.model.items = {}
-
-        this.model.container = new THREE.Object3D()
-        this.container.add(this.model.container)
-
-        const parent = this.resources.items.model.scene ? this.resources.items.model.scene : this.resources.items.model
-
-        while(parent.children.length)
-        {
-            const child = parent.children[0]
-            const object = {}
-            object.geometry = child.geometry
-            object.mesh = child
-
-            const material = this.materials.items.find((_material) =>
-            {
-                return _material.regex.test(object.mesh.name)
-            })
-
-            object.mesh.material = material.material
-
-            this.model.container.add(object.mesh)
-
-            this.model.items[child.name] = object
-        }
-    }
-
     setFloor()
     {
         this.floor = {}
@@ -193,41 +161,6 @@ export default class
         this.floor.mesh = new THREE.Mesh(this.floor.geometry, this.materials.floor)
         this.floor.mesh.rotation.x = - Math.PI * 0.5
         this.container.add(this.floor.mesh)
-    }
-
-    setDummy()
-    {
-        this.dummy = {}
-        this.dummy.container = new THREE.Object3D()
-        this.container.add(this.dummy.container)
-
-        this.dummy.box = {}
-        this.dummy.box.geometry = new THREE.BoxBufferGeometry(0.2, 0.2, 0.2)
-        this.dummy.box.mesh = new THREE.Mesh(this.dummy.box.geometry, this.materials.items[0].material)
-        this.dummy.container.add(this.dummy.box.mesh)
-
-        this.dummy.torusKnot = {}
-        this.dummy.torusKnot.geometry = new THREE.TorusKnotBufferGeometry(0.08, 0.03, 100, 20)
-        this.dummy.torusKnot.mesh = new THREE.Mesh(this.dummy.torusKnot.geometry, this.materials.items[0].material)
-        this.dummy.torusKnot.mesh.position.x = 0.3
-        this.dummy.container.add(this.dummy.torusKnot.mesh)
-
-        this.dummy.sphere = {}
-        this.dummy.sphere.geometry = new THREE.SphereBufferGeometry(0.12, 32, 32)
-        this.dummy.sphere.mesh = new THREE.Mesh(this.dummy.sphere.geometry, this.materials.items[0].material)
-        this.dummy.sphere.mesh.position.x = - 0.3
-        this.dummy.container.add(this.dummy.sphere.mesh)
-
-        this.time.on('tick', () =>
-        {
-            this.dummy.container.position.y = Math.sin(this.time.elapsed * 0.0002) * 0.1
-
-            this.dummy.box.mesh.rotation.y += 0.02
-            this.dummy.box.mesh.rotation.x += 0.0123
-
-            this.dummy.torusKnot.mesh.rotation.y += 0.02
-            this.dummy.torusKnot.mesh.rotation.x += 0.0123
-        })
     }
 
     setPhysics()
@@ -247,12 +180,42 @@ export default class
             sphere.mesh.position.x = this.physics.dummy.sphere.position.x
             sphere.mesh.position.y = this.physics.dummy.sphere.position.z
             sphere.mesh.position.z = this.physics.dummy.sphere.position.y
-            // console.log(this.physics.dummy.sphere.position.z)
         })
     }
 
     addObject(_objectOptions)
     {
-        console.log(_objectOptions)
+        const object = {}
+
+        // Static object
+        if(_objectOptions.type === 'static')
+        {
+            // Container
+            object.container = new THREE.Object3D()
+            this.container.add(object.container)
+
+            // Go through each child
+            while(_objectOptions.model.children.length)
+            {
+                const mesh = _objectOptions.model.children[0]
+
+                console.log(mesh.scale)
+
+                // Found material using name
+                const material = this.materials.items.find((_material) =>
+                {
+                    return _material.regex.test(mesh.name)
+                })
+
+                // Set material with Normal material as fallback
+                mesh.material = material ? material.material : new THREE.MeshNormalMaterial()
+
+                // Add to scene
+                object.container.add(mesh)
+            }
+
+            // Save
+            this.objects.push(object)
+        }
     }
 }

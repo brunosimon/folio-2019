@@ -58,10 +58,5 @@ export default class Physics
             material: this.materials.items.dummy
         })
         this.world.addBody(this.dummy.sphere)
-
-        this.time.on('tick', () =>
-        {
-
-        })
     }
 }
