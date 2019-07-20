@@ -22,7 +22,6 @@ varying vec3 vViewPosition;
 
 // Custom start
 varying vec3 vWorldPosition;
-varying vec3 vObjectNormal;
 // Custom end
 
 void main() {
@@ -48,7 +47,6 @@ void main() {
 
     // Custom start
     vec4 worldNormal = modelMatrix * vec4(normal, 1.0);
-    vObjectNormal = normalize(worldNormal.xyz);
 
     vec4 worldPosition = modelMatrix * vec4(transformed, 1.0);
     vWorldPosition = worldPosition.xyz;

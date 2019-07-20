@@ -19,7 +19,6 @@ uniform float uIndirectAnglePower;
 uniform vec3 uIndirectColor;
 
 varying vec3 vWorldPosition;
-varying vec3 vObjectNormal;
 // Custom end
 
 #ifndef FLAT_SHADED

@@ -94,8 +94,8 @@ export default class Application
      */
     setCamera()
     {
-        this.camera = new THREE.PerspectiveCamera(40, this.sizes.viewport.width / this.sizes.viewport.height, 0.01, 30)
-        this.camera.position.set(0.25, 0.35, 0.25)
+        this.camera = new THREE.PerspectiveCamera(40, this.sizes.viewport.width / this.sizes.viewport.height, 0.1, 100)
+        this.camera.position.set(5, 7, 5)
         this.camera.lookAt(new THREE.Vector3())
         this.scene.add(this.camera)
 
@@ -115,7 +115,7 @@ export default class Application
         if(this.debug)
         {
             this.passes.debugFolder = this.debug.addFolder('postprocess')
-            this.passes.debugFolder.open()
+            // this.passes.debugFolder.open()
         }
 
         this.passes.composer = new EffectComposer(this.renderer)

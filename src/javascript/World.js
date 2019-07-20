@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import FloorMaterial from './Materials/Floor.js'
 import MatcapMaterial from './Materials/Matcap.js'
+import Physics from './Physics.js'
 
 export default class
 {
@@ -15,7 +16,7 @@ export default class
         if(this.debug)
         {
             this.debugFolder = this.debug.addFolder('world')
-            this.debugFolder.open()
+            // this.debugFolder.open()
         }
 
         this.container = new THREE.Object3D()
@@ -23,7 +24,8 @@ export default class
         this.setMaterials()
         this.setModel()
         this.setFloor()
-        this.setDummy()
+        // this.setDummy()
+        this.setPhysics()
     }
 
     setMaterials()
@@ -43,7 +45,7 @@ export default class
         this.materials.matcaps = {}
         this.materials.matcaps.indirectColor = '#d04500'
         this.materials.matcaps.uniforms = {
-            uIndirectDistanceAmplitude: 0.1,
+            uIndirectDistanceAmplitude: 1,
             uIndirectDistanceStrength: 0.7,
             uIndirectDistancePower: 2.0,
             uIndirectAngleStrength: 1.5,
@@ -52,11 +54,11 @@ export default class
             uIndirectColor: null
         }
 
-        this.materials.matcaps.rockMatcap = new MatcapMaterial()
-        this.materials.matcaps.rockMatcap.uniforms.matcap.value = this.resources.items.matcapRockTexture
+        this.materials.matcaps.rock = new MatcapMaterial()
+        this.materials.matcaps.rock.uniforms.matcap.value = this.resources.items.matcapRockTexture
 
-        this.materials.matcaps.buildingMatcap = new MatcapMaterial()
-        this.materials.matcaps.buildingMatcap.uniforms.matcap.value = this.resources.items.matcapBuildingTexture
+        this.materials.matcaps.building = new MatcapMaterial()
+        this.materials.matcaps.building.uniforms.matcap.value = this.resources.items.matcapBuildingTexture
 
         this.materials.matcaps.updateUniforms = () =>
         {
@@ -64,8 +66,8 @@ export default class
             for(const _uniformName in this.materials.matcaps.uniforms)
             {
                 const _uniformValue = this.materials.matcaps.uniforms[_uniformName]
-                this.materials.matcaps.rockMatcap.uniforms[_uniformName].value = _uniformValue
-                this.materials.matcaps.buildingMatcap.uniforms[_uniformName].value = _uniformValue
+                this.materials.matcaps.rock.uniforms[_uniformName].value = _uniformValue
+                this.materials.matcaps.building.uniforms[_uniformName].value = _uniformValue
             }
         }
 
@@ -144,11 +146,11 @@ export default class
         this.materials.items = [
             {
                 regex: /^rock[0-9]{0,3}?$/,
-                material: this.materials.matcaps.rockMatcap
+                material: this.materials.matcaps.rock
             },
             {
                 regex: /^slabe[0-9]{0,3}?|cube[0-9]{0,3}?$/,
-                material: this.materials.matcaps.buildingMatcap
+                material: this.materials.matcaps.building
             }
         ]
     }
@@ -160,9 +162,6 @@ export default class
         this.model.items = {}
 
         this.model.container = new THREE.Object3D()
-        this.model.container.scale.x = 0.05
-        this.model.container.scale.y = 0.05
-        this.model.container.scale.z = 0.05
         this.container.add(this.model.container)
 
         const parent = this.resources.items.model.scene ? this.resources.items.model.scene : this.resources.items.model
@@ -190,7 +189,7 @@ export default class
     setFloor()
     {
         this.floor = {}
-        this.floor.geometry = new THREE.PlaneBufferGeometry(1.084, 1.084, 10, 10)
+        this.floor.geometry = new THREE.PlaneBufferGeometry(10.84 * 2, 10.84 * 2, 10, 10)
         this.floor.mesh = new THREE.Mesh(this.floor.geometry, this.materials.floor)
         this.floor.mesh.rotation.x = - Math.PI * 0.5
         this.container.add(this.floor.mesh)
@@ -200,30 +199,23 @@ export default class
     {
         this.dummy = {}
         this.dummy.container = new THREE.Object3D()
-        this.dummy.container.scale.x = 0.5
-        this.dummy.container.scale.y = 0.5
-        this.dummy.container.scale.z = 0.5
         this.container.add(this.dummy.container)
 
         this.dummy.box = {}
         this.dummy.box.geometry = new THREE.BoxBufferGeometry(0.2, 0.2, 0.2)
         this.dummy.box.mesh = new THREE.Mesh(this.dummy.box.geometry, this.materials.items[0].material)
-        this.dummy.box.mesh.castShadow = true
-        this.dummy.box.mesh.receiveShadow = true
         this.dummy.container.add(this.dummy.box.mesh)
 
         this.dummy.torusKnot = {}
         this.dummy.torusKnot.geometry = new THREE.TorusKnotBufferGeometry(0.08, 0.03, 100, 20)
         this.dummy.torusKnot.mesh = new THREE.Mesh(this.dummy.torusKnot.geometry, this.materials.items[0].material)
         this.dummy.torusKnot.mesh.position.x = 0.3
-        this.dummy.torusKnot.mesh.castShadow = true
         this.dummy.container.add(this.dummy.torusKnot.mesh)
 
         this.dummy.sphere = {}
         this.dummy.sphere.geometry = new THREE.SphereBufferGeometry(0.12, 32, 32)
         this.dummy.sphere.mesh = new THREE.Mesh(this.dummy.sphere.geometry, this.materials.items[0].material)
         this.dummy.sphere.mesh.position.x = - 0.3
-        this.dummy.sphere.mesh.castShadow = true
         this.dummy.container.add(this.dummy.sphere.mesh)
 
         this.time.on('tick', () =>
@@ -236,5 +228,31 @@ export default class
             this.dummy.torusKnot.mesh.rotation.y += 0.02
             this.dummy.torusKnot.mesh.rotation.x += 0.0123
         })
+    }
+
+    setPhysics()
+    {
+        this.physics = new Physics({
+            debug: this.debug,
+            time: this.time
+        })
+
+        const sphere = {}
+        sphere.geometry = new THREE.SphereBufferGeometry(1, 32, 32)
+        sphere.mesh = new THREE.Mesh(sphere.geometry, this.materials.items[0].material)
+        this.container.add(sphere.mesh)
+
+        this.time.on('tick', () =>
+        {
+            sphere.mesh.position.x = this.physics.dummy.sphere.position.x
+            sphere.mesh.position.y = this.physics.dummy.sphere.position.z
+            sphere.mesh.position.z = this.physics.dummy.sphere.position.y
+            // console.log(this.physics.dummy.sphere.position.z)
+        })
+    }
+
+    addObject(_objectOptions)
+    {
+        console.log(_objectOptions)
     }
 }
