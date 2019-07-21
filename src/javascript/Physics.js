@@ -59,4 +59,49 @@ export default class Physics
         })
         this.world.addBody(this.dummy.sphere)
     }
+
+    addObject(_objectOptions)
+    {
+        // Position
+        const position = new CANNON.Vec3(_objectOptions.position.x, _objectOptions.position.z, _objectOptions.position.y)
+
+        // Rotation
+        const rotation = new CANNON.Quaternion()
+        rotation.setFromEuler(_objectOptions.rotation.x, _objectOptions.rotation.z, _objectOptions.rotation.y, _objectOptions.rotation.order)
+
+        // Material
+        const material = this.materials.items.dummy
+
+        // Shape
+        let shape = null
+
+        if(_objectOptions.shape === 'sphere')
+        {
+            shape = new CANNON.Sphere(_objectOptions.radius)
+        }
+        if(_objectOptions.shape === 'box')
+        {
+            const halfExtents = new CANNON.Vec3(_objectOptions.halfExtents.x, _objectOptions.halfExtents.z, _objectOptions.halfExtents.y)
+            shape = new CANNON.Box(halfExtents)
+        }
+
+        // Mass
+        let mass = null
+
+        if(_objectOptions.type === 'static')
+        {
+            mass = 0
+        }
+        else
+        {
+            mass = 2
+        }
+
+        // Create object
+        const object = new CANNON.Body({ mass, position, rotation, shape, material })
+
+        this.world.addBody(object)
+
+        return object
+    }
 }

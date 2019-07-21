@@ -138,20 +138,6 @@ export default class
             folder.addColor(this.materials.floor.colors, 'bottomRight').onChange(this.materials.floor.updateUniforms)
             folder.addColor(this.materials.floor.colors, 'bottomLeft').onChange(this.materials.floor.updateUniforms)
         }
-
-        /**
-         * Auto assign
-         */
-        this.materials.items = [
-            {
-                regex: /^rock[0-9]{0,3}?$/,
-                material: this.materials.matcaps.rock
-            },
-            {
-                regex: /^slabe[0-9]{0,3}?|cube[0-9]{0,3}?$/,
-                material: this.materials.matcaps.building
-            }
-        ]
     }
 
     setFloor()
@@ -172,7 +158,7 @@ export default class
 
         const sphere = {}
         sphere.geometry = new THREE.SphereBufferGeometry(1, 32, 32)
-        sphere.mesh = new THREE.Mesh(sphere.geometry, this.materials.items[0].material)
+        sphere.mesh = new THREE.Mesh(sphere.geometry, this.materials.matcaps.rock)
         this.container.add(sphere.mesh)
 
         this.time.on('tick', () =>
@@ -186,32 +172,75 @@ export default class
     addObject(_objectOptions)
     {
         const object = {}
+        object.type = _objectOptions.type
 
         // Static object
-        if(_objectOptions.type === 'static')
+        if(object.type === 'static')
         {
             // Container
             object.container = new THREE.Object3D()
             this.container.add(object.container)
 
-            // Go through each child
-            while(_objectOptions.model.children.length)
+            // Go through each base child
+            const baseChildren = [..._objectOptions.base.children]
+            for(let i = 0; i < baseChildren.length; i++)
             {
-                const mesh = _objectOptions.model.children[0]
+                let mesh = baseChildren[i]
 
-                console.log(mesh.scale)
-
-                // Found material using name
-                const material = this.materials.items.find((_material) =>
+                // Building
+                if(mesh.name.match(/^building[0-9]{0,3}?$/i))
                 {
-                    return _material.regex.test(mesh.name)
-                })
+                    mesh.material = this.materials.matcaps.building
+                }
 
-                // Set material with Normal material as fallback
-                mesh.material = material ? material.material : new THREE.MeshNormalMaterial()
+                // Rock
+                else if(mesh.name.match(/^rock[0-9]{0,3}?$/i))
+                {
+                    mesh.material = this.materials.matcaps.rock
+                }
 
-                // Add to scene
+                // Floor
+                else if(mesh.name.match(/^floor[0-9]{0,3}?$/i))
+                {
+                    const geometry = new THREE.PlaneBufferGeometry(mesh.scale.x * 2, mesh.scale.z * 2, 10, 10)
+                    const material = this.materials.floor.clone()
+
+                    material.uniforms.tBackground.value = this.materials.floor.backgroundTexture
+                    material.uniforms.tShadow.value = _objectOptions.floorShadowTexture
+                    material.uniforms.uShadowColor.value = new THREE.Color(this.materials.floor.shadowColor)
+
+                    mesh = new THREE.Mesh(geometry, material)
+                    mesh.rotation.x = - Math.PI * 0.5
+                }
+
+                // Not found
+                else
+                {
+                    mesh.material = new THREE.MeshNormalMaterial()
+                }
+
+                // Add to container
                 object.container.add(mesh)
+            }
+
+            // Go through each collision children
+            const collisionChildren = [..._objectOptions.collision.children]
+            for(let i = 0; i < collisionChildren.length; i++)
+            {
+                const mesh = collisionChildren[i]
+
+                if(mesh.name.match(/^cube[0-9]{0,3}?|box[0-9]{0,3}?$/i))
+                {
+                    const collision = this.physics.addObject({
+                        type: 'static',
+                        position: mesh.position,
+                        rotation: mesh.rotation,
+                        shape: 'box',
+                        halfExtents: { x: mesh.scale.x * 0.5, y: mesh.scale.y * 0.5, z: mesh.scale.z * 0.5 }
+                    })
+
+                    object.collision = collision
+                }
             }
 
             // Save

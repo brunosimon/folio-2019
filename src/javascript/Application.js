@@ -13,10 +13,12 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
 import BlurPass from './Passes/Blur.js'
 
-import matcapBuildingSource from '../models/matcap-building.png'
-import matcapRockSource from '../models/matcap-rock.png'
-import floorShadowSource from '../models/floor-shadow.png'
-import modelSource from '../models/model-1.glb'
+import matcapBuildingSource from '../models/matcaps/building.png'
+import matcapRockSource from '../models/matcaps/rock.png'
+
+import demoFloorShadowSource from '../models/demo/floor-shadow.png'
+import demoBaseSource from '../models/demo/base.glb'
+import demoCollisionSource from '../models/demo/collision.glb'
 
 export default class Application
 {
@@ -35,10 +37,12 @@ export default class Application
         this.debug = new dat.GUI({ width: 420 })
 
         this.resources.load([
-            { name: 'model', source: modelSource },
+            { name: 'demoBase', source: demoBaseSource },
+            { name: 'demoCollision', source: demoCollisionSource },
+            { name: 'demoFloorShadow', source: demoFloorShadowSource },
+
             { name: 'matcapBuilding', source: matcapBuildingSource },
-            { name: 'matcapRock', source: matcapRockSource },
-            { name: 'floorShadow', source: floorShadowSource }
+            { name: 'matcapRock', source: matcapRockSource }
         ])
 
         this.resources.on('end', () =>
@@ -49,8 +53,8 @@ export default class Application
             this.resources.items.matcapRockTexture = new THREE.Texture(this.resources.items.matcapRock)
             this.resources.items.matcapRockTexture.needsUpdate = true
 
-            this.resources.items.floorShadowTexture = new THREE.Texture(this.resources.items.floorShadow)
-            this.resources.items.floorShadowTexture.needsUpdate = true
+            this.resources.items.demoFloorShadowTexture = new THREE.Texture(this.resources.items.demoFloorShadow)
+            this.resources.items.demoFloorShadowTexture.needsUpdate = true
 
             this.setRenderer()
             this.setCamera()
@@ -206,7 +210,9 @@ export default class Application
 
         this.world.addObject({
             type: 'static',
-            model: this.resources.items.model.scene
+            base: this.resources.items.demoBase.scene,
+            collision: this.resources.items.demoCollision.scene,
+            floorShadowTexture: this.resources.items.demoFloorShadowTexture
         })
     }
 
