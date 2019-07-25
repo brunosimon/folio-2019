@@ -167,6 +167,8 @@ export default class
             sphere.mesh.position.y = this.physics.dummy.sphere.position.z
             sphere.mesh.position.z = this.physics.dummy.sphere.position.y
         })
+
+        this.container.add(this.physics.models.container)
     }
 
     addObject(_objectOptions)
@@ -229,17 +231,29 @@ export default class
             {
                 const mesh = collisionChildren[i]
 
+                const options = {
+                    type: 'static',
+                    position: mesh.position,
+                    quaternion: mesh.quaternion,
+                    scale: mesh.scale
+                }
+
                 if(mesh.name.match(/^cube[0-9]{0,3}?|box[0-9]{0,3}?$/i))
                 {
-                    const collision = this.physics.addObject({
-                        type: 'static',
-                        position: mesh.position,
-                        rotation: mesh.rotation,
-                        shape: 'box',
-                        halfExtents: { x: mesh.scale.x * 0.5, y: mesh.scale.y * 0.5, z: mesh.scale.z * 0.5 }
-                    })
+                    options.shape = 'box'
+                }
+                else if(mesh.name.match(/^cylinder[0-9]{0,3}?$/i))
+                {
+                    options.shape = 'cylinder'
+                }
+                else if(mesh.name.match(/^sphere[0-9]{0,3}?$/i))
+                {
+                    options.shape = 'sphere'
+                }
 
-                    object.collision = collision
+                if(options.shape)
+                {
+                    object.collision = this.physics.addObjectFromThree(options)
                 }
             }
 

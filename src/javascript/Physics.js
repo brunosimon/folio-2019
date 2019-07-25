@@ -1,4 +1,5 @@
 import CANNON from 'cannon'
+import * as THREE from 'three'
 
 export default class Physics
 {
@@ -7,9 +8,16 @@ export default class Physics
         this.debug = _options.debug
         this.time = _options.time
 
-        this.world = new CANNON.World()
-        this.world.gravity.set(0, 0, - 9.82)
+        // Set up
+        if(this.debug)
+        {
+            this.debugFolder = this.debug.addFolder('physics')
+        }
 
+        this.world = new CANNON.World()
+        this.world.gravity.set(0, 0, - 1) // 9.82
+
+        this.setModels()
         this.setMaterials()
         this.setFloor()
         this.setDummy()
@@ -18,6 +26,20 @@ export default class Physics
         {
             this.world.step(1 / 60, this.time.delta, 3)
         })
+    }
+
+    setModels()
+    {
+        this.models = {}
+        this.models.container = new THREE.Object3D()
+        this.models.container.visible = false
+        this.models.material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true })
+
+        // Debug
+        if(this.debug)
+        {
+            this.debugFolder.add(this.models.container, 'visible')
+        }
     }
 
     setMaterials()
@@ -60,14 +82,16 @@ export default class Physics
         this.world.addBody(this.dummy.sphere)
     }
 
-    addObject(_objectOptions)
+    addObjectFromThree(_objectOptions)
     {
+        const object = {}
+        object.type = _objectOptions.type
+
         // Position
         const position = new CANNON.Vec3(_objectOptions.position.x, _objectOptions.position.z, _objectOptions.position.y)
 
         // Rotation
-        const rotation = new CANNON.Quaternion()
-        rotation.setFromEuler(_objectOptions.rotation.x, _objectOptions.rotation.z, _objectOptions.rotation.y, _objectOptions.rotation.order)
+        const rotation = new CANNON.Quaternion(_objectOptions.quaternion.x, _objectOptions.quaternion.y, _objectOptions.quaternion.z, _objectOptions.quaternion.w)
 
         // Material
         const material = this.materials.items.dummy
@@ -75,20 +99,24 @@ export default class Physics
         // Shape
         let shape = null
 
-        if(_objectOptions.shape === 'sphere')
+        if(_objectOptions.shape === 'cylinder')
         {
-            shape = new CANNON.Sphere(_objectOptions.radius)
+            shape = new CANNON.Cylinder(_objectOptions.scale.x, _objectOptions.scale.x, _objectOptions.scale.y, 8)
         }
-        if(_objectOptions.shape === 'box')
+        else if(_objectOptions.shape === 'box')
         {
-            const halfExtents = new CANNON.Vec3(_objectOptions.halfExtents.x, _objectOptions.halfExtents.z, _objectOptions.halfExtents.y)
+            const halfExtents = new CANNON.Vec3(_objectOptions.scale.x * 0.5, _objectOptions.scale.z * 0.5, _objectOptions.scale.y * 0.5)
             shape = new CANNON.Box(halfExtents)
+        }
+        else if(_objectOptions.shape === 'sphere')
+        {
+            shape = new CANNON.Sphere(_objectOptions.scale.x)
         }
 
         // Mass
         let mass = null
 
-        if(_objectOptions.type === 'static')
+        if(object.type === 'static')
         {
             mass = 0
         }
@@ -97,10 +125,31 @@ export default class Physics
             mass = 2
         }
 
-        // Create object
-        const object = new CANNON.Body({ mass, position, rotation, shape, material })
+        // Create physic object
+        object.physic = new CANNON.Body({ mass, position, rotation, shape, material })
+        this.world.addBody(object.physic)
 
-        this.world.addBody(object)
+        // Create model object
+        let geometry = null
+        if(_objectOptions.shape === 'cylinder')
+        {
+            geometry = new THREE.CylinderBufferGeometry(1, 1, 1, 8, 1)
+        }
+        else if(_objectOptions.shape === 'box')
+        {
+            geometry = new THREE.BoxBufferGeometry(1, 1, 1)
+        }
+        else if(_objectOptions.shape === 'sphere')
+        {
+            geometry = new THREE.SphereBufferGeometry(1, 8, 8)
+        }
+
+        object.model = new THREE.Mesh(geometry, this.models.material)
+        object.model.position.copy(_objectOptions.position)
+        object.model.scale.copy(_objectOptions.scale)
+        object.model.quaternion.copy(_objectOptions.quaternion)
+
+        this.models.container.add(object.model)
 
         return object
     }
