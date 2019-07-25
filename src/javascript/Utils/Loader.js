@@ -35,12 +35,12 @@ export default class Resources extends EventEmitter
 
                 image.addEventListener('load', () =>
                 {
-                    this.partialLoadEnd(_resource, image)
+                    this.fileLoadEnd(_resource, image)
                 })
 
                 image.addEventListener('error', () =>
                 {
-                    this.partialLoadEnd(_resource, image)
+                    this.fileLoadEnd(_resource, image)
                 })
 
                 image.src = _resource.source
@@ -56,7 +56,7 @@ export default class Resources extends EventEmitter
             {
                 gltfLoader.load(_resource.source, (_data) =>
                 {
-                    this.partialLoadEnd(_resource, _data)
+                    this.fileLoadEnd(_resource, _data)
                 })
             }
         })
@@ -70,7 +70,7 @@ export default class Resources extends EventEmitter
             {
                 fbxLoader.load(_resource.source, (_data) =>
                 {
-                    this.partialLoadEnd(_resource, _data)
+                    this.fileLoadEnd(_resource, _data)
                 })
             }
         })
@@ -86,7 +86,7 @@ export default class Resources extends EventEmitter
             {
                 dracoLoader.load(_resource.source, (_data) =>
                 {
-                    this.partialLoadEnd(_resource, _data)
+                    this.fileLoadEnd(_resource, _data)
 
                     DRACOLoader.releaseDecoderModule()
                 })
@@ -126,12 +126,14 @@ export default class Resources extends EventEmitter
     }
 
     /**
-     * Load end
+     * File load end
      */
-    partialLoadEnd(_resource, _data)
+    fileLoadEnd(_resource, _data)
     {
         this.loaded++
         this.items[_resource.name] = _data
+
+        this.trigger('fileEnd', [_resource, _data])
 
         if(this.loaded === this.toLoad)
         {

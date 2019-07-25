@@ -3,8 +3,8 @@ import * as dat from 'dat.gui'
 
 import Sizes from './Utils/Sizes.js'
 import Time from './Utils/Time.js'
-import Resources from './Utils/Resources.js'
 import World from './World.js'
+import Resources from './Resources.js'
 
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
@@ -12,13 +12,6 @@ import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
 import BlurPass from './Passes/Blur.js'
-
-import matcapBuildingSource from '../models/matcaps/building.png'
-import matcapRockSource from '../models/matcaps/rock.png'
-
-import demoFloorShadowSource from '../models/demo/floor-shadow.png'
-import demoBaseSource from '../models/demo/base.glb'
-import demoCollisionSource from '../models/demo/collision.glb'
 
 export default class Application
 {
@@ -33,29 +26,11 @@ export default class Application
         // Set up
         this.time = new Time()
         this.sizes = new Sizes()
-        this.resources = new Resources()
         this.debug = new dat.GUI({ width: 420 })
+        this.resources = new Resources()
 
-        this.resources.load([
-            { name: 'demoBase', source: demoBaseSource },
-            { name: 'demoCollision', source: demoCollisionSource },
-            { name: 'demoFloorShadow', source: demoFloorShadowSource },
-
-            { name: 'matcapBuilding', source: matcapBuildingSource },
-            { name: 'matcapRock', source: matcapRockSource }
-        ])
-
-        this.resources.on('end', () =>
+        this.resources.on('ready', () =>
         {
-            this.resources.items.matcapBuildingTexture = new THREE.Texture(this.resources.items.matcapBuilding)
-            this.resources.items.matcapBuildingTexture.needsUpdate = true
-
-            this.resources.items.matcapRockTexture = new THREE.Texture(this.resources.items.matcapRock)
-            this.resources.items.matcapRockTexture.needsUpdate = true
-
-            this.resources.items.demoFloorShadowTexture = new THREE.Texture(this.resources.items.demoFloorShadow)
-            this.resources.items.demoFloorShadowTexture.needsUpdate = true
-
             this.setRenderer()
             this.setCamera()
             this.setPasses()
