@@ -32,7 +32,7 @@ export default class Physics
     {
         this.models = {}
         this.models.container = new THREE.Object3D()
-        this.models.container.visible = false
+        this.models.container.visible = true
         this.models.material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true })
 
         // Debug
@@ -82,75 +82,123 @@ export default class Physics
         this.world.addBody(this.dummy.sphere)
     }
 
-    addObjectFromThree(_objectOptions)
+    addObjectFromThree(_options)
     {
-        const object = {}
-        object.type = _objectOptions.type
+        // Set up
+        const collision = {}
 
-        // Position
-        const position = new CANNON.Vec3(_objectOptions.position.x, _objectOptions.position.z, _objectOptions.position.y)
+        collision.type = _options.type
 
-        // Rotation
-        const rotation = new CANNON.Quaternion(_objectOptions.quaternion.x, _objectOptions.quaternion.y, _objectOptions.quaternion.z, _objectOptions.quaternion.w)
+        collision.container = new THREE.Object3D()
+        this.models.container.add(collision.container)
 
-        // Material
-        const material = this.materials.items.dummy
-
-        // Shape
-        let shape = null
-
-        if(_objectOptions.shape === 'cylinder')
-        {
-            shape = new CANNON.Cylinder(_objectOptions.scale.x, _objectOptions.scale.x, _objectOptions.scale.y, 8)
-        }
-        else if(_objectOptions.shape === 'box')
-        {
-            const halfExtents = new CANNON.Vec3(_objectOptions.scale.x * 0.5, _objectOptions.scale.z * 0.5, _objectOptions.scale.y * 0.5)
-            shape = new CANNON.Box(halfExtents)
-        }
-        else if(_objectOptions.shape === 'sphere')
-        {
-            shape = new CANNON.Sphere(_objectOptions.scale.x)
-        }
+        collision.children = []
 
         // Mass
-        let mass = null
+        let bodyMass = null
 
-        if(object.type === 'static')
+        if(collision.type === 'static')
         {
-            mass = 0
+            bodyMass = 0
         }
         else
         {
-            mass = 2
+            bodyMass = 2
         }
 
-        // Create physic object
-        object.physic = new CANNON.Body({ mass, position, rotation, shape, material })
-        this.world.addBody(object.physic)
+        // Material
+        const bodyMaterial = this.materials.items.dummy
 
-        // Create model object
-        let geometry = null
-        if(_objectOptions.shape === 'cylinder')
+        // Body
+        collision.body = new CANNON.Body({
+            mass: bodyMass,
+            material: bodyMaterial
+        })
+        this.world.addBody(collision.body)
+
+        // Each mesh
+        for(let i = 0; i < _options.meshes.length; i++)
         {
-            geometry = new THREE.CylinderBufferGeometry(1, 1, 1, 8, 1)
-        }
-        else if(_objectOptions.shape === 'box')
-        {
-            geometry = new THREE.BoxBufferGeometry(1, 1, 1)
-        }
-        else if(_objectOptions.shape === 'sphere')
-        {
-            geometry = new THREE.SphereBufferGeometry(1, 8, 8)
+            const object = {}
+            const mesh = _options.meshes[i]
+
+            // Define shape
+            let shape = null
+
+            if(mesh.name.match(/^cube[0-9]{0,3}?|box[0-9]{0,3}?$/i))
+            {
+                shape = 'box'
+            }
+            else if(mesh.name.match(/^cylinder[0-9]{0,3}?$/i))
+            {
+                shape = 'cylinder'
+            }
+            else if(mesh.name.match(/^sphere[0-9]{0,3}?$/i))
+            {
+                shape = 'sphere'
+            }
+
+            // Shape found
+            if(shape)
+            {
+                // Position
+                const bodyPosition = new CANNON.Vec3(mesh.position.x, mesh.position.z, mesh.position.y)
+
+                // Quaternion
+                const bodyQuaternion = new CANNON.Quaternion(mesh.quaternion.x, mesh.quaternion.z, mesh.quaternion.y, mesh.quaternion.w)
+
+                // Body shape
+                let bodyShape = null
+
+                if(shape === 'cylinder')
+                {
+                    bodyShape = new CANNON.Cylinder(mesh.scale.x, mesh.scale.x, mesh.scale.y, 8)
+                }
+                else if(shape === 'box')
+                {
+                    const halfExtents = new CANNON.Vec3(mesh.scale.x * 0.5, mesh.scale.z * 0.5, mesh.scale.y * 0.5)
+                    bodyShape = new CANNON.Box(halfExtents)
+                }
+                else if(shape === 'sphere')
+                {
+                    bodyShape = new CANNON.Sphere(mesh.scale.x)
+                }
+
+                // Create physic object
+                collision.body.addShape(bodyShape, bodyPosition, bodyQuaternion)
+                // object.body = new CANNON.Body({
+                //     mass: bodyMass,
+                //     position: bodyPosition,
+                //     rotation: bodyRotation,
+                //     shape: bodyShape,
+                //     material: bodyMaterial
+                // })
+                // this.world.addBody(object.body)
+
+                // Create model object
+                let modelGeometry = null
+                if(shape === 'cylinder')
+                {
+                    modelGeometry = new THREE.CylinderBufferGeometry(1, 1, 1, 8, 1)
+                }
+                else if(shape === 'box')
+                {
+                    modelGeometry = new THREE.BoxBufferGeometry(1, 1, 1)
+                }
+                else if(shape === 'sphere')
+                {
+                    modelGeometry = new THREE.SphereBufferGeometry(1, 8, 8)
+                }
+
+                object.modelMesh = new THREE.Mesh(modelGeometry, this.models.material)
+                object.modelMesh.position.copy(mesh.position)
+                object.modelMesh.scale.copy(mesh.scale)
+                object.modelMesh.quaternion.copy(mesh.quaternion)
+
+                collision.container.add(object.modelMesh)
+            }
         }
 
-        object.model = new THREE.Mesh(geometry, this.models.material)
-        object.model.position.copy(_objectOptions.position)
-        object.model.scale.copy(_objectOptions.scale)
-        object.model.quaternion.copy(_objectOptions.quaternion)
-
-        this.models.container.add(object.model)
-
-        return object
+        return collision
     }
 }

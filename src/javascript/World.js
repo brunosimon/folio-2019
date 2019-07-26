@@ -226,36 +226,10 @@ export default class
             }
 
             // Go through each collision children
-            const collisionChildren = [..._objectOptions.collision.children]
-            for(let i = 0; i < collisionChildren.length; i++)
-            {
-                const mesh = collisionChildren[i]
-
-                const options = {
-                    type: 'static',
-                    position: mesh.position,
-                    quaternion: mesh.quaternion,
-                    scale: mesh.scale
-                }
-
-                if(mesh.name.match(/^cube[0-9]{0,3}?|box[0-9]{0,3}?$/i))
-                {
-                    options.shape = 'box'
-                }
-                else if(mesh.name.match(/^cylinder[0-9]{0,3}?$/i))
-                {
-                    options.shape = 'cylinder'
-                }
-                else if(mesh.name.match(/^sphere[0-9]{0,3}?$/i))
-                {
-                    options.shape = 'sphere'
-                }
-
-                if(options.shape)
-                {
-                    object.collision = this.physics.addObjectFromThree(options)
-                }
-            }
+            object.collision = this.physics.addObjectFromThree({
+                type: 'static',
+                meshes: [..._objectOptions.collision.children]
+            })
 
             // Save
             this.objects.push(object)
