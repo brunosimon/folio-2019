@@ -20,7 +20,7 @@ export default class Physics
         this.setModels()
         this.setMaterials()
         this.setFloor()
-        this.setDummy()
+        // this.setDummy()
 
         this.time.on('tick', () =>
         {
@@ -87,9 +87,9 @@ export default class Physics
             material: this.materials.items.dummy,
             position: new CANNON.Vec3(0, 5, 0)
         })
-        // this.dummy.body.addShape(new CANNON.Sphere(1), new CANNON.Vec3(0, 2.2, 0))
+        // this.dummy.body.addShape(new CANNON.Sphere(1))
+        this.dummy.body.addShape(new CANNON.Sphere(1), new CANNON.Vec3(0, 0.2, 0))
         // this.dummy.body.addShape(new CANNON.Sphere(1), new CANNON.Vec3(0, - 2.2, 0))
-        this.dummy.body.addShape(new CANNON.Sphere(1))
         this.world.addBody(this.dummy.body)
     }
 
@@ -118,7 +118,7 @@ export default class Physics
         })
 
         // Center
-        const bodyCenter = new Vec3(0, 0, 0)
+        collision.center = new Vec3(0, 0, 0)
 
         // Shapes
         const shapes = []
@@ -152,8 +152,8 @@ export default class Physics
             // Shape is the center
             if(shape === 'center')
             {
-                // bodyCenter.set(mesh.position.x, mesh.position.y, mesh.position.z)
-                // console.log('bodyCenter', JSON.stringify(bodyCenter))
+                collision.center.set(mesh.position.x, mesh.position.y, mesh.position.z)
+                console.log('collision.center', JSON.stringify(collision.center))
             }
 
             // Other shape
@@ -217,22 +217,25 @@ export default class Physics
 
         for(const _mesh of collision.model.meshes)
         {
-            // _mesh.position.add(new THREE.Vector3(bodyCenter.x, bodyCenter.y, bodyCenter.z))
+            _mesh.position.x -= collision.center.x
+            _mesh.position.y -= collision.center.y
+            _mesh.position.z -= collision.center.z
+
             collision.model.container.add(_mesh)
         }
 
         for(const _shape of shapes)
         {
             // Create physic object
-            // _shape.shapePosition.x -= bodyCenter.x
-            // _shape.shapePosition.y -= bodyCenter.y
-            // _shape.shapePosition.z -= bodyCenter.z
+            _shape.shapePosition.x -= collision.center.x
+            _shape.shapePosition.y -= collision.center.y
+            _shape.shapePosition.z -= collision.center.z
             console.log('shapePosition after', JSON.stringify(_shape.shapePosition))
             collision.body.addShape(_shape.shapeGeometry, _shape.shapePosition, _shape.shapeQuaternion)
         }
-        // collision.body.position.x += bodyCenter.x
-        // collision.body.position.y += bodyCenter.y
-        // collision.body.position.z += bodyCenter.z
+        collision.body.position.x += collision.center.x
+        collision.body.position.y += collision.center.y
+        collision.body.position.z += collision.center.z
         this.world.addBody(collision.body)
 
         // Time tick update

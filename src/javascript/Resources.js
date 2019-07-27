@@ -61,13 +61,13 @@ export default class Resources extends EventEmitter
                     offset: new THREE.Vector3(0, 0, 0),
                     mass: 0
                 },
-                // {
-                //     type: 'dynamic',
-                //     base: this.items.dynamicDemoBase.scene,
-                //     collision: this.items.dynamicDemoCollision.scene,
-                //     offset: new THREE.Vector3(0, 0, 0),
-                //     mass: 2
-                // }
+                {
+                    type: 'dynamic',
+                    base: this.items.dynamicDemoBase.scene,
+                    collision: this.items.dynamicDemoCollision.scene,
+                    offset: new THREE.Vector3(0, 0, 0),
+                    mass: 2
+                }
             ]
 
             this.trigger('ready')

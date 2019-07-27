@@ -169,7 +169,7 @@ export default class
             this.container.add(container)
 
             const sphere1 = new THREE.Mesh(new THREE.SphereBufferGeometry(1, 32, 32), this.materials.matcaps.rock)
-            // sphere1.position.y = 2.2
+            sphere1.position.y = 0.2
             container.add(sphere1)
 
             // const sphere2 = new THREE.Mesh(new THREE.SphereBufferGeometry(1, 32, 32), this.materials.matcaps.rock)
@@ -253,11 +253,28 @@ export default class
             mass: _objectOptions.mass
         })
 
+        for(const _child of object.container.children)
+        {
+            _child.position.x -= object.collision.center.x
+            _child.position.y -= object.collision.center.y
+            _child.position.z -= object.collision.center.z
+        }
+
         // Time tick event
         this.time.on('tick', () =>
         {
-            object.container.position.set(object.collision.body.position.x, object.collision.body.position.y, object.collision.body.position.z)
-            object.container.quaternion.set(object.collision.body.quaternion.x, object.collision.body.quaternion.y, object.collision.body.quaternion.z, object.collision.body.quaternion.w)
+            object.container.position.set(
+                object.collision.body.position.x,
+                object.collision.body.position.y,
+                object.collision.body.position.z
+            )
+
+            object.container.quaternion.set(
+                object.collision.body.quaternion.x,
+                object.collision.body.quaternion.y,
+                object.collision.body.quaternion.z,
+                object.collision.body.quaternion.w
+            )
         })
 
         // Save
