@@ -116,6 +116,7 @@ export default class Physics
             mass: _options.mass,
             material: bodyMaterial
         })
+        this.world.addBody(collision.body)
 
         // Center
         collision.center = new Vec3(0, 0, 0)
@@ -126,7 +127,6 @@ export default class Physics
         // Each mesh
         for(let i = 0; i < _options.meshes.length; i++)
         {
-            const object = {}
             const mesh = _options.meshes[i]
 
             // Define shape
@@ -153,7 +153,6 @@ export default class Physics
             if(shape === 'center')
             {
                 collision.center.set(mesh.position.x, mesh.position.y, mesh.position.z)
-                console.log('collision.center', JSON.stringify(collision.center))
             }
 
             // Other shape
@@ -178,13 +177,12 @@ export default class Physics
 
                 // Position
                 const shapePosition = new CANNON.Vec3(mesh.position.x, mesh.position.y, mesh.position.z)
-                console.log('mesh.position', JSON.stringify(mesh.position))
-                console.log('shapePosition', JSON.stringify(shapePosition))
 
                 // Quaternion
                 const shapeQuaternion = new CANNON.Quaternion(mesh.quaternion.x, mesh.quaternion.y, mesh.quaternion.z, mesh.quaternion.w)
                 if(shape === 'cylinder')
                 {
+                    // Rotate cylinder
                     shapeQuaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), - Math.PI * 0.5)
                 }
 
@@ -206,15 +204,16 @@ export default class Physics
                     modelGeometry = new THREE.SphereBufferGeometry(1, 8, 8)
                 }
 
-                object.modelMesh = new THREE.Mesh(modelGeometry, this.models.materials[collision.type])
-                object.modelMesh.position.copy(mesh.position)
-                object.modelMesh.scale.copy(mesh.scale)
-                object.modelMesh.quaternion.copy(mesh.quaternion)
+                const modelMesh = new THREE.Mesh(modelGeometry, this.models.materials[collision.type])
+                modelMesh.position.copy(mesh.position)
+                modelMesh.scale.copy(mesh.scale)
+                modelMesh.quaternion.copy(mesh.quaternion)
 
-                collision.model.meshes.push(object.modelMesh)
+                collision.model.meshes.push(modelMesh)
             }
         }
 
+        // Update meshes to match center
         for(const _mesh of collision.model.meshes)
         {
             _mesh.position.x -= collision.center.x
@@ -224,19 +223,21 @@ export default class Physics
             collision.model.container.add(_mesh)
         }
 
+        // Update shapes to match center
         for(const _shape of shapes)
         {
             // Create physic object
             _shape.shapePosition.x -= collision.center.x
             _shape.shapePosition.y -= collision.center.y
             _shape.shapePosition.z -= collision.center.z
-            console.log('shapePosition after', JSON.stringify(_shape.shapePosition))
+
             collision.body.addShape(_shape.shapeGeometry, _shape.shapePosition, _shape.shapeQuaternion)
         }
+
+        // Update body to match center
         collision.body.position.x += collision.center.x
         collision.body.position.y += collision.center.y
         collision.body.position.z += collision.center.z
-        this.world.addBody(collision.body)
 
         // Time tick update
         this.time.on('tick', () =>
