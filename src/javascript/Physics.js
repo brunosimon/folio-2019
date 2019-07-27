@@ -1,4 +1,4 @@
-import CANNON from 'cannon'
+import CANNON, { Vec3 } from 'cannon'
 import * as THREE from 'three'
 
 export default class Physics
@@ -15,7 +15,7 @@ export default class Physics
         }
 
         this.world = new CANNON.World()
-        this.world.gravity.set(0, 0, - 1) // 9.82
+        this.world.gravity.set(0, - 0.4, 0) // 9.82
 
         this.setModels()
         this.setMaterials()
@@ -33,7 +33,9 @@ export default class Physics
         this.models = {}
         this.models.container = new THREE.Object3D()
         this.models.container.visible = true
-        this.models.material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true })
+        this.models.materials = {}
+        this.models.materials.static = new THREE.MeshBasicMaterial({ color: 0x0000ff, wireframe: true })
+        this.models.materials.dynamic = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true })
 
         // Debug
         if(this.debug)
@@ -53,8 +55,12 @@ export default class Physics
 
         // Contact between materials
         this.materials.contacts = {}
+
         this.materials.contacts.floorDummy = new CANNON.ContactMaterial(this.materials.items.floor, this.materials.items.dummy, { friction: 0.5, restitution: 0.3 })
         this.world.addContactMaterial(this.materials.contacts.floorDummy)
+
+        this.materials.contacts.dummyDummy = new CANNON.ContactMaterial(this.materials.items.dummy, this.materials.items.dummy, { friction: 0.5, restitution: 0.3 })
+        this.world.addContactMaterial(this.materials.contacts.dummyDummy)
     }
 
     setFloor()
@@ -65,6 +71,9 @@ export default class Physics
             shape: new CANNON.Plane(),
             material: this.materials.items.floor
         })
+
+        this.floor.body.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), - Math.PI * 0.5)
+
         this.world.addBody(this.floor.body)
     }
 
@@ -73,13 +82,15 @@ export default class Physics
         this.dummy = {}
 
         // Sphere
-        this.dummy.sphere = new CANNON.Body({
+        this.dummy.body = new CANNON.Body({
             mass: 2,
-            position: new CANNON.Vec3(0, 0, 4),
-            shape: new CANNON.Sphere(1),
-            material: this.materials.items.dummy
+            material: this.materials.items.dummy,
+            position: new CANNON.Vec3(0, 5, 0)
         })
-        this.world.addBody(this.dummy.sphere)
+        // this.dummy.body.addShape(new CANNON.Sphere(1), new CANNON.Vec3(0, 2.2, 0))
+        // this.dummy.body.addShape(new CANNON.Sphere(1), new CANNON.Vec3(0, - 2.2, 0))
+        this.dummy.body.addShape(new CANNON.Sphere(1))
+        this.world.addBody(this.dummy.body)
     }
 
     addObjectFromThree(_options)
@@ -89,32 +100,28 @@ export default class Physics
 
         collision.type = _options.type
 
-        collision.container = new THREE.Object3D()
-        this.models.container.add(collision.container)
+        collision.model = {}
+        collision.model.meshes = []
+        collision.model.container = new THREE.Object3D()
+        this.models.container.add(collision.model.container)
 
         collision.children = []
-
-        // Mass
-        let bodyMass = null
-
-        if(collision.type === 'static')
-        {
-            bodyMass = 0
-        }
-        else
-        {
-            bodyMass = 2
-        }
 
         // Material
         const bodyMaterial = this.materials.items.dummy
 
         // Body
         collision.body = new CANNON.Body({
-            mass: bodyMass,
+            position: new Vec3(_options.offset.x, _options.offset.y, _options.offset.z),
+            mass: _options.mass,
             material: bodyMaterial
         })
-        this.world.addBody(collision.body)
+
+        // Center
+        const bodyCenter = new Vec3(0, 0, 0)
+
+        // Shapes
+        const shapes = []
 
         // Each mesh
         for(let i = 0; i < _options.meshes.length; i++)
@@ -137,43 +144,52 @@ export default class Physics
             {
                 shape = 'sphere'
             }
-
-            // Shape found
-            if(shape)
+            else if(mesh.name.match(/^center[0-9]{0,3}?$/i))
             {
-                // Position
-                const bodyPosition = new CANNON.Vec3(mesh.position.x, mesh.position.z, mesh.position.y)
+                shape = 'center'
+            }
 
-                // Quaternion
-                const bodyQuaternion = new CANNON.Quaternion(mesh.quaternion.x, mesh.quaternion.z, mesh.quaternion.y, mesh.quaternion.w)
+            // Shape is the center
+            if(shape === 'center')
+            {
+                // bodyCenter.set(mesh.position.x, mesh.position.y, mesh.position.z)
+                // console.log('bodyCenter', JSON.stringify(bodyCenter))
+            }
 
-                // Body shape
-                let bodyShape = null
+            // Other shape
+            else if(shape)
+            {
+                // Geometry
+                let shapeGeometry = null
 
                 if(shape === 'cylinder')
                 {
-                    bodyShape = new CANNON.Cylinder(mesh.scale.x, mesh.scale.x, mesh.scale.y, 8)
+                    shapeGeometry = new CANNON.Cylinder(mesh.scale.x, mesh.scale.x, mesh.scale.y, 8)
                 }
                 else if(shape === 'box')
                 {
-                    const halfExtents = new CANNON.Vec3(mesh.scale.x * 0.5, mesh.scale.z * 0.5, mesh.scale.y * 0.5)
-                    bodyShape = new CANNON.Box(halfExtents)
+                    const halfExtents = new CANNON.Vec3(mesh.scale.x * 0.5, mesh.scale.y * 0.5, mesh.scale.z * 0.5)
+                    shapeGeometry = new CANNON.Box(halfExtents)
                 }
                 else if(shape === 'sphere')
                 {
-                    bodyShape = new CANNON.Sphere(mesh.scale.x)
+                    shapeGeometry = new CANNON.Sphere(mesh.scale.x)
                 }
 
-                // Create physic object
-                collision.body.addShape(bodyShape, bodyPosition, bodyQuaternion)
-                // object.body = new CANNON.Body({
-                //     mass: bodyMass,
-                //     position: bodyPosition,
-                //     rotation: bodyRotation,
-                //     shape: bodyShape,
-                //     material: bodyMaterial
-                // })
-                // this.world.addBody(object.body)
+                // Position
+                const shapePosition = new CANNON.Vec3(mesh.position.x, mesh.position.y, mesh.position.z)
+                console.log('mesh.position', JSON.stringify(mesh.position))
+                console.log('shapePosition', JSON.stringify(shapePosition))
+
+                // Quaternion
+                const shapeQuaternion = new CANNON.Quaternion(mesh.quaternion.x, mesh.quaternion.y, mesh.quaternion.z, mesh.quaternion.w)
+                if(shape === 'cylinder')
+                {
+                    shapeQuaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), - Math.PI * 0.5)
+                }
+
+                // Save
+                shapes.push({ shapeGeometry, shapePosition, shapeQuaternion })
 
                 // Create model object
                 let modelGeometry = null
@@ -190,14 +206,41 @@ export default class Physics
                     modelGeometry = new THREE.SphereBufferGeometry(1, 8, 8)
                 }
 
-                object.modelMesh = new THREE.Mesh(modelGeometry, this.models.material)
+                object.modelMesh = new THREE.Mesh(modelGeometry, this.models.materials[collision.type])
                 object.modelMesh.position.copy(mesh.position)
                 object.modelMesh.scale.copy(mesh.scale)
                 object.modelMesh.quaternion.copy(mesh.quaternion)
 
-                collision.container.add(object.modelMesh)
+                collision.model.meshes.push(object.modelMesh)
             }
         }
+
+        for(const _mesh of collision.model.meshes)
+        {
+            // _mesh.position.add(new THREE.Vector3(bodyCenter.x, bodyCenter.y, bodyCenter.z))
+            collision.model.container.add(_mesh)
+        }
+
+        for(const _shape of shapes)
+        {
+            // Create physic object
+            // _shape.shapePosition.x -= bodyCenter.x
+            // _shape.shapePosition.y -= bodyCenter.y
+            // _shape.shapePosition.z -= bodyCenter.z
+            console.log('shapePosition after', JSON.stringify(_shape.shapePosition))
+            collision.body.addShape(_shape.shapeGeometry, _shape.shapePosition, _shape.shapeQuaternion)
+        }
+        // collision.body.position.x += bodyCenter.x
+        // collision.body.position.y += bodyCenter.y
+        // collision.body.position.z += bodyCenter.z
+        this.world.addBody(collision.body)
+
+        // Time tick update
+        this.time.on('tick', () =>
+        {
+            collision.model.container.position.set(collision.body.position.x, collision.body.position.y, collision.body.position.z)
+            collision.model.container.quaternion.set(collision.body.quaternion.x, collision.body.quaternion.y, collision.body.quaternion.z, collision.body.quaternion.w)
+        })
 
         return collision
     }

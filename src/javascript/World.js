@@ -22,9 +22,16 @@ export default class
         this.container = new THREE.Object3D()
         this.objects = []
 
+        this.setCenterAxis()
         this.setMaterials()
         this.setPhysics()
         // this.setFloor()
+    }
+
+    setCenterAxis()
+    {
+        this.centerAxis = new THREE.AxesHelper(1)
+        this.container.add(this.centerAxis)
     }
 
     setMaterials()
@@ -156,17 +163,31 @@ export default class
             time: this.time
         })
 
-        const sphere = {}
-        sphere.geometry = new THREE.SphereBufferGeometry(1, 32, 32)
-        sphere.mesh = new THREE.Mesh(sphere.geometry, this.materials.matcaps.rock)
-        this.container.add(sphere.mesh)
-
-        this.time.on('tick', () =>
+        if(this.physics.dummy)
         {
-            sphere.mesh.position.x = this.physics.dummy.sphere.position.x
-            sphere.mesh.position.y = this.physics.dummy.sphere.position.z
-            sphere.mesh.position.z = this.physics.dummy.sphere.position.y
-        })
+            const container = new THREE.Object3D()
+            this.container.add(container)
+
+            const sphere1 = new THREE.Mesh(new THREE.SphereBufferGeometry(1, 32, 32), this.materials.matcaps.rock)
+            // sphere1.position.y = 2.2
+            container.add(sphere1)
+
+            // const sphere2 = new THREE.Mesh(new THREE.SphereBufferGeometry(1, 32, 32), this.materials.matcaps.rock)
+            // sphere2.position.y = - 2.2
+            // container.add(sphere2)
+
+            this.time.on('tick', () =>
+            {
+                container.position.x = this.physics.dummy.body.position.x
+                container.position.y = this.physics.dummy.body.position.y
+                container.position.z = this.physics.dummy.body.position.z
+
+                container.quaternion.x = this.physics.dummy.body.quaternion.x
+                container.quaternion.y = this.physics.dummy.body.quaternion.y
+                container.quaternion.z = this.physics.dummy.body.quaternion.z
+                container.quaternion.w = this.physics.dummy.body.quaternion.w
+            })
+        }
 
         this.container.add(this.physics.models.container)
     }
@@ -176,63 +197,70 @@ export default class
         const object = {}
         object.type = _objectOptions.type
 
-        // Static object
-        if(object.type === 'static')
+        // Container
+        object.container = new THREE.Object3D()
+        object.container.position.copy(_objectOptions.offset)
+        this.container.add(object.container)
+
+        // Go through each base child
+        const baseChildren = [..._objectOptions.base.children]
+        for(let i = 0; i < baseChildren.length; i++)
         {
-            // Container
-            object.container = new THREE.Object3D()
-            this.container.add(object.container)
+            let mesh = baseChildren[i]
 
-            // Go through each base child
-            const baseChildren = [..._objectOptions.base.children]
-            for(let i = 0; i < baseChildren.length; i++)
+            // Building
+            if(mesh.name.match(/^building[0-9]{0,3}?$/i))
             {
-                let mesh = baseChildren[i]
-
-                // Building
-                if(mesh.name.match(/^building[0-9]{0,3}?$/i))
-                {
-                    mesh.material = this.materials.matcaps.building
-                }
-
-                // Rock
-                else if(mesh.name.match(/^rock[0-9]{0,3}?$/i))
-                {
-                    mesh.material = this.materials.matcaps.rock
-                }
-
-                // Floor
-                else if(mesh.name.match(/^floor[0-9]{0,3}?$/i))
-                {
-                    const geometry = new THREE.PlaneBufferGeometry(mesh.scale.x * 2, mesh.scale.z * 2, 10, 10)
-                    const material = this.materials.floor.clone()
-
-                    material.uniforms.tBackground.value = this.materials.floor.backgroundTexture
-                    material.uniforms.tShadow.value = _objectOptions.floorShadowTexture
-                    material.uniforms.uShadowColor.value = new THREE.Color(this.materials.floor.shadowColor)
-
-                    mesh = new THREE.Mesh(geometry, material)
-                    mesh.rotation.x = - Math.PI * 0.5
-                }
-
-                // Not found
-                else
-                {
-                    mesh.material = new THREE.MeshNormalMaterial()
-                }
-
-                // Add to container
-                object.container.add(mesh)
+                mesh.material = this.materials.matcaps.building
             }
 
-            // Go through each collision children
-            object.collision = this.physics.addObjectFromThree({
-                type: 'static',
-                meshes: [..._objectOptions.collision.children]
-            })
+            // Rock
+            else if(mesh.name.match(/^rock[0-9]{0,3}?$/i))
+            {
+                mesh.material = this.materials.matcaps.rock
+            }
 
-            // Save
-            this.objects.push(object)
+            // Floor
+            else if(mesh.name.match(/^floor[0-9]{0,3}?$/i))
+            {
+                // Create floor manual because of missing UV
+                const geometry = new THREE.PlaneBufferGeometry(mesh.scale.x, mesh.scale.z, 10, 10)
+                const material = this.materials.floor.clone()
+
+                material.uniforms.tBackground.value = this.materials.floor.backgroundTexture
+                material.uniforms.tShadow.value = _objectOptions.floorShadowTexture
+                material.uniforms.uShadowColor.value = new THREE.Color(this.materials.floor.shadowColor)
+
+                mesh = new THREE.Mesh(geometry, material)
+                mesh.rotation.x = - Math.PI * 0.5
+            }
+
+            // Not found
+            else
+            {
+                mesh.material = new THREE.MeshNormalMaterial()
+            }
+
+            // Add to container
+            object.container.add(mesh)
         }
+
+        // Create physics object
+        object.collision = this.physics.addObjectFromThree({
+            type: object.type,
+            meshes: [..._objectOptions.collision.children],
+            offset: _objectOptions.offset,
+            mass: _objectOptions.mass
+        })
+
+        // Time tick event
+        this.time.on('tick', () =>
+        {
+            object.container.position.set(object.collision.body.position.x, object.collision.body.position.y, object.collision.body.position.z)
+            object.container.quaternion.set(object.collision.body.quaternion.x, object.collision.body.quaternion.y, object.collision.body.quaternion.z, object.collision.body.quaternion.w)
+        })
+
+        // Save
+        this.objects.push(object)
     }
 }
