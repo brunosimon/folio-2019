@@ -163,32 +163,6 @@ export default class
             time: this.time
         })
 
-        if(this.physics.dummy)
-        {
-            const container = new THREE.Object3D()
-            this.container.add(container)
-
-            const sphere1 = new THREE.Mesh(new THREE.SphereBufferGeometry(1, 32, 32), this.materials.matcaps.rock)
-            sphere1.position.y = 0.2
-            container.add(sphere1)
-
-            // const sphere2 = new THREE.Mesh(new THREE.SphereBufferGeometry(1, 32, 32), this.materials.matcaps.rock)
-            // sphere2.position.y = - 2.2
-            // container.add(sphere2)
-
-            this.time.on('tick', () =>
-            {
-                container.position.x = this.physics.dummy.body.position.x
-                container.position.y = this.physics.dummy.body.position.y
-                container.position.z = this.physics.dummy.body.position.z
-
-                container.quaternion.x = this.physics.dummy.body.quaternion.x
-                container.quaternion.y = this.physics.dummy.body.quaternion.y
-                container.quaternion.z = this.physics.dummy.body.quaternion.z
-                container.quaternion.w = this.physics.dummy.body.quaternion.w
-            })
-        }
-
         this.container.add(this.physics.models.container)
     }
 
