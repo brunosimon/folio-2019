@@ -14,9 +14,7 @@ export default class Physics
             this.debugFolder = this.debug.addFolder('physics')
         }
 
-        this.world = new CANNON.World()
-        this.world.gravity.set(0, - 0.4, 0) // 9.82
-
+        this.setWorld()
         this.setModels()
         this.setMaterials()
         this.setFloor()
@@ -26,6 +24,18 @@ export default class Physics
         {
             this.world.step(1 / 60, this.time.delta, 3)
         })
+    }
+
+    setWorld()
+    {
+        this.world = new CANNON.World()
+        this.world.gravity.set(0, - 4, 0)
+
+        // Debug
+        if(this.debug)
+        {
+            this.debugFolder.add(this.world.gravity, 'y').step(0.001).min(- 5).max(5)
+        }
     }
 
     setModels()
