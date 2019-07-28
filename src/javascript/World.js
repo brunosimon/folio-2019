@@ -195,7 +195,6 @@ export default class
     addObject(_objectOptions)
     {
         const object = {}
-        object.type = _objectOptions.type
 
         // Container
         object.container = new THREE.Object3D()
@@ -247,7 +246,6 @@ export default class
 
         // Create physics object
         object.collision = this.physics.addObjectFromThree({
-            type: object.type,
             meshes: [..._objectOptions.collision.children],
             offset: _objectOptions.offset,
             mass: _objectOptions.mass

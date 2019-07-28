@@ -98,8 +98,6 @@ export default class Physics
         // Set up
         const collision = {}
 
-        collision.type = _options.type
-
         collision.model = {}
         collision.model.meshes = []
         collision.model.container = new THREE.Object3D()
@@ -204,7 +202,7 @@ export default class Physics
                     modelGeometry = new THREE.SphereBufferGeometry(1, 8, 8)
                 }
 
-                const modelMesh = new THREE.Mesh(modelGeometry, this.models.materials[collision.type])
+                const modelMesh = new THREE.Mesh(modelGeometry, this.models.materials[_options.mass === 0 ? 'static' : 'dynamic'])
                 modelMesh.position.copy(mesh.position)
                 modelMesh.scale.copy(mesh.scale)
                 modelMesh.quaternion.copy(mesh.quaternion)

@@ -60,7 +60,6 @@ export default class Resources extends EventEmitter
             // Objects
             this.items.objects = [
                 {
-                    type: 'static',
                     base: this.items.staticDemoBase.scene,
                     collision: this.items.staticDemoCollision.scene,
                     floorShadowTexture: this.items.staticDemoFloorShadowTexture,
@@ -68,35 +67,30 @@ export default class Resources extends EventEmitter
                     mass: 0
                 },
                 {
-                    type: 'dynamic',
                     base: this.items.dynamicSphereBase.scene,
                     collision: this.items.dynamicSphereCollision.scene,
                     offset: new THREE.Vector3(0, 0, 0),
                     mass: 2
                 },
                 {
-                    type: 'dynamic',
                     base: this.items.dynamicBoxBase.scene,
                     collision: this.items.dynamicBoxCollision.scene,
                     offset: new THREE.Vector3(0, 2, 0),
                     mass: 2
                 },
                 {
-                    type: 'dynamic',
                     base: this.items.dynamicBoxBase.scene,
                     collision: this.items.dynamicBoxCollision.scene,
                     offset: new THREE.Vector3(0, 4, 0),
                     mass: 2
                 },
                 {
-                    type: 'dynamic',
                     base: this.items.dynamicBoxBase.scene,
                     collision: this.items.dynamicBoxCollision.scene,
                     offset: new THREE.Vector3(0, 6, 0),
                     mass: 2
                 },
                 {
-                    type: 'dynamic',
                     base: this.items.dynamicBoxBase.scene,
                     collision: this.items.dynamicBoxCollision.scene,
                     offset: new THREE.Vector3(0, 8, 0),
