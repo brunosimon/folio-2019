@@ -29,12 +29,12 @@ export default class Physics
     setWorld()
     {
         this.world = new CANNON.World()
-        this.world.gravity.set(0, - 4, 0)
+        this.world.gravity.set(0, - 1, 0)
 
         // Debug
         if(this.debug)
         {
-            this.debugFolder.add(this.world.gravity, 'y').step(0.001).min(- 5).max(5)
+            this.debugFolder.add(this.world.gravity, 'y').step(0.001).min(- 5).max(5).name('gravity')
         }
     }
 
@@ -42,7 +42,7 @@ export default class Physics
     {
         this.models = {}
         this.models.container = new THREE.Object3D()
-        this.models.container.visible = true
+        this.models.container.visible = false
         this.models.materials = {}
         this.models.materials.static = new THREE.MeshBasicMaterial({ color: 0x0000ff, wireframe: true })
         this.models.materials.dynamic = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true })

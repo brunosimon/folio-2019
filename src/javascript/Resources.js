@@ -16,6 +16,9 @@ import dynamicSphereCollisionSource from '../models/dynamicSphere/collision.glb'
 import dynamicBoxBaseSource from '../models/dynamicBox/base.glb'
 import dynamicBoxCollisionSource from '../models/dynamicBox/collision.glb'
 
+import dynamicComplexBaseSource from '../models/dynamicComplex/base.glb'
+import dynamicComplexCollisionSource from '../models/dynamicComplex/collision.glb'
+
 export default class Resources extends EventEmitter
 {
     constructor()
@@ -37,7 +40,10 @@ export default class Resources extends EventEmitter
             { name: 'dynamicSphereCollision', source: dynamicSphereCollisionSource },
 
             { name: 'dynamicBoxBase', source: dynamicBoxBaseSource },
-            { name: 'dynamicBoxCollision', source: dynamicBoxCollisionSource }
+            { name: 'dynamicBoxCollision', source: dynamicBoxCollisionSource },
+
+            { name: 'dynamicComplexBase', source: dynamicComplexBaseSource },
+            { name: 'dynamicComplexCollision', source: dynamicComplexCollisionSource }
         ])
 
         this.loader.on('fileEnd', (_resource, _data) =>
@@ -79,21 +85,21 @@ export default class Resources extends EventEmitter
                     mass: 2
                 },
                 {
-                    base: this.items.dynamicBoxBase.scene,
-                    collision: this.items.dynamicBoxCollision.scene,
+                    base: this.items.dynamicComplexBase.scene,
+                    collision: this.items.dynamicComplexCollision.scene,
                     offset: new THREE.Vector3(0, 4, 0),
                     mass: 2
                 },
                 {
-                    base: this.items.dynamicBoxBase.scene,
-                    collision: this.items.dynamicBoxCollision.scene,
-                    offset: new THREE.Vector3(0, 6, 0),
+                    base: this.items.dynamicComplexBase.scene,
+                    collision: this.items.dynamicComplexCollision.scene,
+                    offset: new THREE.Vector3(0, 7, 0),
                     mass: 2
                 },
                 {
-                    base: this.items.dynamicBoxBase.scene,
-                    collision: this.items.dynamicBoxCollision.scene,
-                    offset: new THREE.Vector3(0, 8, 0),
+                    base: this.items.dynamicComplexBase.scene,
+                    collision: this.items.dynamicComplexCollision.scene,
+                    offset: new THREE.Vector3(0, 10, 0),
                     mass: 2
                 }
             ]
