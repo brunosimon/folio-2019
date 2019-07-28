@@ -206,7 +206,7 @@ export default class
         const baseChildren = [..._objectOptions.base.children]
         for(let i = 0; i < baseChildren.length; i++)
         {
-            let mesh = baseChildren[i]
+            let mesh = baseChildren[i].clone()
 
             // Building
             if(mesh.name.match(/^building[0-9]{0,3}?$/i))
