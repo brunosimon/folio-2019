@@ -60,20 +60,20 @@ export default class Physics
 
         // All materials
         this.materials.items = {}
-        this.materials.items.floor = new CANNON.Material()
-        this.materials.items.dummy = new CANNON.Material()
-        this.materials.items.wheel = new CANNON.Material()
+        this.materials.items.floor = new CANNON.Material('floorMaterial')
+        this.materials.items.dummy = new CANNON.Material('dummyMaterial')
+        this.materials.items.wheel = new CANNON.Material('wheelMaterial')
 
         // Contact between materials
         this.materials.contacts = {}
 
-        this.materials.contacts.floorDummy = new CANNON.ContactMaterial(this.materials.items.floor, this.materials.items.dummy, { friction: 0.5, restitution: 0.3 })
+        this.materials.contacts.floorDummy = new CANNON.ContactMaterial(this.materials.items.floor, this.materials.items.dummy, { friction: 0.5, restitution: 0.3, contactEquationStiffness: 1000 })
         this.world.addContactMaterial(this.materials.contacts.floorDummy)
 
-        this.materials.contacts.dummyDummy = new CANNON.ContactMaterial(this.materials.items.dummy, this.materials.items.dummy, { friction: 0.5, restitution: 0.3 })
+        this.materials.contacts.dummyDummy = new CANNON.ContactMaterial(this.materials.items.dummy, this.materials.items.dummy, { friction: 0.5, restitution: 0.3, contactEquationStiffness: 1000 })
         this.world.addContactMaterial(this.materials.contacts.dummyDummy)
 
-        this.materials.contacts.floorWheel = new CANNON.ContactMaterial(this.materials.items.floor, this.materials.items.wheel, { friction: 0.5, restitution: 0 })
+        this.materials.contacts.floorWheel = new CANNON.ContactMaterial(this.materials.items.floor, this.materials.items.wheel, { friction: 0.5, restitution: 0, contactEquationStiffness: 1000 })
         this.world.addContactMaterial(this.materials.contacts.floorWheel)
     }
 
@@ -113,24 +113,24 @@ export default class Physics
          */
         this.car.vehicle = new CANNON.RaycastVehicle({
             chassisBody: this.car.chassis.body,
+            indexForwardAxis: 0,
+            indexUpAxis: 1,
             indexRightAxis: 2
         })
-
-        this.car.vehicle.addToWorld(this.world)
 
         /**
          * Wheel
          */
         this.car.wheels = {}
         this.car.wheels.options = {
-            radius: 0.5,
+            radius: 1,
             directionLocal: new CANNON.Vec3(0, - 1, 0),
             suspensionStiffness: 30,
             suspensionRestLength: 0.3,
             frictionSlip: 5,
-            dampingRelaxation: 2.3,
-            dampingCompression: 4.4,
-            maxSuspensionForce: 100000,
+            dampingRelaxation: 1,
+            dampingCompression: 1,
+            maxSuspensionForce: 10000,
             rollInfluence:  0.01,
             axleLocal: new CANNON.Vec3(0, 0, 1),
             chassisConnectionPointLocal: new CANNON.Vec3(1, 0, 1),
@@ -139,17 +139,19 @@ export default class Physics
             useCustomSlidingRotationalSpeed: true
         }
 
-        this.car.wheels.options.chassisConnectionPointLocal.set(1, 0, 1)
+        this.car.wheels.options.chassisConnectionPointLocal.set(1.5, 0, 1.5)
         this.car.vehicle.addWheel(this.car.wheels.options)
 
-        this.car.wheels.options.chassisConnectionPointLocal.set(1, 0, - 1)
+        this.car.wheels.options.chassisConnectionPointLocal.set(1.5, 0, - 1.5)
         this.car.vehicle.addWheel(this.car.wheels.options)
 
-        this.car.wheels.options.chassisConnectionPointLocal.set(- 1, 0, 1)
+        this.car.wheels.options.chassisConnectionPointLocal.set(- 1.5, 0, 1.5)
         this.car.vehicle.addWheel(this.car.wheels.options)
 
-        this.car.wheels.options.chassisConnectionPointLocal.set(- 1, 0, - 1)
+        this.car.wheels.options.chassisConnectionPointLocal.set(- 1.5, 0, - 1.5)
         this.car.vehicle.addWheel(this.car.wheels.options)
+
+        this.car.vehicle.addToWorld(this.world)
 
         this.car.wheels.bodies = []
 
@@ -158,7 +160,9 @@ export default class Physics
             const shape = new CANNON.Cylinder(_wheelInfos.radius, _wheelInfos.radius, _wheelInfos.radius / 2, 20)
             const body = new CANNON.Body({ mass: 1 })
             const quaternion = new CANNON.Quaternion()
-            // quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), Math.PI / 2)
+            // quaternion.setFromAxisAngle(new CANNON.Vec3(0, 0, 1), Math.PI / 2)
+
+            body.type = CANNON.Body.KINEMATIC
 
             body.addShape(shape, new CANNON.Vec3(), quaternion)
             this.car.wheels.bodies.push(body)
@@ -185,6 +189,7 @@ export default class Physics
         this.car.model.wheels = []
 
         const wheelGeometry = new THREE.CylinderBufferGeometry(1, 1, 1, 8, 1)
+        wheelGeometry.rotateX(Math.PI * 0.5)
 
         for(let i = 0; i < this.car.wheels.bodies.length; i++)
         {
@@ -235,6 +240,11 @@ export default class Physics
         this.car.controls.events = {}
         this.car.controls.events.down = (_event) =>
         {
+            this.car.vehicle.setBrake(0, 0)
+            this.car.vehicle.setBrake(0, 1)
+            this.car.vehicle.setBrake(0, 2)
+            this.car.vehicle.setBrake(0, 3)
+
             if(_event.key === 'ArrowUp')
             {
                 this.car.vehicle.applyEngineForce(- this.car.controls.maxForce, 0)
@@ -245,6 +255,8 @@ export default class Physics
             }
             else if(_event.key === 'ArrowRight')
             {
+                this.car.vehicle.setSteeringValue(- this.car.controls.maxSteerVal, 0)
+                this.car.vehicle.setSteeringValue(- this.car.controls.maxSteerVal, 1)
                 this.car.controls.right = true
             }
             else if(_event.key === 'ArrowDown')
@@ -253,18 +265,31 @@ export default class Physics
             }
             else if(_event.key === 'ArrowLeft')
             {
+                this.car.vehicle.setSteeringValue(this.car.controls.maxSteerVal, 0)
+                this.car.vehicle.setSteeringValue(this.car.controls.maxSteerVal, 1)
                 this.car.controls.left = true
             }
         }
 
         this.car.controls.events.up = (_event) =>
         {
+            this.car.vehicle.setBrake(0, 0)
+            this.car.vehicle.setBrake(0, 1)
+            this.car.vehicle.setBrake(0, 2)
+            this.car.vehicle.setBrake(0, 3)
+
             if(_event.key === 'ArrowUp')
             {
+                this.car.vehicle.applyEngineForce(0, 0)
+                this.car.vehicle.applyEngineForce(0, 1)
+                this.car.vehicle.applyEngineForce(0, 2)
+                this.car.vehicle.applyEngineForce(0, 3)
                 this.car.controls.up = false
             }
             else if(_event.key === 'ArrowRight')
             {
+                this.car.vehicle.setSteeringValue(0, 0)
+                this.car.vehicle.setSteeringValue(0, 1)
                 this.car.controls.right = false
             }
             else if(_event.key === 'ArrowDown')
@@ -273,6 +298,8 @@ export default class Physics
             }
             else if(_event.key === 'ArrowLeft')
             {
+                this.car.vehicle.setSteeringValue(0, 0)
+                this.car.vehicle.setSteeringValue(0, 1)
                 this.car.controls.left = false
             }
         }
