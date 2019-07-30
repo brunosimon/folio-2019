@@ -65,43 +65,43 @@ export default class Resources extends EventEmitter
 
             // Objects
             this.items.objects = [
-                {
-                    base: this.items.staticDemoBase.scene,
-                    collision: this.items.staticDemoCollision.scene,
-                    floorShadowTexture: this.items.staticDemoFloorShadowTexture,
-                    offset: new THREE.Vector3(0, 0, 0),
-                    mass: 0
-                },
-                {
-                    base: this.items.dynamicSphereBase.scene,
-                    collision: this.items.dynamicSphereCollision.scene,
-                    offset: new THREE.Vector3(0, 0, 0),
-                    mass: 2
-                },
-                {
-                    base: this.items.dynamicBoxBase.scene,
-                    collision: this.items.dynamicBoxCollision.scene,
-                    offset: new THREE.Vector3(0, 2, 0),
-                    mass: 2
-                },
-                {
-                    base: this.items.dynamicComplexBase.scene,
-                    collision: this.items.dynamicComplexCollision.scene,
-                    offset: new THREE.Vector3(0, 4, 0),
-                    mass: 2
-                },
-                {
-                    base: this.items.dynamicComplexBase.scene,
-                    collision: this.items.dynamicComplexCollision.scene,
-                    offset: new THREE.Vector3(0, 7, 0),
-                    mass: 2
-                },
-                {
-                    base: this.items.dynamicComplexBase.scene,
-                    collision: this.items.dynamicComplexCollision.scene,
-                    offset: new THREE.Vector3(0, 10, 0),
-                    mass: 2
-                }
+                // {
+                //     base: this.items.staticDemoBase.scene,
+                //     collision: this.items.staticDemoCollision.scene,
+                //     floorShadowTexture: this.items.staticDemoFloorShadowTexture,
+                //     offset: new THREE.Vector3(0, 0, 0),
+                //     mass: 0
+                // },
+                // {
+                //     base: this.items.dynamicSphereBase.scene,
+                //     collision: this.items.dynamicSphereCollision.scene,
+                //     offset: new THREE.Vector3(0, 0, 0),
+                //     mass: 2
+                // },
+                // {
+                //     base: this.items.dynamicBoxBase.scene,
+                //     collision: this.items.dynamicBoxCollision.scene,
+                //     offset: new THREE.Vector3(0, 2, 0),
+                //     mass: 2
+                // },
+                // {
+                //     base: this.items.dynamicComplexBase.scene,
+                //     collision: this.items.dynamicComplexCollision.scene,
+                //     offset: new THREE.Vector3(0, 4, 0),
+                //     mass: 2
+                // },
+                // {
+                //     base: this.items.dynamicComplexBase.scene,
+                //     collision: this.items.dynamicComplexCollision.scene,
+                //     offset: new THREE.Vector3(0, 7, 0),
+                //     mass: 2
+                // },
+                // {
+                //     base: this.items.dynamicComplexBase.scene,
+                //     collision: this.items.dynamicComplexCollision.scene,
+                //     offset: new THREE.Vector3(3, 3, 3),
+                //     mass: 2
+                // }
             ]
 
             this.trigger('ready')
