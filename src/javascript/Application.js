@@ -168,6 +168,7 @@ export default class Application
     setOrbitControls()
     {
         this.orbitControls = new OrbitControls(this.camera, this.$canvas)
+        this.orbitControls.enableKeys = false
         this.orbitControls.zoomSpeed = 0.5
     }
 
