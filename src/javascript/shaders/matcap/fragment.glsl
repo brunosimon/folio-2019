@@ -70,13 +70,13 @@ void main() {
     vec3 outgoingLight = diffuseColor.rgb * matcapColor.rgb;
 
     // Custom start
-    float indirectDistanceStrength = clamp(1.0 - vWorldPosition.y / uIndirectDistanceAmplitude, 0.0, 1.0) * uIndirectDistanceStrength;
+    float indirectDistanceStrength = clamp(1.0 - vWorldPosition.z / uIndirectDistanceAmplitude, 0.0, 1.0) * uIndirectDistanceStrength;
     indirectDistanceStrength = pow(indirectDistanceStrength, uIndirectDistancePower);
     indirectDistanceStrength = clamp(indirectDistanceStrength, 0.0, 1.0);
 
     vec3 worldNormal = inverseTransformDirection(vNormal, viewMatrix);
 
-    float indirectAngleStrength = dot(normalize(worldNormal), vec3(0.0, - 1.0, 0.0)) + uIndirectAngleOffset;
+    float indirectAngleStrength = dot(normalize(worldNormal), vec3(0.0, 0.0, - 1.0)) + uIndirectAngleOffset;
     indirectAngleStrength = clamp(indirectAngleStrength * uIndirectAngleStrength, 0.0, 1.0);
     indirectAngleStrength = pow(indirectAngleStrength, uIndirectAnglePower);
 

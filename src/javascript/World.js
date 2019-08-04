@@ -22,10 +22,9 @@ export default class
         this.container = new THREE.Object3D()
         this.objects = []
 
-        this.setCenterAxis()
+        // this.setCenterAxis()
         this.setMaterials()
         this.setPhysics()
-        // this.setFloor()
     }
 
     setCenterAxis()
@@ -147,15 +146,6 @@ export default class
         }
     }
 
-    setFloor()
-    {
-        this.floor = {}
-        this.floor.geometry = new THREE.PlaneBufferGeometry(10.84 * 2, 10.84 * 2, 10, 10)
-        this.floor.mesh = new THREE.Mesh(this.floor.geometry, this.materials.floor)
-        this.floor.mesh.rotation.x = - Math.PI * 0.5
-        this.container.add(this.floor.mesh)
-    }
-
     setPhysics()
     {
         this.physics = new Physics({
@@ -205,7 +195,6 @@ export default class
                 material.uniforms.uShadowColor.value = new THREE.Color(this.materials.floor.shadowColor)
 
                 mesh = new THREE.Mesh(geometry, material)
-                mesh.rotation.x = - Math.PI * 0.5
             }
 
             // Not found

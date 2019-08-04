@@ -81,19 +81,19 @@ export default class Resources extends EventEmitter
                 // {
                 //     base: this.items.dynamicBoxBase.scene,
                 //     collision: this.items.dynamicBoxCollision.scene,
-                //     offset: new THREE.Vector3(0, 2, 0),
+                //     offset: new THREE.Vector3(0, 0, 2),
                 //     mass: 2
                 // },
                 // {
                 //     base: this.items.dynamicComplexBase.scene,
                 //     collision: this.items.dynamicComplexCollision.scene,
-                //     offset: new THREE.Vector3(0, 4, 0),
+                //     offset: new THREE.Vector3(0, 0, 4),
                 //     mass: 2
                 // },
                 // {
                 //     base: this.items.dynamicComplexBase.scene,
                 //     collision: this.items.dynamicComplexCollision.scene,
-                //     offset: new THREE.Vector3(0, 7, 0),
+                //     offset: new THREE.Vector3(0, 0, 7),
                 //     mass: 2
                 // },
                 // {
