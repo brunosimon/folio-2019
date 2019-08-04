@@ -128,123 +128,130 @@ export default class Physics
         this.car.options.controlsAcceleratingMax = 300
         this.car.options.controlsAcceleratingQuad = true
 
-        // Debug
-        if(this.debug)
+        /**
+         * Create method
+         */
+        this.car.create = () =>
         {
-            this.car.debugFolder = this.debugFolder.addFolder('car')
-            this.car.debugFolder.open()
+            /**
+             * Chassis
+             */
+            this.car.chassis = {}
 
-            this.car.debugFolder.add(this.car.options, 'chassisWidth').step(0.001).min(0).max(5).name('chassisWidth')
-            this.car.debugFolder.add(this.car.options, 'chassisHeight').step(0.001).min(0).max(5).name('chassisHeight')
-            this.car.debugFolder.add(this.car.options, 'chassisDepth').step(0.001).min(0).max(5).name('chassisDepth')
-            this.car.debugFolder.add(this.car.options.chassisOffset, 'y').step(0.001).min(0).max(5).name('chassisOffset')
-            this.car.debugFolder.add(this.car.options, 'chassisMass').step(0.001).min(0).max(1000).name('chassisMass')
-            this.car.debugFolder.add(this.car.options, 'wheelOffsetDepth').step(0.001).min(0).max(5).name('wheelOffsetDepth')
-            this.car.debugFolder.add(this.car.options, 'wheelOffsetWidth').step(0.001).min(0).max(5).name('wheelOffsetWidth')
-            this.car.debugFolder.add(this.car.options, 'wheelRadius').step(0.001).min(0).max(2).name('wheelRadius')
-            this.car.debugFolder.add(this.car.options, 'wheelHeight').step(0.001).min(0).max(2).name('wheelHeight')
-            this.car.debugFolder.add(this.car.options, 'wheelSuspensionStiffness').step(0.001).min(0).max(300).name('wheelSuspensionStiffness')
-            this.car.debugFolder.add(this.car.options, 'wheelSuspensionRestLength').step(0.001).min(0).max(5).name('wheelSuspensionRestLength')
-            this.car.debugFolder.add(this.car.options, 'wheelFrictionSlip').step(0.001).min(0).max(30).name('wheelFrictionSlip')
-            this.car.debugFolder.add(this.car.options, 'wheelDampingRelaxation').step(0.001).min(0).max(30).name('wheelDampingRelaxation')
-            this.car.debugFolder.add(this.car.options, 'wheelDampingCompression').step(0.001).min(0).max(30).name('wheelDampingCompression')
-            this.car.debugFolder.add(this.car.options, 'wheelMaxSuspensionForce').step(0.001).min(0).max(1000000).name('wheelMaxSuspensionForce')
-            this.car.debugFolder.add(this.car.options, 'wheelRollInfluence').step(0.001).min(0).max(1).name('wheelRollInfluence')
-            this.car.debugFolder.add(this.car.options, 'wheelMaxSuspensionTravel').step(0.001).min(0).max(5).name('wheelMaxSuspensionTravel')
-            this.car.debugFolder.add(this.car.options, 'wheelCustomSlidingRotationalSpeed').step(0.001).min(0).max(5).name('wheelCustomSlidingRotationalSpeed')
-            this.car.debugFolder.add(this.car.options, 'wheelMass').step(0.001).min(0).max(1000).name('wheelMass')
-            this.car.debugFolder.add(this.car.options, 'controlsSteeringSpeed').step(0.001).min(0).max(0.1).name('controlsSteeringSpeed')
-            this.car.debugFolder.add(this.car.options, 'controlsSteeringMax').step(0.001).min(0).max(Math.PI * 0.5).name('controlsSteeringMax')
-            this.car.debugFolder.add(this.car.options, 'controlsSteeringQuad').name('controlsSteeringQuad')
-            this.car.debugFolder.add(this.car.options, 'controlsAcceleratingSpeed').step(0.001).min(0).max(30).name('controlsAcceleratingSpeed')
-            this.car.debugFolder.add(this.car.options, 'controlsAcceleratingMax').step(0.001).min(0).max(1000).name('controlsAcceleratingMax')
-            this.car.debugFolder.add(this.car.options, 'controlsAcceleratingQuad').name('controlsAcceleratingQuad')
+            this.car.chassis.shape = new CANNON.Box(new CANNON.Vec3(this.car.options.chassisDepth * 0.5, this.car.options.chassisWidth * 0.5, this.car.options.chassisHeight * 0.5))
+
+            this.car.chassis.body = new CANNON.Body({ mass: this.car.options.chassisMass })
+            this.car.chassis.body.position.set(0, 0, 3)
+            this.car.chassis.body.addShape(this.car.chassis.shape, this.car.options.chassisOffset)
+
+            /**
+             * Vehicle
+             */
+            this.car.vehicle = new CANNON.RaycastVehicle({
+                chassisBody: this.car.chassis.body
+            })
+
+            /**
+             * Wheel
+             */
+            this.car.wheels = {}
+            this.car.wheels.options = {
+                radius: this.car.options.wheelRadius,
+                height: this.car.options.wheelHeight,
+                suspensionStiffness: this.car.options.wheelSuspensionStiffness,
+                suspensionRestLength: this.car.options.wheelSuspensionRestLength,
+                frictionSlip: this.car.options.wheelFrictionSlip,
+                dampingRelaxation: this.car.options.wheelDampingRelaxation,
+                dampingCompression: this.car.options.wheelDampingCompression,
+                maxSuspensionForce: this.car.options.wheelMaxSuspensionForce,
+                rollInfluence: this.car.options.wheelRollInfluence,
+                maxSuspensionTravel: this.car.options.wheelMaxSuspensionTravel,
+                customSlidingRotationalSpeed: this.car.options.wheelCustomSlidingRotationalSpeed,
+                useCustomSlidingRotationalSpeed: true,
+                directionLocal: new CANNON.Vec3(0, 0, -1), // Will be changed for each wheel
+                axleLocal: new CANNON.Vec3(0, 1, 0),
+                chassisConnectionPointLocal: new CANNON.Vec3(1, 1, 0)
+            }
+
+            this.car.wheels.options.chassisConnectionPointLocal.set(this.car.options.wheelOffsetDepth, this.car.options.wheelOffsetWidth, 0)
+            this.car.vehicle.addWheel(this.car.wheels.options)
+
+            this.car.wheels.options.chassisConnectionPointLocal.set(this.car.options.wheelOffsetDepth, - this.car.options.wheelOffsetWidth, 0)
+            this.car.vehicle.addWheel(this.car.wheels.options)
+
+            this.car.wheels.options.chassisConnectionPointLocal.set(- this.car.options.wheelOffsetDepth, this.car.options.wheelOffsetWidth, 0)
+            this.car.vehicle.addWheel(this.car.wheels.options)
+
+            this.car.wheels.options.chassisConnectionPointLocal.set(- this.car.options.wheelOffsetDepth, - this.car.options.wheelOffsetWidth, 0)
+            this.car.vehicle.addWheel(this.car.wheels.options)
+
+            this.car.vehicle.addToWorld(this.world)
+
+            this.car.wheels.indexes = {}
+
+            this.car.wheels.indexes.frontLeft = 0
+            this.car.wheels.indexes.frontRight = 1
+            this.car.wheels.indexes.backLeft = 2
+            this.car.wheels.indexes.backRight = 3
+            this.car.wheels.bodies = []
+
+            for(const _wheelInfos of this.car.vehicle.wheelInfos)
+            {
+                const shape = new CANNON.Cylinder(_wheelInfos.radius, _wheelInfos.radius, this.car.wheels.options.height, 20)
+                const body = new CANNON.Body({ mass: this.car.options.wheelMass })
+                const quaternion = new CANNON.Quaternion()
+                quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), Math.PI / 2)
+
+                body.type = CANNON.Body.KINEMATIC
+
+                body.addShape(shape, new CANNON.Vec3(), quaternion)
+                this.car.wheels.bodies.push(body)
+            }
+
+            /**
+             * Model
+             */
+            this.car.model = {}
+            this.car.model.container = new THREE.Object3D()
+            this.models.container.add(this.car.model.container)
+
+            this.car.model.material = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true })
+
+            this.car.model.chassis = new THREE.Mesh(new THREE.BoxBufferGeometry(this.car.options.chassisDepth, this.car.options.chassisWidth, this.car.options.chassisHeight), this.car.model.material)
+            this.car.model.container.add(this.car.model.chassis)
+
+            this.car.model.wheels = []
+
+            const wheelGeometry = new THREE.CylinderBufferGeometry(this.car.options.wheelRadius, this.car.options.wheelRadius, this.car.options.wheelHeight, 8, 1)
+
+            for(let i = 0; i < 4; i++)
+            {
+                const wheel = new THREE.Mesh(wheelGeometry, this.car.model.material)
+                this.car.model.container.add(wheel)
+                this.car.model.wheels.push(wheel)
+            }
         }
 
-        // this.car.create = () =>
-        // {
-
-        // }
-
-        // this.car.destroy = () =>
-        // {
-
-        // }
-
         /**
-         * Chassis
+         * Destroy method
          */
-        this.car.chassis = {}
-
-        this.car.chassis.shape = new CANNON.Box(new CANNON.Vec3(this.car.options.chassisDepth * 0.5, this.car.options.chassisWidth * 0.5, this.car.options.chassisHeight * 0.5))
-
-        this.car.chassis.body = new CANNON.Body({ mass: this.car.options.chassisMass })
-        this.car.chassis.body.position.set(0, 0, 3)
-        this.car.chassis.body.addShape(this.car.chassis.shape, this.car.options.chassisOffset)
-
-        /**
-         * Vehicle
-         */
-        this.car.vehicle = new CANNON.RaycastVehicle({
-            chassisBody: this.car.chassis.body
-        })
-
-        /**
-         * Wheel
-         */
-        this.car.wheels = {}
-        this.car.wheels.options = {
-            radius: this.car.options.wheelRadius,
-            height: this.car.options.wheelHeight,
-            suspensionStiffness: this.car.options.wheelSuspensionStiffness,
-            suspensionRestLength: this.car.options.wheelSuspensionRestLength,
-            frictionSlip: this.car.options.wheelFrictionSlip,
-            dampingRelaxation: this.car.options.wheelDampingRelaxation,
-            dampingCompression: this.car.options.wheelDampingCompression,
-            maxSuspensionForce: this.car.options.wheelMaxSuspensionForce,
-            rollInfluence: this.car.options.wheelRollInfluence,
-            maxSuspensionTravel: this.car.options.wheelMaxSuspensionTravel,
-            customSlidingRotationalSpeed: this.car.options.wheelCustomSlidingRotationalSpeed,
-            useCustomSlidingRotationalSpeed: true,
-            directionLocal: new CANNON.Vec3(0, 0, -1), // Will be changed for each wheel
-            axleLocal: new CANNON.Vec3(0, 1, 0),
-            chassisConnectionPointLocal: new CANNON.Vec3(1, 1, 0)
-        }
-
-        this.car.wheels.options.chassisConnectionPointLocal.set(this.car.options.wheelOffsetDepth, this.car.options.wheelOffsetWidth, 0)
-        this.car.vehicle.addWheel(this.car.wheels.options)
-
-        this.car.wheels.options.chassisConnectionPointLocal.set(this.car.options.wheelOffsetDepth, - this.car.options.wheelOffsetWidth, 0)
-        this.car.vehicle.addWheel(this.car.wheels.options)
-
-        this.car.wheels.options.chassisConnectionPointLocal.set(- this.car.options.wheelOffsetDepth, this.car.options.wheelOffsetWidth, 0)
-        this.car.vehicle.addWheel(this.car.wheels.options)
-
-        this.car.wheels.options.chassisConnectionPointLocal.set(- this.car.options.wheelOffsetDepth, - this.car.options.wheelOffsetWidth, 0)
-        this.car.vehicle.addWheel(this.car.wheels.options)
-
-        this.car.vehicle.addToWorld(this.world)
-
-        this.car.wheels.indexes = {}
-
-        this.car.wheels.indexes.frontLeft = 0
-        this.car.wheels.indexes.frontRight = 1
-        this.car.wheels.indexes.backLeft = 2
-        this.car.wheels.indexes.backRight = 3
-        this.car.wheels.bodies = []
-
-        for(const _wheelInfos of this.car.vehicle.wheelInfos)
+        this.car.destroy = () =>
         {
-            const shape = new CANNON.Cylinder(_wheelInfos.radius, _wheelInfos.radius, this.car.wheels.options.height, 20)
-            const body = new CANNON.Body({ mass: this.car.options.wheelMass })
-            const quaternion = new CANNON.Quaternion()
-            quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), Math.PI / 2)
-
-            body.type = CANNON.Body.KINEMATIC
-
-            body.addShape(shape, new CANNON.Vec3(), quaternion)
-            this.car.wheels.bodies.push(body)
+            this.car.vehicle.removeFromWorld(this.world)
+            this.models.container.remove(this.car.model.container)
         }
+
+        /**
+         * Recreate method
+         */
+        this.car.recreate = () =>
+        {
+            this.car.destroy()
+            this.car.create()
+        }
+
+        // Create the initial car
+        this.car.create()
 
         this.world.addEventListener('postStep', () =>
         {
@@ -258,27 +265,6 @@ export default class Physics
                 this.car.wheels.bodies[i].quaternion.copy(transform.quaternion)
             }
         })
-
-        // Model
-        this.car.model = {}
-        this.car.model.container = new THREE.Object3D()
-        this.models.container.add(this.car.model.container)
-
-        this.car.model.material = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true })
-
-        this.car.model.chassis = new THREE.Mesh(new THREE.BoxBufferGeometry(this.car.options.chassisDepth, this.car.options.chassisWidth, this.car.options.chassisHeight), this.car.model.material)
-        this.car.model.container.add(this.car.model.chassis)
-
-        this.car.model.wheels = []
-
-        const wheelGeometry = new THREE.CylinderBufferGeometry(this.car.options.wheelRadius, this.car.options.wheelRadius, this.car.options.wheelHeight, 8, 1)
-
-        for(let i = 0; i < 4; i++)
-        {
-            const wheel = new THREE.Mesh(wheelGeometry, this.car.model.material)
-            this.car.model.container.add(wheel)
-            this.car.model.wheels.push(wheel)
-        }
 
         this.time.on('tick', () =>
         {
@@ -421,6 +407,40 @@ export default class Physics
                 this.car.vehicle.applyEngineForce(- this.car.controls.accelerating, this.car.wheels.indexes.backRight)
             }
         })
+
+        // Debug
+        if(this.debug)
+        {
+            this.car.debugFolder = this.debugFolder.addFolder('car')
+            this.car.debugFolder.open()
+
+            this.car.debugFolder.add(this.car.options, 'chassisWidth').step(0.001).min(0).max(5).name('chassisWidth').onFinishChange(this.car.recreate)
+            this.car.debugFolder.add(this.car.options, 'chassisHeight').step(0.001).min(0).max(5).name('chassisHeight').onFinishChange(this.car.recreate)
+            this.car.debugFolder.add(this.car.options, 'chassisDepth').step(0.001).min(0).max(5).name('chassisDepth').onFinishChange(this.car.recreate)
+            this.car.debugFolder.add(this.car.options.chassisOffset, 'z').step(0.001).min(0).max(5).name('chassisOffset').onFinishChange(this.car.recreate)
+            this.car.debugFolder.add(this.car.options, 'chassisMass').step(0.001).min(0).max(1000).name('chassisMass').onFinishChange(this.car.recreate)
+            this.car.debugFolder.add(this.car.options, 'wheelOffsetDepth').step(0.001).min(0).max(5).name('wheelOffsetDepth').onFinishChange(this.car.recreate)
+            this.car.debugFolder.add(this.car.options, 'wheelOffsetWidth').step(0.001).min(0).max(5).name('wheelOffsetWidth').onFinishChange(this.car.recreate)
+            this.car.debugFolder.add(this.car.options, 'wheelRadius').step(0.001).min(0).max(2).name('wheelRadius').onFinishChange(this.car.recreate)
+            this.car.debugFolder.add(this.car.options, 'wheelHeight').step(0.001).min(0).max(2).name('wheelHeight').onFinishChange(this.car.recreate)
+            this.car.debugFolder.add(this.car.options, 'wheelSuspensionStiffness').step(0.001).min(0).max(300).name('wheelSuspensionStiffness').onFinishChange(this.car.recreate)
+            this.car.debugFolder.add(this.car.options, 'wheelSuspensionRestLength').step(0.001).min(0).max(5).name('wheelSuspensionRestLength').onFinishChange(this.car.recreate)
+            this.car.debugFolder.add(this.car.options, 'wheelFrictionSlip').step(0.001).min(0).max(30).name('wheelFrictionSlip').onFinishChange(this.car.recreate)
+            this.car.debugFolder.add(this.car.options, 'wheelDampingRelaxation').step(0.001).min(0).max(30).name('wheelDampingRelaxation').onFinishChange(this.car.recreate)
+            this.car.debugFolder.add(this.car.options, 'wheelDampingCompression').step(0.001).min(0).max(30).name('wheelDampingCompression').onFinishChange(this.car.recreate)
+            this.car.debugFolder.add(this.car.options, 'wheelMaxSuspensionForce').step(0.001).min(0).max(1000000).name('wheelMaxSuspensionForce').onFinishChange(this.car.recreate)
+            this.car.debugFolder.add(this.car.options, 'wheelRollInfluence').step(0.001).min(0).max(1).name('wheelRollInfluence').onFinishChange(this.car.recreate)
+            this.car.debugFolder.add(this.car.options, 'wheelMaxSuspensionTravel').step(0.001).min(0).max(5).name('wheelMaxSuspensionTravel').onFinishChange(this.car.recreate)
+            this.car.debugFolder.add(this.car.options, 'wheelCustomSlidingRotationalSpeed').step(0.001).min(0).max(5).name('wheelCustomSlidingRotationalSpeed').onFinishChange(this.car.recreate)
+            this.car.debugFolder.add(this.car.options, 'wheelMass').step(0.001).min(0).max(1000).name('wheelMass').onFinishChange(this.car.recreate)
+            this.car.debugFolder.add(this.car.options, 'controlsSteeringSpeed').step(0.001).min(0).max(0.1).name('controlsSteeringSpeed')
+            this.car.debugFolder.add(this.car.options, 'controlsSteeringMax').step(0.001).min(0).max(Math.PI * 0.5).name('controlsSteeringMax')
+            this.car.debugFolder.add(this.car.options, 'controlsSteeringQuad').name('controlsSteeringQuad')
+            this.car.debugFolder.add(this.car.options, 'controlsAcceleratingSpeed').step(0.001).min(0).max(30).name('controlsAcceleratingSpeed')
+            this.car.debugFolder.add(this.car.options, 'controlsAcceleratingMax').step(0.001).min(0).max(1000).name('controlsAcceleratingMax')
+            this.car.debugFolder.add(this.car.options, 'controlsAcceleratingQuad').name('controlsAcceleratingQuad')
+            this.car.debugFolder.add(this.car, 'recreate')
+        }
     }
 
     addObjectFromThree(_options)
