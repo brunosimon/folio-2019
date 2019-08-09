@@ -76,7 +76,8 @@ export default class Application
         this.camera = new THREE.PerspectiveCamera(40, this.sizes.viewport.width / this.sizes.viewport.height, 0.1, 100)
         this.camera.up.z = 1
         this.camera.up.y = 0
-        this.camera.position.set(5 * 2, 7 * 2, 5 * 2)
+        // this.camera.position.set(5 * 2, 7 * 2, 5 * 2)
+        this.camera.position.set(8, - 8, 12)
         this.camera.lookAt(new THREE.Vector3())
         this.scene.add(this.camera)
 

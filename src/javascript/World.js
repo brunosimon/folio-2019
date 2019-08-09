@@ -196,24 +196,40 @@ export default class
         this.car.container = new THREE.Object3D()
         this.container.add(this.car.container)
 
-        // Go through each base child
-        const baseChildren = [...this.resources.items.carBase.scene.children]
+        // Chassis
+        this.car.chassis = {}
+        this.car.chassis.offset = new THREE.Vector3(0, 0, - 0.48)
+        this.car.chassis.object = this.getConvertedMesh(this.resources.items.carChassis.scene.children)
+        this.car.container.add(this.car.chassis.object)
 
-        for(const _child of baseChildren)
+        // Wheels
+        this.car.wheels = {}
+        this.car.wheels.object = this.getConvertedMesh(this.resources.items.carWheel.scene.children)
+        this.car.wheels.items = []
+
+        for(let i = 0; i < 4; i++)
         {
-            // Find parser and use default if not found
-            let parser = this.objects.parsers.items.find((_item) => _child.name.match(_item.regex))
-            if(typeof parser === 'undefined')
-            {
-                parser = this.objects.parsers.default
-            }
+            const object = this.car.wheels.object.clone()
 
-            // Create mesh by applying parser
-            const mesh = parser.apply(_child)
-
-            // Add to container
-            this.car.container.add(mesh)
+            this.car.wheels.items.push(object)
+            this.car.container.add(object)
         }
+
+        // Time tick
+        this.time.on('tick', () =>
+        {
+            this.car.chassis.object.position.copy(this.physics.car.chassis.body.position).add(this.car.chassis.offset)
+            this.car.chassis.object.quaternion.copy(this.physics.car.chassis.body.quaternion)
+
+            for(const _wheelKey in this.physics.car.wheels.bodies)
+            {
+                const wheelBody = this.physics.car.wheels.bodies[_wheelKey]
+                const wheelObject = this.car.wheels.items[_wheelKey]
+
+                wheelObject.position.copy(wheelBody.position)
+                wheelObject.quaternion.copy(wheelBody.quaternion)
+            }
+        })
     }
 
     setObjects()
@@ -227,11 +243,11 @@ export default class
         this.objects.parsers.items = [
             // Shade
             {
-                regex: /^shade([a-z]+)_?[0-9]{0,3}?$/i,
+                regex: /^shade([a-z]+)_?[0-9]{0,3}?/i,
                 apply: (_mesh) =>
                 {
                     // Find material
-                    const match = _mesh.name.match(/^shade([a-z]+)_?[0-9]{0,3}?$/i)
+                    const match = _mesh.name.match(/^shade([a-z]+)_?[0-9]{0,3}?/i)
                     const materialName = match[1].toLowerCase()
                     let material = this.materials.shades.items[materialName]
 
@@ -313,24 +329,24 @@ export default class
                 offset: new THREE.Vector3(0, 0, 0),
                 mass: 0
             },
-            {
-                base: this.resources.items.dynamicSphereBase.scene,
-                collision: this.resources.items.dynamicSphereCollision.scene,
-                offset: new THREE.Vector3(0, 0, 0),
-                mass: 2
-            },
-            {
-                base: this.resources.items.dynamicBoxBase.scene,
-                collision: this.resources.items.dynamicBoxCollision.scene,
-                offset: new THREE.Vector3(0, 0, 2),
-                mass: 2
-            },
-            {
-                base: this.resources.items.dynamicBoxBase.scene,
-                collision: this.resources.items.dynamicBoxCollision.scene,
-                offset: new THREE.Vector3(0, 0, 4),
-                mass: 2
-            },
+            // {
+            //     base: this.resources.items.dynamicSphereBase.scene,
+            //     collision: this.resources.items.dynamicSphereCollision.scene,
+            //     offset: new THREE.Vector3(0, 0, 0),
+            //     mass: 2
+            // },
+            // {
+            //     base: this.resources.items.dynamicBoxBase.scene,
+            //     collision: this.resources.items.dynamicBoxCollision.scene,
+            //     offset: new THREE.Vector3(0, 0, 2),
+            //     mass: 2
+            // },
+            // {
+            //     base: this.resources.items.dynamicBoxBase.scene,
+            //     collision: this.resources.items.dynamicBoxCollision.scene,
+            //     offset: new THREE.Vector3(0, 0, 4),
+            //     mass: 2
+            // },
             // {
             //     base: this.resources.items.dynamicComplexBase.scene,
             //     collision: this.resources.items.dynamicComplexCollision.scene,
@@ -355,6 +371,32 @@ export default class
         {
             this.addObject(_objectOptions)
         }
+    }
+
+    getConvertedMesh(_children)
+    {
+        const container = new THREE.Object3D()
+
+        // Go through each base child
+        const baseChildren = [..._children]
+
+        for(const _child of baseChildren)
+        {
+            // Find parser and use default if not found
+            let parser = this.objects.parsers.items.find((_item) => _child.name.match(_item.regex))
+            if(typeof parser === 'undefined')
+            {
+                parser = this.objects.parsers.default
+            }
+
+            // Create mesh by applying parser
+            const mesh = parser.apply(_child)
+
+            // Add to container
+            container.add(mesh)
+        }
+
+        return container
     }
 
     addObject(_objectOptions)

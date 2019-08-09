@@ -22,7 +22,8 @@ import dynamicBoxCollisionSource from '../models/dynamicBox/collision.glb'
 import dynamicComplexBaseSource from '../models/dynamicComplex/base.glb'
 import dynamicComplexCollisionSource from '../models/dynamicComplex/collision.glb'
 
-import carBaseSource from '../models/car/base.glb'
+import carChassisSource from '../models/car/chassis.glb'
+import carWheelSource from '../models/car/wheel.glb'
 
 export default class Resources extends EventEmitter
 {
@@ -53,7 +54,8 @@ export default class Resources extends EventEmitter
             { name: 'dynamicComplexBase', source: dynamicComplexBaseSource },
             { name: 'dynamicComplexCollision', source: dynamicComplexCollisionSource },
 
-            { name: 'carBase', source: carBaseSource }
+            { name: 'carChassis', source: carChassisSource },
+            { name: 'carWheel', source: carWheelSource }
         ])
 
         this.loader.on('fileEnd', (_resource, _data) =>

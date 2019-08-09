@@ -37,7 +37,7 @@ export default class Physics
         // Debug
         if(this.debug)
         {
-            this.debugFolder.add(this.world.gravity, 'y').step(0.001).min(- 5).max(5).name('gravity')
+            this.debugFolder.add(this.world.gravity, 'z').step(0.001).min(- 20).max(20).name('gravity')
         }
     }
 
@@ -45,7 +45,7 @@ export default class Physics
     {
         this.models = {}
         this.models.container = new THREE.Object3D()
-        this.models.container.visible = false
+        this.models.container.visible = true
         this.models.materials = {}
         this.models.materials.static = new THREE.MeshBasicMaterial({ color: 0x0000ff, wireframe: true })
         this.models.materials.dynamic = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true })
@@ -102,16 +102,17 @@ export default class Physics
          * Options
          */
         this.car.options = {}
-        this.car.options.chassisWidth = 2.5
-        this.car.options.chassisHeight = 1
-        this.car.options.chassisDepth = 4
-        this.car.options.chassisOffset = new CANNON.Vec3(0, 0, 1)
-        this.car.options.chassisMass = 160
-        this.car.options.wheelOffsetDepth = 2
-        this.car.options.wheelOffsetWidth = 1
-        this.car.options.wheelRadius = 1
-        this.car.options.wheelHeight = 1
-        this.car.options.wheelSuspensionStiffness = 30
+        this.car.options.chassisWidth = 1.02
+        this.car.options.chassisHeight = 0.85
+        this.car.options.chassisDepth = 2.03
+        this.car.options.chassisOffset = new CANNON.Vec3(0, 0, 0.38)
+        this.car.options.chassisMass = 80
+        this.car.options.wheelFrontOffsetDepth = 0.635
+        this.car.options.wheelBackOffsetDepth = - 0.475
+        this.car.options.wheelOffsetWidth = 0.39
+        this.car.options.wheelRadius = 0.25
+        this.car.options.wheelHeight = 0.24
+        this.car.options.wheelSuspensionStiffness = 25
         this.car.options.wheelSuspensionRestLength = 0.3
         this.car.options.wheelFrictionSlip = 5
         this.car.options.wheelDampingRelaxation = 2.3
@@ -120,12 +121,12 @@ export default class Physics
         this.car.options.wheelRollInfluence =  0.01
         this.car.options.wheelMaxSuspensionTravel = 0.3
         this.car.options.wheelCustomSlidingRotationalSpeed = - 30
-        this.car.options.wheelMass = 30
+        this.car.options.wheelMass = 20
         this.car.options.controlsSteeringSpeed = 0.005
-        this.car.options.controlsSteeringMax = Math.PI * 0.2
+        this.car.options.controlsSteeringMax = Math.PI * 0.17
         this.car.options.controlsSteeringQuad = false
         this.car.options.controlsAcceleratingSpeed = 5
-        this.car.options.controlsAcceleratingMax = 300
+        this.car.options.controlsAcceleratingMax = 80
         this.car.options.controlsAcceleratingQuad = true
 
         /**
@@ -173,16 +174,20 @@ export default class Physics
                 chassisConnectionPointLocal: new CANNON.Vec3(1, 1, 0)
             }
 
-            this.car.wheels.options.chassisConnectionPointLocal.set(this.car.options.wheelOffsetDepth, this.car.options.wheelOffsetWidth, 0)
+            // Front left
+            this.car.wheels.options.chassisConnectionPointLocal.set(this.car.options.wheelFrontOffsetDepth, this.car.options.wheelOffsetWidth, 0)
             this.car.vehicle.addWheel(this.car.wheels.options)
 
-            this.car.wheels.options.chassisConnectionPointLocal.set(this.car.options.wheelOffsetDepth, - this.car.options.wheelOffsetWidth, 0)
+            // Front right
+            this.car.wheels.options.chassisConnectionPointLocal.set(this.car.options.wheelFrontOffsetDepth, - this.car.options.wheelOffsetWidth, 0)
             this.car.vehicle.addWheel(this.car.wheels.options)
 
-            this.car.wheels.options.chassisConnectionPointLocal.set(- this.car.options.wheelOffsetDepth, this.car.options.wheelOffsetWidth, 0)
+            // Back left
+            this.car.wheels.options.chassisConnectionPointLocal.set(this.car.options.wheelBackOffsetDepth, this.car.options.wheelOffsetWidth, 0)
             this.car.vehicle.addWheel(this.car.wheels.options)
 
-            this.car.wheels.options.chassisConnectionPointLocal.set(- this.car.options.wheelOffsetDepth, - this.car.options.wheelOffsetWidth, 0)
+            // Back right
+            this.car.wheels.options.chassisConnectionPointLocal.set(this.car.options.wheelBackOffsetDepth, - this.car.options.wheelOffsetWidth, 0)
             this.car.vehicle.addWheel(this.car.wheels.options)
 
             this.car.vehicle.addToWorld(this.world)
@@ -419,7 +424,8 @@ export default class Physics
             this.car.debugFolder.add(this.car.options, 'chassisDepth').step(0.001).min(0).max(5).name('chassisDepth').onFinishChange(this.car.recreate)
             this.car.debugFolder.add(this.car.options.chassisOffset, 'z').step(0.001).min(0).max(5).name('chassisOffset').onFinishChange(this.car.recreate)
             this.car.debugFolder.add(this.car.options, 'chassisMass').step(0.001).min(0).max(1000).name('chassisMass').onFinishChange(this.car.recreate)
-            this.car.debugFolder.add(this.car.options, 'wheelOffsetDepth').step(0.001).min(0).max(5).name('wheelOffsetDepth').onFinishChange(this.car.recreate)
+            this.car.debugFolder.add(this.car.options, 'wheelFrontOffsetDepth').step(0.001).min(0).max(5).name('wheelFrontOffsetDepth').onFinishChange(this.car.recreate)
+            this.car.debugFolder.add(this.car.options, 'wheelBackOffsetDepth').step(0.001).min(0).max(5).name('wheelBackOffsetDepth').onFinishChange(this.car.recreate)
             this.car.debugFolder.add(this.car.options, 'wheelOffsetWidth').step(0.001).min(0).max(5).name('wheelOffsetWidth').onFinishChange(this.car.recreate)
             this.car.debugFolder.add(this.car.options, 'wheelRadius').step(0.001).min(0).max(2).name('wheelRadius').onFinishChange(this.car.recreate)
             this.car.debugFolder.add(this.car.options, 'wheelHeight').step(0.001).min(0).max(2).name('wheelHeight').onFinishChange(this.car.recreate)
