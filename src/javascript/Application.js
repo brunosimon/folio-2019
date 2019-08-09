@@ -185,11 +185,6 @@ export default class Application
             time: this.time
         })
         this.scene.add(this.world.container)
-
-        for(const _object of this.resources.items.objects)
-        {
-            this.world.addObject(_object)
-        }
     }
 
     /**

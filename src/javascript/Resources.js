@@ -4,9 +4,9 @@ import Loader from './Utils/Loader.js'
 import EventEmitter from './Utils/EventEmitter.js'
 
 import matcapBeigeSource from '../models/matcaps/beige.png'
-import matcapBlackSource from '../models/matcaps/white.png'
-import matcapOrangeSource from '../models/matcaps/white.png'
-import matcapRedSource from '../models/matcaps/white.png'
+import matcapBlackSource from '../models/matcaps/black.png'
+import matcapOrangeSource from '../models/matcaps/orange.png'
+import matcapRedSource from '../models/matcaps/red.png'
 import matcapWhiteSource from '../models/matcaps/white.png'
 
 import staticDemoFloorShadowSource from '../models/staticDemo/floor-shadow.png'
@@ -21,6 +21,8 @@ import dynamicBoxCollisionSource from '../models/dynamicBox/collision.glb'
 
 import dynamicComplexBaseSource from '../models/dynamicComplex/base.glb'
 import dynamicComplexCollisionSource from '../models/dynamicComplex/collision.glb'
+
+import carBaseSource from '../models/car/base.glb'
 
 export default class Resources extends EventEmitter
 {
@@ -49,7 +51,9 @@ export default class Resources extends EventEmitter
             { name: 'dynamicBoxCollision', source: dynamicBoxCollisionSource },
 
             { name: 'dynamicComplexBase', source: dynamicComplexBaseSource },
-            { name: 'dynamicComplexCollision', source: dynamicComplexCollisionSource }
+            { name: 'dynamicComplexCollision', source: dynamicComplexCollisionSource },
+
+            { name: 'carBase', source: carBaseSource }
         ])
 
         this.loader.on('fileEnd', (_resource, _data) =>
@@ -78,47 +82,7 @@ export default class Resources extends EventEmitter
             this.items.staticDemoFloorShadowTexture = new THREE.Texture(this.items.staticDemoFloorShadow)
             this.items.staticDemoFloorShadowTexture.needsUpdate = true
 
-            // Objects
-            this.items.objects = [
-                {
-                    base: this.items.staticDemoBase.scene,
-                    collision: this.items.staticDemoCollision.scene,
-                    floorShadowTexture: this.items.staticDemoFloorShadowTexture,
-                    offset: new THREE.Vector3(0, 0, 0),
-                    mass: 0
-                },
-                {
-                    base: this.items.dynamicSphereBase.scene,
-                    collision: this.items.dynamicSphereCollision.scene,
-                    offset: new THREE.Vector3(0, 0, 0),
-                    mass: 2
-                },
-                {
-                    base: this.items.dynamicBoxBase.scene,
-                    collision: this.items.dynamicBoxCollision.scene,
-                    offset: new THREE.Vector3(0, 0, 2),
-                    mass: 2
-                },
-                // {
-                //     base: this.items.dynamicComplexBase.scene,
-                //     collision: this.items.dynamicComplexCollision.scene,
-                //     offset: new THREE.Vector3(0, 0, 4),
-                //     mass: 2
-                // },
-                // {
-                //     base: this.items.dynamicComplexBase.scene,
-                //     collision: this.items.dynamicComplexCollision.scene,
-                //     offset: new THREE.Vector3(0, 0, 7),
-                //     mass: 2
-                // },
-                // {
-                //     base: this.items.dynamicComplexBase.scene,
-                //     collision: this.items.dynamicComplexCollision.scene,
-                //     offset: new THREE.Vector3(3, 3, 3),
-                //     mass: 2
-                // }
-            ]
-
+            // Trigger ready
             this.trigger('ready')
         })
     }

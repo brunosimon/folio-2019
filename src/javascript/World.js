@@ -12,26 +12,20 @@ export default class
         this.resources = _options.resources
         this.time = _options.time
 
-        // Set up
+        // Debug
         if(this.debug)
         {
             this.debugFolder = this.debug.addFolder('world')
             // this.debugFolder.open()
         }
 
+        // Set up
         this.container = new THREE.Object3D()
-        this.objects = []
 
-        // this.setCenterAxis()
         this.setMaterials()
-        this.setMeshParser()
         this.setPhysics()
-    }
-
-    setCenterAxis()
-    {
-        this.centerAxis = new THREE.AxesHelper(1)
-        this.container.add(this.centerAxis)
+        this.setObjects()
+        this.setCar()
     }
 
     setMaterials()
@@ -47,12 +41,22 @@ export default class
         }
 
         /**
+         * Pures
+         */
+
+        // Setup
+        this.materials.pures = {}
+        this.materials.pures.items = {}
+        this.materials.pures.items.red = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+        this.materials.pures.items.white = new THREE.MeshBasicMaterial({ color: 0xffffff })
+        this.materials.pures.items.yellow = new THREE.MeshBasicMaterial({ color: 0xffe889 })
+
+        /**
          * Shades
          */
 
         // Setup
         this.materials.shades = {}
-
         this.materials.shades.items = {}
         this.materials.shades.indirectColor = '#d04500'
 
@@ -75,6 +79,16 @@ export default class
         this.materials.shades.items.beige = new MatcapMaterial()
         this.materials.shades.items.beige.uniforms.matcap.value = this.resources.items.matcapBeigeTexture
         this.materials.items.beige = this.materials.shades.items.beige
+
+        // Red
+        this.materials.shades.items.red = new MatcapMaterial()
+        this.materials.shades.items.red.uniforms.matcap.value = this.resources.items.matcapRedTexture
+        this.materials.items.red = this.materials.shades.items.red
+
+        // Black
+        this.materials.shades.items.black = new MatcapMaterial()
+        this.materials.shades.items.black.uniforms.matcap.value = this.resources.items.matcapBlackTexture
+        this.materials.items.black = this.materials.shades.items.black
 
         // Update materials uniforms
         this.materials.shades.updateUniforms = () =>
@@ -175,10 +189,43 @@ export default class
         this.container.add(this.physics.models.container)
     }
 
-    setMeshParser()
+    setCar()
     {
-        this.meshParser = {}
-        this.meshParser.items = [
+        this.car = {}
+
+        this.car.container = new THREE.Object3D()
+        this.container.add(this.car.container)
+
+        // Go through each base child
+        const baseChildren = [...this.resources.items.carBase.scene.children]
+
+        for(const _child of baseChildren)
+        {
+            // Find parser and use default if not found
+            let parser = this.objects.parsers.items.find((_item) => _child.name.match(_item.regex))
+            if(typeof parser === 'undefined')
+            {
+                parser = this.objects.parsers.default
+            }
+
+            // Create mesh by applying parser
+            const mesh = parser.apply(_child)
+
+            // Add to container
+            this.car.container.add(mesh)
+        }
+    }
+
+    setObjects()
+    {
+        this.objects = {}
+
+        this.objects.items = []
+
+        // Parsers
+        this.objects.parsers = {}
+        this.objects.parsers.items = [
+            // Shade
             {
                 regex: /^shade([a-z]+)_?[0-9]{0,3}?$/i,
                 apply: (_mesh) =>
@@ -186,7 +233,13 @@ export default class
                     // Find material
                     const match = _mesh.name.match(/^shade([a-z]+)_?[0-9]{0,3}?$/i)
                     const materialName = match[1].toLowerCase()
-                    const material = this.materials.shades.items[materialName]
+                    let material = this.materials.shades.items[materialName]
+
+                    // Default
+                    if(typeof material === 'undefined')
+                    {
+                        material = new THREE.MeshNormalMaterial()
+                    }
 
                     // Create clone mesh with new material
                     const mesh = _mesh.clone()
@@ -195,6 +248,32 @@ export default class
                     return mesh
                 }
             },
+
+            // Shade
+            {
+                regex: /^pure([a-z]+)_?[0-9]{0,3}?$/i,
+                apply: (_mesh) =>
+                {
+                    // Find material
+                    const match = _mesh.name.match(/^pure([a-z]+)_?[0-9]{0,3}?$/i)
+                    const materialName = match[1].toLowerCase()
+                    let material = this.materials.pures.items[materialName]
+
+                    // Default
+                    if(typeof material === 'undefined')
+                    {
+                        material = new THREE.MeshNormalMaterial()
+                    }
+
+                    // Create clone mesh with new material
+                    const mesh = _mesh.clone()
+                    mesh.material = material
+
+                    return mesh
+                }
+            },
+
+            // Floor
             {
                 regex: /^floor_?[0-9]{0,3}?$/i,
                 apply: (_mesh, _options) =>
@@ -214,13 +293,67 @@ export default class
             }
         ]
 
-        // Default normal material
-        this.meshParser.default = {}
-        this.meshParser.default.apply = (_mesh) =>
+        // Default
+        this.objects.parsers.default = {}
+        this.objects.parsers.default.apply = (_mesh) =>
         {
-            _mesh.material = new THREE.MeshNormalMaterial()
+            // Create clone mesh with normal material
+            const mesh = _mesh.clone()
+            mesh.material = new THREE.MeshNormalMaterial()
 
-            return _mesh
+            return mesh
+        }
+
+        // Object options
+        this.objects.options = [
+            {
+                base: this.resources.items.staticDemoBase.scene,
+                collision: this.resources.items.staticDemoCollision.scene,
+                floorShadowTexture: this.resources.items.staticDemoFloorShadowTexture,
+                offset: new THREE.Vector3(0, 0, 0),
+                mass: 0
+            },
+            {
+                base: this.resources.items.dynamicSphereBase.scene,
+                collision: this.resources.items.dynamicSphereCollision.scene,
+                offset: new THREE.Vector3(0, 0, 0),
+                mass: 2
+            },
+            {
+                base: this.resources.items.dynamicBoxBase.scene,
+                collision: this.resources.items.dynamicBoxCollision.scene,
+                offset: new THREE.Vector3(0, 0, 2),
+                mass: 2
+            },
+            {
+                base: this.resources.items.dynamicBoxBase.scene,
+                collision: this.resources.items.dynamicBoxCollision.scene,
+                offset: new THREE.Vector3(0, 0, 4),
+                mass: 2
+            },
+            // {
+            //     base: this.resources.items.dynamicComplexBase.scene,
+            //     collision: this.resources.items.dynamicComplexCollision.scene,
+            //     offset: new THREE.Vector3(0, 0, 4),
+            //     mass: 2
+            // },
+            // {
+            //     base: this.resources.items.dynamicComplexBase.scene,
+            //     collision: this.resources.items.dynamicComplexCollision.scene,
+            //     offset: new THREE.Vector3(0, 0, 7),
+            //     mass: 2
+            // },
+            // {
+            //     base: this.resources.items.dynamicComplexBase.scene,
+            //     collision: this.resources.items.dynamicComplexCollision.scene,
+            //     offset: new THREE.Vector3(3, 3, 3),
+            //     mass: 2
+            // }
+        ]
+
+        for(const _objectOptions of this.objects.options)
+        {
+            this.addObject(_objectOptions)
         }
     }
 
@@ -235,20 +368,17 @@ export default class
 
         // Go through each base child
         const baseChildren = [..._objectOptions.base.children]
-        for(let i = 0; i < baseChildren.length; i++)
+        for(const _child of baseChildren)
         {
-            // Find parser
-            let mesh = baseChildren[i]
-
             // Find parser and use default if not found
-            let parser = this.meshParser.items.find((_item) => mesh.name.match(_item.regex))
+            let parser = this.objects.parsers.items.find((_item) => _child.name.match(_item.regex))
             if(typeof parser === 'undefined')
             {
-                parser = this.meshParser.default
+                parser = this.objects.parsers.default
             }
 
-            // Apply parser
-            mesh = parser.apply(mesh, _objectOptions)
+            // Create mesh by applying parser
+            const mesh = parser.apply(_child, _objectOptions)
 
             // Add to container
             object.container.add(mesh)
@@ -274,6 +404,6 @@ export default class
         })
 
         // Save
-        this.objects.push(object)
+        this.objects.items.push(object)
     }
 }
