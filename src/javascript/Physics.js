@@ -12,7 +12,7 @@ export default class Physics
         if(this.debug)
         {
             this.debugFolder = this.debug.addFolder('physics')
-            this.debugFolder.open()
+            // this.debugFolder.open()
         }
 
         this.setWorld()
@@ -46,7 +46,7 @@ export default class Physics
     {
         this.models = {}
         this.models.container = new THREE.Object3D()
-        this.models.container.visible = true
+        this.models.container.visible = false
         this.models.materials = {}
         this.models.materials.static = new THREE.MeshBasicMaterial({ color: 0x0000ff, wireframe: true })
         this.models.materials.dynamic = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true })
@@ -171,9 +171,9 @@ export default class Physics
                 maxSuspensionTravel: this.car.options.wheelMaxSuspensionTravel,
                 customSlidingRotationalSpeed: this.car.options.wheelCustomSlidingRotationalSpeed,
                 useCustomSlidingRotationalSpeed: true,
-                directionLocal: new CANNON.Vec3(0, 0, -1), // Will be changed for each wheel
+                directionLocal: new CANNON.Vec3(0, 0, - 1),
                 axleLocal: new CANNON.Vec3(0, 1, 0),
-                chassisConnectionPointLocal: new CANNON.Vec3(1, 1, 0)
+                chassisConnectionPointLocal: new CANNON.Vec3(1, 1, 0) // Will be changed for each wheel
             }
 
             // Front left
@@ -270,6 +270,14 @@ export default class Physics
                 const transform = this.car.vehicle.wheelInfos[i].worldTransform
                 this.car.wheels.bodies[i].position.copy(transform.position)
                 this.car.wheels.bodies[i].quaternion.copy(transform.quaternion)
+
+                // Rotate the wheels on the right
+                if(i === 1 || i === 3)
+                {
+                    const rotationQuaternion = new CANNON.Quaternion(0, 0, 0, 1)
+                    rotationQuaternion.setFromAxisAngle(new CANNON.Vec3(0, 0, 1), Math.PI)
+                    this.car.wheels.bodies[i].quaternion = this.car.wheels.bodies[i].quaternion.mult(rotationQuaternion)
+                }
             }
         })
 
