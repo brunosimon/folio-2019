@@ -33,6 +33,7 @@ export default class Physics
         this.world.gravity.set(0, 0, - 9)
         this.world.broadphase = new CANNON.SAPBroadphase(this.world)
         this.world.defaultContactMaterial.friction = 0
+        this.world.defaultContactMaterial.restitution = 0.2
 
         // Debug
         if(this.debug)
@@ -144,6 +145,7 @@ export default class Physics
             this.car.chassis.body = new CANNON.Body({ mass: this.car.options.chassisMass })
             this.car.chassis.body.position.set(0, 0, 3)
             this.car.chassis.body.addShape(this.car.chassis.shape, this.car.options.chassisOffset)
+            this.car.chassis.body.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 0, 1), - Math.PI * 0.5)
 
             /**
              * Vehicle
@@ -203,7 +205,7 @@ export default class Physics
             for(const _wheelInfos of this.car.vehicle.wheelInfos)
             {
                 const shape = new CANNON.Cylinder(_wheelInfos.radius, _wheelInfos.radius, this.car.wheels.options.height, 20)
-                const body = new CANNON.Body({ mass: this.car.options.wheelMass })
+                const body = new CANNON.Body({ mass: this.car.options.wheelMass, material: this.materials.items.wheel })
                 const quaternion = new CANNON.Quaternion()
                 quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), Math.PI / 2)
 
@@ -413,6 +415,22 @@ export default class Physics
             }
         })
 
+        this.car.brake = () =>
+        {
+            this.car.vehicle.setBrake(100, 0)
+            this.car.vehicle.setBrake(100, 1)
+            this.car.vehicle.setBrake(100, 2)
+            this.car.vehicle.setBrake(100, 3)
+        }
+
+        this.car.unbrake = () =>
+        {
+            this.car.vehicle.setBrake(0, 0)
+            this.car.vehicle.setBrake(0, 1)
+            this.car.vehicle.setBrake(0, 2)
+            this.car.vehicle.setBrake(0, 3)
+        }
+
         // Debug
         if(this.debug)
         {
@@ -437,7 +455,7 @@ export default class Physics
             this.car.debugFolder.add(this.car.options, 'wheelMaxSuspensionForce').step(0.001).min(0).max(1000000).name('wheelMaxSuspensionForce').onFinishChange(this.car.recreate)
             this.car.debugFolder.add(this.car.options, 'wheelRollInfluence').step(0.001).min(0).max(1).name('wheelRollInfluence').onFinishChange(this.car.recreate)
             this.car.debugFolder.add(this.car.options, 'wheelMaxSuspensionTravel').step(0.001).min(0).max(5).name('wheelMaxSuspensionTravel').onFinishChange(this.car.recreate)
-            this.car.debugFolder.add(this.car.options, 'wheelCustomSlidingRotationalSpeed').step(0.001).min(0).max(5).name('wheelCustomSlidingRotationalSpeed').onFinishChange(this.car.recreate)
+            this.car.debugFolder.add(this.car.options, 'wheelCustomSlidingRotationalSpeed').step(0.001).min(0).max(45).name('wheelCustomSlidingRotationalSpeed').onFinishChange(this.car.recreate)
             this.car.debugFolder.add(this.car.options, 'wheelMass').step(0.001).min(0).max(1000).name('wheelMass').onFinishChange(this.car.recreate)
             this.car.debugFolder.add(this.car.options, 'controlsSteeringSpeed').step(0.001).min(0).max(0.1).name('controlsSteeringSpeed')
             this.car.debugFolder.add(this.car.options, 'controlsSteeringMax').step(0.001).min(0).max(Math.PI * 0.5).name('controlsSteeringMax')
@@ -446,6 +464,8 @@ export default class Physics
             this.car.debugFolder.add(this.car.options, 'controlsAcceleratingMax').step(0.001).min(0).max(1000).name('controlsAcceleratingMax')
             this.car.debugFolder.add(this.car.options, 'controlsAcceleratingQuad').name('controlsAcceleratingQuad')
             this.car.debugFolder.add(this.car, 'recreate')
+            this.car.debugFolder.add(this.car, 'brake')
+            this.car.debugFolder.add(this.car, 'unbrake')
         }
     }
 
@@ -486,19 +506,19 @@ export default class Physics
             // Define shape
             let shape = null
 
-            if(mesh.name.match(/^cube[0-9]{0,3}?|box[0-9]{0,3}?$/i))
+            if(mesh.name.match(/^cube_?[0-9]{0,3}?|box[0-9]{0,3}?$/i))
             {
                 shape = 'box'
             }
-            else if(mesh.name.match(/^cylinder[0-9]{0,3}?$/i))
+            else if(mesh.name.match(/^cylinder_?[0-9]{0,3}?$/i))
             {
                 shape = 'cylinder'
             }
-            else if(mesh.name.match(/^sphere[0-9]{0,3}?$/i))
+            else if(mesh.name.match(/^sphere_?[0-9]{0,3}?$/i))
             {
                 shape = 'sphere'
             }
-            else if(mesh.name.match(/^center[0-9]{0,3}?$/i))
+            else if(mesh.name.match(/^center_?[0-9]{0,3}?$/i))
             {
                 shape = 'center'
             }

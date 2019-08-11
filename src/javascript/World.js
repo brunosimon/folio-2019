@@ -22,10 +22,17 @@ export default class
         // Set up
         this.container = new THREE.Object3D()
 
+        this.setAxes()
         this.setMaterials()
         this.setPhysics()
         this.setObjects()
         this.setCar()
+    }
+
+    setAxes()
+    {
+        this.axis = new THREE.AxesHelper()
+        this.container.add(this.axis)
     }
 
     setMaterials()
@@ -196,11 +203,35 @@ export default class
         this.car.container = new THREE.Object3D()
         this.container.add(this.car.container)
 
+        this.car.movement = {}
+        this.car.movement.speed = new THREE.Vector3()
+        this.car.movement.acceleration = new THREE.Vector3()
+
         // Chassis
         this.car.chassis = {}
         this.car.chassis.offset = new THREE.Vector3(0, 0, - 0.48)
         this.car.chassis.object = this.getConvertedMesh(this.resources.items.carChassis.scene.children)
         this.car.container.add(this.car.chassis.object)
+
+        // Antena
+        this.car.antena = {}
+
+        this.car.antena.object = this.getConvertedMesh(this.resources.items.carAntena.scene.children)
+        this.car.chassis.object.add(this.car.antena.object)
+
+        this.car.antena.speed = new THREE.Vector2()
+        this.car.antena.absolutePosition = new THREE.Vector2()
+        this.car.antena.localPosition = new THREE.Vector2()
+
+        // this.car.antena.dummy = new THREE.Mesh(new THREE.SphereBufferGeometry(0.2), new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true }))
+        // this.car.antena.dummy.position.z = 3
+        // this.car.chassis.object.add(this.car.antena.dummy)
+
+        // Back lights
+        this.car.backLights = {}
+        this.car.backLights.offset = new THREE.Vector3(0, 0, - 0.48)
+        this.car.backLights.object = this.getConvertedMesh(this.resources.items.carBackLights.scene.children)
+        this.car.chassis.object.add(this.car.backLights.object)
 
         // Wheels
         this.car.wheels = {}
@@ -218,9 +249,12 @@ export default class
         // Time tick
         this.time.on('tick', () =>
         {
+            // Update chassis
+            const chassisOldPosition = this.car.chassis.object.position.clone()
             this.car.chassis.object.position.copy(this.physics.car.chassis.body.position).add(this.car.chassis.offset)
             this.car.chassis.object.quaternion.copy(this.physics.car.chassis.body.quaternion)
 
+            // Update wheels
             for(const _wheelKey in this.physics.car.wheels.bodies)
             {
                 const wheelBody = this.physics.car.wheels.bodies[_wheelKey]
@@ -229,6 +263,31 @@ export default class
                 wheelObject.position.copy(wheelBody.position)
                 wheelObject.quaternion.copy(wheelBody.quaternion)
             }
+
+            // Movement
+            const movementSpeed = new THREE.Vector3()
+            movementSpeed.copy(this.car.chassis.object.position).sub(chassisOldPosition)
+            this.car.movement.acceleration = movementSpeed.clone().sub(this.car.movement.speed)
+            this.car.movement.speed.copy(movementSpeed)
+
+            // Antena
+            this.car.antena.speed.x -= this.car.movement.acceleration.x * 10
+            this.car.antena.speed.y += this.car.movement.acceleration.y * 10
+
+            const position = this.car.antena.absolutePosition.clone()
+            const pullBack = position.negate().multiplyScalar(position.length() * 0.02)
+            this.car.antena.speed.add(pullBack)
+
+            this.car.antena.speed.x *= 0.98
+            this.car.antena.speed.y *= 0.98
+
+            this.car.antena.absolutePosition.add(this.car.antena.speed)
+
+            this.car.antena.localPosition.copy(this.car.antena.absolutePosition)
+            this.car.antena.localPosition.rotateAround(new THREE.Vector2(), this.car.chassis.object.rotation.z)
+
+            this.car.antena.object.rotation.y = this.car.antena.localPosition.x * 0.1
+            this.car.antena.object.rotation.x = this.car.antena.localPosition.y * 0.1
         })
     }
 
@@ -322,13 +381,13 @@ export default class
 
         // Object options
         this.objects.options = [
-            {
-                base: this.resources.items.staticDemoBase.scene,
-                collision: this.resources.items.staticDemoCollision.scene,
-                floorShadowTexture: this.resources.items.staticDemoFloorShadowTexture,
-                offset: new THREE.Vector3(0, 0, 0),
-                mass: 0
-            },
+            // {
+            //     base: this.resources.items.staticDemoBase.scene,
+            //     collision: this.resources.items.staticDemoCollision.scene,
+            //     floorShadowTexture: this.resources.items.staticDemoFloorShadowTexture,
+            //     offset: new THREE.Vector3(0, 0, 0),
+            //     mass: 0
+            // },
             // {
             //     base: this.resources.items.dynamicSphereBase.scene,
             //     collision: this.resources.items.dynamicSphereCollision.scene,
@@ -376,24 +435,46 @@ export default class
     getConvertedMesh(_children)
     {
         const container = new THREE.Object3D()
+        const center = new THREE.Vector3()
 
         // Go through each base child
         const baseChildren = [..._children]
 
         for(const _child of baseChildren)
         {
-            // Find parser and use default if not found
-            let parser = this.objects.parsers.items.find((_item) => _child.name.match(_item.regex))
-            if(typeof parser === 'undefined')
+            // Find center
+            if(_child.name.match(/^center_?[0-9]{0,3}?$/i))
             {
-                parser = this.objects.parsers.default
+                center.set(_child.position.x, _child.position.y, _child.position.z)
             }
 
-            // Create mesh by applying parser
-            const mesh = parser.apply(_child)
+            if(_child instanceof THREE.Mesh)
+            {
+                // Find parser and use default if not found
+                let parser = this.objects.parsers.items.find((_item) => _child.name.match(_item.regex))
+                if(typeof parser === 'undefined')
+                {
+                    parser = this.objects.parsers.default
+                }
 
-            // Add to container
-            container.add(mesh)
+                // Create mesh by applying parser
+                const mesh = parser.apply(_child)
+
+                // Add to container
+                container.add(mesh)
+            }
+        }
+
+
+        // Recenter
+        if(center.length() > 0)
+        {
+            for(const _child of container.children)
+            {
+                _child.position.sub(center)
+            }
+
+            container.position.add(center)
         }
 
         return container
