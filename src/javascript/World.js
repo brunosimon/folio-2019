@@ -16,7 +16,7 @@ export default class
         if(this.debug)
         {
             this.debugFolder = this.debug.addFolder('world')
-            // this.debugFolder.open()
+            this.debugFolder.open()
         }
 
         // Set up
@@ -216,6 +216,10 @@ export default class
         // Antena
         this.car.antena = {}
 
+        this.car.antena.speedStrength = 10
+        this.car.antena.damping = 0.035
+        this.car.antena.pullBackStrength = 0.02
+
         this.car.antena.object = this.getConvertedMesh(this.resources.items.carAntena.scene.children)
         this.car.chassis.object.add(this.car.antena.object)
 
@@ -229,7 +233,6 @@ export default class
 
         // Back lights
         this.car.backLights = {}
-        this.car.backLights.offset = new THREE.Vector3(0, 0, - 0.48)
         this.car.backLights.object = this.getConvertedMesh(this.resources.items.carBackLights.scene.children)
         this.car.chassis.object.add(this.car.backLights.object)
 
@@ -271,15 +274,15 @@ export default class
             this.car.movement.speed.copy(movementSpeed)
 
             // Antena
-            this.car.antena.speed.x -= this.car.movement.acceleration.x * 10
-            this.car.antena.speed.y += this.car.movement.acceleration.y * 10
+            this.car.antena.speed.x -= this.car.movement.acceleration.x * this.car.antena.speedStrength
+            this.car.antena.speed.y += this.car.movement.acceleration.y * this.car.antena.speedStrength
 
             const position = this.car.antena.absolutePosition.clone()
-            const pullBack = position.negate().multiplyScalar(position.length() * 0.02)
+            const pullBack = position.negate().multiplyScalar(position.length() * this.car.antena.pullBackStrength)
             this.car.antena.speed.add(pullBack)
 
-            this.car.antena.speed.x *= 0.98
-            this.car.antena.speed.y *= 0.98
+            this.car.antena.speed.x *= 1 - this.car.antena.damping
+            this.car.antena.speed.y *= 1 - this.car.antena.damping
 
             this.car.antena.absolutePosition.add(this.car.antena.speed)
 
@@ -289,6 +292,17 @@ export default class
             this.car.antena.object.rotation.y = this.car.antena.localPosition.x * 0.1
             this.car.antena.object.rotation.x = this.car.antena.localPosition.y * 0.1
         })
+
+        // Debug
+        if(this.debug)
+        {
+            const folder = this.debugFolder.addFolder('car')
+            folder.open()
+
+            folder.add(this.car.antena, 'speedStrength').step(0.001).min(0).max(50)
+            folder.add(this.car.antena, 'damping').step(0.0001).min(0).max(0.1)
+            folder.add(this.car.antena, 'pullBackStrength').step(0.0001).min(0).max(0.1)
+        }
     }
 
     setObjects()
