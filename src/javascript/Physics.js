@@ -129,6 +129,7 @@ export default class Physics
         this.car.options.controlsAcceleratingSpeed = 5
         this.car.options.controlsAcceleratingMax = 80
         this.car.options.controlsAcceleratingQuad = true
+        this.car.options.controlsBrakeStrength = 0.8
 
         /**
          * Create method
@@ -309,6 +310,7 @@ export default class Physics
         this.car.controls.actions.right = false
         this.car.controls.actions.down = false
         this.car.controls.actions.left = false
+        this.car.controls.actions.space = false
 
         this.car.controls.events = {}
         this.car.controls.events.down = (_event) =>
@@ -335,6 +337,10 @@ export default class Physics
                 case 'q':
                 case 'a':
                     this.car.controls.actions.left = true
+                    break
+
+                case ' ':
+                    this.car.controls.actions.space = true
                     break
             }
         }
@@ -363,6 +369,10 @@ export default class Physics
                 case 'q':
                 case 'a':
                     this.car.controls.actions.left = false
+                    break
+
+                case ' ':
+                    this.car.controls.actions.space = false
                     break
             }
         }
@@ -461,14 +471,30 @@ export default class Physics
                 this.car.vehicle.applyEngineForce(- this.car.controls.accelerating, this.car.wheels.indexes.backLeft)
                 this.car.vehicle.applyEngineForce(- this.car.controls.accelerating, this.car.wheels.indexes.backRight)
             }
+
+            // Brake
+            if(this.car.controls.actions.space)
+            {
+                this.car.vehicle.setBrake(this.car.options.controlsBrakeStrength, 0)
+                this.car.vehicle.setBrake(this.car.options.controlsBrakeStrength, 1)
+                this.car.vehicle.setBrake(this.car.options.controlsBrakeStrength, 2)
+                this.car.vehicle.setBrake(this.car.options.controlsBrakeStrength, 3)
+            }
+            else
+            {
+                this.car.vehicle.setBrake(0, 0)
+                this.car.vehicle.setBrake(0, 1)
+                this.car.vehicle.setBrake(0, 2)
+                this.car.vehicle.setBrake(0, 3)
+            }
         })
 
         this.car.brake = () =>
         {
-            this.car.vehicle.setBrake(100, 0)
-            this.car.vehicle.setBrake(100, 1)
-            this.car.vehicle.setBrake(100, 2)
-            this.car.vehicle.setBrake(100, 3)
+            this.car.vehicle.setBrake(1, 0)
+            this.car.vehicle.setBrake(1, 1)
+            this.car.vehicle.setBrake(1, 2)
+            this.car.vehicle.setBrake(1, 3)
         }
 
         this.car.unbrake = () =>
@@ -511,6 +537,7 @@ export default class Physics
             this.car.debugFolder.add(this.car.options, 'controlsAcceleratingSpeed').step(0.001).min(0).max(30).name('controlsAcceleratingSpeed')
             this.car.debugFolder.add(this.car.options, 'controlsAcceleratingMax').step(0.001).min(0).max(1000).name('controlsAcceleratingMax')
             this.car.debugFolder.add(this.car.options, 'controlsAcceleratingQuad').name('controlsAcceleratingQuad')
+            this.car.debugFolder.add(this.car.options, 'controlsBrakeStrength').step(0.001).min(0).max(5).name('controlsBrakeStrength')
             this.car.debugFolder.add(this.car, 'recreate')
             this.car.debugFolder.add(this.car, 'brake')
             this.car.debugFolder.add(this.car, 'unbrake')

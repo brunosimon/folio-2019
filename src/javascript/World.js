@@ -323,17 +323,25 @@ export default class
             this.car.antena.object.rotation.x = this.car.antena.localPosition.y * 0.1
 
             // Lights
-            // Forward
-            if(this.car.movement.localSpeed.x > 0)
+            if(this.physics.car.controls.actions.space)
             {
-                this.car.backLightsBrake.material.opacity = this.car.movement.localAcceleration.x < - 0.001 ? 1 : 0.5
+                this.car.backLightsBrake.material.opacity = 1
                 this.car.backLightsReverse.material.opacity = 0.5
             }
-            // Backward
             else
             {
-                this.car.backLightsBrake.material.opacity = this.car.movement.localAcceleration.x > 0.001 ? 1 : 0.5
-                this.car.backLightsReverse.material.opacity = this.car.movement.localAcceleration.x < - 0.001 ? 1 : 0.5
+                // Forward
+                if(this.car.movement.localSpeed.x > 0)
+                {
+                    this.car.backLightsBrake.material.opacity = this.car.movement.localAcceleration.x < - 0.001 ? 1 : 0.5
+                    this.car.backLightsReverse.material.opacity = 0.5
+                }
+                // Backward
+                else
+                {
+                    this.car.backLightsBrake.material.opacity = this.car.movement.localAcceleration.x > 0.001 ? 1 : 0.5
+                    this.car.backLightsReverse.material.opacity = this.car.movement.localAcceleration.x < - 0.001 ? 1 : 0.5
+                }
             }
         })
 
