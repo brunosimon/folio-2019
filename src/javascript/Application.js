@@ -11,6 +11,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
+import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js'
 import BlurPass from './Passes/Blur.js'
 
 export default class Application
@@ -110,6 +111,9 @@ export default class Application
         this.passes.unrealBloomPass.strength = 0.1
         this.passes.unrealBloomPass.radius = 2
 
+        this.passes.smaa = new SMAAPass(this.sizes.viewport.width * this.renderer.getPixelRatio(), this.sizes.viewport.height * this.renderer.getPixelRatio())
+        this.passes.smaa.enabled = this.renderer.getPixelRatio() <= 1
+
         // Debug
         if(this.debug)
         {
@@ -144,6 +148,7 @@ export default class Application
         this.passes.composer.addPass(this.passes.unrealBloomPass)
         this.passes.composer.addPass(this.passes.horizontalBlurPass)
         this.passes.composer.addPass(this.passes.verticalBlurPass)
+        this.passes.composer.addPass(this.passes.smaa)
 
         // Time tick
         this.time.on('tick', () =>
