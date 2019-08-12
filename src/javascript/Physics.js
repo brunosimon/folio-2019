@@ -304,26 +304,66 @@ export default class Physics
         this.car.controls.steering = 0
         this.car.controls.accelerating = 0
 
-        this.car.controls.keys = {}
-        this.car.controls.keys.ArrowUp = false
-        this.car.controls.keys.ArrowRight = false
-        this.car.controls.keys.ArrowDown = false
-        this.car.controls.keys.ArrowLeft = false
+        this.car.controls.actions = {}
+        this.car.controls.actions.up = false
+        this.car.controls.actions.right = false
+        this.car.controls.actions.down = false
+        this.car.controls.actions.left = false
 
         this.car.controls.events = {}
         this.car.controls.events.down = (_event) =>
         {
-            if(typeof this.car.controls.keys[_event.key] !== 'undefined')
+            switch(_event.key)
             {
-                this.car.controls.keys[_event.key] = true
+                case 'ArrowUp':
+                case 'z':
+                case 'w':
+                    this.car.controls.actions.up = true
+                    break
+
+                case 'ArrowRight':
+                case 'd':
+                    this.car.controls.actions.right = true
+                    break
+
+                case 'ArrowDown':
+                case 's':
+                    this.car.controls.actions.down = true
+                    break
+
+                case 'ArrowLeft':
+                case 'q':
+                case 'a':
+                    this.car.controls.actions.left = true
+                    break
             }
         }
 
         this.car.controls.events.up = (_event) =>
         {
-            if(typeof this.car.controls.keys[_event.key] !== 'undefined')
+            switch(_event.key)
             {
-                this.car.controls.keys[_event.key] = false
+                case 'ArrowUp':
+                case 'z':
+                case 'w':
+                    this.car.controls.actions.up = false
+                    break
+
+                case 'ArrowRight':
+                case 'd':
+                    this.car.controls.actions.right = false
+                    break
+
+                case 'ArrowDown':
+                case 's':
+                    this.car.controls.actions.down = false
+                    break
+
+                case 'ArrowLeft':
+                case 'q':
+                case 'a':
+                    this.car.controls.actions.left = false
+                    break
             }
         }
 
@@ -338,12 +378,12 @@ export default class Physics
             const steerStrength = this.time.delta * this.car.options.controlsSteeringSpeed
 
             // Steer right
-            if(this.car.controls.keys.ArrowRight)
+            if(this.car.controls.actions.right)
             {
                 this.car.controls.steering += steerStrength
             }
             // Steer left
-            else if(this.car.controls.keys.ArrowLeft)
+            else if(this.car.controls.actions.left)
             {
                 this.car.controls.steering -= steerStrength
             }
@@ -382,7 +422,7 @@ export default class Physics
             const accelerateStrength = this.time.delta * this.car.options.controlsAcceleratingSpeed
 
             // Accelerate up
-            if(this.car.controls.keys.ArrowUp)
+            if(this.car.controls.actions.up)
             {
                 if(this.car.controls.accelerating < 0)
                 {
@@ -392,7 +432,7 @@ export default class Physics
                 this.car.controls.accelerating += accelerateStrength
             }
             // Accelerate down
-            else if(this.car.controls.keys.ArrowDown)
+            else if(this.car.controls.actions.down)
             {
                 if(this.car.controls.accelerating > 0)
                 {
