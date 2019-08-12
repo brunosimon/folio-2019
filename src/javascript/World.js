@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import FloorMaterial from './Materials/Floor.js'
+import ShadowMaterial from './Materials/Shadow.js'
 import MatcapMaterial from './Materials/Matcap.js'
 import Physics from './Physics.js'
 
@@ -24,9 +25,28 @@ export default class
 
         // this.setAxes()
         this.setMaterials()
+        this.setShadows()
         this.setPhysics()
         this.setObjects()
         this.setCar()
+    }
+
+    setShadows()
+    {
+        this.shadows = {}
+
+        this.shadows.material = new ShadowMaterial()
+        this.shadows.material.uniforms.uColor.value = new THREE.Color(this.materials.items.floor.shadowColor)
+        this.shadows.material.uniforms.uAlpha.value = 0.5
+        this.shadows.material.uniforms.uRadius.value = 0.35
+
+        this.shadows.geometry = new THREE.PlaneBufferGeometry(1, 1, 1, 1)
+
+        this.shadows.mesh = new THREE.Mesh(this.shadows.geometry, this.shadows.material)
+        this.shadows.mesh.position.z = 0.02
+        // this.shadows.mesh.position.y = - 3
+        this.shadows.mesh.scale.set(2.4, 2.4, 2.4)
+        this.container.add(this.shadows.mesh)
     }
 
     setAxes()
