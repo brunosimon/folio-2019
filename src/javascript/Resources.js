@@ -24,7 +24,8 @@ import dynamicComplexCollisionSource from '../models/dynamicComplex/collision.gl
 
 import carChassisSource from '../models/car/chassis.glb'
 import carWheelSource from '../models/car/wheel.glb'
-import carBackLightsSource from '../models/car/backLights.glb'
+import carBackLightsBrakeSource from '../models/car/backLightsBrake.glb'
+import carBackLightsReverseSource from '../models/car/backLightsReverse.glb'
 import carAntenaSource from '../models/car/antena.glb'
 
 export default class Resources extends EventEmitter
@@ -58,7 +59,8 @@ export default class Resources extends EventEmitter
 
             { name: 'carChassis', source: carChassisSource },
             { name: 'carWheel', source: carWheelSource },
-            { name: 'carBackLights', source: carBackLightsSource },
+            { name: 'carBackLightsBrake', source: carBackLightsBrakeSource },
+            { name: 'carBackLightsReverse', source: carBackLightsReverseSource },
             { name: 'carAntena', source: carAntenaSource }
         ])
 

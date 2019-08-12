@@ -22,7 +22,7 @@ export default class
         // Set up
         this.container = new THREE.Object3D()
 
-        this.setAxes()
+        // this.setAxes()
         this.setMaterials()
         this.setPhysics()
         this.setObjects()
@@ -205,7 +205,9 @@ export default class
 
         this.car.movement = {}
         this.car.movement.speed = new THREE.Vector3()
+        this.car.movement.localSpeed = new THREE.Vector3()
         this.car.movement.acceleration = new THREE.Vector3()
+        this.car.movement.localAcceleration = new THREE.Vector3()
 
         // Chassis
         this.car.chassis = {}
@@ -231,10 +233,35 @@ export default class
         // this.car.antena.dummy.position.z = 3
         // this.car.chassis.object.add(this.car.antena.dummy)
 
-        // Back lights
-        this.car.backLights = {}
-        this.car.backLights.object = this.getConvertedMesh(this.resources.items.carBackLights.scene.children)
-        this.car.chassis.object.add(this.car.backLights.object)
+        // Back lights brake
+        this.car.backLightsBrake = {}
+
+        this.car.backLightsBrake.material = this.materials.pures.items.red.clone()
+        this.car.backLightsBrake.material.transparent = true
+        this.car.backLightsBrake.material.opacity = 0.5
+
+        this.car.backLightsBrake.object = this.getConvertedMesh(this.resources.items.carBackLightsBrake.scene.children)
+        for(const _child of this.car.backLightsBrake.object.children)
+        {
+            _child.material = this.car.backLightsBrake.material
+        }
+
+        this.car.chassis.object.add(this.car.backLightsBrake.object)
+
+        // Back lights brake
+        this.car.backLightsReverse = {}
+
+        this.car.backLightsReverse.material = this.materials.pures.items.yellow.clone()
+        this.car.backLightsReverse.material.transparent = true
+        this.car.backLightsReverse.material.opacity = 0.5
+
+        this.car.backLightsReverse.object = this.getConvertedMesh(this.resources.items.carBackLightsReverse.scene.children)
+        for(const _child of this.car.backLightsReverse.object.children)
+        {
+            _child.material = this.car.backLightsReverse.material
+        }
+
+        this.car.chassis.object.add(this.car.backLightsReverse.object)
 
         // Wheels
         this.car.wheels = {}
@@ -273,9 +300,12 @@ export default class
             this.car.movement.acceleration = movementSpeed.clone().sub(this.car.movement.speed)
             this.car.movement.speed.copy(movementSpeed)
 
+            this.car.movement.localSpeed = this.car.movement.speed.clone().applyAxisAngle(new THREE.Vector3(0, 0, 1), - this.car.chassis.object.rotation.z)
+            this.car.movement.localAcceleration = this.car.movement.acceleration.clone().applyAxisAngle(new THREE.Vector3(0, 0, 1), - this.car.chassis.object.rotation.z)
+
             // Antena
             this.car.antena.speed.x -= this.car.movement.acceleration.x * this.car.antena.speedStrength
-            this.car.antena.speed.y += this.car.movement.acceleration.y * this.car.antena.speedStrength
+            this.car.antena.speed.y -= this.car.movement.acceleration.y * this.car.antena.speedStrength
 
             const position = this.car.antena.absolutePosition.clone()
             const pullBack = position.negate().multiplyScalar(position.length() * this.car.antena.pullBackStrength)
@@ -287,10 +317,24 @@ export default class
             this.car.antena.absolutePosition.add(this.car.antena.speed)
 
             this.car.antena.localPosition.copy(this.car.antena.absolutePosition)
-            this.car.antena.localPosition.rotateAround(new THREE.Vector2(), this.car.chassis.object.rotation.z)
+            this.car.antena.localPosition.rotateAround(new THREE.Vector2(), - this.car.chassis.object.rotation.z)
 
             this.car.antena.object.rotation.y = this.car.antena.localPosition.x * 0.1
             this.car.antena.object.rotation.x = this.car.antena.localPosition.y * 0.1
+
+            // Lights
+            // Forward
+            if(this.car.movement.localSpeed.x > 0)
+            {
+                this.car.backLightsBrake.material.opacity = this.car.movement.localAcceleration.x < - 0.001 ? 1 : 0.5
+                this.car.backLightsReverse.material.opacity = 0.5
+            }
+            // Backward
+            else
+            {
+                this.car.backLightsBrake.material.opacity = this.car.movement.localAcceleration.x > 0.001 ? 1 : 0.5
+                this.car.backLightsReverse.material.opacity = this.car.movement.localSpeed.x < - 0.001 && this.car.movement.localAcceleration.x <= 0.001 ? 1 : 0.5
+            }
         })
 
         // Debug
@@ -317,7 +361,7 @@ export default class
             // Shade
             {
                 regex: /^shade([a-z]+)_?[0-9]{0,3}?/i,
-                apply: (_mesh) =>
+                apply: (_mesh, _options) =>
                 {
                     // Find material
                     const match = _mesh.name.match(/^shade([a-z]+)_?[0-9]{0,3}?/i)
@@ -331,7 +375,7 @@ export default class
                     }
 
                     // Create clone mesh with new material
-                    const mesh = _mesh.clone()
+                    const mesh = _options.cloneMesh ? _mesh.clone() : _mesh
                     mesh.material = material
 
                     return mesh
@@ -340,11 +384,11 @@ export default class
 
             // Shade
             {
-                regex: /^pure([a-z]+)_?[0-9]{0,3}?$/i,
-                apply: (_mesh) =>
+                regex: /^pure([a-z]+)_?[0-9]{0,3}?/i,
+                apply: (_mesh, _options) =>
                 {
                     // Find material
-                    const match = _mesh.name.match(/^pure([a-z]+)_?[0-9]{0,3}?$/i)
+                    const match = _mesh.name.match(/^pure([a-z]+)_?[0-9]{0,3}?/i)
                     const materialName = match[1].toLowerCase()
                     let material = this.materials.pures.items[materialName]
 
@@ -355,7 +399,7 @@ export default class
                     }
 
                     // Create clone mesh with new material
-                    const mesh = _mesh.clone()
+                    const mesh = _options.cloneMesh ? _mesh.clone() : _mesh
                     mesh.material = material
 
                     return mesh
@@ -364,7 +408,7 @@ export default class
 
             // Floor
             {
-                regex: /^floor_?[0-9]{0,3}?$/i,
+                regex: /^floor_?[0-9]{0,3}?/i,
                 apply: (_mesh, _options) =>
                 {
                     // Create floor manually because of missing UV
@@ -395,13 +439,13 @@ export default class
 
         // Object options
         this.objects.options = [
-            // {
-            //     base: this.resources.items.staticDemoBase.scene,
-            //     collision: this.resources.items.staticDemoCollision.scene,
-            //     floorShadowTexture: this.resources.items.staticDemoFloorShadowTexture,
-            //     offset: new THREE.Vector3(0, 0, 0),
-            //     mass: 0
-            // },
+            {
+                base: this.resources.items.staticDemoBase.scene,
+                collision: this.resources.items.staticDemoCollision.scene,
+                floorShadowTexture: this.resources.items.staticDemoFloorShadowTexture,
+                offset: new THREE.Vector3(0, 0, 0),
+                mass: 0
+            },
             // {
             //     base: this.resources.items.dynamicSphereBase.scene,
             //     collision: this.resources.items.dynamicSphereCollision.scene,
@@ -446,7 +490,7 @@ export default class
         }
     }
 
-    getConvertedMesh(_children)
+    getConvertedMesh(_children, _options = {})
     {
         const container = new THREE.Object3D()
         const center = new THREE.Vector3()
@@ -457,7 +501,7 @@ export default class
         for(const _child of baseChildren)
         {
             // Find center
-            if(_child.name.match(/^center_?[0-9]{0,3}?$/i))
+            if(_child.name.match(/^center_?[0-9]{0,3}?/i))
             {
                 center.set(_child.position.x, _child.position.y, _child.position.z)
             }
@@ -472,7 +516,7 @@ export default class
                 }
 
                 // Create mesh by applying parser
-                const mesh = parser.apply(_child)
+                const mesh = parser.apply(_child, _options)
 
                 // Add to container
                 container.add(mesh)
@@ -499,27 +543,27 @@ export default class
         const object = {}
 
         // Container
-        object.container = new THREE.Object3D()
+        object.container = this.getConvertedMesh(_objectOptions.base.children, _objectOptions)
         object.container.position.copy(_objectOptions.offset)
         this.container.add(object.container)
 
-        // Go through each base child
-        const baseChildren = [..._objectOptions.base.children]
-        for(const _child of baseChildren)
-        {
-            // Find parser and use default if not found
-            let parser = this.objects.parsers.items.find((_item) => _child.name.match(_item.regex))
-            if(typeof parser === 'undefined')
-            {
-                parser = this.objects.parsers.default
-            }
+        // // Go through each base child
+        // const baseChildren = [..._objectOptions.base.children]
+        // for(const _child of baseChildren)
+        // {
+        //     // Find parser and use default if not found
+        //     let parser = this.objects.parsers.items.find((_item) => _child.name.match(_item.regex))
+        //     if(typeof parser === 'undefined')
+        //     {
+        //         parser = this.objects.parsers.default
+        //     }
 
-            // Create mesh by applying parser
-            const mesh = parser.apply(_child, _objectOptions)
+        //     // Create mesh by applying parser
+        //     const mesh = parser.apply(_child, _objectOptions)
 
-            // Add to container
-            object.container.add(mesh)
-        }
+        //     // Add to container
+        //     object.container.add(mesh)
+        // }
 
         // Create physics object
         object.collision = this.physics.addObjectFromThree({
