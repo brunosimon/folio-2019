@@ -333,7 +333,7 @@ export default class
             else
             {
                 this.car.backLightsBrake.material.opacity = this.car.movement.localAcceleration.x > 0.001 ? 1 : 0.5
-                this.car.backLightsReverse.material.opacity = this.car.movement.localSpeed.x < - 0.001 && this.car.movement.localAcceleration.x <= 0.001 ? 1 : 0.5
+                this.car.backLightsReverse.material.opacity = this.car.movement.localAcceleration.x < - 0.001 ? 1 : 0.5
             }
         })
 
