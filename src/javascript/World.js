@@ -38,19 +38,107 @@ export default class
     setShadows()
     {
         this.shadows = {}
+        this.shadows.maxDistance = 3
 
+        this.shadows.container = new THREE.Object3D()
+        this.container.add(this.shadows.container)
+
+        // Sun
+        this.shadows.sun = {}
+        this.shadows.sun.position = new THREE.Vector3(3, 0, 3)
+        this.shadows.sun.vector = this.shadows.sun.position.clone().multiplyScalar(1 / this.shadows.sun.position.z).negate()
+        this.shadows.sun.dummy = new THREE.Mesh(new THREE.SphereBufferGeometry(0.5, 8, 8), new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true }))
+        this.shadows.sun.dummy.position.copy(this.shadows.sun.position)
+        this.shadows.sun.dummy.visible = false
+        this.shadows.container.add(this.shadows.sun.dummy)
+
+        // Material
         this.shadows.material = new ShadowMaterial()
         this.shadows.material.uniforms.uColor.value = new THREE.Color(this.materials.items.floor.shadowColor)
         this.shadows.material.uniforms.uAlpha.value = 0.5
         this.shadows.material.uniforms.uRadius.value = 0.35
 
+        // Geometry
         this.shadows.geometry = new THREE.PlaneBufferGeometry(1, 1, 1, 1)
 
-        this.shadows.mesh = new THREE.Mesh(this.shadows.geometry, this.shadows.material)
-        this.shadows.mesh.position.z = 0.02
-        // this.shadows.mesh.position.y = - 3
-        this.shadows.mesh.scale.set(2.4, 2.4, 2.4)
-        // this.container.add(this.shadows.mesh)
+        // Items
+        this.shadows.items = []
+
+        // Dummy
+        this.shadows.dummy = {}
+
+        this.shadows.dummy.mesh = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1, 1), new THREE.MeshNormalMaterial())
+        this.shadows.dummy.mesh.position.z = 1.5
+        this.shadows.dummy.mesh.position.y = - 3
+        this.shadows.container.add(this.shadows.dummy.mesh)
+        this.addShadow(this.shadows.dummy.mesh, { sizeX: 2, sizeY: 2, offsetY: 0.25 })
+
+        this.shadows.dummy.transformControls = new TransformControls(this.camera, this.renderer.domElement)
+        this.shadows.dummy.transformControls.size = 0.5
+        this.shadows.dummy.transformControls.attach(this.shadows.dummy.mesh)
+
+        document.addEventListener('keydown', (_event) =>
+        {
+            if(_event.key === 'r')
+            {
+                this.shadows.dummy.transformControls.setMode('rotate')
+            }
+            else if(_event.key === 'g')
+            {
+                this.shadows.dummy.transformControls.setMode('translate')
+            }
+        })
+
+        this.shadows.dummy.transformControls.addEventListener('dragging-changed', (_event) =>
+        {
+            this.orbitControls.enabled = !_event.value
+        })
+
+        this.shadows.container.add(this.shadows.dummy.transformControls)
+
+        // Time tick
+        this.time.on('tick', () =>
+        {
+            for(const _shadow of this.shadows.items)
+            {
+                // Position
+                const z = _shadow.reference.position.z + _shadow.offsetZ
+                const sunOffset = this.shadows.sun.vector.clone().multiplyScalar(z)
+
+                _shadow.mesh.position.x = _shadow.reference.position.x + sunOffset.x
+                _shadow.mesh.position.y = _shadow.reference.position.y + sunOffset.y
+
+                _shadow.mesh.rotation.z = _shadow.reference.rotation.z
+
+                // Alpha
+                let shadowFade = (this.shadows.maxDistance - z) / this.shadows.maxDistance
+                shadowFade = Math.min(Math.max(shadowFade, 0), 1)
+                shadowFade = Math.pow(shadowFade, 2)
+                this.shadows.material.uniforms.uAlpha.value = _shadow.alpha * shadowFade
+            }
+        })
+    }
+
+    addShadow(_reference, _options = {})
+    {
+        const shadow = {}
+
+        // Options
+        shadow.offsetZ = typeof _options.offsetZ === 'undefined' ? 0 : _options.offsetZ
+        shadow.alpha = typeof _options.alpha === 'undefined' ? 0.5 : _options.alpha
+
+        // Reference
+        shadow.reference = _reference
+
+        // Mesh
+        shadow.mesh = new THREE.Mesh(this.shadows.geometry, this.shadows.material)
+        shadow.mesh.position.z = 0.005
+        // shadow.mesh.position.y = - 3
+        shadow.mesh.scale.set(_options.sizeX, _options.sizeY, 2.4)
+
+        // Save
+        this.shadows.container.add(shadow.mesh)
+        this.shadows.items.push(shadow)
     }
 
     setAxes()
@@ -224,7 +312,7 @@ export default class
     {
         this.car = {}
 
-        this.car.mode = 'auto' // 'transformControls' | `auto`
+        this.car.mode = 'auto' // 'transformControls' | 'auto'
         this.car.container = new THREE.Object3D()
         this.container.add(this.car.container)
 
@@ -239,6 +327,8 @@ export default class
         this.car.chassis.offset = new THREE.Vector3(0, 0, - 0.48)
         this.car.chassis.object = this.getConvertedMesh(this.resources.items.carChassis.scene.children)
         this.car.container.add(this.car.chassis.object)
+
+        this.addShadow(this.car.chassis.object, { sizeX: 3, sizeY: 2, offsetZ: 0.2 })
 
         // Antena
         this.car.antena = {}
@@ -303,8 +393,10 @@ export default class
 
         // Controls
         this.car.transformControls = new TransformControls(this.camera, this.renderer.domElement)
-        this.car.transformControls.attach(this.car.chassis.object)
+        this.car.transformControls.size = 0.5
         this.car.transformControls.visible = this.car.mode === 'transformControls'
+        this.car.transformControls.enabled = this.car.mode === 'transformControls'
+        this.car.transformControls.attach(this.car.chassis.object)
 
         document.addEventListener('keydown', (_event) =>
         {
@@ -323,9 +415,8 @@ export default class
 
         this.car.transformControls.addEventListener('dragging-changed', (_event) =>
         {
-            this.orbitControls.enabled = ! _event.value
+            this.orbitControls.enabled = !_event.value
         })
-
 
         this.container.add(this.car.transformControls)
 
