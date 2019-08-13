@@ -3,6 +3,7 @@ import FloorMaterial from './Materials/Floor.js'
 import ShadowMaterial from './Materials/Shadow.js'
 import MatcapMaterial from './Materials/Matcap.js'
 import Physics from './Physics.js'
+import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js'
 
 export default class
 {
@@ -12,6 +13,9 @@ export default class
         this.debug = _options.debug
         this.resources = _options.resources
         this.time = _options.time
+        this.camera = _options.camera
+        this.renderer = _options.renderer
+        this.orbitControls = _options.orbitControls
 
         // Debug
         if(this.debug)
@@ -46,7 +50,7 @@ export default class
         this.shadows.mesh.position.z = 0.02
         // this.shadows.mesh.position.y = - 3
         this.shadows.mesh.scale.set(2.4, 2.4, 2.4)
-        this.container.add(this.shadows.mesh)
+        // this.container.add(this.shadows.mesh)
     }
 
     setAxes()
@@ -220,6 +224,7 @@ export default class
     {
         this.car = {}
 
+        this.car.mode = 'auto' // 'transformControls' | `auto`
         this.car.container = new THREE.Object3D()
         this.container.add(this.car.container)
 
@@ -296,22 +301,54 @@ export default class
             this.car.container.add(object)
         }
 
+        // Controls
+        this.car.transformControls = new TransformControls(this.camera, this.renderer.domElement)
+        this.car.transformControls.attach(this.car.chassis.object)
+        this.car.transformControls.visible = this.car.mode === 'transformControls'
+
+        document.addEventListener('keydown', (_event) =>
+        {
+            if(this.car.mode === 'transformControls')
+            {
+                if(_event.key === 'r')
+                {
+                    this.car.transformControls.setMode('rotate')
+                }
+                else if(_event.key === 'g')
+                {
+                    this.car.transformControls.setMode('translate')
+                }
+            }
+        })
+
+        this.car.transformControls.addEventListener('dragging-changed', (_event) =>
+        {
+            this.orbitControls.enabled = ! _event.value
+        })
+
+
+        this.container.add(this.car.transformControls)
+
         // Time tick
         this.time.on('tick', () =>
         {
-            // Update chassis
             const chassisOldPosition = this.car.chassis.object.position.clone()
-            this.car.chassis.object.position.copy(this.physics.car.chassis.body.position).add(this.car.chassis.offset)
-            this.car.chassis.object.quaternion.copy(this.physics.car.chassis.body.quaternion)
 
-            // Update wheels
-            for(const _wheelKey in this.physics.car.wheels.bodies)
+            if(this.car.mode === 'auto')
             {
-                const wheelBody = this.physics.car.wheels.bodies[_wheelKey]
-                const wheelObject = this.car.wheels.items[_wheelKey]
+                // Update chassis
+                this.car.chassis.object.position.copy(this.physics.car.chassis.body.position).add(this.car.chassis.offset)
+                this.car.chassis.object.quaternion.copy(this.physics.car.chassis.body.quaternion)
 
-                wheelObject.position.copy(wheelBody.position)
-                wheelObject.quaternion.copy(wheelBody.quaternion)
+                // Update wheels
+                for(const _wheelKey in this.physics.car.wheels.bodies)
+                {
+                    const wheelBody = this.physics.car.wheels.bodies[_wheelKey]
+                    const wheelObject = this.car.wheels.items[_wheelKey]
+
+                    wheelObject.position.copy(wheelBody.position)
+                    wheelObject.quaternion.copy(wheelBody.quaternion)
+                }
             }
 
             // Movement

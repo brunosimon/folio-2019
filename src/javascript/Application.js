@@ -188,7 +188,10 @@ export default class Application
         this.world = new World({
             debug: this.debug,
             resources: this.resources,
-            time: this.time
+            time: this.time,
+            camera: this.camera,
+            renderer: this.renderer,
+            orbitControls: this.orbitControls
         })
         this.scene.add(this.world.container)
     }
