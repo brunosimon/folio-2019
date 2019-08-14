@@ -39,6 +39,8 @@ export default class
     {
         this.shadows = {}
         this.shadows.maxDistance = 3
+        this.shadows.zFightingDistance = 0.001
+        this.shadows.color = '#d04500'
 
         this.shadows.container = new THREE.Object3D()
         this.container.add(this.shadows.container)
@@ -54,7 +56,8 @@ export default class
 
         // Material
         this.shadows.material = new ShadowMaterial()
-        this.shadows.material.uniforms.uColor.value = new THREE.Color(this.materials.items.floor.shadowColor)
+        this.shadows.material.depthWrite = false
+        this.shadows.material.uniforms.uColor.value = new THREE.Color(this.shadows.color)
         this.shadows.material.uniforms.uAlpha.value = 0.5
         this.shadows.material.uniforms.uRadius.value = 0.35
 
@@ -71,7 +74,7 @@ export default class
         this.shadows.dummy.mesh.position.z = 1.5
         this.shadows.dummy.mesh.position.y = - 3
         this.shadows.container.add(this.shadows.dummy.mesh)
-        this.addShadow(this.shadows.dummy.mesh, { sizeX: 2, sizeY: 2, offsetY: 0.25 })
+        this.addShadow(this.shadows.dummy.mesh, { sizeX: 2, sizeY: 2, offsetZ: - 0.35 })
 
         this.shadows.dummy.transformControls = new TransformControls(this.camera, this.renderer.domElement)
         this.shadows.dummy.transformControls.size = 0.5
@@ -102,7 +105,7 @@ export default class
             for(const _shadow of this.shadows.items)
             {
                 // Position
-                const z = _shadow.reference.position.z + _shadow.offsetZ
+                const z = Math.max(_shadow.reference.position.z + _shadow.offsetZ, 0)
                 const sunOffset = this.shadows.sun.vector.clone().multiplyScalar(z)
 
                 _shadow.mesh.position.x = _shadow.reference.position.x + sunOffset.x
@@ -111,28 +114,53 @@ export default class
                 _shadow.mesh.rotation.z = _shadow.reference.rotation.z
 
                 // Alpha
-                let shadowFade = (this.shadows.maxDistance - z) / this.shadows.maxDistance
-                shadowFade = Math.min(Math.max(shadowFade, 0), 1)
-                shadowFade = Math.pow(shadowFade, 2)
-                this.shadows.material.uniforms.uAlpha.value = _shadow.alpha * shadowFade
+                let alpha = (this.shadows.maxDistance - z) / this.shadows.maxDistance
+                alpha = Math.min(Math.max(alpha, 0), 1)
+                alpha = Math.pow(alpha, 2)
+
+                _shadow.alpha = _shadow.baseAlpha * alpha
+                _shadow.material.uniforms.uAlpha.value = _shadow.alpha
             }
         })
+
+        // Debug
+        if(this.debug)
+        {
+            const folder = this.debugFolder.addFolder('shadows')
+            folder.open()
+
+            folder.add(this.shadows, 'maxDistance').step(0.01).min(0).max(10)
+            folder.addColor(this.shadows, 'color').onChange(() =>
+            {
+                this.shadows.material.uniforms.uColor.value = new THREE.Color(this.shadows.color)
+
+                for(const _shadow of this.shadows.items)
+                {
+                    _shadow.material.uniforms.uColor.value = new THREE.Color(this.shadows.color)
+                }
+            })
+        }
     }
 
     addShadow(_reference, _options = {})
     {
         const shadow = {}
 
+        shadow.alpha = 0
+
         // Options
         shadow.offsetZ = typeof _options.offsetZ === 'undefined' ? 0 : _options.offsetZ
-        shadow.alpha = typeof _options.alpha === 'undefined' ? 0.5 : _options.alpha
+        shadow.baseAlpha = typeof _options.alpha === 'undefined' ? 0.5 : _options.alpha
 
         // Reference
         shadow.reference = _reference
 
+        // Material
+        shadow.material = this.shadows.material.clone()
+
         // Mesh
-        shadow.mesh = new THREE.Mesh(this.shadows.geometry, this.shadows.material)
-        shadow.mesh.position.z = 0.005
+        shadow.mesh = new THREE.Mesh(this.shadows.geometry, shadow.material)
+        shadow.mesh.position.z = this.shadows.zFightingDistance
         // shadow.mesh.position.y = - 3
         shadow.mesh.scale.set(_options.sizeX, _options.sizeY, 2.4)
 
@@ -702,24 +730,6 @@ export default class
         object.container = this.getConvertedMesh(_objectOptions.base.children, _objectOptions)
         object.container.position.copy(_objectOptions.offset)
         this.container.add(object.container)
-
-        // // Go through each base child
-        // const baseChildren = [..._objectOptions.base.children]
-        // for(const _child of baseChildren)
-        // {
-        //     // Find parser and use default if not found
-        //     let parser = this.objects.parsers.items.find((_item) => _child.name.match(_item.regex))
-        //     if(typeof parser === 'undefined')
-        //     {
-        //         parser = this.objects.parsers.default
-        //     }
-
-        //     // Create mesh by applying parser
-        //     const mesh = parser.apply(_child, _objectOptions)
-
-        //     // Add to container
-        //     object.container.add(mesh)
-        // }
 
         // Create physics object
         object.collision = this.physics.addObjectFromThree({

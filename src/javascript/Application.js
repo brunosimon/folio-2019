@@ -74,7 +74,7 @@ export default class Application
      */
     setCamera()
     {
-        this.camera = new THREE.PerspectiveCamera(40, this.sizes.viewport.width / this.sizes.viewport.height, 0.1, 100)
+        this.camera = new THREE.PerspectiveCamera(40, this.sizes.viewport.width / this.sizes.viewport.height, 2, 50)
         this.camera.up.z = 1
         this.camera.up.y = 0
         // this.camera.position.set(5 * 2, 7 * 2, 5 * 2)
