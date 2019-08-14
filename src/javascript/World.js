@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import FloorMaterial from './Materials/Floor.js'
+import FloorShadowMaterial from './Materials/FloorShadow.js'
 import ShadowMaterial from './Materials/Shadow.js'
 import MatcapMaterial from './Materials/Matcap.js'
 import Physics from './Physics.js'
@@ -29,6 +30,7 @@ export default class
 
         // this.setAxes()
         this.setMaterials()
+        this.setFloor()
         this.setShadows()
         this.setPhysics()
         this.setObjects()
@@ -276,22 +278,62 @@ export default class
         /**
          * Floor
          */
-        this.materials.items.floor = new FloorMaterial()
+        this.materials.items.floorShadow = new FloorShadowMaterial()
+        this.materials.items.floorShadow.shadowColor = '#d04500'
+        this.materials.items.floorShadow.uniforms.uShadowColor.value = new THREE.Color(this.materials.items.floorShadow.shadowColor)
 
-        this.materials.items.floor.shadowColor = '#d04500'
-
-        this.materials.items.floor.colors = {}
-        this.materials.items.floor.colors.topLeft = '#d98441'
-        this.materials.items.floor.colors.topRight = '#eba962'
-        this.materials.items.floor.colors.bottomRight = '#f3c17d'
-        this.materials.items.floor.colors.bottomLeft = '#eaa860'
-
-        this.materials.items.floor.updateUniforms = () =>
+        this.materials.items.floorShadow.updateMaterial = () =>
         {
-            const topLeft = new THREE.Color(this.materials.items.floor.colors.topLeft)
-            const topRight = new THREE.Color(this.materials.items.floor.colors.topRight)
-            const bottomRight = new THREE.Color(this.materials.items.floor.colors.bottomRight)
-            const bottomLeft = new THREE.Color(this.materials.items.floor.colors.bottomLeft)
+            this.materials.items.floorShadow.uniforms.uShadowColor.value = new THREE.Color(this.materials.items.floorShadow.shadowColor)
+
+            for(const _item of this.objects.items)
+            {
+                for(const _child of _item.container.children)
+                {
+                    if(_child.material instanceof THREE.ShaderMaterial)
+                    {
+                        if(_child.material.uniforms.uShadowColor)
+                        {
+                            _child.material.uniforms.uShadowColor.value = new THREE.Color(this.materials.items.floorShadow.shadowColor)
+                        }
+                    }
+                }
+            }
+        }
+
+        // Debug
+        if(this.debug)
+        {
+            const folder = this.materials.debugFolder.addFolder('floorShadow')
+            folder.open()
+
+            folder.addColor(this.materials.items.floorShadow, 'shadowColor').onChange(this.materials.items.floorShadow.updateMaterial)
+        }
+    }
+
+    setFloor()
+    {
+        this.floor = {}
+
+        // Geometry
+        this.floor.geometry = new THREE.PlaneBufferGeometry(2, 2, 10, 10)
+
+        // Colors
+        this.floor.colors = {}
+        this.floor.colors.topLeft = '#d98441'
+        this.floor.colors.topRight = '#eba962'
+        this.floor.colors.bottomRight = '#f3c17d'
+        this.floor.colors.bottomLeft = '#eaa860'
+
+        // Material
+        this.floor.material = new FloorMaterial()
+
+        this.floor.updateMaterial = () =>
+        {
+            const topLeft = new THREE.Color(this.floor.colors.topLeft)
+            const topRight = new THREE.Color(this.floor.colors.topRight)
+            const bottomRight = new THREE.Color(this.floor.colors.bottomRight)
+            const bottomLeft = new THREE.Color(this.floor.colors.bottomLeft)
 
             const data = new Uint8Array([
                 Math.round(bottomLeft.r * 255), Math.round(bottomLeft.g * 255), Math.round(bottomLeft.b * 255),
@@ -300,29 +342,29 @@ export default class
                 Math.round(topRight.r * 255), Math.round(topRight.g * 255), Math.round(topRight.b * 255)
             ])
 
-            this.materials.items.floor.backgroundTexture = new THREE.DataTexture(data, 2, 2, THREE.RGBFormat)
-            this.materials.items.floor.backgroundTexture.magFilter = THREE.LinearFilter
-            this.materials.items.floor.backgroundTexture.needsUpdate = true
+            this.floor.backgroundTexture = new THREE.DataTexture(data, 2, 2, THREE.RGBFormat)
+            this.floor.backgroundTexture.magFilter = THREE.LinearFilter
+            this.floor.backgroundTexture.needsUpdate = true
 
-            this.materials.items.floor.uniforms.tBackground.value = this.materials.items.floor.backgroundTexture
-
-            this.materials.items.floor.uniforms.tShadow.value = this.resources.items.floorShadowTexture
-            this.materials.items.floor.uniforms.uShadowColor.value = new THREE.Color(this.materials.items.floor.shadowColor)
+            this.floor.material.uniforms.tBackground.value = this.floor.backgroundTexture
         }
 
-        this.materials.items.floor.updateUniforms()
+        this.floor.updateMaterial()
+
+        // Mesh
+        this.floor.mesh = new THREE.Mesh(this.floor.geometry, this.floor.material)
+        this.container.add(this.floor.mesh)
 
         // Debug
         if(this.debug)
         {
-            const folder = this.materials.debugFolder.addFolder('floor')
+            const folder = this.debug.addFolder('floor')
             folder.open()
 
-            folder.addColor(this.materials.items.floor, 'shadowColor').onChange(this.materials.items.floor.updateUniforms)
-            folder.addColor(this.materials.items.floor.colors, 'topLeft').onChange(this.materials.items.floor.updateUniforms)
-            folder.addColor(this.materials.items.floor.colors, 'topRight').onChange(this.materials.items.floor.updateUniforms)
-            folder.addColor(this.materials.items.floor.colors, 'bottomRight').onChange(this.materials.items.floor.updateUniforms)
-            folder.addColor(this.materials.items.floor.colors, 'bottomLeft').onChange(this.materials.items.floor.updateUniforms)
+            folder.addColor(this.floor.colors, 'topLeft').onChange(this.floor.updateMaterial)
+            folder.addColor(this.floor.colors, 'topRight').onChange(this.floor.updateMaterial)
+            folder.addColor(this.floor.colors, 'bottomRight').onChange(this.floor.updateMaterial)
+            folder.addColor(this.floor.colors, 'bottomLeft').onChange(this.floor.updateMaterial)
         }
     }
 
@@ -597,11 +639,10 @@ export default class
                 {
                     // Create floor manually because of missing UV
                     const geometry = new THREE.PlaneBufferGeometry(_mesh.scale.x, _mesh.scale.z, 10, 10)
-                    const material = this.materials.items.floor.clone()
+                    const material = this.materials.items.floorShadow.clone()
 
-                    material.uniforms.tBackground.value = this.materials.items.floor.backgroundTexture
                     material.uniforms.tShadow.value = _options.floorShadowTexture
-                    material.uniforms.uShadowColor.value = new THREE.Color(this.materials.items.floor.shadowColor)
+                    material.uniforms.uShadowColor.value = new THREE.Color(this.materials.items.floorShadow.shadowColor)
 
                     const mesh = new THREE.Mesh(geometry, material)
 

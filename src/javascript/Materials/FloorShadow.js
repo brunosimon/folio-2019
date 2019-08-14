@@ -1,17 +1,18 @@
 import * as THREE from 'three'
 
-import shaderFragment from '../shaders/floor/fragment.glsl'
-import shaderVertex from '../shaders/floor/vertex.glsl'
+import shaderFragment from '../shaders/floorShadow/fragment.glsl'
+import shaderVertex from '../shaders/floorShadow/vertex.glsl'
 
 export default function()
 {
     const uniforms = {
-        tBackground: { value: null }
+        tShadow: { value: null },
+        uShadowColor: { value: null }
     }
 
     const material = new THREE.ShaderMaterial({
         wireframe: false,
-        transparent: false,
+        transparent: true,
         uniforms,
         vertexShader: shaderVertex,
         fragmentShader: shaderFragment

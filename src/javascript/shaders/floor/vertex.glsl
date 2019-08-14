@@ -1,10 +1,10 @@
 varying vec2 vUv;
-varying vec2 vScreenPosition;
 
 void main()
 {
     vUv = uv;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 
-    vScreenPosition = gl_Position.xy / gl_Position.w;
+    vec3 newPosition = position;
+    newPosition.z = 1.0;
+    gl_Position = vec4(newPosition, 1.0);
 }
