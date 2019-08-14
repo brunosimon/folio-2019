@@ -40,9 +40,12 @@ export default class
     setShadows()
     {
         this.shadows = {}
+        this.shadows.alpha = 0.5
         this.shadows.maxDistance = 3
+        this.shadows.distancePower = 2
         this.shadows.zFightingDistance = 0.001
         this.shadows.color = '#d04500'
+        this.shadows.wireframeVisible = false
 
         this.shadows.container = new THREE.Object3D()
         this.container.add(this.shadows.container)
@@ -50,11 +53,26 @@ export default class
         // Sun
         this.shadows.sun = {}
         this.shadows.sun.position = new THREE.Vector3(3, 0, 3)
-        this.shadows.sun.vector = this.shadows.sun.position.clone().multiplyScalar(1 / this.shadows.sun.position.z).negate()
-        this.shadows.sun.dummy = new THREE.Mesh(new THREE.SphereBufferGeometry(0.5, 8, 8), new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true }))
-        this.shadows.sun.dummy.position.copy(this.shadows.sun.position)
-        this.shadows.sun.dummy.visible = false
-        this.shadows.container.add(this.shadows.sun.dummy)
+        this.shadows.sun.vector = new THREE.Vector3()
+        this.shadows.sun.helper = new THREE.ArrowHelper(new THREE.Vector3(0, 0, 1), new THREE.Vector3(0, 0, 0), 1, 0xffffff, 0.1, 0.4)
+        this.shadows.sun.helper.visible = false
+        this.shadows.container.add(this.shadows.sun.helper)
+
+        this.shadows.sun.update = () =>
+        {
+            this.shadows.sun.vector.copy(this.shadows.sun.position).multiplyScalar(1 / this.shadows.sun.position.z).negate()
+            this.shadows.sun.helper.position.copy(this.shadows.sun.position)
+
+            const direction = this.shadows.sun.position.clone().negate().normalize()
+
+            this.shadows.sun.helper.setDirection(direction)
+            this.shadows.sun.helper.setLength(this.shadows.sun.helper.position.length())
+        }
+
+        this.shadows.sun.update()
+
+        // Wireframe material
+        this.shadows.wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true })
 
         // Material
         this.shadows.material = new ShadowMaterial()
@@ -118,10 +136,9 @@ export default class
                 // Alpha
                 let alpha = (this.shadows.maxDistance - z) / this.shadows.maxDistance
                 alpha = Math.min(Math.max(alpha, 0), 1)
-                alpha = Math.pow(alpha, 2)
+                alpha = Math.pow(alpha, this.shadows.distancePower)
 
-                _shadow.alpha = _shadow.baseAlpha * alpha
-                _shadow.material.uniforms.uAlpha.value = _shadow.alpha
+                _shadow.material.uniforms.uAlpha.value = this.shadows.alpha * _shadow.alpha * alpha
             }
         })
 
@@ -131,7 +148,21 @@ export default class
             const folder = this.debugFolder.addFolder('shadows')
             folder.open()
 
+            folder.add(this.shadows, 'alpha').step(0.01).min(0).max(1)
             folder.add(this.shadows, 'maxDistance').step(0.01).min(0).max(10)
+            folder.add(this.shadows, 'distancePower').step(0.01).min(1).max(5)
+            folder.add(this.shadows.sun.position, 'x').step(0.01).min(- 10).max(10).name('sunX').onChange(this.shadows.sun.update)
+            folder.add(this.shadows.sun.position, 'y').step(0.01).min(- 10).max(10).name('sunY').onChange(this.shadows.sun.update)
+            folder.add(this.shadows.sun.position, 'z').step(0.01).min(0).max(10).name('sunZ').onChange(this.shadows.sun.update)
+            folder.add(this.shadows.sun.helper, 'visible').name('sunHelperVisible')
+            folder.add(this.shadows, 'wireframeVisible').name('wireframeVisible').onChange(() =>
+            {
+                for(const _shadow of this.shadows.items)
+                {
+                    _shadow.mesh.material = this.shadows.wireframeVisible ? this.shadows.wireframeMaterial : _shadow.material
+                }
+            })
+
             folder.addColor(this.shadows, 'color').onChange(() =>
             {
                 this.shadows.material.uniforms.uColor.value = new THREE.Color(this.shadows.color)
@@ -148,11 +179,9 @@ export default class
     {
         const shadow = {}
 
-        shadow.alpha = 0
-
         // Options
         shadow.offsetZ = typeof _options.offsetZ === 'undefined' ? 0 : _options.offsetZ
-        shadow.baseAlpha = typeof _options.alpha === 'undefined' ? 0.5 : _options.alpha
+        shadow.alpha = typeof _options.alpha === 'undefined' ? 1 : _options.alpha
 
         // Reference
         shadow.reference = _reference
@@ -161,9 +190,8 @@ export default class
         shadow.material = this.shadows.material.clone()
 
         // Mesh
-        shadow.mesh = new THREE.Mesh(this.shadows.geometry, shadow.material)
+        shadow.mesh = new THREE.Mesh(this.shadows.geometry, this.shadows.wireframeVisible ? this.shadows.wireframeMaterial : shadow.material)
         shadow.mesh.position.z = this.shadows.zFightingDistance
-        // shadow.mesh.position.y = - 3
         shadow.mesh.scale.set(_options.sizeX, _options.sizeY, 2.4)
 
         // Save
