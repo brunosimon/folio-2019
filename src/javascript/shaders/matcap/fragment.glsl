@@ -40,6 +40,11 @@ varying vec3 vWorldPosition;
 
 void main() {
 
+    if(vWorldPosition.z < 0.0)
+    {
+        discard;
+    }
+
     #include <clipping_planes_fragment>
 
     vec4 diffuseColor = vec4( diffuse, opacity );

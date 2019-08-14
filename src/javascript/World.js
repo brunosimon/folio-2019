@@ -61,7 +61,7 @@ export default class
         this.shadows.material.depthWrite = false
         this.shadows.material.uniforms.uColor.value = new THREE.Color(this.shadows.color)
         this.shadows.material.uniforms.uAlpha.value = 0.5
-        this.shadows.material.uniforms.uRadius.value = 0.35
+        this.shadows.material.uniforms.uFadeRadius.value = 0.35
 
         // Geometry
         this.shadows.geometry = new THREE.PlaneBufferGeometry(1, 1, 1, 1)
@@ -279,6 +279,7 @@ export default class
          * Floor
          */
         this.materials.items.floorShadow = new FloorShadowMaterial()
+        this.materials.items.floorShadow.depthWrite = false
         this.materials.items.floorShadow.shadowColor = '#d04500'
         this.materials.items.floorShadow.uniforms.uShadowColor.value = new THREE.Color(this.materials.items.floorShadow.shadowColor)
 

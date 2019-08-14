@@ -2,7 +2,7 @@
 
 uniform vec3 uColor;
 uniform float uAlpha;
-uniform float uRadius;
+uniform float uFadeRadius;
 
 varying vec2 vUv;
 
@@ -15,32 +15,32 @@ void main()
 {
     float strength = 0.0;
 
-    if(vUv.x < uRadius && vUv.y < uRadius)
+    if(vUv.x < uFadeRadius && vUv.y < uFadeRadius)
     {
-        strength = clamp(1.0 - distance(vUv, vec2(uRadius)) / uRadius, 0.0, 1.0);
+        strength = clamp(1.0 - distance(vUv, vec2(uFadeRadius)) / uFadeRadius, 0.0, 1.0);
     }
 
-    else if(vUv.x > 1.0 - uRadius && vUv.y < uRadius)
+    else if(vUv.x > 1.0 - uFadeRadius && vUv.y < uFadeRadius)
     {
-        strength = clamp(1.0 - distance(vUv, vec2(1.0 - uRadius, uRadius)) / uRadius, 0.0, 1.0);
+        strength = clamp(1.0 - distance(vUv, vec2(1.0 - uFadeRadius, uFadeRadius)) / uFadeRadius, 0.0, 1.0);
     }
 
-    else if(vUv.x > 1.0 - uRadius && vUv.y > 1.0 - uRadius)
+    else if(vUv.x > 1.0 - uFadeRadius && vUv.y > 1.0 - uFadeRadius)
     {
-        strength = clamp(1.0 - distance(vUv, vec2(1.0 - uRadius, 1.0 - uRadius)) / uRadius, 0.0, 1.0);
+        strength = clamp(1.0 - distance(vUv, vec2(1.0 - uFadeRadius, 1.0 - uFadeRadius)) / uFadeRadius, 0.0, 1.0);
     }
 
-    else if(vUv.x < uRadius && vUv.y > 1.0 - uRadius)
+    else if(vUv.x < uFadeRadius && vUv.y > 1.0 - uFadeRadius)
     {
-        strength = clamp(1.0 - distance(vUv, vec2(uRadius, 1.0 - uRadius)) / uRadius, 0.0, 1.0);
+        strength = clamp(1.0 - distance(vUv, vec2(uFadeRadius, 1.0 - uFadeRadius)) / uFadeRadius, 0.0, 1.0);
     }
 
     else
     {
-        float xNeg = clamp(vUv.x / uRadius, 0.0, 1.0);
-        float xPos = clamp((1.0 - vUv.x) / uRadius, 0.0, 1.0);
-        float yNeg = clamp(vUv.y / uRadius, 0.0, 1.0);
-        float yPos = clamp((1.0 - vUv.y) / uRadius, 0.0, 1.0);
+        float xNeg = clamp(vUv.x / uFadeRadius, 0.0, 1.0);
+        float xPos = clamp((1.0 - vUv.x) / uFadeRadius, 0.0, 1.0);
+        float yNeg = clamp(vUv.y / uFadeRadius, 0.0, 1.0);
+        float yPos = clamp((1.0 - vUv.y) / uFadeRadius, 0.0, 1.0);
 
         strength = xNeg * xPos * yNeg * yPos;
     }

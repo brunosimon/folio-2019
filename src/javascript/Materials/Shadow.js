@@ -8,7 +8,7 @@ export default function()
     const uniforms = {
         uColor: { value: null },
         uAlpha: { value: null },
-        uRadius: { value: null }
+        uFadeRadius: { value: null }
     }
 
     const material = new THREE.ShaderMaterial({
