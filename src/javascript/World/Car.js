@@ -17,16 +17,15 @@ export default class Car
         this.orbitControls = _options.orbitControls
         this.debug = _options.debug
 
+        // Set up
+        this.container = new THREE.Object3D()
+
         // Debug
         if(this.debug)
         {
             this.debugFolder = this.debug.addFolder('car')
             this.debugFolder.open()
         }
-
-        // Set up
-        this.container = new THREE.Object3D()
-        this.mode = 'physics' // 'transformControls' | 'physics'
 
         this.setMovement()
         this.setChassis()
@@ -76,7 +75,7 @@ export default class Car
             this.chassis.oldPosition = this.chassis.object.position.clone()
 
             // Update if mode physics
-            if(this.mode === 'physics')
+            if(!this.transformControls.enabled)
             {
                 this.chassis.object.position.copy(this.physics.car.chassis.body.position).add(this.chassis.offset)
                 this.chassis.object.quaternion.copy(this.physics.car.chassis.body.quaternion)
@@ -210,7 +209,7 @@ export default class Car
         // Time tick
         this.time.on('tick', () =>
         {
-            if(this.mode === 'physics')
+            if(!this.transformControls.enabled)
             {
                 for(const _wheelKey in this.physics.car.wheels.bodies)
                 {
@@ -228,9 +227,9 @@ export default class Car
     {
         this.transformControls = new TransformControls(this.camera, this.renderer.domElement)
         this.transformControls.size = 0.5
-        this.transformControls.visible = this.mode === 'transformControls'
-        this.transformControls.enabled = this.mode === 'transformControls'
         this.transformControls.attach(this.chassis.object)
+        this.transformControls.enabled = true
+        this.transformControls.visible = this.transformControls.enabled
 
         document.addEventListener('keydown', (_event) =>
         {
@@ -253,5 +252,16 @@ export default class Car
         })
 
         this.container.add(this.transformControls)
+
+        if(this.debug)
+        {
+            const folder = this.debugFolder.addFolder('controls')
+            folder.open()
+
+            folder.add(this.transformControls, 'enabled').onChange(() =>
+            {
+                this.transformControls.visible = this.transformControls.enabled
+            })
+        }
     }
 }

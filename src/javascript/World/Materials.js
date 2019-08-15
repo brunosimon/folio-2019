@@ -14,7 +14,7 @@ export default class Materials
         if(this.debug)
         {
             this.debugFolder = this.debug.addFolder('materials')
-            this.debugFolder.open()
+            // this.debugFolder.open()
         }
 
         // Set up

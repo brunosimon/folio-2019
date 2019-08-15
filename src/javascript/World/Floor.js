@@ -55,7 +55,7 @@ export default class Floor
         if(this.debug)
         {
             const folder = this.debug.addFolder('floor')
-            folder.open()
+            // folder.open()
 
             folder.addColor(this.colors, 'topLeft').onChange(this.updateMaterial)
             folder.addColor(this.colors, 'topRight').onChange(this.updateMaterial)

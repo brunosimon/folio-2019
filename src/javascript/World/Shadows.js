@@ -27,7 +27,7 @@ export default class Shadows
         if(this.debug)
         {
             this.debugFolder = this.debug.addFolder('shadows')
-            this.debugFolder.open()
+            // this.debugFolder.open()
 
             this.debugFolder.add(this, 'alpha').step(0.01).min(0).max(1)
             this.debugFolder.add(this, 'maxDistance').step(0.01).min(0).max(10)
