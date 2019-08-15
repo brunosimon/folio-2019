@@ -3,7 +3,7 @@ import * as dat from 'dat.gui'
 
 import Sizes from './Utils/Sizes.js'
 import Time from './Utils/Time.js'
-import World from './World.js'
+import World from './World/index.js'
 import Resources from './Resources.js'
 
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
