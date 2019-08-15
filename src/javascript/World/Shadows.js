@@ -23,25 +23,16 @@ export default class Shadows
         this.container = new THREE.Object3D()
         this.items = []
 
-        this.setSun()
-        this.setMaterials()
-        this.setGeometry()
-        this.setDummy()
-
         // Debug
         if(this.debug)
         {
-            const folder = this.debug.addFolder('shadows')
-            folder.open()
+            this.debugFolder = this.debug.addFolder('shadows')
+            this.debugFolder.open()
 
-            folder.add(this, 'alpha').step(0.01).min(0).max(1)
-            folder.add(this, 'maxDistance').step(0.01).min(0).max(10)
-            folder.add(this, 'distancePower').step(0.01).min(1).max(5)
-            folder.add(this.sun.position, 'x').step(0.01).min(- 10).max(10).name('sunX').onChange(this.sun.update)
-            folder.add(this.sun.position, 'y').step(0.01).min(- 10).max(10).name('sunY').onChange(this.sun.update)
-            folder.add(this.sun.position, 'z').step(0.01).min(0).max(10).name('sunZ').onChange(this.sun.update)
-            folder.add(this.sun.helper, 'visible').name('sunHelperVisible')
-            folder.add(this, 'wireframeVisible').name('wireframeVisible').onChange(() =>
+            this.debugFolder.add(this, 'alpha').step(0.01).min(0).max(1)
+            this.debugFolder.add(this, 'maxDistance').step(0.01).min(0).max(10)
+            this.debugFolder.add(this, 'distancePower').step(0.01).min(1).max(5)
+            this.debugFolder.add(this, 'wireframeVisible').name('wireframeVisible').onChange(() =>
             {
                 for(const _shadow of this.items)
                 {
@@ -49,7 +40,7 @@ export default class Shadows
                 }
             })
 
-            folder.addColor(this, 'color').onChange(() =>
+            this.debugFolder.addColor(this, 'color').onChange(() =>
             {
                 this.materials.base.uniforms.uColor.value = new THREE.Color(this.color)
 
@@ -59,6 +50,11 @@ export default class Shadows
                 }
             })
         }
+
+        this.setSun()
+        this.setMaterials()
+        this.setGeometry()
+        this.setHelper()
     }
 
     setSun()
@@ -82,6 +78,19 @@ export default class Shadows
         }
 
         this.sun.update()
+
+
+        // Debug
+        if(this.debug)
+        {
+            const folder = this.debugFolder.addFolder('sun')
+            folder.open()
+
+            folder.add(this.sun.position, 'x').step(0.01).min(- 10).max(10).name('sunX').onChange(this.sun.update)
+            folder.add(this.sun.position, 'y').step(0.01).min(- 10).max(10).name('sunY').onChange(this.sun.update)
+            folder.add(this.sun.position, 'z').step(0.01).min(0).max(10).name('sunZ').onChange(this.sun.update)
+            folder.add(this.sun.helper, 'visible').name('sunHelperVisible')
+        }
     }
 
     setMaterials()
@@ -103,38 +112,45 @@ export default class Shadows
         this.geometry = new THREE.PlaneBufferGeometry(1, 1, 1, 1)
     }
 
-    setDummy()
+    setHelper()
     {
-        this.dummy = {}
+        this.helper = {}
 
-        this.dummy.mesh = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1, 1), new THREE.MeshNormalMaterial())
-        this.dummy.mesh.position.z = 1.5
-        this.dummy.mesh.position.y = - 3
-        this.container.add(this.dummy.mesh)
-        this.add(this.dummy.mesh, { sizeX: 2, sizeY: 2, offsetZ: - 0.35 })
+        this.helper.active = false
 
-        this.dummy.transformControls = new TransformControls(this.camera, this.renderer.domElement)
-        this.dummy.transformControls.size = 0.5
-        this.dummy.transformControls.attach(this.dummy.mesh)
+        this.helper.mesh = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1, 1), new THREE.MeshNormalMaterial())
+        this.helper.mesh.position.z = 1.5
+        this.helper.mesh.position.y = - 3
+        this.helper.mesh.visible = this.helper.active
+        this.container.add(this.helper.mesh)
+
+        this.helper.transformControls = new TransformControls(this.camera, this.renderer.domElement)
+        this.helper.transformControls.size = 0.5
+        this.helper.transformControls.attach(this.helper.mesh)
+        this.helper.transformControls.visible = this.helper.active
+        this.helper.transformControls.enabled = this.helper.active
+
+        this.helper.shadow = this.add(this.helper.mesh, { sizeX: 2, sizeY: 2, offsetZ: - 0.35 })
+        this.helper.shadow.mesh.visible = this.helper.active
 
         document.addEventListener('keydown', (_event) =>
         {
             if(_event.key === 'r')
             {
-                this.dummy.transformControls.setMode('rotate')
+                this.helper.transformControls.setMode('rotate')
             }
             else if(_event.key === 'g')
             {
-                this.dummy.transformControls.setMode('translate')
+                this.helper.transformControls.setMode('translate')
             }
         })
 
-        this.dummy.transformControls.addEventListener('dragging-changed', (_event) =>
+        this.helper.transformControls.addEventListener('dragging-changed', (_event) =>
         {
             this.orbitControls.enabled = !_event.value
         })
 
-        this.container.add(this.dummy.transformControls)
+        this.container.add(this.helper.transformControls)
 
         // Time tick
         this.time.on('tick', () =>
@@ -158,6 +174,23 @@ export default class Shadows
                 _shadow.material.uniforms.uAlpha.value = this.alpha * _shadow.alpha * alpha
             }
         })
+
+        // Debug
+        if(this.debug)
+        {
+            const folder = this.debugFolder.addFolder('helper')
+            folder.open()
+
+            folder.add(this.helper, 'active').name('visible').onChange(() =>
+            {
+                this.helper.mesh.visible = this.helper.active
+
+                this.helper.transformControls.visible = this.helper.active
+                this.helper.transformControls.enabled = this.helper.active
+
+                this.helper.shadow.mesh.visible = this.helper.active
+            })
+        }
     }
 
     add(_reference, _options = {})
@@ -182,5 +215,7 @@ export default class Shadows
         // Save
         this.container.add(shadow.mesh)
         this.items.push(shadow)
+
+        return shadow
     }
 }
