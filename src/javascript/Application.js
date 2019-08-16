@@ -10,7 +10,6 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
 import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js'
 import BlurPass from './Passes/Blur.js'
 import GlowsPass from './Passes/Glows.js'
@@ -107,24 +106,8 @@ export default class Application
         // Create passes
         this.passes.renderPass = new RenderPass(this.scene, this.camera)
 
-        this.passes.unrealBloomPass = new UnrealBloomPass(new THREE.Vector2(this.sizes.viewport.width, this.sizes.viewport.height), 0.5, 0.4, 0.85)
-        this.passes.unrealBloomPass.threshold = 0
-        this.passes.unrealBloomPass.strength = 0.1
-        this.passes.unrealBloomPass.radius = 2
-
         this.passes.smaa = new SMAAPass(this.sizes.viewport.width * this.renderer.getPixelRatio(), this.sizes.viewport.height * this.renderer.getPixelRatio())
         this.passes.smaa.enabled = this.renderer.getPixelRatio() <= 1
-
-        // Debug
-        if(this.debug)
-        {
-            const folder = this.passes.debugFolder.addFolder('unreal bloom')
-            folder.open()
-
-            folder.add(this.passes.unrealBloomPass, 'threshold').step(0.001).min(0).max(1)
-            folder.add(this.passes.unrealBloomPass, 'strength').step(0.001).min(0).max(1)
-            folder.add(this.passes.unrealBloomPass, 'radius').step(0.001).min(0).max(10)
-        }
 
         this.passes.horizontalBlurPass = new ShaderPass(BlurPass)
         this.passes.horizontalBlurPass.material.uniforms.uResolution.value = new THREE.Vector2(this.sizes.viewport.width, this.sizes.viewport.height)
@@ -145,9 +128,9 @@ export default class Application
         }
 
         this.passes.glowsPass = new ShaderPass(GlowsPass)
-        this.passes.glowsPass.color = '#ffb6d0'
-        this.passes.glowsPass.material.uniforms.uPosition.value = new THREE.Vector2(1, 1)
-        this.passes.glowsPass.material.uniforms.uRadius.value = 1
+        this.passes.glowsPass.color = '#ffcfe0'
+        this.passes.glowsPass.material.uniforms.uPosition.value = new THREE.Vector2(1, 0.5)
+        this.passes.glowsPass.material.uniforms.uRadius.value = 0.7
         this.passes.glowsPass.material.uniforms.uColor.value = new THREE.Color(this.passes.glowsPass.color)
         this.passes.glowsPass.material.uniforms.uAlpha.value = 0.55
 
@@ -169,9 +152,8 @@ export default class Application
 
         // Add passes
         this.passes.composer.addPass(this.passes.renderPass)
-        // this.passes.composer.addPass(this.passes.unrealBloomPass)
-        // this.passes.composer.addPass(this.passes.horizontalBlurPass)
-        // this.passes.composer.addPass(this.passes.verticalBlurPass)
+        this.passes.composer.addPass(this.passes.horizontalBlurPass)
+        this.passes.composer.addPass(this.passes.verticalBlurPass)
         this.passes.composer.addPass(this.passes.glowsPass)
         this.passes.composer.addPass(this.passes.smaa)
 

@@ -13,6 +13,7 @@ void main()
     float glowStrength = distance(vUv, uPosition) / uRadius;
     glowStrength = 1.0 - glowStrength;
     glowStrength *= uAlpha;
+    glowStrength = clamp(glowStrength, 0.0, 1.0);
     vec3 color = mix(diffuseColor.rgb, uColor, glowStrength);
 
     gl_FragColor = vec4(color, 1.0);
