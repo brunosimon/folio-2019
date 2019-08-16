@@ -22,7 +22,7 @@ export default class
         if(this.debug)
         {
             this.debugFolder = this.debug.addFolder('world')
-            this.debugFolder.open()
+            // this.debugFolder.open()
         }
 
         // Set up

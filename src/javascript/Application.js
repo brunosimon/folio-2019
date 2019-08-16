@@ -13,6 +13,7 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
 import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js'
 import BlurPass from './Passes/Blur.js'
+import GlowsPass from './Passes/Glows.js'
 
 export default class Application
 {
@@ -98,7 +99,7 @@ export default class Application
         if(this.debug)
         {
             this.passes.debugFolder = this.debug.addFolder('postprocess')
-            // this.passes.debugFolder.open()
+            this.passes.debugFolder.open()
         }
 
         this.passes.composer = new EffectComposer(this.renderer)
@@ -143,11 +144,35 @@ export default class Application
             folder.add(this.passes.verticalBlurPass.material.uniforms.uStrength.value, 'y').step(0.001).min(0).max(10)
         }
 
+        this.passes.glowsPass = new ShaderPass(GlowsPass)
+        this.passes.glowsPass.color = '#ffb6d0'
+        this.passes.glowsPass.material.uniforms.uPosition.value = new THREE.Vector2(1, 1)
+        this.passes.glowsPass.material.uniforms.uRadius.value = 1
+        this.passes.glowsPass.material.uniforms.uColor.value = new THREE.Color(this.passes.glowsPass.color)
+        this.passes.glowsPass.material.uniforms.uAlpha.value = 0.55
+
+        // Debug
+        if(this.debug)
+        {
+            const folder = this.passes.debugFolder.addFolder('glows')
+            folder.open()
+
+            folder.add(this.passes.glowsPass.material.uniforms.uPosition.value, 'x').step(0.001).min(- 1).max(2).name('positionX')
+            folder.add(this.passes.glowsPass.material.uniforms.uPosition.value, 'y').step(0.001).min(- 1).max(2).name('positionY')
+            folder.add(this.passes.glowsPass.material.uniforms.uRadius, 'value').step(0.001).min(0).max(2).name('radius')
+            folder.addColor(this.passes.glowsPass, 'color').name('color').onChange(() =>
+            {
+                this.passes.glowsPass.material.uniforms.uColor.value = new THREE.Color(this.passes.glowsPass.color)
+            })
+            folder.add(this.passes.glowsPass.material.uniforms.uAlpha, 'value').step(0.001).min(0).max(1).name('alpha')
+        }
+
         // Add passes
         this.passes.composer.addPass(this.passes.renderPass)
-        this.passes.composer.addPass(this.passes.unrealBloomPass)
-        this.passes.composer.addPass(this.passes.horizontalBlurPass)
-        this.passes.composer.addPass(this.passes.verticalBlurPass)
+        // this.passes.composer.addPass(this.passes.unrealBloomPass)
+        // this.passes.composer.addPass(this.passes.horizontalBlurPass)
+        // this.passes.composer.addPass(this.passes.verticalBlurPass)
+        this.passes.composer.addPass(this.passes.glowsPass)
         this.passes.composer.addPass(this.passes.smaa)
 
         // Time tick

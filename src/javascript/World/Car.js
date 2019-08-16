@@ -228,7 +228,7 @@ export default class Car
         this.transformControls = new TransformControls(this.camera, this.renderer.domElement)
         this.transformControls.size = 0.5
         this.transformControls.attach(this.chassis.object)
-        this.transformControls.enabled = true
+        this.transformControls.enabled = false
         this.transformControls.visible = this.transformControls.enabled
 
         document.addEventListener('keydown', (_event) =>
