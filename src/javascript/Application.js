@@ -74,19 +74,39 @@ export default class Application
      */
     setCamera()
     {
-        this.camera = new THREE.PerspectiveCamera(40, this.sizes.viewport.width / this.sizes.viewport.height, 2, 50)
-        this.camera.up.z = 1
-        this.camera.up.y = 0
-        // this.camera.position.set(5 * 2, 7 * 2, 5 * 2)
-        this.camera.position.set(8, - 8, 12)
-        this.camera.lookAt(new THREE.Vector3())
-        this.scene.add(this.camera)
+        this.camera = {}
+        this.camera.basePosition = new THREE.Vector3(8, - 8, 12)
+        this.camera.position = new THREE.Vector3(0, 0, 0)
+        this.camera.target = new THREE.Vector3(0, 0, 0)
+
+        this.camera.instance = new THREE.PerspectiveCamera(40, this.sizes.viewport.width / this.sizes.viewport.height, 2, 50)
+        this.camera.instance.up.set(0, 0, 1)
+        this.camera.instance.position.copy(this.camera.basePosition)
+        this.camera.instance.lookAt(new THREE.Vector3())
+        this.scene.add(this.camera.instance)
 
         // Resize event
         this.sizes.on('resize', () =>
         {
-            this.camera.aspect = this.sizes.viewport.width / this.sizes.viewport.height
-            this.camera.updateProjectionMatrix()
+            this.camera.instance.aspect = this.sizes.viewport.width / this.sizes.viewport.height
+            this.camera.instance.updateProjectionMatrix()
+        })
+
+        // Time tick
+        this.time.on('tick', () =>
+        {
+            if(!this.orbitControls.enabled)
+            {
+                this.camera.target.copy(this.world.car.chassis.object.position)
+
+                this.camera.position.x += (this.camera.target.x - this.camera.position.x) * 0.1
+                this.camera.position.y += (this.camera.target.y - this.camera.position.y) * 0.1
+                this.camera.position.z += (this.camera.target.z - this.camera.position.z) * 0.1
+
+                this.camera.instance.position.copy(this.camera.position).add(this.camera.basePosition)
+
+                this.camera.instance.lookAt(this.camera.position)
+            }
         })
     }
 
@@ -98,13 +118,13 @@ export default class Application
         if(this.debug)
         {
             this.passes.debugFolder = this.debug.addFolder('postprocess')
-            this.passes.debugFolder.open()
+            // this.passes.debugFolder.open()
         }
 
         this.passes.composer = new EffectComposer(this.renderer)
 
         // Create passes
-        this.passes.renderPass = new RenderPass(this.scene, this.camera)
+        this.passes.renderPass = new RenderPass(this.scene, this.camera.instance)
 
         this.passes.smaa = new SMAAPass(this.sizes.viewport.width * this.renderer.getPixelRatio(), this.sizes.viewport.height * this.renderer.getPixelRatio())
         this.passes.smaa.enabled = this.renderer.getPixelRatio() <= 1
@@ -162,7 +182,7 @@ export default class Application
         {
             // Renderer
             this.passes.composer.render()
-            // this.renderer.render(this.scene, this.camera)
+            // this.renderer.render(this.scene, this.camera.instance)
         })
 
         // Resize event
@@ -182,9 +202,19 @@ export default class Application
      */
     setOrbitControls()
     {
-        this.orbitControls = new OrbitControls(this.camera, this.$canvas)
+        this.orbitControls = new OrbitControls(this.camera.instance, this.$canvas)
+        this.orbitControls.enabled = false
         this.orbitControls.enableKeys = false
         this.orbitControls.zoomSpeed = 0.5
+
+        // Debug
+        if(this.debug)
+        {
+            const folder = this.debug.addFolder('orbitControls')
+            folder.open()
+
+            folder.add(this.orbitControls, 'enabled').name('enabled')
+        }
     }
 
     /**
@@ -196,7 +226,7 @@ export default class Application
             debug: this.debug,
             resources: this.resources,
             time: this.time,
-            camera: this.camera,
+            camera: this.camera.instance,
             renderer: this.renderer,
             orbitControls: this.orbitControls
         })

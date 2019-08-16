@@ -82,6 +82,18 @@ export default class
         this.container.add(this.physics.models.container)
     }
 
+    setObjects()
+    {
+        this.objects = new Objects({
+            time: this.time,
+            resources: this.resources,
+            materials: this.materials,
+            physics: this.physics,
+            debug: this.debugFolder
+        })
+        this.container.add(this.objects.container)
+    }
+
     setCar()
     {
         this.car = new Car({
@@ -97,17 +109,5 @@ export default class
             debug: this.debugFolder
         })
         this.container.add(this.car.container)
-    }
-
-    setObjects()
-    {
-        this.objects = new Objects({
-            time: this.time,
-            resources: this.resources,
-            materials: this.materials,
-            physics: this.physics,
-            debug: this.debugFolder
-        })
-        this.container.add(this.objects.container)
     }
 }
