@@ -15,7 +15,7 @@ export default class Camera
         this.basePosition = new THREE.Vector3(8, - 8, 12)
         this.position = new THREE.Vector3(0, 0, 0)
         this.target = new THREE.Vector3(0, 0, 0)
-        this.easing = 0.0175
+        this.easing = 0.25
 
         // Debug
         if(this.debug)
@@ -54,9 +54,9 @@ export default class Camera
         {
             if(!this.orbitControls.enabled)
             {
-                this.position.x += (this.target.x - this.position.x) * this.time.delta * this.easing
-                this.position.y += (this.target.y - this.position.y) * this.time.delta * this.easing
-                this.position.z += (this.target.z - this.position.z) * this.time.delta * this.easing
+                this.position.x += (this.target.x - this.position.x) * this.easing
+                this.position.y += (this.target.y - this.position.y) * this.easing
+                this.position.z += (this.target.z - this.position.z) * this.easing
 
                 this.instance.position.copy(this.position).add(this.basePosition)
 
