@@ -54,7 +54,7 @@ export default class Physics
         // Debug
         if(this.debug)
         {
-            this.debugFolder.add(this.models.container, 'visible')
+            this.debugFolder.add(this.models.container, 'visible').name('modelsVisible')
         }
     }
 
@@ -106,7 +106,6 @@ export default class Physics
          * Options
          */
         this.car.options = {}
-        this.car.options.maxSpeed = 0.1
         this.car.options.chassisWidth = 1.02
         this.car.options.chassisHeight = 0.85
         this.car.options.chassisDepth = 2.03
@@ -130,8 +129,10 @@ export default class Physics
         this.car.options.controlsSteeringSpeed = 0.005
         this.car.options.controlsSteeringMax = Math.PI * 0.17
         this.car.options.controlsSteeringQuad = false
-        this.car.options.controlsAcceleratingSpeed = 5
-        this.car.options.controlsAcceleratingMax = 30
+        this.car.options.controlsAcceleratinMaxSpeed = 0.055
+        this.car.options.controlsAcceleratinMaxSpeedBoost = 0.11
+        this.car.options.controlsAcceleratingSpeed = 2
+        this.car.options.controlsAcceleratingSpeedBoost = 3.5
         this.car.options.controlsAcceleratingQuad = true
         this.car.options.controlsBrakeStrength = 0.45
 
@@ -271,6 +272,7 @@ export default class Physics
             let positionDelta = new CANNON.Vec3()
             positionDelta = positionDelta.copy(this.car.chassis.body.position)
             positionDelta = positionDelta.vsub(this.car.oldPosition)
+            // this.antena.localPosition.rotateAround(new THREE.Vector2(), - this.chassis.object.rotation.z)
 
             this.car.oldPosition.copy(this.car.chassis.body.position)
             this.car.speed = positionDelta.length()
@@ -322,7 +324,8 @@ export default class Physics
         this.car.controls.actions.right = false
         this.car.controls.actions.down = false
         this.car.controls.actions.left = false
-        this.car.controls.actions.space = false
+        this.car.controls.actions.brake = false
+        this.car.controls.actions.boost = false
 
         this.car.controls.events = {}
         this.car.controls.events.down = (_event) =>
@@ -352,7 +355,11 @@ export default class Physics
                     break
 
                 case ' ':
-                    this.car.controls.actions.space = true
+                    this.car.controls.actions.brake = true
+                    break
+
+                case 'Shift':
+                    this.car.controls.actions.boost = true
                     break
             }
         }
@@ -384,7 +391,11 @@ export default class Physics
                     break
 
                 case ' ':
-                    this.car.controls.actions.space = false
+                    this.car.controls.actions.brake = false
+                    break
+
+                case 'Shift':
+                    this.car.controls.actions.boost = false
                     break
             }
         }
@@ -441,29 +452,21 @@ export default class Physics
             /**
              * Accelerate
              */
-            const accelerateStrength = this.time.delta * this.car.options.controlsAcceleratingSpeed
+            const accelerationSpeed = this.car.controls.actions.boost ? this.car.options.controlsAcceleratingSpeedBoost : this.car.options.controlsAcceleratingSpeed
+            const accelerateStrength = this.time.delta * accelerationSpeed
+            const controlsAcceleratinMaxSpeed = this.car.controls.actions.boost ? this.car.options.controlsAcceleratinMaxSpeedBoost : this.car.options.controlsAcceleratinMaxSpeed
 
-            if(this.car.speed < this.car.options.maxSpeed)
+            if(this.car.speed < controlsAcceleratinMaxSpeed)
             {
                 // Accelerate up
                 if(this.car.controls.actions.up)
                 {
-                    if(this.car.controls.accelerating < 0)
-                    {
-                        this.car.controls.accelerating = 0
-                    }
-
-                    this.car.controls.accelerating += accelerateStrength
+                    this.car.controls.accelerating = accelerateStrength
                 }
                 // Accelerate down
                 else if(this.car.controls.actions.down)
                 {
-                    if(this.car.controls.accelerating > 0)
-                    {
-                        this.car.controls.accelerating = 0
-                    }
-
-                    this.car.controls.accelerating -= accelerateStrength
+                    this.car.controls.accelerating = - accelerateStrength
                 }
                 // Not accelerating
                 else
@@ -476,25 +479,19 @@ export default class Physics
                 this.car.controls.accelerating = 0
             }
 
-            // Clamp acceleration
-            if(Math.abs(this.car.controls.accelerating) > this.car.options.controlsAcceleratingMax)
-            {
-                this.car.controls.accelerating = Math.sign(this.car.controls.accelerating) * this.car.options.controlsAcceleratingMax
-            }
-
-            this.car.vehicle.applyEngineForce(- this.car.controls.accelerating, this.car.wheels.indexes.frontLeft)
-            this.car.vehicle.applyEngineForce(- this.car.controls.accelerating, this.car.wheels.indexes.frontRight)
+            this.car.vehicle.applyEngineForce(- this.car.controls.accelerating, this.car.wheels.indexes.backLeft)
+            this.car.vehicle.applyEngineForce(- this.car.controls.accelerating, this.car.wheels.indexes.backRight)
 
             if(this.car.options.controlsSteeringQuad)
             {
-                this.car.vehicle.applyEngineForce(- this.car.controls.accelerating, this.car.wheels.indexes.backLeft)
-                this.car.vehicle.applyEngineForce(- this.car.controls.accelerating, this.car.wheels.indexes.backRight)
+                this.car.vehicle.applyEngineForce(- this.car.controls.accelerating, this.car.wheels.indexes.frontLeft)
+                this.car.vehicle.applyEngineForce(- this.car.controls.accelerating, this.car.wheels.indexes.frontRight)
             }
 
             /**
              * Brake
              */
-            if(this.car.controls.actions.space)
+            if(this.car.controls.actions.brake)
             {
                 this.car.vehicle.setBrake(this.car.options.controlsBrakeStrength, 0)
                 this.car.vehicle.setBrake(this.car.options.controlsBrakeStrength, 1)
@@ -556,7 +553,7 @@ export default class Physics
             this.car.debugFolder.add(this.car.options, 'controlsSteeringMax').step(0.001).min(0).max(Math.PI * 0.5).name('controlsSteeringMax')
             this.car.debugFolder.add(this.car.options, 'controlsSteeringQuad').name('controlsSteeringQuad')
             this.car.debugFolder.add(this.car.options, 'controlsAcceleratingSpeed').step(0.001).min(0).max(30).name('controlsAcceleratingSpeed')
-            this.car.debugFolder.add(this.car.options, 'controlsAcceleratingMax').step(0.001).min(0).max(1000).name('controlsAcceleratingMax')
+            this.car.debugFolder.add(this.car.options, 'controlsAcceleratingSpeedBoost').step(0.001).min(0).max(30).name('controlsAcceleratingSpeedBoost')
             this.car.debugFolder.add(this.car.options, 'controlsAcceleratingQuad').name('controlsAcceleratingQuad')
             this.car.debugFolder.add(this.car.options, 'controlsBrakeStrength').step(0.001).min(0).max(5).name('controlsBrakeStrength')
             this.car.debugFolder.add(this.car, 'recreate')
