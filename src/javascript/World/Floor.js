@@ -49,6 +49,7 @@ export default class Floor
 
         // Mesh
         this.mesh = new THREE.Mesh(this.geometry, this.material)
+        this.mesh.frustumCulled = false
         this.container.add(this.mesh)
 
         // Debug
