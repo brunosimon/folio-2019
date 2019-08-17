@@ -6,13 +6,13 @@ import Time from './Utils/Time.js'
 import World from './World/index.js'
 import Resources from './Resources.js'
 
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js'
 import BlurPass from './Passes/Blur.js'
 import GlowsPass from './Passes/Glows.js'
+import Camera from './Camera.js'
 
 export default class Application
 {
@@ -35,7 +35,6 @@ export default class Application
             this.setRenderer()
             this.setCamera()
             this.setPasses()
-            this.setOrbitControls()
             this.setWorld()
         })
     }
@@ -74,39 +73,18 @@ export default class Application
      */
     setCamera()
     {
-        this.camera = {}
-        this.camera.basePosition = new THREE.Vector3(8, - 8, 12)
-        this.camera.position = new THREE.Vector3(0, 0, 0)
-        this.camera.target = new THREE.Vector3(0, 0, 0)
-
-        this.camera.instance = new THREE.PerspectiveCamera(40, this.sizes.viewport.width / this.sizes.viewport.height, 2, 50)
-        this.camera.instance.up.set(0, 0, 1)
-        this.camera.instance.position.copy(this.camera.basePosition)
-        this.camera.instance.lookAt(new THREE.Vector3())
-        this.scene.add(this.camera.instance)
-
-        // Resize event
-        this.sizes.on('resize', () =>
-        {
-            this.camera.instance.aspect = this.sizes.viewport.width / this.sizes.viewport.height
-            this.camera.instance.updateProjectionMatrix()
+        this.camera = new Camera({
+            time: this.time,
+            sizes: this.sizes,
+            renderer: this.renderer,
+            debug: this.debug
         })
 
-        // Time tick
+        this.scene.add(this.camera.instance)
+
         this.time.on('tick', () =>
         {
-            if(!this.orbitControls.enabled)
-            {
-                this.camera.target.copy(this.world.car.chassis.object.position)
-
-                this.camera.position.x += (this.camera.target.x - this.camera.position.x) * 0.1
-                this.camera.position.y += (this.camera.target.y - this.camera.position.y) * 0.1
-                this.camera.position.z += (this.camera.target.z - this.camera.position.z) * 0.1
-
-                this.camera.instance.position.copy(this.camera.position).add(this.camera.basePosition)
-
-                this.camera.instance.lookAt(this.camera.position)
-            }
+            this.camera.target.copy(this.world.car.chassis.object.position)
         })
     }
 
@@ -198,26 +176,6 @@ export default class Application
     }
 
     /**
-     * Set orbit controls
-     */
-    setOrbitControls()
-    {
-        this.orbitControls = new OrbitControls(this.camera.instance, this.$canvas)
-        this.orbitControls.enabled = false
-        this.orbitControls.enableKeys = false
-        this.orbitControls.zoomSpeed = 0.5
-
-        // Debug
-        if(this.debug)
-        {
-            const folder = this.debug.addFolder('orbitControls')
-            folder.open()
-
-            folder.add(this.orbitControls, 'enabled').name('enabled')
-        }
-    }
-
-    /**
      * Set world
      */
     setWorld()
@@ -226,9 +184,8 @@ export default class Application
             debug: this.debug,
             resources: this.resources,
             time: this.time,
-            camera: this.camera.instance,
-            renderer: this.renderer,
-            orbitControls: this.orbitControls
+            camera: this.camera,
+            renderer: this.renderer
         })
         this.scene.add(this.world.container)
     }
@@ -241,7 +198,7 @@ export default class Application
         this.time.off('tick')
         this.sizes.off('resize')
 
-        this.orbitControls.dispose()
+        this.camera.orbitControls.dispose()
         this.renderer.dispose()
         this.debug.destroy()
     }

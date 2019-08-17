@@ -16,7 +16,6 @@ export default class
         this.time = _options.time
         this.camera = _options.camera
         this.renderer = _options.renderer
-        this.orbitControls = _options.orbitControls
 
         // Debug
         if(this.debug)
@@ -66,8 +65,7 @@ export default class
             time: this.time,
             debug: this.debugFolder,
             renderer: this.renderer,
-            camera: this.camera,
-            orbitControls: this.orbitControls
+            camera: this.camera
         })
         this.container.add(this.shadows.container)
     }
@@ -105,7 +103,6 @@ export default class
             materials: this.materials,
             renderer: this.renderer,
             camera: this.camera,
-            orbitControls: this.orbitControls,
             debug: this.debugFolder
         })
         this.container.add(this.car.container)

@@ -14,7 +14,6 @@ export default class Car
         this.materials = _options.materials
         this.renderer = _options.renderer
         this.camera = _options.camera
-        this.orbitControls = _options.orbitControls
         this.debug = _options.debug
 
         // Set up
@@ -225,7 +224,7 @@ export default class Car
 
     setTransformControls()
     {
-        this.transformControls = new TransformControls(this.camera, this.renderer.domElement)
+        this.transformControls = new TransformControls(this.camera.instance, this.renderer.domElement)
         this.transformControls.size = 0.5
         this.transformControls.attach(this.chassis.object)
         this.transformControls.enabled = false
@@ -248,7 +247,7 @@ export default class Car
 
         this.transformControls.addEventListener('dragging-changed', (_event) =>
         {
-            this.orbitControls.enabled = !_event.value
+            this.camera.orbitControls.enabled = !_event.value
         })
 
         this.container.add(this.transformControls)

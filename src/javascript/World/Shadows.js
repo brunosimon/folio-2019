@@ -11,7 +11,6 @@ export default class Shadows
         this.debug = _options.debug
         this.renderer = _options.renderer
         this.camera = _options.camera
-        this.orbitControls = _options.orbitControls
 
         // Set up
         this.alpha = 0.5
@@ -124,7 +123,7 @@ export default class Shadows
         this.helper.mesh.visible = this.helper.active
         this.container.add(this.helper.mesh)
 
-        this.helper.transformControls = new TransformControls(this.camera, this.renderer.domElement)
+        this.helper.transformControls = new TransformControls(this.camera.instance, this.renderer.domElement)
         this.helper.transformControls.size = 0.5
         this.helper.transformControls.attach(this.helper.mesh)
         this.helper.transformControls.visible = this.helper.active
@@ -147,7 +146,7 @@ export default class Shadows
 
         this.helper.transformControls.addEventListener('dragging-changed', (_event) =>
         {
-            this.orbitControls.enabled = !_event.value
+            this.camera.orbitControls.enabled = !_event.value
         })
 
         this.container.add(this.helper.transformControls)
