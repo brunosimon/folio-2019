@@ -21,7 +21,7 @@ export default class Camera
         if(this.debug)
         {
             this.debugFolder = this.debug.addFolder('camera')
-            this.debugFolder.open()
+            // this.debugFolder.open()
         }
 
         this.setInstance()
@@ -30,7 +30,7 @@ export default class Camera
         // Debug
         if(this.debug)
         {
-            this.debugFolder.add(this, 'easing').step(0.0001).min(0).max(0.1).name('easing')
+            this.debugFolder.add(this, 'easing').step(0.0001).min(0).max(1).name('easing')
         }
     }
 

@@ -12,7 +12,7 @@ export default class Physics
         if(this.debug)
         {
             this.debugFolder = this.debug.addFolder('physics')
-            // this.debugFolder.open()
+            this.debugFolder.open()
         }
 
         this.setWorld()
@@ -30,8 +30,8 @@ export default class Physics
     setWorld()
     {
         this.world = new CANNON.World()
-        this.world.gravity.set(0, 0, - 9)
-        this.world.broadphase = new CANNON.SAPBroadphase(this.world)
+        this.world.gravity.set(0, 0, - 3.25)
+        // this.world.broadphase = new CANNON.SAPBroadphase(this.world)
         this.world.defaultContactMaterial.friction = 0
         this.world.defaultContactMaterial.restitution = 0.2
 
@@ -99,37 +99,41 @@ export default class Physics
     {
         this.car = {}
 
+        this.car.speed = 0
+        this.car.oldPosition = new CANNON.Vec3()
+
         /**
          * Options
          */
         this.car.options = {}
+        this.car.options.maxSpeed = 0.1
         this.car.options.chassisWidth = 1.02
         this.car.options.chassisHeight = 0.85
         this.car.options.chassisDepth = 2.03
-        this.car.options.chassisOffset = new CANNON.Vec3(0, 0, 0.38)
-        this.car.options.chassisMass = 80
+        this.car.options.chassisOffset = new CANNON.Vec3(0, 0, 0.58)
+        this.car.options.chassisMass = 20
         this.car.options.wheelFrontOffsetDepth = 0.635
         this.car.options.wheelBackOffsetDepth = - 0.475
         this.car.options.wheelOffsetWidth = 0.39
         this.car.options.wheelRadius = 0.25
         this.car.options.wheelHeight = 0.24
         this.car.options.wheelSuspensionStiffness = 25
-        this.car.options.wheelSuspensionRestLength = 0.3
+        this.car.options.wheelSuspensionRestLength = 0.1
         this.car.options.wheelFrictionSlip = 5
-        this.car.options.wheelDampingRelaxation = 2.3
-        this.car.options.wheelDampingCompression = 4.4
+        this.car.options.wheelDampingRelaxation = 1.8
+        this.car.options.wheelDampingCompression = 1.5
         this.car.options.wheelMaxSuspensionForce = 100000
         this.car.options.wheelRollInfluence =  0.01
         this.car.options.wheelMaxSuspensionTravel = 0.3
         this.car.options.wheelCustomSlidingRotationalSpeed = - 30
-        this.car.options.wheelMass = 20
+        this.car.options.wheelMass = 5
         this.car.options.controlsSteeringSpeed = 0.005
         this.car.options.controlsSteeringMax = Math.PI * 0.17
         this.car.options.controlsSteeringQuad = false
         this.car.options.controlsAcceleratingSpeed = 5
-        this.car.options.controlsAcceleratingMax = 80
+        this.car.options.controlsAcceleratingMax = 30
         this.car.options.controlsAcceleratingQuad = true
-        this.car.options.controlsBrakeStrength = 0.8
+        this.car.options.controlsBrakeStrength = 0.45
 
         /**
          * Create method
@@ -263,6 +267,14 @@ export default class Physics
 
         this.world.addEventListener('postStep', () =>
         {
+            // Update speed
+            let positionDelta = new CANNON.Vec3()
+            positionDelta = positionDelta.copy(this.car.chassis.body.position)
+            positionDelta = positionDelta.vsub(this.car.oldPosition)
+
+            this.car.oldPosition.copy(this.car.chassis.body.position)
+            this.car.speed = positionDelta.length()
+
             // Update wheel bodies
             for(let i = 0; i < this.car.vehicle.wheelInfos.length; i++)
             {
@@ -427,37 +439,44 @@ export default class Physics
             }
 
             /**
-             * Moving
+             * Accelerate
              */
             const accelerateStrength = this.time.delta * this.car.options.controlsAcceleratingSpeed
 
-            // Accelerate up
-            if(this.car.controls.actions.up)
+            if(this.car.speed < this.car.options.maxSpeed)
             {
-                if(this.car.controls.accelerating < 0)
+                // Accelerate up
+                if(this.car.controls.actions.up)
+                {
+                    if(this.car.controls.accelerating < 0)
+                    {
+                        this.car.controls.accelerating = 0
+                    }
+
+                    this.car.controls.accelerating += accelerateStrength
+                }
+                // Accelerate down
+                else if(this.car.controls.actions.down)
+                {
+                    if(this.car.controls.accelerating > 0)
+                    {
+                        this.car.controls.accelerating = 0
+                    }
+
+                    this.car.controls.accelerating -= accelerateStrength
+                }
+                // Not accelerating
+                else
                 {
                     this.car.controls.accelerating = 0
                 }
-
-                this.car.controls.accelerating += accelerateStrength
             }
-            // Accelerate down
-            else if(this.car.controls.actions.down)
-            {
-                if(this.car.controls.accelerating > 0)
-                {
-                    this.car.controls.accelerating = 0
-                }
-
-                this.car.controls.accelerating -= accelerateStrength
-            }
-            // Steer center
             else
             {
                 this.car.controls.accelerating = 0
             }
 
-            // Clamp steer
+            // Clamp acceleration
             if(Math.abs(this.car.controls.accelerating) > this.car.options.controlsAcceleratingMax)
             {
                 this.car.controls.accelerating = Math.sign(this.car.controls.accelerating) * this.car.options.controlsAcceleratingMax
@@ -472,7 +491,9 @@ export default class Physics
                 this.car.vehicle.applyEngineForce(- this.car.controls.accelerating, this.car.wheels.indexes.backRight)
             }
 
-            // Brake
+            /**
+             * Brake
+             */
             if(this.car.controls.actions.space)
             {
                 this.car.vehicle.setBrake(this.car.options.controlsBrakeStrength, 0)
