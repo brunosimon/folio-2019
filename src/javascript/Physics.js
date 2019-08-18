@@ -138,6 +138,18 @@ export default class Physics
         this.car.options.controlsBrakeStrength = 0.45
 
         /**
+         * Updsize down
+         */
+        this.car.upsideDown = {}
+        this.car.upsideDown.state = 'watching' // 'wathing' | 'pending' | 'turning'
+        this.car.upsideDown.pendingTimeout = null
+        this.car.upsideDown.turningTimeout = null
+
+        this.time.on('tick', () =>
+        {
+        })
+
+        /**
          * Create method
          */
         this.car.create = () =>
@@ -277,11 +289,45 @@ export default class Physics
             this.car.oldPosition.copy(this.car.chassis.body.position)
             this.car.speed = positionDelta.length()
 
+            // Update forward
             const localForward = new CANNON.Vec3(1, 0, 0)
             const worldForward = new CANNON.Vec3()
             this.car.chassis.body.vectorToWorldFrame(localForward, worldForward)
 
             this.car.goingForward = worldForward.dot(positionDelta) > 0
+
+            // Updise down
+            const localUp = new CANNON.Vec3(0, 0, 1)
+            const worldUp = new CANNON.Vec3()
+            this.car.chassis.body.vectorToWorldFrame(localUp, worldUp)
+
+            if(worldUp.dot(localUp) < 0.5)
+            {
+                if(this.car.upsideDown.state === 'watching')
+                {
+                    this.car.upsideDown.state = 'pending'
+                    this.car.upsideDown.pendingTimeout = window.setTimeout(() =>
+                    {
+                        this.car.upsideDown.state = 'turning'
+                        this.car.controls.jump()
+
+                        this.car.upsideDown.turningTimeout = window.setTimeout(() =>
+                        {
+                            this.car.upsideDown.state = 'watching'
+                        }, 1000)
+                    }, 1000)
+                }
+            }
+            else
+            {
+                if(this.car.upsideDown.state === 'pending')
+                {
+                    this.car.upsideDown.state = 'watching'
+                    window.clearTimeout(this.car.upsideDown.pendingTimeout)
+                }
+            }
+
+            // console.log(Math.round(worldUp.dot(localUp) * 1000) / 1000)
 
             // Update wheel bodies
             for(let i = 0; i < this.car.vehicle.wheelInfos.length; i++)
@@ -333,6 +379,13 @@ export default class Physics
         this.car.controls.actions.brake = false
         this.car.controls.actions.boost = false
 
+        this.car.controls.jump = () =>
+        {
+            let worldPosition = this.car.chassis.body.position
+            worldPosition = worldPosition.vadd(new CANNON.Vec3(0.08, 0, 0))
+            this.car.chassis.body.applyImpulse(new CANNON.Vec3(0, 0, 60), worldPosition)
+        }
+
         this.car.controls.events = {}
         this.car.controls.events.down = (_event) =>
         {
@@ -360,6 +413,7 @@ export default class Physics
                     this.car.controls.actions.left = true
                     break
 
+                case 'Control':
                 case ' ':
                     this.car.controls.actions.brake = true
                     break
@@ -367,6 +421,10 @@ export default class Physics
                 case 'Shift':
                     this.car.controls.actions.boost = true
                     break
+
+                // case ' ':
+                //     this.car.controls.jump()
+                //     break
             }
         }
 
@@ -396,6 +454,7 @@ export default class Physics
                     this.car.controls.actions.left = false
                     break
 
+                case 'Control':
                 case ' ':
                     this.car.controls.actions.brake = false
                     break
@@ -574,6 +633,7 @@ export default class Physics
             this.car.debugFolder.add(this.car.options, 'controlsAcceleratingQuad').name('controlsAcceleratingQuad')
             this.car.debugFolder.add(this.car.options, 'controlsBrakeStrength').step(0.001).min(0).max(5).name('controlsBrakeStrength')
             this.car.debugFolder.add(this.car, 'recreate')
+            this.car.debugFolder.add(this.car.controls, 'jump')
         }
     }
 

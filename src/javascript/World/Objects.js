@@ -45,7 +45,7 @@ export default class Objects
             {
                 base: this.resources.items.dynamicBoxBase.scene,
                 collision: this.resources.items.dynamicBoxCollision.scene,
-                offset: new THREE.Vector3(0, 0, 2),
+                offset: new THREE.Vector3(0, - 4, 2),
                 mass: 2
             },
             // {
