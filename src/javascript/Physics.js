@@ -101,6 +101,7 @@ export default class Physics
 
         this.car.speed = 0
         this.car.oldPosition = new CANNON.Vec3()
+        this.car.goingForward = true
 
         /**
          * Options
@@ -272,10 +273,15 @@ export default class Physics
             let positionDelta = new CANNON.Vec3()
             positionDelta = positionDelta.copy(this.car.chassis.body.position)
             positionDelta = positionDelta.vsub(this.car.oldPosition)
-            // this.antena.localPosition.rotateAround(new THREE.Vector2(), - this.chassis.object.rotation.z)
 
             this.car.oldPosition.copy(this.car.chassis.body.position)
             this.car.speed = positionDelta.length()
+
+            const localForward = new CANNON.Vec3(1, 0, 0)
+            const worldForward = new CANNON.Vec3()
+            this.car.chassis.body.vectorToWorldFrame(localForward, worldForward)
+
+            this.car.goingForward = worldForward.dot(positionDelta) > 0
 
             // Update wheel bodies
             for(let i = 0; i < this.car.vehicle.wheelInfos.length; i++)
@@ -456,19 +462,26 @@ export default class Physics
             const accelerateStrength = this.time.delta * accelerationSpeed
             const controlsAcceleratinMaxSpeed = this.car.controls.actions.boost ? this.car.options.controlsAcceleratinMaxSpeedBoost : this.car.options.controlsAcceleratinMaxSpeed
 
-            if(this.car.speed < controlsAcceleratinMaxSpeed)
+            // Accelerate up
+            if(this.car.controls.actions.up)
             {
-                // Accelerate up
-                if(this.car.controls.actions.up)
+                if(this.car.speed < controlsAcceleratinMaxSpeed || !this.car.goingForward)
                 {
                     this.car.controls.accelerating = accelerateStrength
                 }
-                // Accelerate down
-                else if(this.car.controls.actions.down)
+                else
+                {
+                    this.car.controls.accelerating = 0
+                }
+            }
+
+            // Accelerate Down
+            else if(this.car.controls.actions.down)
+            {
+                if(this.car.speed < controlsAcceleratinMaxSpeed || this.car.goingForward)
                 {
                     this.car.controls.accelerating = - accelerateStrength
                 }
-                // Not accelerating
                 else
                 {
                     this.car.controls.accelerating = 0
@@ -478,6 +491,29 @@ export default class Physics
             {
                 this.car.controls.accelerating = 0
             }
+
+            // if(this.car.speed < controlsAcceleratinMaxSpeed)
+            // {
+            //     // Accelerate up
+            //     if(this.car.controls.actions.up)
+            //     {
+            //         this.car.controls.accelerating = accelerateStrength
+            //     }
+            //     // Accelerate down
+            //     else if(this.car.controls.actions.down)
+            //     {
+            //         this.car.controls.accelerating = - accelerateStrength
+            //     }
+            //     // Not accelerating
+            //     else
+            //     {
+            //         this.car.controls.accelerating = 0
+            //     }
+            // }
+            // else
+            // {
+            //     this.car.controls.accelerating = 0
+            // }
 
             this.car.vehicle.applyEngineForce(- this.car.controls.accelerating, this.car.wheels.indexes.backLeft)
             this.car.vehicle.applyEngineForce(- this.car.controls.accelerating, this.car.wheels.indexes.backRight)
