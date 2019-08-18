@@ -12,7 +12,7 @@ export default class Physics
         if(this.debug)
         {
             this.debugFolder = this.debug.addFolder('physics')
-            this.debugFolder.open()
+            // this.debugFolder.open()
         }
 
         this.setWorld()

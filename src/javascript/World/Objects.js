@@ -30,13 +30,15 @@ export default class Objects
     {
         // Objects options list
         this.list = [
-            // {
-            //     base: this.resources.items.staticDemoBase.scene,
-            //     collision: this.resources.items.staticDemoCollision.scene,
-            //     floorShadowTexture: this.resources.items.staticDemoFloorShadowTexture,
-            //     offset: new THREE.Vector3(0, 0, 0),
-            //     mass: 0
-            // },
+
+            // Landing
+            {
+                base: this.resources.items.landingBase.scene,
+                collision: this.resources.items.landingCollision.scene,
+                floorShadowTexture: this.resources.items.landingFloorShadowTexture,
+                offset: new THREE.Vector3(0, 0, 0),
+                mass: 0
+            },
 
             // Arrow keys
             {
@@ -74,44 +76,7 @@ export default class Objects
                 duplicated: true,
                 shadow: { sizeX: 1, sizeY: 1, offsetZ: - 0.2, alpha: 0.5 },
                 mass: 1.5
-            },
-
-            // {
-            //     base: this.resources.items.dynamicSphereBase.scene,
-            //     collision: this.resources.items.dynamicSphereCollision.scene,
-            //     offset: new THREE.Vector3(0, 0, 0),
-            //     mass: 2
-            // },
-            // {
-            //     base: this.resources.items.dynamicBoxBase.scene,
-            //     collision: this.resources.items.dynamicBoxCollision.scene,
-            //     offset: new THREE.Vector3(0, - 4, 2),
-            //     mass: 2
-            // },
-            // {
-            //     base: this.resources.items.dynamicBoxBase.scene,
-            //     collision: this.resources.items.dynamicBoxCollision.scene,
-            //     offset: new THREE.Vector3(0, 0, 4),
-            //     mass: 2
-            // },
-            // {
-            //     base: this.resources.items.dynamicComplexBase.scene,
-            //     collision: this.resources.items.dynamicComplexCollision.scene,
-            //     offset: new THREE.Vector3(0, 0, 4),
-            //     mass: 2
-            // },
-            // {
-            //     base: this.resources.items.dynamicComplexBase.scene,
-            //     collision: this.resources.items.dynamicComplexCollision.scene,
-            //     offset: new THREE.Vector3(0, 0, 7),
-            //     mass: 2
-            // },
-            // {
-            //     base: this.resources.items.dynamicComplexBase.scene,
-            //     collision: this.resources.items.dynamicComplexCollision.scene,
-            //     offset: new THREE.Vector3(3, 3, 3),
-            //     mass: 2
-            // }
+            }
         ]
     }
 

@@ -8,22 +8,16 @@ import matcapBlackSource from '../models/matcaps/black.png'
 import matcapOrangeSource from '../models/matcaps/orange.png'
 import matcapRedSource from '../models/matcaps/red.png'
 import matcapWhiteSource from '../models/matcaps/white.png'
+import matcapGreenSource from '../models/matcaps/green.png'
+import matcapBrownSource from '../models/matcaps/brown.png'
+import matcapGraySource from '../models/matcaps/gray.png'
 
-import staticDemoFloorShadowSource from '../models/staticDemo/floor-shadow.png'
-import staticDemoBaseSource from '../models/staticDemo/base.glb'
-import staticDemoCollisionSource from '../models/staticDemo/collision.glb'
+import landingFloorShadowSource from '../models/landing/floor-shadow.png'
+import landingBaseSource from '../models/landing/base.glb'
+import landingCollisionSource from '../models/landing/collision.glb'
 
 import ArrowKeyBaseSource from '../models/arrowKey/base.glb'
 import ArrowKeyCollisionSource from '../models/arrowKey/collision.glb'
-
-import dynamicSphereBaseSource from '../models/dynamicSphere/base.glb'
-import dynamicSphereCollisionSource from '../models/dynamicSphere/collision.glb'
-
-import dynamicBoxBaseSource from '../models/dynamicBox/base.glb'
-import dynamicBoxCollisionSource from '../models/dynamicBox/collision.glb'
-
-import dynamicComplexBaseSource from '../models/dynamicComplex/base.glb'
-import dynamicComplexCollisionSource from '../models/dynamicComplex/collision.glb'
 
 import carChassisSource from '../models/car/chassis.glb'
 import carWheelSource from '../models/car/wheel.glb'
@@ -46,22 +40,16 @@ export default class Resources extends EventEmitter
             { name: 'matcapOrange', source: matcapOrangeSource },
             { name: 'matcapRed', source: matcapRedSource },
             { name: 'matcapWhite', source: matcapWhiteSource },
+            { name: 'matcapGreen', source: matcapGreenSource },
+            { name: 'matcapBrown', source: matcapBrownSource },
+            { name: 'matcapGray', source: matcapGraySource },
 
-            { name: 'staticDemoBase', source: staticDemoBaseSource },
-            { name: 'staticDemoCollision', source: staticDemoCollisionSource },
-            { name: 'staticDemoFloorShadow', source: staticDemoFloorShadowSource },
-
-            { name: 'dynamicSphereBase', source: dynamicSphereBaseSource },
-            { name: 'dynamicSphereCollision', source: dynamicSphereCollisionSource },
+            { name: 'landingBase', source: landingBaseSource },
+            { name: 'landingCollision', source: landingCollisionSource },
+            { name: 'landingFloorShadow', source: landingFloorShadowSource },
 
             { name: 'arrowKeyBase', source: ArrowKeyBaseSource },
             { name: 'arrowKeyCollision', source: ArrowKeyCollisionSource },
-
-            { name: 'dynamicBoxBase', source: dynamicBoxBaseSource },
-            { name: 'dynamicBoxCollision', source: dynamicBoxCollisionSource },
-
-            { name: 'dynamicComplexBase', source: dynamicComplexBaseSource },
-            { name: 'dynamicComplexCollision', source: dynamicComplexCollisionSource },
 
             { name: 'carChassis', source: carChassisSource },
             { name: 'carWheel', source: carWheelSource },
@@ -93,8 +81,17 @@ export default class Resources extends EventEmitter
             this.items.matcapWhiteTexture = new THREE.Texture(this.items.matcapWhite)
             this.items.matcapWhiteTexture.needsUpdate = true
 
-            this.items.staticDemoFloorShadowTexture = new THREE.Texture(this.items.staticDemoFloorShadow)
-            this.items.staticDemoFloorShadowTexture.needsUpdate = true
+            this.items.matcapGreenTexture = new THREE.Texture(this.items.matcapGreen)
+            this.items.matcapGreenTexture.needsUpdate = true
+
+            this.items.matcapBrownTexture = new THREE.Texture(this.items.matcapBrown)
+            this.items.matcapBrownTexture.needsUpdate = true
+
+            this.items.matcapGrayTexture = new THREE.Texture(this.items.matcapGray)
+            this.items.matcapGrayTexture.needsUpdate = true
+
+            this.items.landingFloorShadowTexture = new THREE.Texture(this.items.landingFloorShadow)
+            this.items.landingFloorShadowTexture.needsUpdate = true
 
             // Trigger ready
             this.trigger('ready')

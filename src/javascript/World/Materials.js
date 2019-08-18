@@ -43,8 +43,8 @@ export default class Materials
         this.shades.indirectColor = '#d04500'
 
         this.shades.uniforms = {
-            uIndirectDistanceAmplitude: 1,
-            uIndirectDistanceStrength: 0.7,
+            uIndirectDistanceAmplitude: 1.75,
+            uIndirectDistanceStrength: 0.5,
             uIndirectDistancePower: 2.0,
             uIndirectAngleStrength: 1.5,
             uIndirectAngleOffset: 0.6,
@@ -56,6 +56,21 @@ export default class Materials
         this.shades.items.white = new MatcapMaterial()
         this.shades.items.white.uniforms.matcap.value = this.resources.items.matcapWhiteTexture
         this.items.white = this.shades.items.white
+
+        // Green
+        this.shades.items.green = new MatcapMaterial()
+        this.shades.items.green.uniforms.matcap.value = this.resources.items.matcapGreenTexture
+        this.items.green = this.shades.items.green
+
+        // Brown
+        this.shades.items.brown = new MatcapMaterial()
+        this.shades.items.brown.uniforms.matcap.value = this.resources.items.matcapBrownTexture
+        this.items.brown = this.shades.items.brown
+
+        // Gray
+        this.shades.items.gray = new MatcapMaterial()
+        this.shades.items.gray.uniforms.matcap.value = this.resources.items.matcapGrayTexture
+        this.items.gray = this.shades.items.gray
 
         // Beige
         this.shades.items.beige = new MatcapMaterial()
@@ -99,7 +114,7 @@ export default class Materials
             const folder = this.debugFolder.addFolder('shades')
             folder.open()
 
-            folder.add(this.shades.uniforms, 'uIndirectDistanceAmplitude').step(0.001).min(0).max(0.5).onChange(this.shades.updateMaterials)
+            folder.add(this.shades.uniforms, 'uIndirectDistanceAmplitude').step(0.001).min(0).max(3).onChange(this.shades.updateMaterials)
             folder.add(this.shades.uniforms, 'uIndirectDistanceStrength').step(0.001).min(0).max(2).onChange(this.shades.updateMaterials)
             folder.add(this.shades.uniforms, 'uIndirectDistancePower').step(0.001).min(0).max(5).onChange(this.shades.updateMaterials)
             folder.add(this.shades.uniforms, 'uIndirectAngleStrength').step(0.001).min(0).max(2).onChange(this.shades.updateMaterials)
