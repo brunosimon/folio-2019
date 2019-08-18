@@ -108,9 +108,9 @@ export default class Physics
          */
         this.car.options = {}
         this.car.options.chassisWidth = 1.02
-        this.car.options.chassisHeight = 0.85
+        this.car.options.chassisHeight = 1.05
         this.car.options.chassisDepth = 2.03
-        this.car.options.chassisOffset = new CANNON.Vec3(0, 0, 0.58)
+        this.car.options.chassisOffset = new CANNON.Vec3(0, 0, 0.475)
         this.car.options.chassisMass = 20
         this.car.options.wheelFrontOffsetDepth = 0.635
         this.car.options.wheelBackOffsetDepth = - 0.475

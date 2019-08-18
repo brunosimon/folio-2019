@@ -87,6 +87,7 @@ export default class
             resources: this.resources,
             materials: this.materials,
             physics: this.physics,
+            shadows: this.shadows,
             debug: this.debugFolder
         })
         this.container.add(this.objects.container)

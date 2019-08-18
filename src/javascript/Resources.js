@@ -13,6 +13,9 @@ import staticDemoFloorShadowSource from '../models/staticDemo/floor-shadow.png'
 import staticDemoBaseSource from '../models/staticDemo/base.glb'
 import staticDemoCollisionSource from '../models/staticDemo/collision.glb'
 
+import ArrowKeyBaseSource from '../models/arrowKey/base.glb'
+import ArrowKeyCollisionSource from '../models/arrowKey/collision.glb'
+
 import dynamicSphereBaseSource from '../models/dynamicSphere/base.glb'
 import dynamicSphereCollisionSource from '../models/dynamicSphere/collision.glb'
 
@@ -50,6 +53,9 @@ export default class Resources extends EventEmitter
 
             { name: 'dynamicSphereBase', source: dynamicSphereBaseSource },
             { name: 'dynamicSphereCollision', source: dynamicSphereCollisionSource },
+
+            { name: 'arrowKeyBase', source: ArrowKeyBaseSource },
+            { name: 'arrowKeyCollision', source: ArrowKeyCollisionSource },
 
             { name: 'dynamicBoxBase', source: dynamicBoxBaseSource },
             { name: 'dynamicBoxCollision', source: dynamicBoxCollisionSource },

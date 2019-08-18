@@ -9,6 +9,7 @@ export default class Objects
         this.resources = _options.resources
         this.materials = _options.materials
         this.physics = _options.physics
+        this.shadows = _options.shadows
         this.debug = _options.debug
 
         // Set up
@@ -29,25 +30,60 @@ export default class Objects
     {
         // Objects options list
         this.list = [
+            // {
+            //     base: this.resources.items.staticDemoBase.scene,
+            //     collision: this.resources.items.staticDemoCollision.scene,
+            //     floorShadowTexture: this.resources.items.staticDemoFloorShadowTexture,
+            //     offset: new THREE.Vector3(0, 0, 0),
+            //     mass: 0
+            // },
+
+            // Arrow keys
             {
-                base: this.resources.items.staticDemoBase.scene,
-                collision: this.resources.items.staticDemoCollision.scene,
-                floorShadowTexture: this.resources.items.staticDemoFloorShadowTexture,
+                base: this.resources.items.arrowKeyBase.scene,
+                collision: this.resources.items.arrowKeyCollision.scene,
                 offset: new THREE.Vector3(0, 0, 0),
-                mass: 0
+                cloneMesh: true,
+                shadow: { sizeX: 1, sizeY: 1, offsetZ: - 0.2, alpha: 0.5 },
+                mass: 1.5
             },
+            {
+                base: this.resources.items.arrowKeyBase.scene,
+                collision: this.resources.items.arrowKeyCollision.scene,
+                offset: new THREE.Vector3(0, - 0.8, 0),
+                cloneMesh: true,
+                shadow: { sizeX: 1, sizeY: 1, offsetZ: - 0.2, alpha: 0.5 },
+                mass: 1.5
+            },
+            {
+                base: this.resources.items.arrowKeyBase.scene,
+                collision: this.resources.items.arrowKeyCollision.scene,
+                offset: new THREE.Vector3(- 0.8, - 0.8, 0),
+                cloneMesh: true,
+                shadow: { sizeX: 1, sizeY: 1, offsetZ: - 0.2, alpha: 0.5 },
+                mass: 1.5
+            },
+            {
+                base: this.resources.items.arrowKeyBase.scene,
+                collision: this.resources.items.arrowKeyCollision.scene,
+                offset: new THREE.Vector3(0.8, - 0.8, 0),
+                cloneMesh: true,
+                shadow: { sizeX: 1, sizeY: 1, offsetZ: - 0.2, alpha: 0.5 },
+                mass: 1.5
+            },
+
             // {
             //     base: this.resources.items.dynamicSphereBase.scene,
             //     collision: this.resources.items.dynamicSphereCollision.scene,
             //     offset: new THREE.Vector3(0, 0, 0),
             //     mass: 2
             // },
-            {
-                base: this.resources.items.dynamicBoxBase.scene,
-                collision: this.resources.items.dynamicBoxCollision.scene,
-                offset: new THREE.Vector3(0, - 4, 2),
-                mass: 2
-            },
+            // {
+            //     base: this.resources.items.dynamicBoxBase.scene,
+            //     collision: this.resources.items.dynamicBoxCollision.scene,
+            //     offset: new THREE.Vector3(0, - 4, 2),
+            //     mass: 2
+            // },
             // {
             //     base: this.resources.items.dynamicBoxBase.scene,
             //     collision: this.resources.items.dynamicBoxCollision.scene,
@@ -192,7 +228,6 @@ export default class Objects
             }
         }
 
-
         // Recenter
         if(center.length() > 0)
         {
@@ -211,15 +246,22 @@ export default class Objects
     {
         const object = {}
 
+        // Offset
+        const offset = new THREE.Vector3()
+        if(_options.offset)
+        {
+            offset.copy(_options.offset)
+        }
+
         // Container
         object.container = this.getConvertedMesh(_options.base.children, _options)
-        object.container.position.copy(_options.offset)
+        object.container.position.copy(offset)
         this.container.add(object.container)
 
         // Create physics object
         object.collision = this.physics.addObjectFromThree({
             meshes: [..._options.collision.children],
-            offset: _options.offset,
+            offset: offset,
             mass: _options.mass
         })
 
@@ -227,6 +269,14 @@ export default class Objects
         {
             _child.position.sub(object.collision.center)
         }
+
+        // Shadow
+        // Add shadow
+        if(_options.shadow)
+        {
+            this.shadows.add(object.container, _options.shadow)
+        }
+
 
         // Time tick event
         this.time.on('tick', () =>
