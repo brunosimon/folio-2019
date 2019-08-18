@@ -71,7 +71,7 @@ export default class Physics
         // Contact between materials
         this.materials.contacts = {}
 
-        this.materials.contacts.floorDummy = new CANNON.ContactMaterial(this.materials.items.floor, this.materials.items.dummy, { friction: 0.5, restitution: 0.3, contactEquationStiffness: 1000 })
+        this.materials.contacts.floorDummy = new CANNON.ContactMaterial(this.materials.items.floor, this.materials.items.dummy, { friction: 0.05, restitution: 0.3, contactEquationStiffness: 1000 })
         this.world.addContactMaterial(this.materials.contacts.floorDummy)
 
         this.materials.contacts.dummyDummy = new CANNON.ContactMaterial(this.materials.items.dummy, this.materials.items.dummy, { friction: 0.5, restitution: 0.3, contactEquationStiffness: 1000 })
@@ -108,9 +108,9 @@ export default class Physics
          */
         this.car.options = {}
         this.car.options.chassisWidth = 1.02
-        this.car.options.chassisHeight = 1.05
+        this.car.options.chassisHeight = 1.16
         this.car.options.chassisDepth = 2.03
-        this.car.options.chassisOffset = new CANNON.Vec3(0, 0, 0.475)
+        this.car.options.chassisOffset = new CANNON.Vec3(0, 0, 0.41)
         this.car.options.chassisMass = 20
         this.car.options.wheelFrontOffsetDepth = 0.635
         this.car.options.wheelBackOffsetDepth = - 0.475
