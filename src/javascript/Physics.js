@@ -403,6 +403,10 @@ export default class Physics
                 case 'Shift':
                     this.car.controls.actions.boost = false
                     break
+
+                case 'r':
+                    this.car.recreate()
+                    break
             }
         }
 
@@ -492,29 +496,6 @@ export default class Physics
                 this.car.controls.accelerating = 0
             }
 
-            // if(this.car.speed < controlsAcceleratinMaxSpeed)
-            // {
-            //     // Accelerate up
-            //     if(this.car.controls.actions.up)
-            //     {
-            //         this.car.controls.accelerating = accelerateStrength
-            //     }
-            //     // Accelerate down
-            //     else if(this.car.controls.actions.down)
-            //     {
-            //         this.car.controls.accelerating = - accelerateStrength
-            //     }
-            //     // Not accelerating
-            //     else
-            //     {
-            //         this.car.controls.accelerating = 0
-            //     }
-            // }
-            // else
-            // {
-            //     this.car.controls.accelerating = 0
-            // }
-
             this.car.vehicle.applyEngineForce(- this.car.controls.accelerating, this.car.wheels.indexes.backLeft)
             this.car.vehicle.applyEngineForce(- this.car.controls.accelerating, this.car.wheels.indexes.backRight)
 
@@ -593,8 +574,6 @@ export default class Physics
             this.car.debugFolder.add(this.car.options, 'controlsAcceleratingQuad').name('controlsAcceleratingQuad')
             this.car.debugFolder.add(this.car.options, 'controlsBrakeStrength').step(0.001).min(0).max(5).name('controlsBrakeStrength')
             this.car.debugFolder.add(this.car, 'recreate')
-            this.car.debugFolder.add(this.car, 'brake')
-            this.car.debugFolder.add(this.car, 'unbrake')
         }
     }
 
