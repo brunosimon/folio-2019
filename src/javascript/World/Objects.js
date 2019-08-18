@@ -43,7 +43,8 @@ export default class Objects
                 base: this.resources.items.arrowKeyBase.scene,
                 collision: this.resources.items.arrowKeyCollision.scene,
                 offset: new THREE.Vector3(0, 0, 0),
-                cloneMesh: true,
+                rotation: new THREE.Euler(0, 0, 0),
+                duplicated: true,
                 shadow: { sizeX: 1, sizeY: 1, offsetZ: - 0.2, alpha: 0.5 },
                 mass: 1.5
             },
@@ -51,7 +52,8 @@ export default class Objects
                 base: this.resources.items.arrowKeyBase.scene,
                 collision: this.resources.items.arrowKeyCollision.scene,
                 offset: new THREE.Vector3(0, - 0.8, 0),
-                cloneMesh: true,
+                rotation: new THREE.Euler(0, 0, Math.PI),
+                duplicated: true,
                 shadow: { sizeX: 1, sizeY: 1, offsetZ: - 0.2, alpha: 0.5 },
                 mass: 1.5
             },
@@ -59,7 +61,8 @@ export default class Objects
                 base: this.resources.items.arrowKeyBase.scene,
                 collision: this.resources.items.arrowKeyCollision.scene,
                 offset: new THREE.Vector3(- 0.8, - 0.8, 0),
-                cloneMesh: true,
+                rotation: new THREE.Euler(0, 0, Math.PI * 0.5),
+                duplicated: true,
                 shadow: { sizeX: 1, sizeY: 1, offsetZ: - 0.2, alpha: 0.5 },
                 mass: 1.5
             },
@@ -67,7 +70,8 @@ export default class Objects
                 base: this.resources.items.arrowKeyBase.scene,
                 collision: this.resources.items.arrowKeyCollision.scene,
                 offset: new THREE.Vector3(0.8, - 0.8, 0),
-                cloneMesh: true,
+                rotation: new THREE.Euler(0, 0, - Math.PI * 0.5),
+                duplicated: true,
                 shadow: { sizeX: 1, sizeY: 1, offsetZ: - 0.2, alpha: 0.5 },
                 mass: 1.5
             },
@@ -133,7 +137,7 @@ export default class Objects
                     }
 
                     // Create clone mesh with new material
-                    const mesh = _options.cloneMesh ? _mesh.clone() : _mesh
+                    const mesh = _options.duplicated ? _mesh.clone() : _mesh
                     mesh.material = material
 
                     return mesh
@@ -157,7 +161,7 @@ export default class Objects
                     }
 
                     // Create clone mesh with new material
-                    const mesh = _options.cloneMesh ? _mesh.clone() : _mesh
+                    const mesh = _options.duplicated ? _mesh.clone() : _mesh
                     mesh.material = material
 
                     return mesh
@@ -253,6 +257,13 @@ export default class Objects
             offset.copy(_options.offset)
         }
 
+        // Rotation
+        const rotation = new THREE.Euler()
+        if(_options.rotation)
+        {
+            rotation.copy(_options.rotation)
+        }
+
         // Container
         object.container = this.getConvertedMesh(_options.base.children, _options)
         object.container.position.copy(offset)
@@ -261,7 +272,8 @@ export default class Objects
         // Create physics object
         object.collision = this.physics.addObjectFromThree({
             meshes: [..._options.collision.children],
-            offset: offset,
+            offset,
+            rotation,
             mass: _options.mass
         })
 

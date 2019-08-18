@@ -660,6 +660,14 @@ export default class Physics
         })
         this.world.addBody(collision.body)
 
+        // Rotation
+        if(_options.rotation)
+        {
+            const rotationQuaternion = new CANNON.Quaternion()
+            rotationQuaternion.setFromEuler(_options.rotation.x, _options.rotation.y, _options.rotation.z, _options.rotation.order)
+            collision.body.quaternion = collision.body.quaternion.mult(rotationQuaternion)
+        }
+
         // Center
         collision.center = new Vec3(0, 0, 0)
 
