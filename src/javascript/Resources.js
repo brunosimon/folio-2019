@@ -3,6 +3,7 @@ import * as THREE from 'three'
 import Loader from './Utils/Loader.js'
 import EventEmitter from './Utils/EventEmitter.js'
 
+// Matcaps
 import matcapBeigeSource from '../models/matcaps/beige.png'
 import matcapBlackSource from '../models/matcaps/black.png'
 import matcapOrangeSource from '../models/matcaps/orange.png'
@@ -12,13 +13,20 @@ import matcapGreenSource from '../models/matcaps/green.png'
 import matcapBrownSource from '../models/matcaps/brown.png'
 import matcapGraySource from '../models/matcaps/gray.png'
 
-import landingFloorShadowSource from '../models/landing/floor-shadow.png'
-import landingBaseSource from '../models/landing/base.glb'
-import landingCollisionSource from '../models/landing/collision.glb'
+// Landing
+import landingStaticFloorShadowSource from '../models/landing/static/floor-shadow.png'
+import landingStaticBaseSource from '../models/landing/static/base.glb'
+import landingStaticCollisionSource from '../models/landing/static/collision.glb'
 
-import ArrowKeyBaseSource from '../models/arrowKey/base.glb'
-import ArrowKeyCollisionSource from '../models/arrowKey/collision.glb'
+import landingArrowKeyBaseSource from '../models/landing/arrowKey/base.glb'
+import landingArrowKeyCollisionSource from '../models/landing/arrowKey/collision.glb'
 
+// Intro
+import introStaticFloorShadowSource from '../models/intro/static/floor-shadow.png'
+import introStaticBaseSource from '../models/intro/static/base.glb'
+import introStaticCollisionSource from '../models/intro/static/collision.glb'
+
+// Car
 import carChassisSource from '../models/car/chassis.glb'
 import carWheelSource from '../models/car/wheel.glb'
 import carBackLightsBrakeSource from '../models/car/backLightsBrake.glb'
@@ -35,6 +43,7 @@ export default class Resources extends EventEmitter
         this.items = {}
 
         this.loader.load([
+            // Matcaps
             { name: 'matcapBeige', source: matcapBeigeSource },
             { name: 'matcapBlack', source: matcapBlackSource },
             { name: 'matcapOrange', source: matcapOrangeSource },
@@ -44,13 +53,21 @@ export default class Resources extends EventEmitter
             { name: 'matcapBrown', source: matcapBrownSource },
             { name: 'matcapGray', source: matcapGraySource },
 
-            { name: 'landingBase', source: landingBaseSource },
-            { name: 'landingCollision', source: landingCollisionSource },
-            { name: 'landingFloorShadow', source: landingFloorShadowSource },
+            // Landing
+            { name: 'landingStaticBase', source: landingStaticBaseSource },
+            { name: 'landingStaticCollision', source: landingStaticCollisionSource },
+            { name: 'landingStaticFloorShadow', source: landingStaticFloorShadowSource },
 
-            { name: 'arrowKeyBase', source: ArrowKeyBaseSource },
-            { name: 'arrowKeyCollision', source: ArrowKeyCollisionSource },
+            { name: 'landingArrowKeyBase', source: landingArrowKeyBaseSource },
+            { name: 'landingArrowKeyCollision', source: landingArrowKeyCollisionSource },
 
+            // Intro
+            { name: 'introStaticBase', source: introStaticBaseSource },
+            { name: 'introStaticCollision', source: introStaticCollisionSource },
+            { name: 'introStaticFloorShadow', source: introStaticFloorShadowSource },
+
+
+            // Car
             { name: 'carChassis', source: carChassisSource },
             { name: 'carWheel', source: carWheelSource },
             { name: 'carBackLightsBrake', source: carBackLightsBrakeSource },
@@ -90,8 +107,11 @@ export default class Resources extends EventEmitter
             this.items.matcapGrayTexture = new THREE.Texture(this.items.matcapGray)
             this.items.matcapGrayTexture.needsUpdate = true
 
-            this.items.landingFloorShadowTexture = new THREE.Texture(this.items.landingFloorShadow)
-            this.items.landingFloorShadowTexture.needsUpdate = true
+            this.items.landingStaticFloorShadowTexture = new THREE.Texture(this.items.landingStaticFloorShadow)
+            this.items.landingStaticFloorShadowTexture.needsUpdate = true
+
+            this.items.introStaticFloorShadowTexture = new THREE.Texture(this.items.introStaticFloorShadow)
+            this.items.introStaticFloorShadowTexture.needsUpdate = true
 
             // Trigger ready
             this.trigger('ready')

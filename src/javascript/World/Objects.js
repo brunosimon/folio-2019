@@ -30,20 +30,22 @@ export default class Objects
     {
         // Objects options list
         this.list = [
-
-            // Landing
+            /**
+             * Landing
+             */
+            // Static
             {
-                base: this.resources.items.landingBase.scene,
-                collision: this.resources.items.landingCollision.scene,
-                floorShadowTexture: this.resources.items.landingFloorShadowTexture,
+                base: this.resources.items.landingStaticBase.scene,
+                collision: this.resources.items.landingStaticCollision.scene,
+                floorShadowTexture: this.resources.items.landingStaticFloorShadowTexture,
                 offset: new THREE.Vector3(0, 0, 0),
                 mass: 0
             },
 
             // Arrow keys
             {
-                base: this.resources.items.arrowKeyBase.scene,
-                collision: this.resources.items.arrowKeyCollision.scene,
+                base: this.resources.items.landingArrowKeyBase.scene,
+                collision: this.resources.items.landingArrowKeyCollision.scene,
                 offset: new THREE.Vector3(0, 0, 0),
                 rotation: new THREE.Euler(0, 0, 0),
                 duplicated: true,
@@ -51,8 +53,8 @@ export default class Objects
                 mass: 1.5
             },
             {
-                base: this.resources.items.arrowKeyBase.scene,
-                collision: this.resources.items.arrowKeyCollision.scene,
+                base: this.resources.items.landingArrowKeyBase.scene,
+                collision: this.resources.items.landingArrowKeyCollision.scene,
                 offset: new THREE.Vector3(0, - 0.8, 0),
                 rotation: new THREE.Euler(0, 0, Math.PI),
                 duplicated: true,
@@ -60,8 +62,8 @@ export default class Objects
                 mass: 1.5
             },
             {
-                base: this.resources.items.arrowKeyBase.scene,
-                collision: this.resources.items.arrowKeyCollision.scene,
+                base: this.resources.items.landingArrowKeyBase.scene,
+                collision: this.resources.items.landingArrowKeyCollision.scene,
                 offset: new THREE.Vector3(- 0.8, - 0.8, 0),
                 rotation: new THREE.Euler(0, 0, Math.PI * 0.5),
                 duplicated: true,
@@ -69,13 +71,25 @@ export default class Objects
                 mass: 1.5
             },
             {
-                base: this.resources.items.arrowKeyBase.scene,
-                collision: this.resources.items.arrowKeyCollision.scene,
+                base: this.resources.items.landingArrowKeyBase.scene,
+                collision: this.resources.items.landingArrowKeyCollision.scene,
                 offset: new THREE.Vector3(0.8, - 0.8, 0),
                 rotation: new THREE.Euler(0, 0, - Math.PI * 0.5),
                 duplicated: true,
                 shadow: { sizeX: 1, sizeY: 1, offsetZ: - 0.2, alpha: 0.5 },
                 mass: 1.5
+            },
+
+            /**
+             * Intro
+             */
+            // Static
+            {
+                base: this.resources.items.introStaticBase.scene,
+                collision: this.resources.items.introStaticCollision.scene,
+                floorShadowTexture: this.resources.items.introStaticFloorShadowTexture,
+                offset: new THREE.Vector3(0, - 20, 0),
+                mass: 0
             }
         ]
     }
@@ -139,7 +153,7 @@ export default class Objects
                 apply: (_mesh, _options) =>
                 {
                     // Create floor manually because of missing UV
-                    const geometry = new THREE.PlaneBufferGeometry(_mesh.scale.x, _mesh.scale.z, 10, 10)
+                    const geometry = new THREE.PlaneBufferGeometry(_mesh.scale.x, _mesh.scale.y, 10, 10)
                     const material = this.materials.items.floorShadow.clone()
 
                     material.uniforms.tShadow.value = _options.floorShadowTexture
