@@ -66,7 +66,6 @@ export default class Resources extends EventEmitter
             { name: 'introStaticCollision', source: introStaticCollisionSource },
             { name: 'introStaticFloorShadow', source: introStaticFloorShadowSource },
 
-
             // Car
             { name: 'carChassis', source: carChassisSource },
             { name: 'carWheel', source: carWheelSource },
