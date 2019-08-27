@@ -166,7 +166,7 @@ export default class Car
         this.time.on('tick', () =>
         {
             // Space is down
-            if(this.physics.car.controls.actions.space)
+            if(this.physics.car.controls.actions.brake)
             {
                 this.backLightsBrake.material.opacity = 1
                 this.backLightsReverse.material.opacity = 0.5
