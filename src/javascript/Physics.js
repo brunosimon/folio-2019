@@ -346,6 +346,21 @@ export default class Physics
                     this.car.wheels.bodies[i].quaternion = this.car.wheels.bodies[i].quaternion.mult(rotationQuaternion)
                 }
             }
+
+            // Slow down back
+            if(!this.car.controls.actions.up && !this.car.controls.actions.down)
+            {
+                let slowDownForce = worldForward.clone()
+
+                if(this.car.goingForward)
+                {
+                    slowDownForce = slowDownForce.negate()
+                }
+
+                slowDownForce = slowDownForce.scale(this.car.chassis.body.velocity.length() * 0.1)
+
+                this.car.chassis.body.applyImpulse(slowDownForce, this.car.chassis.body.position)
+            }
         })
 
         this.time.on('tick', () =>
