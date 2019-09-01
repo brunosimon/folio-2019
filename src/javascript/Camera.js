@@ -12,7 +12,7 @@ export default class Camera
         this.debug = _options.debug
 
         // Set up
-        this.invertDirection = new THREE.Vector3(10.5, - 10.5, 15.5).normalize()
+        this.invertDirection = new THREE.Vector3(1, - 1, 1.0).normalize()
         this.target = new THREE.Vector3(0, 0, 0)
         this.targetEased = new THREE.Vector3(0, 0, 0)
         this.easing = 0.15

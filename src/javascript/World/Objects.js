@@ -88,7 +88,7 @@ export default class Objects
                 base: this.resources.items.introStaticBase.scene,
                 collision: this.resources.items.introStaticCollision.scene,
                 floorShadowTexture: this.resources.items.introStaticFloorShadowTexture,
-                offset: new THREE.Vector3(0, - 20, 0),
+                offset: new THREE.Vector3(0, - 30, 0),
                 mass: 0
             }
         ]
@@ -118,6 +118,17 @@ export default class Objects
                     // Create clone mesh with new material
                     const mesh = _options.duplicated ? _mesh.clone() : _mesh
                     mesh.material = material
+
+                    if(mesh.children.length)
+                    {
+                        for(const _child of mesh.children)
+                        {
+                            if(_child instanceof THREE.Mesh)
+                            {
+                                _child.material = material
+                            }
+                        }
+                    }
 
                     return mesh
                 }
