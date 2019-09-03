@@ -32,6 +32,9 @@ export default class Camera
         if(this.debug)
         {
             this.debugFolder.add(this, 'easing').step(0.0001).min(0).max(1).name('easing')
+            this.debugFolder.add(this.invertDirection, 'x').step(0.001).min(- 2).max(2).name('invertDirectionX')
+            this.debugFolder.add(this.invertDirection, 'y').step(0.001).min(- 2).max(2).name('invertDirectionY')
+            this.debugFolder.add(this.invertDirection, 'z').step(0.001).min(- 2).max(2).name('invertDirectionZ')
         }
     }
 

@@ -21,6 +21,30 @@ import landingStaticCollisionSource from '../models/landing/static/collision.glb
 import landingArrowKeyBaseSource from '../models/landing/arrowKey/base.glb'
 import landingArrowKeyCollisionSource from '../models/landing/arrowKey/collision.glb'
 
+import landingBBaseSource from '../models/landing/b/base.glb'
+import landingBCollisionSource from '../models/landing/b/collision.glb'
+
+import landingRBaseSource from '../models/landing/r/base.glb'
+import landingRCollisionSource from '../models/landing/r/collision.glb'
+
+import landingUBaseSource from '../models/landing/u/base.glb'
+import landingUCollisionSource from '../models/landing/u/collision.glb'
+
+import landingNBaseSource from '../models/landing/n/base.glb'
+import landingNCollisionSource from '../models/landing/n/collision.glb'
+
+import landingOBaseSource from '../models/landing/o/base.glb'
+import landingOCollisionSource from '../models/landing/o/collision.glb'
+
+import landingSBaseSource from '../models/landing/s/base.glb'
+import landingSCollisionSource from '../models/landing/s/collision.glb'
+
+import landingIBaseSource from '../models/landing/i/base.glb'
+import landingICollisionSource from '../models/landing/i/collision.glb'
+
+import landingMBaseSource from '../models/landing/m/base.glb'
+import landingMCollisionSource from '../models/landing/m/collision.glb'
+
 // Intro
 import introStaticFloorShadowSource from '../models/intro/static/floor-shadow.png'
 import introStaticBaseSource from '../models/intro/static/base.glb'
@@ -60,6 +84,30 @@ export default class Resources extends EventEmitter
 
             { name: 'landingArrowKeyBase', source: landingArrowKeyBaseSource },
             { name: 'landingArrowKeyCollision', source: landingArrowKeyCollisionSource },
+
+            { name: 'landingBBase', source: landingBBaseSource },
+            { name: 'landingBCollision', source: landingBCollisionSource },
+
+            { name: 'landingRBase', source: landingRBaseSource },
+            { name: 'landingRCollision', source: landingRCollisionSource },
+
+            { name: 'landingUBase', source: landingUBaseSource },
+            { name: 'landingUCollision', source: landingUCollisionSource },
+
+            { name: 'landingNBase', source: landingNBaseSource },
+            { name: 'landingNCollision', source: landingNCollisionSource },
+
+            { name: 'landingOBase', source: landingOBaseSource },
+            { name: 'landingOCollision', source: landingOCollisionSource },
+
+            { name: 'landingSBase', source: landingSBaseSource },
+            { name: 'landingSCollision', source: landingSCollisionSource },
+
+            { name: 'landingIBase', source: landingIBaseSource },
+            { name: 'landingICollision', source: landingICollisionSource },
+
+            { name: 'landingMBase', source: landingMBaseSource },
+            { name: 'landingMCollision', source: landingMCollisionSource },
 
             // Intro
             { name: 'introStaticBase', source: introStaticBaseSource },

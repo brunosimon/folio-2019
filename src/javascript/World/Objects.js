@@ -80,6 +80,92 @@ export default class Objects
                 mass: 1.5
             },
 
+            // Title
+            {
+                base: this.resources.items.landingBBase.scene,
+                collision: this.resources.items.landingBCollision.scene,
+                offset: new THREE.Vector3(0, 0, 0),
+                rotation: new THREE.Euler(0, 0, 0),
+                shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+                mass: 1.5
+            },
+            {
+                base: this.resources.items.landingRBase.scene,
+                collision: this.resources.items.landingRCollision.scene,
+                offset: new THREE.Vector3(0, 0, 0),
+                rotation: new THREE.Euler(0, 0, 0),
+                shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+                mass: 1.5
+            },
+            {
+                base: this.resources.items.landingUBase.scene,
+                collision: this.resources.items.landingUCollision.scene,
+                offset: new THREE.Vector3(0, 0, 0),
+                rotation: new THREE.Euler(0, 0, 0),
+                shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+                mass: 1.5
+            },
+            {
+                base: this.resources.items.landingNBase.scene,
+                collision: this.resources.items.landingNCollision.scene,
+                offset: new THREE.Vector3(0, 0, 0),
+                rotation: new THREE.Euler(0, 0, 0),
+                duplicated: true,
+                shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+                mass: 1.5
+            },
+            {
+                base: this.resources.items.landingOBase.scene,
+                collision: this.resources.items.landingOCollision.scene,
+                offset: new THREE.Vector3(0, 0, 0),
+                rotation: new THREE.Euler(0, 0, 0),
+                duplicated: true,
+                shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+                mass: 1.5
+            },
+            {
+                base: this.resources.items.landingSBase.scene,
+                collision: this.resources.items.landingSCollision.scene,
+                offset: new THREE.Vector3(0, 0, 0),
+                rotation: new THREE.Euler(0, 0, 0),
+                shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+                mass: 1.5
+            },
+            {
+                base: this.resources.items.landingIBase.scene,
+                collision: this.resources.items.landingICollision.scene,
+                offset: new THREE.Vector3(0, 0, 0),
+                rotation: new THREE.Euler(0, 0, 0),
+                shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+                mass: 1.5
+            },
+            {
+                base: this.resources.items.landingMBase.scene,
+                collision: this.resources.items.landingMCollision.scene,
+                offset: new THREE.Vector3(0, 0, 0),
+                rotation: new THREE.Euler(0, 0, 0),
+                shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+                mass: 1.5
+            },
+            {
+                base: this.resources.items.landingOBase.scene,
+                collision: this.resources.items.landingOCollision.scene,
+                offset: new THREE.Vector3(3.95, 0, 0),
+                rotation: new THREE.Euler(0, 0, 0),
+                duplicated: true,
+                shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+                mass: 1.5
+            },
+            {
+                base: this.resources.items.landingNBase.scene,
+                collision: this.resources.items.landingNCollision.scene,
+                offset: new THREE.Vector3(5.85, 0, 0),
+                rotation: new THREE.Euler(0, 0, 0),
+                duplicated: true,
+                shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+                mass: 1.5
+            },
+
             /**
              * Intro
              */
