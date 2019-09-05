@@ -90,9 +90,9 @@ void main() {
     // float indirectStrength = indirectAngleStrength;
 
     // gl_FragColor = vec4(vec3(worldNormal), 1.0);
-    gl_FragColor = vec4(mix(outgoingLight, uIndirectColor, indirectStrength), diffuseColor.a);
-
+    // gl_FragColor = vec4(outgoingLight, diffuseColor.a);
     // gl_FragColor = vec4(vec3(indirectStrength), diffuseColor.a);
+    gl_FragColor = vec4(mix(outgoingLight, uIndirectColor, indirectStrength), diffuseColor.a);
     // Custom end
 
     #include <premultiplied_alpha_fragment>
