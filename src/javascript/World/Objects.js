@@ -31,21 +31,21 @@ export default class Objects
         // Objects options list
         this.list = [
             /**
-             * Landing
+             * Intro
              */
             // Static
             {
-                base: this.resources.items.landingStaticBase.scene,
-                collision: this.resources.items.landingStaticCollision.scene,
-                floorShadowTexture: this.resources.items.landingStaticFloorShadowTexture,
+                base: this.resources.items.introStaticBase.scene,
+                collision: this.resources.items.introStaticCollision.scene,
+                floorShadowTexture: this.resources.items.introStaticFloorShadowTexture,
                 offset: new THREE.Vector3(0, 0, 0),
                 mass: 0
             },
 
             // Arrow keys
             {
-                base: this.resources.items.landingArrowKeyBase.scene,
-                collision: this.resources.items.landingArrowKeyCollision.scene,
+                base: this.resources.items.introArrowKeyBase.scene,
+                collision: this.resources.items.introArrowKeyCollision.scene,
                 offset: new THREE.Vector3(0, 0, 0),
                 rotation: new THREE.Euler(0, 0, 0),
                 duplicated: true,
@@ -53,8 +53,8 @@ export default class Objects
                 mass: 1.5
             },
             {
-                base: this.resources.items.landingArrowKeyBase.scene,
-                collision: this.resources.items.landingArrowKeyCollision.scene,
+                base: this.resources.items.introArrowKeyBase.scene,
+                collision: this.resources.items.introArrowKeyCollision.scene,
                 offset: new THREE.Vector3(0, - 0.8, 0),
                 rotation: new THREE.Euler(0, 0, Math.PI),
                 duplicated: true,
@@ -62,8 +62,8 @@ export default class Objects
                 mass: 1.5
             },
             {
-                base: this.resources.items.landingArrowKeyBase.scene,
-                collision: this.resources.items.landingArrowKeyCollision.scene,
+                base: this.resources.items.introArrowKeyBase.scene,
+                collision: this.resources.items.introArrowKeyCollision.scene,
                 offset: new THREE.Vector3(- 0.8, - 0.8, 0),
                 rotation: new THREE.Euler(0, 0, Math.PI * 0.5),
                 duplicated: true,
@@ -71,8 +71,8 @@ export default class Objects
                 mass: 1.5
             },
             {
-                base: this.resources.items.landingArrowKeyBase.scene,
-                collision: this.resources.items.landingArrowKeyCollision.scene,
+                base: this.resources.items.introArrowKeyBase.scene,
+                collision: this.resources.items.introArrowKeyCollision.scene,
                 offset: new THREE.Vector3(0.8, - 0.8, 0),
                 rotation: new THREE.Euler(0, 0, - Math.PI * 0.5),
                 duplicated: true,
@@ -82,41 +82,32 @@ export default class Objects
 
             // Title
             {
-                base: this.resources.items.landingBBase.scene,
-                collision: this.resources.items.landingBCollision.scene,
+                base: this.resources.items.introBBase.scene,
+                collision: this.resources.items.introBCollision.scene,
                 offset: new THREE.Vector3(0, 0, 0),
                 rotation: new THREE.Euler(0, 0, 0),
                 shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
                 mass: 1.5
             },
             {
-                base: this.resources.items.landingRBase.scene,
-                collision: this.resources.items.landingRCollision.scene,
+                base: this.resources.items.introRBase.scene,
+                collision: this.resources.items.introRCollision.scene,
                 offset: new THREE.Vector3(0, 0, 0),
                 rotation: new THREE.Euler(0, 0, 0),
                 shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
                 mass: 1.5
             },
             {
-                base: this.resources.items.landingUBase.scene,
-                collision: this.resources.items.landingUCollision.scene,
+                base: this.resources.items.introUBase.scene,
+                collision: this.resources.items.introUCollision.scene,
                 offset: new THREE.Vector3(0, 0, 0),
                 rotation: new THREE.Euler(0, 0, 0),
                 shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
                 mass: 1.5
             },
             {
-                base: this.resources.items.landingNBase.scene,
-                collision: this.resources.items.landingNCollision.scene,
-                offset: new THREE.Vector3(0, 0, 0),
-                rotation: new THREE.Euler(0, 0, 0),
-                duplicated: true,
-                shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
-                mass: 1.5
-            },
-            {
-                base: this.resources.items.landingOBase.scene,
-                collision: this.resources.items.landingOCollision.scene,
+                base: this.resources.items.introNBase.scene,
+                collision: this.resources.items.introNCollision.scene,
                 offset: new THREE.Vector3(0, 0, 0),
                 rotation: new THREE.Euler(0, 0, 0),
                 duplicated: true,
@@ -124,32 +115,41 @@ export default class Objects
                 mass: 1.5
             },
             {
-                base: this.resources.items.landingSBase.scene,
-                collision: this.resources.items.landingSCollision.scene,
+                base: this.resources.items.introOBase.scene,
+                collision: this.resources.items.introOCollision.scene,
+                offset: new THREE.Vector3(0, 0, 0),
+                rotation: new THREE.Euler(0, 0, 0),
+                duplicated: true,
+                shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+                mass: 1.5
+            },
+            {
+                base: this.resources.items.introSBase.scene,
+                collision: this.resources.items.introSCollision.scene,
                 offset: new THREE.Vector3(0, 0, 0),
                 rotation: new THREE.Euler(0, 0, 0),
                 shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
                 mass: 1.5
             },
             {
-                base: this.resources.items.landingIBase.scene,
-                collision: this.resources.items.landingICollision.scene,
+                base: this.resources.items.introIBase.scene,
+                collision: this.resources.items.introICollision.scene,
                 offset: new THREE.Vector3(0, 0, 0),
                 rotation: new THREE.Euler(0, 0, 0),
                 shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
                 mass: 1.5
             },
             {
-                base: this.resources.items.landingMBase.scene,
-                collision: this.resources.items.landingMCollision.scene,
+                base: this.resources.items.introMBase.scene,
+                collision: this.resources.items.introMCollision.scene,
                 offset: new THREE.Vector3(0, 0, 0),
                 rotation: new THREE.Euler(0, 0, 0),
                 shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
                 mass: 1.5
             },
             {
-                base: this.resources.items.landingOBase.scene,
-                collision: this.resources.items.landingOCollision.scene,
+                base: this.resources.items.introOBase.scene,
+                collision: this.resources.items.introOCollision.scene,
                 offset: new THREE.Vector3(3.95, 0, 0),
                 rotation: new THREE.Euler(0, 0, 0),
                 duplicated: true,
@@ -157,8 +157,8 @@ export default class Objects
                 mass: 1.5
             },
             {
-                base: this.resources.items.landingNBase.scene,
-                collision: this.resources.items.landingNCollision.scene,
+                base: this.resources.items.introNBase.scene,
+                collision: this.resources.items.introNCollision.scene,
                 offset: new THREE.Vector3(5.85, 0, 0),
                 rotation: new THREE.Euler(0, 0, 0),
                 duplicated: true,
@@ -171,9 +171,9 @@ export default class Objects
              */
             // Static
             {
-                base: this.resources.items.introStaticBase.scene,
-                collision: this.resources.items.introStaticCollision.scene,
-                floorShadowTexture: this.resources.items.introStaticFloorShadowTexture,
+                base: this.resources.items.crossroadsStaticBase.scene,
+                collision: this.resources.items.crossroadsStaticCollision.scene,
+                floorShadowTexture: this.resources.items.crossroadsStaticFloorShadowTexture,
                 offset: new THREE.Vector3(0, - 30, 0),
                 mass: 0
             }

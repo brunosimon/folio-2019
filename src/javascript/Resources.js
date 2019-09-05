@@ -13,42 +13,42 @@ import matcapGreenSource from '../models/matcaps/green.png'
 import matcapBrownSource from '../models/matcaps/brown.png'
 import matcapGraySource from '../models/matcaps/gray.png'
 
-// Landing
-import landingStaticFloorShadowSource from '../models/landing/static/floor-shadow.png'
-import landingStaticBaseSource from '../models/landing/static/base.glb'
-import landingStaticCollisionSource from '../models/landing/static/collision.glb'
-
-import landingArrowKeyBaseSource from '../models/landing/arrowKey/base.glb'
-import landingArrowKeyCollisionSource from '../models/landing/arrowKey/collision.glb'
-
-import landingBBaseSource from '../models/landing/b/base.glb'
-import landingBCollisionSource from '../models/landing/b/collision.glb'
-
-import landingRBaseSource from '../models/landing/r/base.glb'
-import landingRCollisionSource from '../models/landing/r/collision.glb'
-
-import landingUBaseSource from '../models/landing/u/base.glb'
-import landingUCollisionSource from '../models/landing/u/collision.glb'
-
-import landingNBaseSource from '../models/landing/n/base.glb'
-import landingNCollisionSource from '../models/landing/n/collision.glb'
-
-import landingOBaseSource from '../models/landing/o/base.glb'
-import landingOCollisionSource from '../models/landing/o/collision.glb'
-
-import landingSBaseSource from '../models/landing/s/base.glb'
-import landingSCollisionSource from '../models/landing/s/collision.glb'
-
-import landingIBaseSource from '../models/landing/i/base.glb'
-import landingICollisionSource from '../models/landing/i/collision.glb'
-
-import landingMBaseSource from '../models/landing/m/base.glb'
-import landingMCollisionSource from '../models/landing/m/collision.glb'
-
 // Intro
 import introStaticFloorShadowSource from '../models/intro/static/floor-shadow.png'
 import introStaticBaseSource from '../models/intro/static/base.glb'
 import introStaticCollisionSource from '../models/intro/static/collision.glb'
+
+import introArrowKeyBaseSource from '../models/intro/arrowKey/base.glb'
+import introArrowKeyCollisionSource from '../models/intro/arrowKey/collision.glb'
+
+import introBBaseSource from '../models/intro/b/base.glb'
+import introBCollisionSource from '../models/intro/b/collision.glb'
+
+import introRBaseSource from '../models/intro/r/base.glb'
+import introRCollisionSource from '../models/intro/r/collision.glb'
+
+import introUBaseSource from '../models/intro/u/base.glb'
+import introUCollisionSource from '../models/intro/u/collision.glb'
+
+import introNBaseSource from '../models/intro/n/base.glb'
+import introNCollisionSource from '../models/intro/n/collision.glb'
+
+import introOBaseSource from '../models/intro/o/base.glb'
+import introOCollisionSource from '../models/intro/o/collision.glb'
+
+import introSBaseSource from '../models/intro/s/base.glb'
+import introSCollisionSource from '../models/intro/s/collision.glb'
+
+import introIBaseSource from '../models/intro/i/base.glb'
+import introICollisionSource from '../models/intro/i/collision.glb'
+
+import introMBaseSource from '../models/intro/m/base.glb'
+import introMCollisionSource from '../models/intro/m/collision.glb'
+
+// Intro
+import crossroadsStaticFloorShadowSource from '../models/crossroads/static/floor-shadow.png'
+import crossroadsStaticBaseSource from '../models/crossroads/static/base.glb'
+import crossroadsStaticCollisionSource from '../models/crossroads/static/collision.glb'
 
 // Car
 import carChassisSource from '../models/car/chassis.glb'
@@ -77,42 +77,42 @@ export default class Resources extends EventEmitter
             { name: 'matcapBrown', source: matcapBrownSource },
             { name: 'matcapGray', source: matcapGraySource },
 
-            // Landing
-            { name: 'landingStaticBase', source: landingStaticBaseSource },
-            { name: 'landingStaticCollision', source: landingStaticCollisionSource },
-            { name: 'landingStaticFloorShadow', source: landingStaticFloorShadowSource },
-
-            { name: 'landingArrowKeyBase', source: landingArrowKeyBaseSource },
-            { name: 'landingArrowKeyCollision', source: landingArrowKeyCollisionSource },
-
-            { name: 'landingBBase', source: landingBBaseSource },
-            { name: 'landingBCollision', source: landingBCollisionSource },
-
-            { name: 'landingRBase', source: landingRBaseSource },
-            { name: 'landingRCollision', source: landingRCollisionSource },
-
-            { name: 'landingUBase', source: landingUBaseSource },
-            { name: 'landingUCollision', source: landingUCollisionSource },
-
-            { name: 'landingNBase', source: landingNBaseSource },
-            { name: 'landingNCollision', source: landingNCollisionSource },
-
-            { name: 'landingOBase', source: landingOBaseSource },
-            { name: 'landingOCollision', source: landingOCollisionSource },
-
-            { name: 'landingSBase', source: landingSBaseSource },
-            { name: 'landingSCollision', source: landingSCollisionSource },
-
-            { name: 'landingIBase', source: landingIBaseSource },
-            { name: 'landingICollision', source: landingICollisionSource },
-
-            { name: 'landingMBase', source: landingMBaseSource },
-            { name: 'landingMCollision', source: landingMCollisionSource },
-
             // Intro
             { name: 'introStaticBase', source: introStaticBaseSource },
             { name: 'introStaticCollision', source: introStaticCollisionSource },
             { name: 'introStaticFloorShadow', source: introStaticFloorShadowSource },
+
+            { name: 'introArrowKeyBase', source: introArrowKeyBaseSource },
+            { name: 'introArrowKeyCollision', source: introArrowKeyCollisionSource },
+
+            { name: 'introBBase', source: introBBaseSource },
+            { name: 'introBCollision', source: introBCollisionSource },
+
+            { name: 'introRBase', source: introRBaseSource },
+            { name: 'introRCollision', source: introRCollisionSource },
+
+            { name: 'introUBase', source: introUBaseSource },
+            { name: 'introUCollision', source: introUCollisionSource },
+
+            { name: 'introNBase', source: introNBaseSource },
+            { name: 'introNCollision', source: introNCollisionSource },
+
+            { name: 'introOBase', source: introOBaseSource },
+            { name: 'introOCollision', source: introOCollisionSource },
+
+            { name: 'introSBase', source: introSBaseSource },
+            { name: 'introSCollision', source: introSCollisionSource },
+
+            { name: 'introIBase', source: introIBaseSource },
+            { name: 'introICollision', source: introICollisionSource },
+
+            { name: 'introMBase', source: introMBaseSource },
+            { name: 'introMCollision', source: introMCollisionSource },
+
+            // Intro
+            { name: 'crossroadsStaticBase', source: crossroadsStaticBaseSource },
+            { name: 'crossroadsStaticCollision', source: crossroadsStaticCollisionSource },
+            { name: 'crossroadsStaticFloorShadow', source: crossroadsStaticFloorShadowSource },
 
             // Car
             { name: 'carChassis', source: carChassisSource },
@@ -154,11 +154,11 @@ export default class Resources extends EventEmitter
             this.items.matcapGrayTexture = new THREE.Texture(this.items.matcapGray)
             this.items.matcapGrayTexture.needsUpdate = true
 
-            this.items.landingStaticFloorShadowTexture = new THREE.Texture(this.items.landingStaticFloorShadow)
-            this.items.landingStaticFloorShadowTexture.needsUpdate = true
-
             this.items.introStaticFloorShadowTexture = new THREE.Texture(this.items.introStaticFloorShadow)
             this.items.introStaticFloorShadowTexture.needsUpdate = true
+
+            this.items.crossroadsStaticFloorShadowTexture = new THREE.Texture(this.items.crossroadsStaticFloorShadow)
+            this.items.crossroadsStaticFloorShadowTexture.needsUpdate = true
 
             // Trigger ready
             this.trigger('ready')
