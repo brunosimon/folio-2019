@@ -12,7 +12,7 @@ export default class Camera
         this.debug = _options.debug
 
         // Set up
-        this.invertDirection = new THREE.Vector3(1, - 1, 1.0).normalize()
+        this.invertDirection = new THREE.Vector3(1.135, - 1.45, 1.15)
         this.target = new THREE.Vector3(0, 0, 0)
         this.targetEased = new THREE.Vector3(0, 0, 0)
         this.easing = 0.15
@@ -62,7 +62,7 @@ export default class Camera
                 this.targetEased.y += (this.target.y - this.targetEased.y) * this.easing
                 this.targetEased.z += (this.target.z - this.targetEased.z) * this.easing
 
-                this.instance.position.copy(this.targetEased).add(this.invertDirection.clone().multiplyScalar(this.zoom.distance))
+                this.instance.position.copy(this.targetEased).add(this.invertDirection.clone().normalize().multiplyScalar(this.zoom.distance))
 
                 this.instance.lookAt(this.targetEased)
             }
