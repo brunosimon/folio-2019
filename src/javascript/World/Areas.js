@@ -10,13 +10,19 @@ export default class Areas
         this.time = _options.time
         this.debug = _options.debug
 
-
         // Set up
         this.container = new THREE.Object3D()
     }
 
     add(_options)
     {
-        const area = new Area({})
+        const area = new Area({
+            position: new THREE.Vector2(0, 0),
+            halfExtents: new THREE.Vector2(1, 1)
+        })
+
+        this.container.add(area.container)
+
+        return area
     }
 }

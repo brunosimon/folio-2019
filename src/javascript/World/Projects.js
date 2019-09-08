@@ -21,7 +21,7 @@ export default class Projects
 
         this.setMeshes()
         this.setMaterials()
-        this.setTestProject()
+        // this.setTestProject()
     }
 
     setMeshes()
