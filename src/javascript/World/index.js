@@ -5,6 +5,8 @@ import Shadows from './Shadows.js'
 import Physics from '../Physics.js'
 import Objects from './Objects.js'
 import Car from './Car.js'
+import Projects from './Projects.js'
+import Areas from './Areas.js'
 
 export default class
 {
@@ -21,7 +23,7 @@ export default class
         if(this.debug)
         {
             this.debugFolder = this.debug.addFolder('world')
-            // this.debugFolder.open()
+            this.debugFolder.open()
         }
 
         // Set up
@@ -32,8 +34,10 @@ export default class
         this.setFloor()
         this.setShadows()
         this.setPhysics()
+        this.setAreas()
         this.setObjects()
         this.setCar()
+        this.setProjects()
     }
 
     setAxes()
@@ -80,6 +84,18 @@ export default class
         this.container.add(this.physics.models.container)
     }
 
+    setAreas()
+    {
+        this.areas = new Areas({
+            debug: this.debug,
+            time: this.time
+        })
+
+        this.container.add(this.areas.container)
+
+        this.areas.add({ position: new THREE.Vector2(0, 0), halfExtents: new THREE.Vector2(1, 1) })
+    }
+
     setObjects()
     {
         this.objects = new Objects({
@@ -107,5 +123,16 @@ export default class
             debug: this.debugFolder
         })
         this.container.add(this.car.container)
+    }
+
+    setProjects()
+    {
+        this.projects = new Projects({
+            time: this.time,
+            resources: this.resources,
+            objects: this.objects,
+            debug: this.debugFolder
+        })
+        this.container.add(this.projects.container)
     }
 }

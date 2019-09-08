@@ -57,6 +57,14 @@ import carBackLightsBrakeSource from '../models/car/backLightsBrake.glb'
 import carBackLightsReverseSource from '../models/car/backLightsReverse.glb'
 import carAntenaSource from '../models/car/antena.glb'
 
+// Projects
+import projectsBillboardStructureSource from '../models/projects/billboard/structure.glb'
+import projectsBillboardSheetSource from '../models/projects/billboard/sheet.glb'
+import projectsBillboardGearSource from '../models/projects/billboard/gear.glb'
+import projectsBillboardFloorSource from '../models/projects/billboard/floor.glb'
+import projectsBillboardCitrixRedbullSlidesSource from '../models/projects/citrixRedbull/slidesTexture.jpg'
+import projectsBillboardCitrixRedbullFloorSource from '../models/projects/citrixRedbull/floorTexture.jpg'
+
 export default class Resources extends EventEmitter
 {
     constructor()
@@ -119,7 +127,15 @@ export default class Resources extends EventEmitter
             { name: 'carWheel', source: carWheelSource },
             { name: 'carBackLightsBrake', source: carBackLightsBrakeSource },
             { name: 'carBackLightsReverse', source: carBackLightsReverseSource },
-            { name: 'carAntena', source: carAntenaSource }
+            { name: 'carAntena', source: carAntenaSource },
+
+            // Projects
+            { name: 'projectsBillboardStructure', source: projectsBillboardStructureSource },
+            { name: 'projectsBillboardSheet', source: projectsBillboardSheetSource },
+            { name: 'projectsBillboardGear', source: projectsBillboardGearSource },
+            { name: 'projectsBillboardFloor', source: projectsBillboardFloorSource },
+            { name: 'projectsBillboardCitrixRedbullSlides', source: projectsBillboardCitrixRedbullSlidesSource },
+            { name: 'projectsBillboardCitrixRedbullFloor', source: projectsBillboardCitrixRedbullFloorSource }
         ])
 
         this.loader.on('fileEnd', (_resource, _data) =>
@@ -159,6 +175,12 @@ export default class Resources extends EventEmitter
 
             this.items.crossroadsStaticFloorShadowTexture = new THREE.Texture(this.items.crossroadsStaticFloorShadow)
             this.items.crossroadsStaticFloorShadowTexture.needsUpdate = true
+
+            this.items.projectsBillboardCitrixRedbullSlidesTexture = new THREE.Texture(this.items.projectsBillboardCitrixRedbullSlides)
+            this.items.projectsBillboardCitrixRedbullSlidesTexture.needsUpdate = true
+
+            this.items.projectsBillboardCitrixRedbullFloorTexture = new THREE.Texture(this.items.projectsBillboardCitrixRedbullFloor)
+            this.items.projectsBillboardCitrixRedbullFloorTexture.needsUpdate = true
 
             // Trigger ready
             this.trigger('ready')

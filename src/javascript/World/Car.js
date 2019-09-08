@@ -23,7 +23,7 @@ export default class Car
         if(this.debug)
         {
             this.debugFolder = this.debug.addFolder('car')
-            this.debugFolder.open()
+            // this.debugFolder.open()
         }
 
         this.setMovement()
