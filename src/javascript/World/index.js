@@ -34,9 +34,9 @@ export default class
         this.setFloor()
         this.setShadows()
         this.setPhysics()
-        this.setAreas()
         this.setObjects()
         this.setCar()
+        this.setAreas()
         this.setProjects()
     }
 
@@ -88,12 +88,15 @@ export default class
     {
         this.areas = new Areas({
             debug: this.debug,
+            car: this.car,
             time: this.time
         })
 
         this.container.add(this.areas.container)
 
-        this.areas.add({ position: new THREE.Vector2(0, 0), halfExtents: new THREE.Vector2(1, 1) })
+        this.areas.add({ position: new THREE.Vector2(0, - 4), halfExtents: new THREE.Vector2(1.5, 1.5) })
+        this.areas.add({ position: new THREE.Vector2(4, - 4), halfExtents: new THREE.Vector2(1.5, 1.5) })
+        this.areas.add({ position: new THREE.Vector2(- 4, - 4), halfExtents: new THREE.Vector2(1.5, 1.5) })
     }
 
     setObjects()

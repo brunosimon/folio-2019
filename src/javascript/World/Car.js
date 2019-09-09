@@ -18,6 +18,7 @@ export default class Car
 
         // Set up
         this.container = new THREE.Object3D()
+        this.position = new THREE.Vector3()
 
         // Debug
         if(this.debug)
@@ -79,6 +80,9 @@ export default class Car
                 this.chassis.object.position.copy(this.physics.car.chassis.body.position).add(this.chassis.offset)
                 this.chassis.object.quaternion.copy(this.physics.car.chassis.body.quaternion)
             }
+
+            // Update position
+            this.position.copy(this.chassis.object.position)
         })
     }
 

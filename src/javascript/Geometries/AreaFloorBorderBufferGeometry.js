@@ -62,36 +62,36 @@ function AreaFloorBorderBufferGeometry(_width, _height, _thickness,)
 
     // Index
     indices[0 * 3 + 0] = 4
-    indices[0 * 3 + 1] = 1
-    indices[0 * 3 + 2] = 0
+    indices[0 * 3 + 1] = 0
+    indices[0 * 3 + 2] = 1
 
     indices[1 * 3 + 0] = 1
-    indices[1 * 3 + 1] = 4
-    indices[1 * 3 + 2] = 5
+    indices[1 * 3 + 1] = 5
+    indices[1 * 3 + 2] = 4
 
     indices[2 * 3 + 0] = 5
-    indices[2 * 3 + 1] = 2
-    indices[2 * 3 + 2] = 1
+    indices[2 * 3 + 1] = 1
+    indices[2 * 3 + 2] = 2
 
     indices[3 * 3 + 0] = 2
-    indices[3 * 3 + 1] = 5
-    indices[3 * 3 + 2] = 6
+    indices[3 * 3 + 1] = 6
+    indices[3 * 3 + 2] = 5
 
     indices[4 * 3 + 0] = 6
-    indices[4 * 3 + 1] = 3
-    indices[4 * 3 + 2] = 2
+    indices[4 * 3 + 1] = 2
+    indices[4 * 3 + 2] = 3
 
     indices[5 * 3 + 0] = 3
-    indices[5 * 3 + 1] = 6
-    indices[5 * 3 + 2] = 7
+    indices[5 * 3 + 1] = 7
+    indices[5 * 3 + 2] = 6
 
     indices[6 * 3 + 0] = 7
-    indices[6 * 3 + 1] = 0
-    indices[6 * 3 + 2] = 3
+    indices[6 * 3 + 1] = 3
+    indices[6 * 3 + 2] = 0
 
     indices[7 * 3 + 0] = 0
-    indices[7 * 3 + 1] = 7
-    indices[7 * 3 + 2] = 4
+    indices[7 * 3 + 1] = 4
+    indices[7 * 3 + 2] = 7
 
     // Set indices
     this.setIndex(new THREE.BufferAttribute(indices, 1, false))
