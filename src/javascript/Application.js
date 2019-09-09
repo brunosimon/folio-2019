@@ -54,7 +54,8 @@ export default class Application
         })
         // this.renderer.setClearColor(0x414141, 1)
         this.renderer.setClearColor(0x000000, 1)
-        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+        // this.renderer.setPixelRatio(Math.min(Math.max(window.devicePixelRatio, 1.5), 2))
+        this.renderer.setPixelRatio(2)
         this.renderer.setSize(this.sizes.viewport.width, this.sizes.viewport.height)
         this.renderer.physicallyCorrectLights = true
         this.renderer.gammaFactor = 2.2
