@@ -80,16 +80,22 @@ export default class Area extends EventEmitter
             TweenLite.fromTo(this.floorBorder.material, 1.5, { opacity: 1 }, { opacity: 0.5 })
             TweenLite.fromTo(this.fence.material.uniforms.uBorderAlpha, 1.5, { value: 1 }, { value: 0.5 })
         } })
+
+        this.trigger('interact')
     }
 
     in()
     {
         TweenLite.to(this.fence.mesh.position, 0.35, { z: this.fence.offset, ease: Back.easeOut.config(3) })
+
+        this.trigger('in')
     }
 
     out()
     {
         TweenLite.to(this.fence.mesh.position, 0.35, { z: - this.fence.depth, ease: Back.easeIn.config(4) })
+
+        this.trigger('out')
     }
 
     setInteractions()
