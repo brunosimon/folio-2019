@@ -24,3 +24,7 @@ html
     height: 100%;
 }
 
+.canvas.has-cursor-pointer
+{
+    cursor: pointer;
+}

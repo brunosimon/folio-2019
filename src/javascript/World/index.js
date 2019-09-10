@@ -89,6 +89,8 @@ export default class
         this.areas = new Areas({
             resources: this.resources,
             debug: this.debug,
+            renderer: this.renderer,
+            camera: this.camera,
             car: this.car,
             time: this.time
         })

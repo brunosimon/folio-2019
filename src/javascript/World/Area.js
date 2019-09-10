@@ -96,7 +96,7 @@ export default class Area extends EventEmitter
         this.container.add(this.key.mesh)
     }
 
-    interact()
+    interact(_showKey = true)
     {
         // Kill tweens
         TweenLite.killTweensOf(this.fence.mesh.position)
@@ -112,12 +112,17 @@ export default class Area extends EventEmitter
             TweenLite.fromTo(this.floorBorder.material, 1.5, { opacity: 1 }, { opacity: 0.5 })
             TweenLite.fromTo(this.fence.material.uniforms.uBorderAlpha, 1.5, { value: 1 }, { value: 0.5 })
         } })
-        TweenLite.fromTo(this.key.material, 1.5, { opacity: 1 }, { opacity: 0.5 })
+
+        if(_showKey)
+        {
+            this.key.mesh.position.z = this.key.shownZ
+            TweenLite.fromTo(this.key.material, 1.5, { opacity: 1 }, { opacity: 0.5 })
+        }
 
         this.trigger('interact')
     }
 
-    in()
+    in(_showKey = true)
     {
         // Kill tweens
         TweenLite.killTweensOf(this.fence.mesh.position)
@@ -125,8 +130,11 @@ export default class Area extends EventEmitter
         TweenLite.killTweensOf(this.key.material)
 
         // Animate
-        TweenLite.to(this.key.mesh.position, 0.35, { z: this.key.shownZ, ease: Back.easeOut.config(3), delay: 0.1 })
-        TweenLite.to(this.key.material, 0.35, { opacity: 0.5, ease: Back.easeOut.config(3), delay: 0.1 })
+        if(_showKey)
+        {
+            TweenLite.to(this.key.mesh.position, 0.35, { z: this.key.shownZ, ease: Back.easeOut.config(3), delay: 0.1 })
+            TweenLite.to(this.key.material, 0.35, { opacity: 0.5, ease: Back.easeOut.config(3), delay: 0.1 })
+        }
         TweenLite.to(this.fence.mesh.position, 0.35, { z: this.fence.offset, ease: Back.easeOut.config(3) })
 
         this.trigger('in')
@@ -149,6 +157,12 @@ export default class Area extends EventEmitter
 
     setInteractions()
     {
+        this.mouseMesh = new THREE.Mesh(
+            new THREE.PlaneBufferGeometry(this.halfExtents.x * 2, this.halfExtents.y * 2, 1, 1),
+            new THREE.MeshBasicMaterial({ transparent: true, opacity: 0 })
+        )
+        this.container.add(this.mouseMesh)
+
         this.time.on('tick', () =>
         {
             const isIn = Math.abs(this.car.position.x - this.position.x) < Math.abs(this.halfExtents.x) && Math.abs(this.car.position.y - this.position.y) < Math.abs(this.halfExtents.y)
