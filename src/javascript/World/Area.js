@@ -14,6 +14,7 @@ export default class Area extends EventEmitter
         super()
 
         // Options
+        this.resources = _options.resources
         this.car = _options.car
         this.time = _options.time
         this.position = _options.position
@@ -27,6 +28,7 @@ export default class Area extends EventEmitter
 
         this.setFloorBorder()
         this.setFence()
+        this.setKey()
         this.setInteractions()
     }
 
@@ -69,23 +71,62 @@ export default class Area extends EventEmitter
         })
     }
 
+    setKey()
+    {
+        this.key = {}
+        this.key.size = 0.75
+        this.key.hiddenZ = 1.5
+        this.key.shownZ = 2.5
+
+        // Geometry
+        this.key.geometry = new THREE.PlaneBufferGeometry(this.key.size, this.key.size, 1, 1)
+
+        // Texture
+        this.key.texture = this.resources.items.areaKeyEnterTexture
+        this.key.texture.magFilter = THREE.NearestFilter
+        this.key.texture.minFilter = THREE.LinearFilter
+
+        // Material
+        this.key.material = new THREE.MeshBasicMaterial({ color: 0xffffff, alphaMap: this.key.texture, transparent: true, opacity: 0 })
+
+        // Mesh
+        this.key.mesh = new THREE.Mesh(this.key.geometry, this.key.material)
+        this.key.mesh.position.z = this.key.hiddenZ
+        this.key.mesh.rotation.x = Math.PI * 0.5
+        this.container.add(this.key.mesh)
+    }
+
     interact()
     {
+        // Kill tweens
         TweenLite.killTweensOf(this.fence.mesh.position)
-        TweenLite.killTweensOf(this.fence.mesh.material)
+        TweenLite.killTweensOf(this.floorBorder.material)
+        TweenLite.killTweensOf(this.fence.material.uniforms.uBorderAlpha)
+        TweenLite.killTweensOf(this.key.mesh.position)
+        TweenLite.killTweensOf(this.key.material)
 
+        // Animate
         TweenLite.to(this.fence.mesh.position, 0.05, { z: 0, onComplete: () =>
         {
             TweenLite.to(this.fence.mesh.position, 0.25, { z: 0.5, ease: Back.easeOut.config(2) })
             TweenLite.fromTo(this.floorBorder.material, 1.5, { opacity: 1 }, { opacity: 0.5 })
             TweenLite.fromTo(this.fence.material.uniforms.uBorderAlpha, 1.5, { value: 1 }, { value: 0.5 })
         } })
+        TweenLite.fromTo(this.key.material, 1.5, { opacity: 1 }, { opacity: 0.5 })
 
         this.trigger('interact')
     }
 
     in()
     {
+        // Kill tweens
+        TweenLite.killTweensOf(this.fence.mesh.position)
+        TweenLite.killTweensOf(this.key.mesh.position)
+        TweenLite.killTweensOf(this.key.material)
+
+        // Animate
+        TweenLite.to(this.key.mesh.position, 0.35, { z: this.key.shownZ, ease: Back.easeOut.config(3), delay: 0.1 })
+        TweenLite.to(this.key.material, 0.35, { opacity: 0.5, ease: Back.easeOut.config(3), delay: 0.1 })
         TweenLite.to(this.fence.mesh.position, 0.35, { z: this.fence.offset, ease: Back.easeOut.config(3) })
 
         this.trigger('in')
@@ -93,6 +134,14 @@ export default class Area extends EventEmitter
 
     out()
     {
+        // Kill tweens
+        TweenLite.killTweensOf(this.fence.mesh.position)
+        TweenLite.killTweensOf(this.key.mesh.position)
+        TweenLite.killTweensOf(this.key.material)
+
+        // Animate
+        TweenLite.to(this.key.mesh.position, 0.35, { z: this.key.hiddenZ, ease: Back.easeIn.config(4), delay: 0.1 })
+        TweenLite.to(this.key.material, 0.35, { opacity: 0, ease: Back.easeIn.config(4), delay: 0.1 })
         TweenLite.to(this.fence.mesh.position, 0.35, { z: - this.fence.depth, ease: Back.easeIn.config(4) })
 
         this.trigger('out')

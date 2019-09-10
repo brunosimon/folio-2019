@@ -1,7 +1,6 @@
 import * as THREE from 'three'
 import { TweenLite } from 'gsap/TweenLite'
 import { Back } from 'gsap/EasePack'
-console.log(Back)
 
 export default class Project
 {

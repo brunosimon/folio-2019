@@ -65,6 +65,9 @@ import projectsBillboardFloorSource from '../models/projects/billboard/floor.glb
 import projectsBillboardCitrixRedbullSlidesSource from '../models/projects/citrixRedbull/slidesTexture.jpg'
 import projectsBillboardCitrixRedbullFloorSource from '../models/projects/citrixRedbull/floorTexture.jpg'
 
+// Area
+import areaKeyEnterSource from '../models/area/key-enter.png'
+
 export default class Resources extends EventEmitter
 {
     constructor()
@@ -135,7 +138,10 @@ export default class Resources extends EventEmitter
             { name: 'projectsBillboardGear', source: projectsBillboardGearSource },
             { name: 'projectsBillboardFloor', source: projectsBillboardFloorSource },
             { name: 'projectsBillboardCitrixRedbullSlides', source: projectsBillboardCitrixRedbullSlidesSource },
-            { name: 'projectsBillboardCitrixRedbullFloor', source: projectsBillboardCitrixRedbullFloorSource }
+            { name: 'projectsBillboardCitrixRedbullFloor', source: projectsBillboardCitrixRedbullFloorSource },
+
+            // Area
+            { name: 'areaKeyEnter', source: areaKeyEnterSource }
         ])
 
         this.loader.on('fileEnd', (_resource, _data) =>
@@ -181,6 +187,9 @@ export default class Resources extends EventEmitter
 
             this.items.projectsBillboardCitrixRedbullFloorTexture = new THREE.Texture(this.items.projectsBillboardCitrixRedbullFloor)
             this.items.projectsBillboardCitrixRedbullFloorTexture.needsUpdate = true
+
+            this.items.areaKeyEnterTexture = new THREE.Texture(this.items.areaKeyEnter)
+            this.items.areaKeyEnterTexture.needsUpdate = true
 
             // Trigger ready
             this.trigger('ready')

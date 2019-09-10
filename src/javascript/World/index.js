@@ -87,6 +87,7 @@ export default class
     setAreas()
     {
         this.areas = new Areas({
+            resources: this.resources,
             debug: this.debug,
             car: this.car,
             time: this.time
