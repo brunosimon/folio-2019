@@ -9,6 +9,7 @@ export default class Projects
         this.time = _options.time,
         this.resources = _options.resources,
         this.objects = _options.objects,
+        this.areas = _options.areas,
         this.debug = _options.debug
 
         if(this.debug)
@@ -21,7 +22,7 @@ export default class Projects
 
         this.setMeshes()
         this.setMaterials()
-        // this.setTestProject()
+        this.setTestProject()
     }
 
     setMeshes()
@@ -54,6 +55,7 @@ export default class Projects
             time: this.time,
             resources: this.resources,
             objects: this.objects,
+            areas: this.areas,
             debug: this.debugFolder
         })
         this.container.add(this.testProject.container)

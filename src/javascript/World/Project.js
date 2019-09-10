@@ -16,6 +16,7 @@ export default class Project
         this.time = _options.time
         this.resources = _options.resources
         this.objects = _options.objects
+        this.areas = _options.areas
         this.debug = _options.debug
 
         // Debug
@@ -116,16 +117,40 @@ export default class Project
         this.floor.mesh = this.meshes.floor.clone()
         this.floor.mesh.material = this.floor.material
         this.container.add(this.floor.mesh)
+
+        // Areas
+        this.floor.areaPrevious = this.areas.add({ position: new THREE.Vector2(- 2.9, - 3.4), halfExtents: new THREE.Vector2(1, 1) })
+        this.floor.areaPrevious.on('interact', () =>
+        {
+            this.previous()
+        })
+
+        this.floor.areaNext = this.areas.add({ position: new THREE.Vector2(- 0.4, - 3.4), halfExtents: new THREE.Vector2(1, 1) })
+        this.floor.areaNext.on('interact', () =>
+        {
+            this.next()
+        })
+
+        this.floor.areaOpen = this.areas.add({ position: new THREE.Vector2(0, - 13), halfExtents: new THREE.Vector2(4, 2) })
+        this.floor.areaOpen.on('interact', () =>
+        {
+            window.open('https://google.fr', '_blank')
+        })
     }
 
     previous()
     {
-        this.index--
+        this.goTo(this.index - 1)
     }
 
     next()
     {
-        this.index++
+        this.goTo(this.index + 1)
+    }
+
+    goTo(_index)
+    {
+        this.index = _index
 
         // Ease
         const ease = Back.easeInOut.config(1)

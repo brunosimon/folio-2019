@@ -96,10 +96,6 @@ export default class
         })
 
         this.container.add(this.areas.container)
-
-        this.areas.add({ position: new THREE.Vector2(0, - 4), halfExtents: new THREE.Vector2(1.5, 1.5) })
-        this.areas.add({ position: new THREE.Vector2(4, - 4), halfExtents: new THREE.Vector2(1.5, 1.5) })
-        this.areas.add({ position: new THREE.Vector2(- 4, - 4), halfExtents: new THREE.Vector2(1.5, 1.5) })
     }
 
     setObjects()
@@ -137,6 +133,7 @@ export default class
             time: this.time,
             resources: this.resources,
             objects: this.objects,
+            areas: this.areas,
             debug: this.debugFolder
         })
         this.container.add(this.projects.container)
