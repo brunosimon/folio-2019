@@ -69,27 +69,27 @@ export default class Area extends EventEmitter
         })
     }
 
-    activate()
+    interact()
     {
         TweenLite.killTweensOf(this.fence.mesh.position)
         TweenLite.killTweensOf(this.fence.mesh.material)
 
-        TweenLite.to(this.fence.mesh.position, 0.25, { z: 0, ease: Back.easeIn.config(1.5), onComplete: () =>
+        TweenLite.to(this.fence.mesh.position, 0.05, { z: 0, onComplete: () =>
         {
-            TweenLite.to(this.fence.mesh.position, 0.25, { z: 0.5 })
-            TweenLite.fromTo(this.floorBorder.material, 1, { opacity: 1 }, { opacity: 0.5 })
-            TweenLite.fromTo(this.fence.material.uniforms.uBorderAlpha, 1, { value: 1 }, { value: 0.5 })
+            TweenLite.to(this.fence.mesh.position, 0.25, { z: 0.5, ease: Back.easeOut.config(2) })
+            TweenLite.fromTo(this.floorBorder.material, 1.5, { opacity: 1 }, { opacity: 0.5 })
+            TweenLite.fromTo(this.fence.material.uniforms.uBorderAlpha, 1.5, { value: 1 }, { value: 0.5 })
         } })
     }
 
     in()
     {
-        TweenLite.to(this.fence.mesh.position, 0.35, { z: this.fence.offset, ease: Back.easeOut.config(2) })
+        TweenLite.to(this.fence.mesh.position, 0.35, { z: this.fence.offset, ease: Back.easeOut.config(3) })
     }
 
     out()
     {
-        TweenLite.to(this.fence.mesh.position, 0.35, { z: - this.fence.depth, ease: Back.easeIn.config(2) })
+        TweenLite.to(this.fence.mesh.position, 0.35, { z: - this.fence.depth, ease: Back.easeIn.config(4) })
     }
 
     setInteractions()
@@ -115,9 +115,9 @@ export default class Area extends EventEmitter
 
         window.addEventListener('keydown', (_event) =>
         {
-            if((_event.key === 'f' || _event.key === 'Enter') && this.isIn)
+            if((_event.key === 'f' || _event.key === 'e' || _event.key === 'Enter') && this.isIn)
             {
-                this.activate()
+                this.interact()
             }
         })
     }
