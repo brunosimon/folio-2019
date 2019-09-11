@@ -28,6 +28,9 @@ export default class Project
 
         // Set up
         this.container = new THREE.Object3D()
+        this.container.matrixAutoUpdate = false
+        this.container.updateMatrix()
+
         this.index = 0
 
         this.setStructure()

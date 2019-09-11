@@ -19,8 +19,11 @@ export default class Shadows
         this.zFightingDistance = 0.001
         this.color = '#d04500'
         this.wireframeVisible = false
-        this.container = new THREE.Object3D()
         this.items = []
+
+        this.container = new THREE.Object3D()
+        this.container.matrixAutoUpdate = false
+        this.container.updateMatrix()
 
         // Debug
         if(this.debug)

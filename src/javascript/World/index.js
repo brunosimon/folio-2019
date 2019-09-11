@@ -28,6 +28,7 @@ export default class
 
         // Set up
         this.container = new THREE.Object3D()
+        this.container.matrixAutoUpdate = false
 
         // this.setAxes()
         this.setMaterials()

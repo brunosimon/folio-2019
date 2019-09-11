@@ -17,6 +17,7 @@ export default class Areas
         // Set up
         this.items = []
         this.container = new THREE.Object3D()
+        this.container.matrixAutoUpdate = false
 
         this.setMouse()
     }

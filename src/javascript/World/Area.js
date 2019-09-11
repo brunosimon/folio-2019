@@ -24,6 +24,9 @@ export default class Area extends EventEmitter
         this.container = new THREE.Object3D()
         this.container.position.x = this.position.x
         this.container.position.y = this.position.y
+        this.container.matrixAutoUpdate = false
+        this.container.updateMatrix()
+
         this.isIn = false
 
         this.setFloorBorder()
@@ -39,6 +42,7 @@ export default class Area extends EventEmitter
         this.floorBorder.geometry = new AreaFloorBorderBufferGeometry(this.halfExtents.x * 2, this.halfExtents.y * 2, 0.25)
         this.floorBorder.material = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: false, transparent: true, opacity: 0.5 })
         this.floorBorder.mesh = new THREE.Mesh(this.floorBorder.geometry, this.floorBorder.material)
+        this.floorBorder.mesh.matrixAutoUpdate = false
 
         this.container.add(this.floorBorder.mesh)
     }
@@ -161,6 +165,7 @@ export default class Area extends EventEmitter
             new THREE.PlaneBufferGeometry(this.halfExtents.x * 2, this.halfExtents.y * 2, 1, 1),
             new THREE.MeshBasicMaterial({ transparent: true, opacity: 0 })
         )
+        this.mouseMesh.matrixAutoUpdate = false
         this.container.add(this.mouseMesh)
 
         this.time.on('tick', () =>

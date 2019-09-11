@@ -19,6 +19,8 @@ export default class Projects
         }
 
         this.container = new THREE.Object3D()
+        this.container.matrixAutoUpdate = false
+        this.container.updateMatrix()
 
         this.setMeshes()
         this.setMaterials()

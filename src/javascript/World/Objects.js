@@ -14,6 +14,8 @@ export default class Objects
 
         // Set up
         this.container = new THREE.Object3D()
+        this.container.matrixAutoUpdate = false
+
         this.items = []
 
         this.setList()
@@ -34,150 +36,150 @@ export default class Objects
             /**
              * Intro
              */
-            // // Static
-            // {
-            //     base: this.resources.items.introStaticBase.scene,
-            //     collision: this.resources.items.introStaticCollision.scene,
-            //     floorShadowTexture: this.resources.items.introStaticFloorShadowTexture,
-            //     offset: new THREE.Vector3(0, 0, 0),
-            //     mass: 0
-            // },
+            // Static
+            {
+                base: this.resources.items.introStaticBase.scene,
+                collision: this.resources.items.introStaticCollision.scene,
+                floorShadowTexture: this.resources.items.introStaticFloorShadowTexture,
+                offset: new THREE.Vector3(0, 0, 0),
+                mass: 0
+            },
 
-            // // Arrow keys
-            // {
-            //     base: this.resources.items.introArrowKeyBase.scene,
-            //     collision: this.resources.items.introArrowKeyCollision.scene,
-            //     offset: new THREE.Vector3(0, 0, 0),
-            //     rotation: new THREE.Euler(0, 0, 0),
-            //     duplicated: true,
-            //     shadow: { sizeX: 1, sizeY: 1, offsetZ: - 0.2, alpha: 0.5 },
-            //     mass: 1.5
-            // },
-            // {
-            //     base: this.resources.items.introArrowKeyBase.scene,
-            //     collision: this.resources.items.introArrowKeyCollision.scene,
-            //     offset: new THREE.Vector3(0, - 0.8, 0),
-            //     rotation: new THREE.Euler(0, 0, Math.PI),
-            //     duplicated: true,
-            //     shadow: { sizeX: 1, sizeY: 1, offsetZ: - 0.2, alpha: 0.5 },
-            //     mass: 1.5
-            // },
-            // {
-            //     base: this.resources.items.introArrowKeyBase.scene,
-            //     collision: this.resources.items.introArrowKeyCollision.scene,
-            //     offset: new THREE.Vector3(- 0.8, - 0.8, 0),
-            //     rotation: new THREE.Euler(0, 0, Math.PI * 0.5),
-            //     duplicated: true,
-            //     shadow: { sizeX: 1, sizeY: 1, offsetZ: - 0.2, alpha: 0.5 },
-            //     mass: 1.5
-            // },
-            // {
-            //     base: this.resources.items.introArrowKeyBase.scene,
-            //     collision: this.resources.items.introArrowKeyCollision.scene,
-            //     offset: new THREE.Vector3(0.8, - 0.8, 0),
-            //     rotation: new THREE.Euler(0, 0, - Math.PI * 0.5),
-            //     duplicated: true,
-            //     shadow: { sizeX: 1, sizeY: 1, offsetZ: - 0.2, alpha: 0.5 },
-            //     mass: 1.5
-            // },
+            // Arrow keys
+            {
+                base: this.resources.items.introArrowKeyBase.scene,
+                collision: this.resources.items.introArrowKeyCollision.scene,
+                offset: new THREE.Vector3(0, 0, 0),
+                rotation: new THREE.Euler(0, 0, 0),
+                duplicated: true,
+                shadow: { sizeX: 1, sizeY: 1, offsetZ: - 0.2, alpha: 0.5 },
+                mass: 1.5
+            },
+            {
+                base: this.resources.items.introArrowKeyBase.scene,
+                collision: this.resources.items.introArrowKeyCollision.scene,
+                offset: new THREE.Vector3(0, - 0.8, 0),
+                rotation: new THREE.Euler(0, 0, Math.PI),
+                duplicated: true,
+                shadow: { sizeX: 1, sizeY: 1, offsetZ: - 0.2, alpha: 0.5 },
+                mass: 1.5
+            },
+            {
+                base: this.resources.items.introArrowKeyBase.scene,
+                collision: this.resources.items.introArrowKeyCollision.scene,
+                offset: new THREE.Vector3(- 0.8, - 0.8, 0),
+                rotation: new THREE.Euler(0, 0, Math.PI * 0.5),
+                duplicated: true,
+                shadow: { sizeX: 1, sizeY: 1, offsetZ: - 0.2, alpha: 0.5 },
+                mass: 1.5
+            },
+            {
+                base: this.resources.items.introArrowKeyBase.scene,
+                collision: this.resources.items.introArrowKeyCollision.scene,
+                offset: new THREE.Vector3(0.8, - 0.8, 0),
+                rotation: new THREE.Euler(0, 0, - Math.PI * 0.5),
+                duplicated: true,
+                shadow: { sizeX: 1, sizeY: 1, offsetZ: - 0.2, alpha: 0.5 },
+                mass: 1.5
+            },
 
-            // // Title
-            // {
-            //     base: this.resources.items.introBBase.scene,
-            //     collision: this.resources.items.introBCollision.scene,
-            //     offset: new THREE.Vector3(0, 0, 0),
-            //     rotation: new THREE.Euler(0, 0, 0),
-            //     shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
-            //     mass: 1.5
-            // },
-            // {
-            //     base: this.resources.items.introRBase.scene,
-            //     collision: this.resources.items.introRCollision.scene,
-            //     offset: new THREE.Vector3(0, 0, 0),
-            //     rotation: new THREE.Euler(0, 0, 0),
-            //     shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
-            //     mass: 1.5
-            // },
-            // {
-            //     base: this.resources.items.introUBase.scene,
-            //     collision: this.resources.items.introUCollision.scene,
-            //     offset: new THREE.Vector3(0, 0, 0),
-            //     rotation: new THREE.Euler(0, 0, 0),
-            //     shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
-            //     mass: 1.5
-            // },
-            // {
-            //     base: this.resources.items.introNBase.scene,
-            //     collision: this.resources.items.introNCollision.scene,
-            //     offset: new THREE.Vector3(0, 0, 0),
-            //     rotation: new THREE.Euler(0, 0, 0),
-            //     duplicated: true,
-            //     shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
-            //     mass: 1.5
-            // },
-            // {
-            //     base: this.resources.items.introOBase.scene,
-            //     collision: this.resources.items.introOCollision.scene,
-            //     offset: new THREE.Vector3(0, 0, 0),
-            //     rotation: new THREE.Euler(0, 0, 0),
-            //     duplicated: true,
-            //     shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
-            //     mass: 1.5
-            // },
-            // {
-            //     base: this.resources.items.introSBase.scene,
-            //     collision: this.resources.items.introSCollision.scene,
-            //     offset: new THREE.Vector3(0, 0, 0),
-            //     rotation: new THREE.Euler(0, 0, 0),
-            //     shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
-            //     mass: 1.5
-            // },
-            // {
-            //     base: this.resources.items.introIBase.scene,
-            //     collision: this.resources.items.introICollision.scene,
-            //     offset: new THREE.Vector3(0, 0, 0),
-            //     rotation: new THREE.Euler(0, 0, 0),
-            //     shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
-            //     mass: 1.5
-            // },
-            // {
-            //     base: this.resources.items.introMBase.scene,
-            //     collision: this.resources.items.introMCollision.scene,
-            //     offset: new THREE.Vector3(0, 0, 0),
-            //     rotation: new THREE.Euler(0, 0, 0),
-            //     shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
-            //     mass: 1.5
-            // },
-            // {
-            //     base: this.resources.items.introOBase.scene,
-            //     collision: this.resources.items.introOCollision.scene,
-            //     offset: new THREE.Vector3(3.95, 0, 0),
-            //     rotation: new THREE.Euler(0, 0, 0),
-            //     duplicated: true,
-            //     shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
-            //     mass: 1.5
-            // },
-            // {
-            //     base: this.resources.items.introNBase.scene,
-            //     collision: this.resources.items.introNCollision.scene,
-            //     offset: new THREE.Vector3(5.85, 0, 0),
-            //     rotation: new THREE.Euler(0, 0, 0),
-            //     duplicated: true,
-            //     shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
-            //     mass: 1.5
-            // },
+            // Title
+            {
+                base: this.resources.items.introBBase.scene,
+                collision: this.resources.items.introBCollision.scene,
+                offset: new THREE.Vector3(0, 0, 0),
+                rotation: new THREE.Euler(0, 0, 0),
+                shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+                mass: 1.5
+            },
+            {
+                base: this.resources.items.introRBase.scene,
+                collision: this.resources.items.introRCollision.scene,
+                offset: new THREE.Vector3(0, 0, 0),
+                rotation: new THREE.Euler(0, 0, 0),
+                shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+                mass: 1.5
+            },
+            {
+                base: this.resources.items.introUBase.scene,
+                collision: this.resources.items.introUCollision.scene,
+                offset: new THREE.Vector3(0, 0, 0),
+                rotation: new THREE.Euler(0, 0, 0),
+                shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+                mass: 1.5
+            },
+            {
+                base: this.resources.items.introNBase.scene,
+                collision: this.resources.items.introNCollision.scene,
+                offset: new THREE.Vector3(0, 0, 0),
+                rotation: new THREE.Euler(0, 0, 0),
+                duplicated: true,
+                shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+                mass: 1.5
+            },
+            {
+                base: this.resources.items.introOBase.scene,
+                collision: this.resources.items.introOCollision.scene,
+                offset: new THREE.Vector3(0, 0, 0),
+                rotation: new THREE.Euler(0, 0, 0),
+                duplicated: true,
+                shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+                mass: 1.5
+            },
+            {
+                base: this.resources.items.introSBase.scene,
+                collision: this.resources.items.introSCollision.scene,
+                offset: new THREE.Vector3(0, 0, 0),
+                rotation: new THREE.Euler(0, 0, 0),
+                shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+                mass: 1.5
+            },
+            {
+                base: this.resources.items.introIBase.scene,
+                collision: this.resources.items.introICollision.scene,
+                offset: new THREE.Vector3(0, 0, 0),
+                rotation: new THREE.Euler(0, 0, 0),
+                shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+                mass: 1.5
+            },
+            {
+                base: this.resources.items.introMBase.scene,
+                collision: this.resources.items.introMCollision.scene,
+                offset: new THREE.Vector3(0, 0, 0),
+                rotation: new THREE.Euler(0, 0, 0),
+                shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+                mass: 1.5
+            },
+            {
+                base: this.resources.items.introOBase.scene,
+                collision: this.resources.items.introOCollision.scene,
+                offset: new THREE.Vector3(3.95, 0, 0),
+                rotation: new THREE.Euler(0, 0, 0),
+                duplicated: true,
+                shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+                mass: 1.5
+            },
+            {
+                base: this.resources.items.introNBase.scene,
+                collision: this.resources.items.introNCollision.scene,
+                offset: new THREE.Vector3(5.85, 0, 0),
+                rotation: new THREE.Euler(0, 0, 0),
+                duplicated: true,
+                shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
+                mass: 1.5
+            },
 
-            // /**
-            //  * Intro
-            //  */
-            // // Static
-            // {
-            //     base: this.resources.items.crossroadsStaticBase.scene,
-            //     collision: this.resources.items.crossroadsStaticCollision.scene,
-            //     floorShadowTexture: this.resources.items.crossroadsStaticFloorShadowTexture,
-            //     offset: new THREE.Vector3(0, - 30, 0),
-            //     mass: 0
-            // }
+            /**
+             * Crossroads
+             */
+            // Static
+            {
+                base: this.resources.items.crossroadsStaticBase.scene,
+                collision: this.resources.items.crossroadsStaticCollision.scene,
+                floorShadowTexture: this.resources.items.crossroadsStaticFloorShadowTexture,
+                offset: new THREE.Vector3(0, - 30, 0),
+                mass: 0
+            }
         ]
     }
 
@@ -258,6 +260,8 @@ export default class Objects
                     material.uniforms.uShadowColor.value = new THREE.Color(this.materials.items.floorShadow.shadowColor)
 
                     const mesh = new THREE.Mesh(geometry, material)
+                    mesh.matrixAutoUpdate = false
+                    mesh.updateMatrix()
 
                     return mesh
                 }
@@ -320,6 +324,12 @@ export default class Objects
             container.position.add(center)
         }
 
+        if(_options.mass && _options.mass === 0)
+        {
+            container.matrixAutoUpdate = false
+            container.updateMatrix()
+        }
+
         return container
     }
 
@@ -344,6 +354,19 @@ export default class Objects
         // Container
         object.container = this.getConvertedMesh(_options.base.children, _options)
         object.container.position.copy(offset)
+
+        // Deactivate matrix auto update
+        if(_options.mass === 0)
+        {
+            object.container.matrixAutoUpdate = false
+            object.container.updateMatrix()
+
+            for(const _child of object.container.children)
+            {
+                _child.matrixAutoUpdate = false
+                _child.updateMatrix()
+            }
+        }
 
         // Create physics object
         object.collision = this.physics.addObjectFromThree({
