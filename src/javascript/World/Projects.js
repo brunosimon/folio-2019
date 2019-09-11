@@ -58,7 +58,9 @@ export default class Projects
             resources: this.resources,
             objects: this.objects,
             areas: this.areas,
-            debug: this.debugFolder
+            debug: this.debugFolder,
+            x: - 14,
+            y: 0
         })
         this.container.add(this.testProject.container)
     }

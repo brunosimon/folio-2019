@@ -27,7 +27,11 @@ export default class Project
         }
 
         // Set up
+        this.x = _options.x
+        this.y = _options.y
         this.container = new THREE.Object3D()
+        this.container.position.x = this.x
+        this.container.position.y = this.y
         this.container.matrixAutoUpdate = false
         this.container.updateMatrix()
 
@@ -122,19 +126,19 @@ export default class Project
         this.container.add(this.floor.mesh)
 
         // Areas
-        this.floor.areaPrevious = this.areas.add({ position: new THREE.Vector2(- 2.9, - 3.4), halfExtents: new THREE.Vector2(1, 1) })
+        this.floor.areaPrevious = this.areas.add({ position: new THREE.Vector2(- 2.9 + this.x, - 3.4 + this.y), halfExtents: new THREE.Vector2(1, 1) })
         this.floor.areaPrevious.on('interact', () =>
         {
             this.previous()
         })
 
-        this.floor.areaNext = this.areas.add({ position: new THREE.Vector2(- 0.4, - 3.4), halfExtents: new THREE.Vector2(1, 1) })
+        this.floor.areaNext = this.areas.add({ position: new THREE.Vector2(- 0.4 + this.x, - 3.4 + this.y), halfExtents: new THREE.Vector2(1, 1) })
         this.floor.areaNext.on('interact', () =>
         {
             this.next()
         })
 
-        this.floor.areaOpen = this.areas.add({ position: new THREE.Vector2(0, - 13), halfExtents: new THREE.Vector2(4, 2) })
+        this.floor.areaOpen = this.areas.add({ position: new THREE.Vector2(0 + this.x, - 13 + this.y), halfExtents: new THREE.Vector2(4, 2) })
         this.floor.areaOpen.on('interact', () =>
         {
             window.open('https://google.fr', '_blank')
