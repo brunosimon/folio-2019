@@ -8,10 +8,12 @@ export default class Project
     {
         // Options
         this.name = _options.name
+        this.geometries = _options.geometries
         this.meshes = _options.meshes
         this.materials = _options.materials
-        this.slidesCount = _options.slidesCount
-        this.slidesTexture = _options.slidesTexture
+        // this.slidesCount = _options.slidesCount
+        // this.slidesTexture = _options.slidesTexture
+        this.images = _options.images
         this.floorTexture = _options.floorTexture
         this.time = _options.time
         this.resources = _options.resources
@@ -35,76 +37,51 @@ export default class Project
         this.container.matrixAutoUpdate = false
         this.container.updateMatrix()
 
-        this.index = 0
-
-        this.setStructure()
-        this.setSheet()
-        this.setGears()
+        this.setBoards()
         this.setFloor()
+    }
 
-        // Debug
-        if(this.debug)
+    setBoards()
+    {
+        this.boards = {}
+        this.boards.items = []
+        this.boards.xStart = - 5
+        this.boards.xInter = 5
+        this.boards.y = 3
+
+        let i = 0
+
+        for(const _image of this.images)
         {
-            this.debugFolder.add(this, 'previous').name('previous')
-            this.debugFolder.add(this, 'next').name('next')
+            const board = {}
+
+            board.texture = _image
+            // board.texture.magFilter = THREE.NearestFilter
+            // board.texture.minFilter = THREE.LinearFilter
+
+            board.container = new THREE.Object3D()
+            board.container.position.x = this.boards.xStart + i * this.boards.xInter
+            board.container.position.y = this.boards.y
+            board.container.rotation.z = (Math.random() - 0.5) * 0.1 * Math.PI
+            board.container.matrixAutoUpdate = false
+            board.container.updateMatrix()
+            this.container.add(board.container)
+
+            board.structureMesh = this.meshes.boardStructure.clone()
+            board.structureMesh.matrixAutoUpdate = false
+            board.structureMesh.updateMatrix()
+            board.container.add(board.structureMesh)
+
+            board.planeMesh = this.meshes.boardPlane.clone()
+            board.planeMesh.matrixAutoUpdate = false
+            board.planeMesh.updateMatrix()
+            board.planeMesh.material = new THREE.MeshBasicMaterial({ map: board.texture })
+            board.container.add(board.planeMesh)
+
+            this.boards.items.push(board)
+
+            i++
         }
-    }
-
-    setStructure()
-    {
-        this.container.add(this.meshes.structure)
-    }
-
-    setSheet()
-    {
-        this.sheet = {}
-
-        this.sheet.progress = 0
-
-        // Texture
-        this.slidesTexture.wrapS = THREE.RepeatWrapping
-
-        // this.slidesTexture.magFilter = THREE.NearestFilter
-        // this.slidesTexture.magFilter = THREE.LinearFilter // Default
-
-        // this.slidesTexture.minFilter = THREE.NearestFilter
-        // this.slidesTexture.minFilter = THREE.NearestMipmapNearestFilter
-        // this.slidesTexture.minFilter = THREE.NearestMipmapLinearFilter
-        this.slidesTexture.minFilter = THREE.LinearFilter
-        // this.slidesTexture.minFilter = THREE.LinearMipmapNearestFilter
-        // this.slidesTexture.minFilter = THREE.LinearMipmapLinearFilter // Default
-
-        // Material
-        this.sheet.material = this.materials.sheet.clone()
-        this.sheet.material.uniforms.uTexture.value = this.slidesTexture
-
-        this.sheet.material.uniforms.uCount.value = this.slidesCount
-        this.sheet.material.uniforms.uProgress.value = 0
-
-        // Mesh
-        this.sheet.mesh = this.meshes.sheet
-        this.sheet.mesh.material = this.sheet.material
-
-        this.container.add(this.sheet.mesh)
-
-        // Time tick
-        this.time.on('tick', () =>
-        {
-            this.sheet.material.uniforms.uProgress.value = this.sheet.progress
-        })
-    }
-
-    setGears()
-    {
-        this.gears = {}
-        this.gears.rotationSpeed = - 8
-
-        this.gears.a = this.meshes.gear.clone()
-        this.container.add(this.gears.a)
-
-        this.gears.b = this.meshes.gear.clone()
-        this.gears.b.position.x -= 5.9
-        this.container.add(this.gears.b)
     }
 
     setFloor()
@@ -116,67 +93,24 @@ export default class Project
         this.floor.texture.magFilter = THREE.NearestFilter
         this.floor.texture.minFilter = THREE.LinearFilter
 
+        // Geometry
+        this.floor.geometry = this.geometries.floor
+
         // Material
         this.floor.material = this.materials.floor.clone()
         this.floor.material.alphaMap = this.floor.texture
 
         // Mesh
-        this.floor.mesh = this.meshes.floor.clone()
-        this.floor.mesh.material = this.floor.material
+        this.floor.mesh = new THREE.Mesh(this.floor.geometry, this.floor.material)
+        this.floor.mesh.position.y = - 4
+        this.floor.mesh.matrixAutoUpdate = false
+        this.floor.mesh.updateMatrix()
         this.container.add(this.floor.mesh)
 
-        // Areas
-        this.floor.areaPrevious = this.areas.add({ position: new THREE.Vector2(- 2.9 + this.x, - 3.4 + this.y), halfExtents: new THREE.Vector2(1, 1) })
-        this.floor.areaPrevious.on('interact', () =>
-        {
-            this.previous()
-        })
-
-        this.floor.areaNext = this.areas.add({ position: new THREE.Vector2(- 0.4 + this.x, - 3.4 + this.y), halfExtents: new THREE.Vector2(1, 1) })
-        this.floor.areaNext.on('interact', () =>
-        {
-            this.next()
-        })
-
-        this.floor.areaOpen = this.areas.add({ position: new THREE.Vector2(0 + this.x, - 13 + this.y), halfExtents: new THREE.Vector2(4, 2) })
+        this.floor.areaOpen = this.areas.add({ position: new THREE.Vector2(this.x - 4.8, this.y - 7), halfExtents: new THREE.Vector2(3.2, 1.5) })
         this.floor.areaOpen.on('interact', () =>
         {
             window.open('https://google.fr', '_blank')
         })
-    }
-
-    previous()
-    {
-        this.goTo(this.index - 1)
-    }
-
-    next()
-    {
-        this.goTo(this.index + 1)
-    }
-
-    goTo(_index)
-    {
-        this.index = _index
-
-        // Ease
-        const ease = Back.easeInOut.config(1)
-
-        // Sheet
-        const division = 1 / this.slidesCount
-        const sheetProgress = this.index * division - division * 0.03
-        // sheetProgress+=
-
-        TweenLite.killTweensOf(this.sheet)
-        TweenLite.to(this.sheet, 1.4, { progress: sheetProgress, ease: ease })
-
-        // Gears
-        const gearsRotation = this.gears.rotationSpeed * this.index
-
-        TweenLite.killTweensOf(this.gears.a.rotation)
-        TweenLite.to(this.gears.a.rotation, 1.4, { z: gearsRotation, ease: ease })
-
-        TweenLite.killTweensOf(this.gears.b.rotation)
-        TweenLite.to(this.gears.b.rotation, 1.4, { z: gearsRotation, ease: ease })
     }
 }

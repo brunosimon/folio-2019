@@ -58,12 +58,20 @@ import carBackLightsReverseSource from '../models/car/backLightsReverse.glb'
 import carAntenaSource from '../models/car/antena.glb'
 
 // Projects
-import projectsBillboardStructureSource from '../models/projects/billboard/structure.glb'
-import projectsBillboardSheetSource from '../models/projects/billboard/sheet.glb'
-import projectsBillboardGearSource from '../models/projects/billboard/gear.glb'
-import projectsBillboardFloorSource from '../models/projects/billboard/floor.glb'
-import projectsBillboardCitrixRedbullSlidesSource from '../models/projects/citrixRedbull/slidesTexture.jpg'
-import projectsBillboardCitrixRedbullFloorSource from '../models/projects/citrixRedbull/floorTexture.jpg'
+// import projectsBillboardStructureSource from '../models/projects/billboard/structure.glb'
+// import projectsBillboardSheetSource from '../models/projects/billboard/sheet.glb'
+// import projectsBillboardGearSource from '../models/projects/billboard/gear.glb'
+// import projectsBillboardFloorSource from '../models/projects/billboard/floor.glb'
+// import projectsCitrixRedbullSlidesSource from '../models/projects/citrixRedbull/slidesTexture.jpg'
+
+import projectsBoardStructureSource from '../models/projects/board/structure.glb'
+import projectsBoardStructureFloorShadowSource from '../models/projects/board/floor-shadow.png'
+import projectsBoardPlaneSource from '../models/projects/board/plane.glb'
+
+import projectsCitrixRedbullFloorSource from '../models/projects/citrixRedbull/floorTexture.jpg'
+import projectsCitrixRedbullSlideASources from '../models/projects/citrixRedbull/slideA.jpg'
+import projectsCitrixRedbullSlideBSources from '../models/projects/citrixRedbull/slideB.jpg'
+import projectsCitrixRedbullSlideCSources from '../models/projects/citrixRedbull/slideC.jpg'
 
 // Area
 import areaKeyEnterSource from '../models/area/key-enter.png'
@@ -133,12 +141,20 @@ export default class Resources extends EventEmitter
             { name: 'carAntena', source: carAntenaSource },
 
             // Projects
-            { name: 'projectsBillboardStructure', source: projectsBillboardStructureSource },
-            { name: 'projectsBillboardSheet', source: projectsBillboardSheetSource },
-            { name: 'projectsBillboardGear', source: projectsBillboardGearSource },
-            { name: 'projectsBillboardFloor', source: projectsBillboardFloorSource },
-            { name: 'projectsBillboardCitrixRedbullSlides', source: projectsBillboardCitrixRedbullSlidesSource },
-            { name: 'projectsBillboardCitrixRedbullFloor', source: projectsBillboardCitrixRedbullFloorSource },
+            // { name: 'projectsBillboardStructure', source: projectsBillboardStructureSource },
+            // { name: 'projectsBillboardSheet', source: projectsBillboardSheetSource },
+            // { name: 'projectsBillboardGear', source: projectsBillboardGearSource },
+            // { name: 'projectsBillboardFloor', source: projectsBillboardFloorSource },
+            // { name: 'projectsCitrixRedbullSlides', source: projectsCitrixRedbullSlidesSource },
+
+            { name: 'projectsBoardStructure', source: projectsBoardStructureSource },
+            { name: 'projectsBoardStructureFloorShadow', source: projectsBoardStructureFloorShadowSource },
+            { name: 'projectsBoardPlane', source: projectsBoardPlaneSource },
+
+            { name: 'projectsCitrixRedbullFloor', source: projectsCitrixRedbullFloorSource },
+            { name: 'projectsCitrixRedbullSlideA', source: projectsCitrixRedbullSlideASources },
+            { name: 'projectsCitrixRedbullSlideB', source: projectsCitrixRedbullSlideBSources },
+            { name: 'projectsCitrixRedbullSlideC', source: projectsCitrixRedbullSlideCSources },
 
             // Area
             { name: 'areaKeyEnter', source: areaKeyEnterSource }
@@ -182,11 +198,23 @@ export default class Resources extends EventEmitter
             this.items.crossroadsStaticFloorShadowTexture = new THREE.Texture(this.items.crossroadsStaticFloorShadow)
             this.items.crossroadsStaticFloorShadowTexture.needsUpdate = true
 
-            this.items.projectsBillboardCitrixRedbullSlidesTexture = new THREE.Texture(this.items.projectsBillboardCitrixRedbullSlides)
-            this.items.projectsBillboardCitrixRedbullSlidesTexture.needsUpdate = true
+            this.items.projectsBoardStructureFloorShadowTexture = new THREE.Texture(this.items.projectsBoardStructureFloorShadow)
+            this.items.projectsBoardStructureFloorShadowTexture.needsUpdate = true
 
-            this.items.projectsBillboardCitrixRedbullFloorTexture = new THREE.Texture(this.items.projectsBillboardCitrixRedbullFloor)
-            this.items.projectsBillboardCitrixRedbullFloorTexture.needsUpdate = true
+            this.items.projectsCitrixRedbullSlidesTexture = new THREE.Texture(this.items.projectsCitrixRedbullSlides)
+            this.items.projectsCitrixRedbullSlidesTexture.needsUpdate = true
+
+            this.items.projectsCitrixRedbullFloorTexture = new THREE.Texture(this.items.projectsCitrixRedbullFloor)
+            this.items.projectsCitrixRedbullFloorTexture.needsUpdate = true
+
+            this.items.projectsCitrixRedbullSlideATexture = new THREE.Texture(this.items.projectsCitrixRedbullSlideA)
+            this.items.projectsCitrixRedbullSlideATexture.needsUpdate = true
+
+            this.items.projectsCitrixRedbullSlideBTexture = new THREE.Texture(this.items.projectsCitrixRedbullSlideB)
+            this.items.projectsCitrixRedbullSlideBTexture.needsUpdate = true
+
+            this.items.projectsCitrixRedbullSlideCTexture = new THREE.Texture(this.items.projectsCitrixRedbullSlideC)
+            this.items.projectsCitrixRedbullSlideCTexture.needsUpdate = true
 
             this.items.areaKeyEnterTexture = new THREE.Texture(this.items.areaKeyEnter)
             this.items.areaKeyEnterTexture.needsUpdate = true
