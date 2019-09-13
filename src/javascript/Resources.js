@@ -14,7 +14,7 @@ import matcapBrownSource from '../models/matcaps/brown.png'
 import matcapGraySource from '../models/matcaps/gray.png'
 
 // Intro
-import introStaticFloorShadowSource from '../models/intro/static/floor-shadow.png'
+import introStaticFloorShadowSource from '../models/intro/static/floorShadow.png'
 import introStaticBaseSource from '../models/intro/static/base.glb'
 import introStaticCollisionSource from '../models/intro/static/collision.glb'
 
@@ -46,7 +46,7 @@ import introMBaseSource from '../models/intro/m/base.glb'
 import introMCollisionSource from '../models/intro/m/collision.glb'
 
 // Intro
-import crossroadsStaticFloorShadowSource from '../models/crossroads/static/floor-shadow.png'
+import crossroadsStaticFloorShadowSource from '../models/crossroads/static/floorShadow.png'
 import crossroadsStaticBaseSource from '../models/crossroads/static/base.glb'
 import crossroadsStaticCollisionSource from '../models/crossroads/static/collision.glb'
 
@@ -60,7 +60,7 @@ import carAntenaSource from '../models/car/antena.glb'
 // Projects
 import projectsBoardStructureSource from '../models/projects/board/structure.glb'
 import projectsBoardCollisionSource from '../models/projects/board/collision.glb'
-import projectsBoardStructureFloorShadowSource from '../models/projects/board/floor-shadow.png'
+import projectsBoardStructureFloorShadowSource from '../models/projects/board/floorShadow.png'
 import projectsBoardPlaneSource from '../models/projects/board/plane.glb'
 import projectsFloorAreaOpenSource from '../models/projects/floor/areaOpen.png'
 
@@ -70,7 +70,7 @@ import projectsCitrixRedbullSlideBSources from '../models/projects/citrixRedbull
 import projectsCitrixRedbullSlideCSources from '../models/projects/citrixRedbull/slideC.jpg'
 
 // Area
-import areaKeyEnterSource from '../models/area/key-enter.png'
+import areaKeyEnterSource from '../models/area/keyEnter.png'
 
 export default class Resources extends EventEmitter
 {
