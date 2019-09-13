@@ -673,6 +673,10 @@ export default class Physics
             mass: _options.mass,
             material: bodyMaterial
         })
+        if(_options.sleep)
+        {
+            collision.body.sleep()
+        }
         this.world.addBody(collision.body)
 
         // Rotation
