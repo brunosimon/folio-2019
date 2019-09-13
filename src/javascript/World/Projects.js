@@ -28,7 +28,7 @@ export default class Projects
         this.container.updateMatrix()
 
         this.x = 28
-        this.y = - 25
+        this.y = - 27
 
         this.setGeometries()
         this.setMeshes()
