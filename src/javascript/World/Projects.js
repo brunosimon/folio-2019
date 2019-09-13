@@ -6,18 +6,22 @@ export default class Projects
 {
     constructor(_options)
     {
+        // Options
         this.time = _options.time,
         this.resources = _options.resources,
         this.objects = _options.objects,
         this.areas = _options.areas,
         this.debug = _options.debug
 
+        // Debug
         if(this.debug)
         {
             this.debugFolder = this.debug.addFolder('projects')
             this.debugFolder.open()
         }
 
+        // Set up
+        this.items = []
         this.container = new THREE.Object3D()
         this.container.matrixAutoUpdate = false
         this.container.updateMatrix()
@@ -25,7 +29,26 @@ export default class Projects
         this.setGeometries()
         this.setMeshes()
         this.setMaterials()
-        this.setTestProject()
+        this.setList()
+
+        // Add all project from the list
+        for(const _options of this.list)
+        {
+            const project = new Project({
+                time: this.time,
+                resources: this.resources,
+                objects: this.objects,
+                areas: this.areas,
+                debug: this.debugFolder,
+                geometries: this.geometries,
+                meshes: this.meshes,
+                materials: this.materials,
+                ..._options
+            })
+
+            this.items.push(project)
+            this.container.add(project.container)
+        }
     }
 
     setGeometries()
@@ -38,47 +61,44 @@ export default class Projects
     {
         this.meshes = {}
 
-        // this.meshes.structure = this.objects.getConvertedMesh(this.resources.items.projectsBillboardStructure.scene.children)
-        // this.meshes.sheet = this.resources.items.projectsBillboardSheet.scene.children[0]
-        // this.meshes.gear = this.objects.getConvertedMesh(this.resources.items.projectsBillboardGear.scene.children)
-        // this.meshes.floor = this.resources.items.projectsBillboardFloor.scene.children[0]
-
         this.meshes.boardStructure = this.objects.getConvertedMesh(this.resources.items.projectsBoardStructure.scene.children, { floorShadowTexture: this.resources.items.projectsBoardStructureFloorShadowTexture })
         this.meshes.boardPlane = this.resources.items.projectsBoardPlane.scene.children[0]
+        this.meshes.areaLabel = new THREE.Mesh(new THREE.PlaneBufferGeometry(2, 0.5), new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false, color: 0xffffff, alphaMap: this.resources.items.projectsFloorAreaOpenTexture }))
     }
 
     setMaterials()
     {
         this.materials = {}
-        // this.materials.sheet = new THREE.MeshNormalMaterial({ side: THREE.DoubleSide })
         this.materials.sheet = new BillboardSheetMaterial()
         this.materials.floor = new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false })
     }
 
-    setTestProject()
+    setList()
     {
-        this.testProject = new Project({
-            name: 'citrixRedbull',
-            geometries: this.geometries,
-            meshes: this.meshes,
-            materials: this.materials,
-            // slidesCount: 5,
-            // slidesTexture: this.resources.items.projectsBillboardCitrixRedbullSlidesTexture,
-            images:
-            [
-                this.resources.items.projectsCitrixRedbullSlideATexture,
-                this.resources.items.projectsCitrixRedbullSlideBTexture,
-                this.resources.items.projectsCitrixRedbullSlideCTexture
-            ],
-            floorTexture: this.resources.items.projectsCitrixRedbullFloorTexture,
-            time: this.time,
-            resources: this.resources,
-            objects: this.objects,
-            areas: this.areas,
-            debug: this.debugFolder,
-            x: 0,
-            y: 0
-        })
-        this.container.add(this.testProject.container)
+        this.list = [
+            {
+                name: 'citrixRedbull',
+                x: 0,
+                y: 0,
+                images:
+                [
+                    this.resources.items.projectsCitrixRedbullSlideATexture,
+                    this.resources.items.projectsCitrixRedbullSlideBTexture,
+                    this.resources.items.projectsCitrixRedbullSlideCTexture
+                ],
+                floorTexture: this.resources.items.projectsCitrixRedbullFloorTexture,
+                link:
+                {
+                    href: 'https://google.fr',
+                    x: - 4.8,
+                    y: - 7,
+                    halfExtents:
+                    {
+                        x: 3.2,
+                        y: 1.5
+                    }
+                }
+            }
+        ]
     }
 }

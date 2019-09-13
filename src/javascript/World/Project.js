@@ -7,19 +7,23 @@ export default class Project
     constructor(_options)
     {
         // Options
+        this.time = _options.time
+        this.resources = _options.resources
+        this.objects = _options.objects
+        this.areas = _options.areas
+        this.debug = _options.debug
         this.name = _options.name
         this.geometries = _options.geometries
         this.meshes = _options.meshes
         this.materials = _options.materials
         // this.slidesCount = _options.slidesCount
         // this.slidesTexture = _options.slidesTexture
+        this.name = _options.name
+        this.x = _options.x
+        this.y = _options.y
         this.images = _options.images
         this.floorTexture = _options.floorTexture
-        this.time = _options.time
-        this.resources = _options.resources
-        this.objects = _options.objects
-        this.areas = _options.areas
-        this.debug = _options.debug
+        this.link = _options.link
 
         // Debug
         if(this.debug)
@@ -29,8 +33,6 @@ export default class Project
         }
 
         // Set up
-        this.x = _options.x
-        this.y = _options.y
         this.container = new THREE.Object3D()
         this.container.position.x = this.x
         this.container.position.y = this.y
@@ -107,10 +109,23 @@ export default class Project
         this.floor.mesh.updateMatrix()
         this.container.add(this.floor.mesh)
 
-        this.floor.areaOpen = this.areas.add({ position: new THREE.Vector2(this.x - 4.8, this.y - 7), halfExtents: new THREE.Vector2(3.2, 1.5) })
-        this.floor.areaOpen.on('interact', () =>
-        {
-            window.open('https://google.fr', '_blank')
+        // Area
+        this.floor.area = this.areas.add({
+            position: new THREE.Vector2(this.x + this.link.x, this.y + this.link.y),
+            halfExtents: new THREE.Vector2(this.link.halfExtents.x, this.link.halfExtents.y)
         })
+        this.floor.area.on('interact', () =>
+        {
+            window.open(this.link.href, '_blank')
+        })
+
+        // Area label
+        this.floor.areaLabel = this.meshes.areaLabel.clone()
+        this.floor.areaLabel.position.x = this.link.x
+        this.floor.areaLabel.position.y = this.link.y
+        this.floor.areaLabel.position.z = 0.001
+        this.floor.areaLabel.matrixAutoUpdate = false
+        this.floor.areaLabel.updateMatrix()
+        this.container.add(this.floor.areaLabel)
     }
 }
