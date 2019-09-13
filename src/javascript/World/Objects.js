@@ -168,6 +168,22 @@ export default class Objects
                 shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
                 mass: 1.5
             },
+            {
+                base: this.resources.items.introCreativeBase.scene,
+                collision: this.resources.items.introCreativeCollision.scene,
+                offset: new THREE.Vector3(0, 0, 0),
+                rotation: new THREE.Euler(0, 0, 0),
+                shadow: { sizeX: 5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.3 },
+                mass: 1.5
+            },
+            {
+                base: this.resources.items.introDevBase.scene,
+                collision: this.resources.items.introDevCollision.scene,
+                offset: new THREE.Vector3(0, 0, 0),
+                rotation: new THREE.Euler(0, 0, 0),
+                shadow: { sizeX: 2.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.3 },
+                mass: 1.5
+            },
 
             /**
              * Crossroads
