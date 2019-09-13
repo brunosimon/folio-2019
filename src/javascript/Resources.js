@@ -58,15 +58,10 @@ import carBackLightsReverseSource from '../models/car/backLightsReverse.glb'
 import carAntenaSource from '../models/car/antena.glb'
 
 // Projects
-// import projectsBillboardStructureSource from '../models/projects/billboard/structure.glb'
-// import projectsBillboardSheetSource from '../models/projects/billboard/sheet.glb'
-// import projectsBillboardGearSource from '../models/projects/billboard/gear.glb'
-// import projectsBillboardFloorSource from '../models/projects/billboard/floor.glb'
-// import projectsCitrixRedbullSlidesSource from '../models/projects/citrixRedbull/slidesTexture.jpg'
-
 import projectsBoardStructureSource from '../models/projects/board/structure.glb'
 import projectsBoardStructureFloorShadowSource from '../models/projects/board/floor-shadow.png'
 import projectsBoardPlaneSource from '../models/projects/board/plane.glb'
+import projectsFloorAreaOpenSource from '../models/projects/floor/areaOpen.png'
 
 import projectsCitrixRedbullFloorSource from '../models/projects/citrixRedbull/floorTexture.jpg'
 import projectsCitrixRedbullSlideASources from '../models/projects/citrixRedbull/slideA.jpg'
@@ -87,19 +82,19 @@ export default class Resources extends EventEmitter
 
         this.loader.load([
             // Matcaps
-            { name: 'matcapBeige', source: matcapBeigeSource },
-            { name: 'matcapBlack', source: matcapBlackSource },
-            { name: 'matcapOrange', source: matcapOrangeSource },
-            { name: 'matcapRed', source: matcapRedSource },
-            { name: 'matcapWhite', source: matcapWhiteSource },
-            { name: 'matcapGreen', source: matcapGreenSource },
-            { name: 'matcapBrown', source: matcapBrownSource },
-            { name: 'matcapGray', source: matcapGraySource },
+            { name: 'matcapBeige', source: matcapBeigeSource, type: 'texture' },
+            { name: 'matcapBlack', source: matcapBlackSource, type: 'texture' },
+            { name: 'matcapOrange', source: matcapOrangeSource, type: 'texture' },
+            { name: 'matcapRed', source: matcapRedSource, type: 'texture' },
+            { name: 'matcapWhite', source: matcapWhiteSource, type: 'texture' },
+            { name: 'matcapGreen', source: matcapGreenSource, type: 'texture' },
+            { name: 'matcapBrown', source: matcapBrownSource, type: 'texture' },
+            { name: 'matcapGray', source: matcapGraySource, type: 'texture' },
 
             // Intro
             { name: 'introStaticBase', source: introStaticBaseSource },
             { name: 'introStaticCollision', source: introStaticCollisionSource },
-            { name: 'introStaticFloorShadow', source: introStaticFloorShadowSource },
+            { name: 'introStaticFloorShadow', source: introStaticFloorShadowSource, type: 'texture' },
 
             { name: 'introArrowKeyBase', source: introArrowKeyBaseSource },
             { name: 'introArrowKeyCollision', source: introArrowKeyCollisionSource },
@@ -131,7 +126,7 @@ export default class Resources extends EventEmitter
             // Intro
             { name: 'crossroadsStaticBase', source: crossroadsStaticBaseSource },
             { name: 'crossroadsStaticCollision', source: crossroadsStaticCollisionSource },
-            { name: 'crossroadsStaticFloorShadow', source: crossroadsStaticFloorShadowSource },
+            { name: 'crossroadsStaticFloorShadow', source: crossroadsStaticFloorShadowSource, type: 'texture' },
 
             // Car
             { name: 'carChassis', source: carChassisSource },
@@ -140,85 +135,36 @@ export default class Resources extends EventEmitter
             { name: 'carBackLightsReverse', source: carBackLightsReverseSource },
             { name: 'carAntena', source: carAntenaSource },
 
-            // Projects
-            // { name: 'projectsBillboardStructure', source: projectsBillboardStructureSource },
-            // { name: 'projectsBillboardSheet', source: projectsBillboardSheetSource },
-            // { name: 'projectsBillboardGear', source: projectsBillboardGearSource },
-            // { name: 'projectsBillboardFloor', source: projectsBillboardFloorSource },
-            // { name: 'projectsCitrixRedbullSlides', source: projectsCitrixRedbullSlidesSource },
-
             { name: 'projectsBoardStructure', source: projectsBoardStructureSource },
-            { name: 'projectsBoardStructureFloorShadow', source: projectsBoardStructureFloorShadowSource },
+            { name: 'projectsBoardStructureFloorShadow', source: projectsBoardStructureFloorShadowSource, type: 'texture' },
             { name: 'projectsBoardPlane', source: projectsBoardPlaneSource },
+            { name: 'projectsFloorAreaOpen', source: projectsFloorAreaOpenSource, type: 'texture' },
 
-            { name: 'projectsCitrixRedbullFloor', source: projectsCitrixRedbullFloorSource },
-            { name: 'projectsCitrixRedbullSlideA', source: projectsCitrixRedbullSlideASources },
-            { name: 'projectsCitrixRedbullSlideB', source: projectsCitrixRedbullSlideBSources },
-            { name: 'projectsCitrixRedbullSlideC', source: projectsCitrixRedbullSlideCSources },
+            { name: 'projectsCitrixRedbullFloor', source: projectsCitrixRedbullFloorSource, type: 'texture' },
+            { name: 'projectsCitrixRedbullSlideA', source: projectsCitrixRedbullSlideASources, type: 'texture' },
+            { name: 'projectsCitrixRedbullSlideB', source: projectsCitrixRedbullSlideBSources, type: 'texture' },
+            { name: 'projectsCitrixRedbullSlideC', source: projectsCitrixRedbullSlideCSources, type: 'texture' },
 
             // Area
-            { name: 'areaKeyEnter', source: areaKeyEnterSource }
+            { name: 'areaKeyEnter', source: areaKeyEnterSource, type: 'texture' }
         ])
 
         this.loader.on('fileEnd', (_resource, _data) =>
         {
             this.items[_resource.name] = _data
+
+            // Texture
+            if(_resource.type === 'texture')
+            {
+                const texture = new THREE.Texture(_data)
+                texture.needsUpdate = true
+
+                this.items[`${_resource.name}Texture`] = texture
+            }
         })
 
         this.loader.on('end', () =>
         {
-            // Create textures
-            this.items.matcapBeigeTexture = new THREE.Texture(this.items.matcapBeige)
-            this.items.matcapBeigeTexture.needsUpdate = true
-
-            this.items.matcapBlackTexture = new THREE.Texture(this.items.matcapBlack)
-            this.items.matcapBlackTexture.needsUpdate = true
-
-            this.items.matcapOrangeTexture = new THREE.Texture(this.items.matcapOrange)
-            this.items.matcapOrangeTexture.needsUpdate = true
-
-            this.items.matcapRedTexture = new THREE.Texture(this.items.matcapRed)
-            this.items.matcapRedTexture.needsUpdate = true
-
-            this.items.matcapWhiteTexture = new THREE.Texture(this.items.matcapWhite)
-            this.items.matcapWhiteTexture.needsUpdate = true
-
-            this.items.matcapGreenTexture = new THREE.Texture(this.items.matcapGreen)
-            this.items.matcapGreenTexture.needsUpdate = true
-
-            this.items.matcapBrownTexture = new THREE.Texture(this.items.matcapBrown)
-            this.items.matcapBrownTexture.needsUpdate = true
-
-            this.items.matcapGrayTexture = new THREE.Texture(this.items.matcapGray)
-            this.items.matcapGrayTexture.needsUpdate = true
-
-            this.items.introStaticFloorShadowTexture = new THREE.Texture(this.items.introStaticFloorShadow)
-            this.items.introStaticFloorShadowTexture.needsUpdate = true
-
-            this.items.crossroadsStaticFloorShadowTexture = new THREE.Texture(this.items.crossroadsStaticFloorShadow)
-            this.items.crossroadsStaticFloorShadowTexture.needsUpdate = true
-
-            this.items.projectsBoardStructureFloorShadowTexture = new THREE.Texture(this.items.projectsBoardStructureFloorShadow)
-            this.items.projectsBoardStructureFloorShadowTexture.needsUpdate = true
-
-            this.items.projectsCitrixRedbullSlidesTexture = new THREE.Texture(this.items.projectsCitrixRedbullSlides)
-            this.items.projectsCitrixRedbullSlidesTexture.needsUpdate = true
-
-            this.items.projectsCitrixRedbullFloorTexture = new THREE.Texture(this.items.projectsCitrixRedbullFloor)
-            this.items.projectsCitrixRedbullFloorTexture.needsUpdate = true
-
-            this.items.projectsCitrixRedbullSlideATexture = new THREE.Texture(this.items.projectsCitrixRedbullSlideA)
-            this.items.projectsCitrixRedbullSlideATexture.needsUpdate = true
-
-            this.items.projectsCitrixRedbullSlideBTexture = new THREE.Texture(this.items.projectsCitrixRedbullSlideB)
-            this.items.projectsCitrixRedbullSlideBTexture.needsUpdate = true
-
-            this.items.projectsCitrixRedbullSlideCTexture = new THREE.Texture(this.items.projectsCitrixRedbullSlideC)
-            this.items.projectsCitrixRedbullSlideCTexture.needsUpdate = true
-
-            this.items.areaKeyEnterTexture = new THREE.Texture(this.items.areaKeyEnter)
-            this.items.areaKeyEnterTexture.needsUpdate = true
-
             // Trigger ready
             this.trigger('ready')
         })
