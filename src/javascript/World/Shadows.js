@@ -118,9 +118,9 @@ export default class Shadows
     {
         this.helper = {}
 
-        this.helper.active = false
+        this.helper.active = true
 
-        this.helper.mesh = new THREE.Mesh(new THREE.BoxBufferGeometry(1, 1, 1, 1), new THREE.MeshNormalMaterial())
+        this.helper.mesh = new THREE.Mesh(new THREE.BoxBufferGeometry(3, 1, 1, 1), new THREE.MeshNormalMaterial())
         this.helper.mesh.position.z = 1.5
         this.helper.mesh.position.y = - 3
         this.helper.mesh.visible = this.helper.active
@@ -132,7 +132,7 @@ export default class Shadows
         this.helper.transformControls.visible = this.helper.active
         this.helper.transformControls.enabled = this.helper.active
 
-        this.helper.shadow = this.add(this.helper.mesh, { sizeX: 2, sizeY: 2, offsetZ: - 0.35 })
+        this.helper.shadow = this.add(this.helper.mesh, { sizeX: 6, sizeY: 2, offsetZ: - 0.35, alpha: 0.99 })
         this.helper.shadow.mesh.visible = this.helper.active
 
         document.addEventListener('keydown', (_event) =>
@@ -166,7 +166,15 @@ export default class Shadows
                 _shadow.mesh.position.x = _shadow.reference.position.x + sunOffset.x
                 _shadow.mesh.position.y = _shadow.reference.position.y + sunOffset.y
 
-                _shadow.mesh.rotation.z = _shadow.reference.rotation.z
+                // Angle
+                // Project the rotation as a vector on a plane and extract the angle
+                const rotationVector = new THREE.Vector3(1, 0, 0)
+                rotationVector.applyQuaternion(_shadow.reference.quaternion)
+                rotationVector.projectOnPlane(new THREE.Vector3(0, 0, 1))
+                rotationVector.normalize()
+
+                const angle = Math.atan2(rotationVector.y, rotationVector.x)
+                _shadow.mesh.rotation.z = angle
 
                 // Alpha
                 let alpha = (this.maxDistance - z) / this.maxDistance
