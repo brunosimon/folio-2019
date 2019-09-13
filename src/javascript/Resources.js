@@ -59,6 +59,7 @@ import carAntenaSource from '../models/car/antena.glb'
 
 // Projects
 import projectsBoardStructureSource from '../models/projects/board/structure.glb'
+import projectsBoardCollisionSource from '../models/projects/board/collision.glb'
 import projectsBoardStructureFloorShadowSource from '../models/projects/board/floor-shadow.png'
 import projectsBoardPlaneSource from '../models/projects/board/plane.glb'
 import projectsFloorAreaOpenSource from '../models/projects/floor/areaOpen.png'
@@ -136,6 +137,7 @@ export default class Resources extends EventEmitter
             { name: 'carAntena', source: carAntenaSource },
 
             { name: 'projectsBoardStructure', source: projectsBoardStructureSource },
+            { name: 'projectsBoardCollision', source: projectsBoardCollisionSource },
             { name: 'projectsBoardStructureFloorShadow', source: projectsBoardStructureFloorShadowSource, type: 'texture' },
             { name: 'projectsBoardPlane', source: projectsBoardPlaneSource },
             { name: 'projectsFloorAreaOpen', source: projectsFloorAreaOpenSource, type: 'texture' },

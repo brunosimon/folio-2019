@@ -45,41 +45,48 @@ export default class Project
 
     setBoards()
     {
+        // Set up
         this.boards = {}
         this.boards.items = []
         this.boards.xStart = - 5
         this.boards.xInter = 5
         this.boards.y = 3
 
+        // Create each board
         let i = 0
 
         for(const _image of this.images)
         {
+            // Set up
             const board = {}
+            board.x = this.boards.xStart + i * this.boards.xInter
+            board.y = this.boards.y
 
+            // Create structure with collision
+            board.structure = this.objects.add({
+                base: this.resources.items.projectsBoardStructure.scene,
+                collision: this.resources.items.projectsBoardCollision.scene,
+                floorShadowTexture: this.resources.items.projectsBoardStructureFloorShadowTexture,
+                offset: new THREE.Vector3(board.x, board.y, 0),
+                rotation: new THREE.Euler(0, 0, 0),
+                duplicated: true,
+                mass: 0
+            })
+            this.container.add(board.structure.container)
+
+            // Texture
             board.texture = _image
-            // board.texture.magFilter = THREE.NearestFilter
-            // board.texture.minFilter = THREE.LinearFilter
 
-            board.container = new THREE.Object3D()
-            board.container.position.x = this.boards.xStart + i * this.boards.xInter
-            board.container.position.y = this.boards.y
-            board.container.rotation.z = (Math.random() - 0.5) * 0.1 * Math.PI
-            board.container.matrixAutoUpdate = false
-            board.container.updateMatrix()
-            this.container.add(board.container)
-
-            board.structureMesh = this.meshes.boardStructure.clone()
-            board.structureMesh.matrixAutoUpdate = false
-            board.structureMesh.updateMatrix()
-            board.container.add(board.structureMesh)
-
+            // Plane
             board.planeMesh = this.meshes.boardPlane.clone()
+            board.planeMesh.position.x = board.x
+            board.planeMesh.position.y = board.y
             board.planeMesh.matrixAutoUpdate = false
             board.planeMesh.updateMatrix()
             board.planeMesh.material = new THREE.MeshBasicMaterial({ map: board.texture })
-            board.container.add(board.planeMesh)
+            this.container.add(board.planeMesh)
 
+            // Save
             this.boards.items.push(board)
 
             i++

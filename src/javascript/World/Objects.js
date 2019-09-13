@@ -389,11 +389,14 @@ export default class Objects
         }
 
         // Time tick event
-        this.time.on('tick', () =>
+        if(_options.mass > 0)
         {
-            object.container.position.copy(object.collision.body.position)
-            object.container.quaternion.copy(object.collision.body.quaternion)
-        })
+            this.time.on('tick', () =>
+            {
+                object.container.position.copy(object.collision.body.position)
+                object.container.quaternion.copy(object.collision.body.quaternion)
+            })
+        }
 
         // Save
         this.items.push(object)
