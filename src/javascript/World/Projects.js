@@ -22,9 +22,13 @@ export default class Projects
 
         // Set up
         this.items = []
+
         this.container = new THREE.Object3D()
         this.container.matrixAutoUpdate = false
         this.container.updateMatrix()
+
+        this.x = 28
+        this.y = - 25
 
         this.setGeometries()
         this.setMeshes()
@@ -76,29 +80,29 @@ export default class Projects
     setList()
     {
         this.list = [
-            // {
-            //     name: 'citrixRedbull',
-            //     x: 0,
-            //     y: 0,
-            //     images:
-            //     [
-            //         this.resources.items.projectsCitrixRedbullSlideATexture,
-            //         this.resources.items.projectsCitrixRedbullSlideBTexture,
-            //         this.resources.items.projectsCitrixRedbullSlideCTexture
-            //     ],
-            //     floorTexture: this.resources.items.projectsCitrixRedbullFloorTexture,
-            //     link:
-            //     {
-            //         href: 'https://google.fr',
-            //         x: - 4.8,
-            //         y: - 7,
-            //         halfExtents:
-            //         {
-            //             x: 3.2,
-            //             y: 1.5
-            //         }
-            //     }
-            // }
+            {
+                name: 'citrixRedbull',
+                x: this.x + 0,
+                y: this.y + 0,
+                images:
+                [
+                    this.resources.items.projectsCitrixRedbullSlideATexture,
+                    this.resources.items.projectsCitrixRedbullSlideBTexture,
+                    this.resources.items.projectsCitrixRedbullSlideCTexture
+                ],
+                floorTexture: this.resources.items.projectsCitrixRedbullFloorTexture,
+                link:
+                {
+                    href: 'https://google.fr',
+                    x: - 4.8,
+                    y: - 7,
+                    halfExtents:
+                    {
+                        x: 3.2,
+                        y: 1.5
+                    }
+                }
+            }
         ]
     }
 }

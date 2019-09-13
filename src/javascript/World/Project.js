@@ -34,10 +34,8 @@ export default class Project
 
         // Set up
         this.container = new THREE.Object3D()
-        this.container.position.x = this.x
-        this.container.position.y = this.y
-        this.container.matrixAutoUpdate = false
-        this.container.updateMatrix()
+        // this.container.matrixAutoUpdate = false
+        // this.container.updateMatrix()
 
         this.setBoards()
         this.setFloor()
@@ -59,8 +57,8 @@ export default class Project
         {
             // Set up
             const board = {}
-            board.x = this.boards.xStart + i * this.boards.xInter
-            board.y = this.boards.y
+            board.x = this.x + this.boards.xStart + i * this.boards.xInter
+            board.y = this.y + this.boards.y
 
             // Create structure with collision
             board.structure = this.objects.add({
@@ -97,6 +95,13 @@ export default class Project
     {
         this.floor = {}
 
+        this.floor.container = new THREE.Object3D()
+        this.floor.container.position.x = this.x
+        this.floor.container.position.y = this.y
+        this.floor.container.matrixAutoUpdate = false
+        this.floor.container.updateMatrix()
+        this.container.add(this.floor.container)
+
         // Texture
         this.floor.texture = this.floorTexture
         this.floor.texture.magFilter = THREE.NearestFilter
@@ -114,7 +119,7 @@ export default class Project
         this.floor.mesh.position.y = - 4
         this.floor.mesh.matrixAutoUpdate = false
         this.floor.mesh.updateMatrix()
-        this.container.add(this.floor.mesh)
+        this.floor.container.add(this.floor.mesh)
 
         // Area
         this.floor.area = this.areas.add({
@@ -133,6 +138,6 @@ export default class Project
         this.floor.areaLabel.position.z = 0.001
         this.floor.areaLabel.matrixAutoUpdate = false
         this.floor.areaLabel.updateMatrix()
-        this.container.add(this.floor.areaLabel)
+        this.floor.container.add(this.floor.areaLabel)
     }
 }
