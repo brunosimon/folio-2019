@@ -116,9 +116,14 @@ export default class Shadows
 
     setHelper()
     {
+        if(!this.debug)
+        {
+            return false
+        }
+
         this.helper = {}
 
-        this.helper.active = true
+        this.helper.active = false
 
         this.helper.mesh = new THREE.Mesh(new THREE.BoxBufferGeometry(3, 1, 1, 1), new THREE.MeshNormalMaterial())
         this.helper.mesh.position.z = 1.5

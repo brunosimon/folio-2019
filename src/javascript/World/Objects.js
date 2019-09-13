@@ -172,9 +172,10 @@ export default class Objects
                 base: this.resources.items.introCreativeBase.scene,
                 collision: this.resources.items.introCreativeCollision.scene,
                 offset: new THREE.Vector3(0, 0, 0),
-                rotation: new THREE.Euler(0, 0, 0),
+                rotation: new THREE.Euler(0, 0, 0.25),
                 shadow: { sizeX: 5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.3 },
-                mass: 1.5
+                mass: 1.5,
+                sleep: false
             },
             {
                 base: this.resources.items.introDevBase.scene,
