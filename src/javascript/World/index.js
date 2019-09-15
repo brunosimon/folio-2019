@@ -109,9 +109,21 @@ export default class
             debug: this.debug
         })
 
+        // Intro
         this.tiles.add({
-            start: new THREE.Vector2(0, 0),
-            end: new THREE.Vector2(0, - 50)
+            start: new THREE.Vector2(0, - 4.5),
+            delta: new THREE.Vector2(0, - 4.5)
+        })
+
+        this.tiles.add({
+            start: new THREE.Vector2(0, - 10),
+            delta: new THREE.Vector2(0, - 16)
+        })
+
+        // Crosss roads
+        this.tiles.add({
+            start: new THREE.Vector2(12.5, - 30),
+            delta: new THREE.Vector2(7.5, 0)
         })
 
         this.container.add(this.tiles.container)
@@ -153,6 +165,7 @@ export default class
             resources: this.resources,
             objects: this.objects,
             areas: this.areas,
+            tiles: this.tiles,
             debug: this.debugFolder
         })
         this.container.add(this.projects.container)

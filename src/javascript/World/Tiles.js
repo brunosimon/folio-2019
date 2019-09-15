@@ -13,7 +13,7 @@ export default class Tiles
         this.items = []
         this.interDistance = 1.5
         this.tangentDistance = 0.3
-        this.positionRandomess = 0.2
+        this.positionRandomess = 0.3
         this.rotationRandomess = 0.1
         this.container = new THREE.Object3D()
         this.container.matrixAutoUpdate = false
@@ -88,12 +88,13 @@ export default class Tiles
     {
         const tilePath = {}
         tilePath.start = _options.start
-        tilePath.end = _options.end
+        tilePath.delta = _options.delta
 
-        tilePath.distance = tilePath.start.distanceTo(tilePath.end)
+        tilePath.distance = tilePath.delta.length()
         tilePath.count = Math.floor(tilePath.distance / this.interDistance)
-        tilePath.directionVector = tilePath.end.sub(tilePath.start).normalize()
+        tilePath.directionVector = tilePath.delta.clone().normalize()
         tilePath.interVector = tilePath.directionVector.clone().multiplyScalar(this.interDistance)
+        tilePath.centeringVector = tilePath.delta.clone().sub(tilePath.interVector.clone().multiplyScalar(tilePath.count))
         tilePath.tangentVector = tilePath.directionVector.clone().rotateAround(new THREE.Vector2(0, 0), Math.PI * 0.5).multiplyScalar(this.tangentDistance)
         tilePath.angle = tilePath.directionVector.angle()
 
@@ -108,7 +109,7 @@ export default class Tiles
             const model = this.models.pick()
 
             // Position
-            const position = tilePath.start.clone().add(tilePath.interVector.clone().multiplyScalar(i))
+            const position = tilePath.start.clone().add(tilePath.interVector.clone().multiplyScalar(i)).add(tilePath.centeringVector)
             position.x += (Math.random() - 0.5) * this.positionRandomess
             position.y += (Math.random() - 0.5) * this.positionRandomess
 

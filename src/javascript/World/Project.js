@@ -1,6 +1,4 @@
 import * as THREE from 'three'
-import { TweenLite } from 'gsap/TweenLite'
-import { Back } from 'gsap/EasePack'
 
 export default class Project
 {
@@ -48,7 +46,7 @@ export default class Project
         this.boards.items = []
         this.boards.xStart = - 5
         this.boards.xInter = 5
-        this.boards.y = 3
+        this.boards.y = 5
 
         // Create each board
         let i = 0
@@ -116,14 +114,14 @@ export default class Project
 
         // Mesh
         this.floor.mesh = new THREE.Mesh(this.floor.geometry, this.floor.material)
-        this.floor.mesh.position.y = - 4
+        this.floor.mesh.position.y = - 2
         this.floor.mesh.matrixAutoUpdate = false
         this.floor.mesh.updateMatrix()
         this.floor.container.add(this.floor.mesh)
 
         // Area
         this.floor.area = this.areas.add({
-            position: new THREE.Vector2(this.x + this.link.x, this.y + this.link.y),
+            position: new THREE.Vector2(this.x + this.link.x, this.y + this.floor.mesh.position.y + this.link.y),
             halfExtents: new THREE.Vector2(this.link.halfExtents.x, this.link.halfExtents.y)
         })
         this.floor.area.on('interact', () =>
@@ -134,7 +132,7 @@ export default class Project
         // Area label
         this.floor.areaLabel = this.meshes.areaLabel.clone()
         this.floor.areaLabel.position.x = this.link.x
-        this.floor.areaLabel.position.y = this.link.y
+        this.floor.areaLabel.position.y = this.floor.mesh.position.y + this.link.y
         this.floor.areaLabel.position.z = 0.001
         this.floor.areaLabel.matrixAutoUpdate = false
         this.floor.areaLabel.updateMatrix()
