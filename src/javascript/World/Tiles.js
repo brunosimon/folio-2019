@@ -29,7 +29,7 @@ export default class Tiles
             {
                 base: this.resources.items.tilesABase.scene,
                 collision: this.resources.items.tilesACollision.scene,
-                chances: 4
+                chances: 8
             },
             {
                 base: this.resources.items.tilesBBase.scene,
@@ -39,17 +39,17 @@ export default class Tiles
             {
                 base: this.resources.items.tilesCBase.scene,
                 collision: this.resources.items.tilesCCollision.scene,
-                chances: 1
+                chances: 2
             },
             {
                 base: this.resources.items.tilesDBase.scene,
                 collision: this.resources.items.tilesDCollision.scene,
-                chances: 2
+                chances: 4
             },
             {
                 base: this.resources.items.tilesEBase.scene,
                 collision: this.resources.items.tilesECollision.scene,
-                chances: 1
+                chances: 2
             }
         ]
 
