@@ -78,6 +78,22 @@ import projectsCitrixRedbullSlideCSources from '../models/projects/citrixRedbull
 // Area
 import areaKeyEnterSource from '../models/area/keyEnter.png'
 
+// Tiles
+import tilesABaseSource from '../models/tiles/a/base.glb'
+import tilesACollisionSource from '../models/tiles/a/collision.glb'
+
+import tilesBBaseSource from '../models/tiles/b/base.glb'
+import tilesBCollisionSource from '../models/tiles/b/collision.glb'
+
+import tilesCBaseSource from '../models/tiles/c/base.glb'
+import tilesCCollisionSource from '../models/tiles/c/collision.glb'
+
+import tilesDBaseSource from '../models/tiles/d/base.glb'
+import tilesDCollisionSource from '../models/tiles/d/collision.glb'
+
+import tilesEBaseSource from '../models/tiles/e/base.glb'
+import tilesECollisionSource from '../models/tiles/e/collision.glb'
+
 export default class Resources extends EventEmitter
 {
     constructor()
@@ -159,8 +175,24 @@ export default class Resources extends EventEmitter
             { name: 'projectsCitrixRedbullSlideB', source: projectsCitrixRedbullSlideBSources, type: 'texture' },
             { name: 'projectsCitrixRedbullSlideC', source: projectsCitrixRedbullSlideCSources, type: 'texture' },
 
-            // Area
-            { name: 'areaKeyEnter', source: areaKeyEnterSource, type: 'texture' }
+            // Areas
+            { name: 'areaKeyEnter', source: areaKeyEnterSource, type: 'texture' },
+
+            // Tiles
+            { name: 'tilesABase', source: tilesABaseSource },
+            { name: 'tilesACollision', source: tilesACollisionSource },
+
+            { name: 'tilesBBase', source: tilesBBaseSource },
+            { name: 'tilesBCollision', source: tilesBCollisionSource },
+
+            { name: 'tilesCBase', source: tilesCBaseSource },
+            { name: 'tilesCCollision', source: tilesCCollisionSource },
+
+            { name: 'tilesDBase', source: tilesDBaseSource },
+            { name: 'tilesDCollision', source: tilesDCollisionSource },
+
+            { name: 'tilesEBase', source: tilesEBaseSource },
+            { name: 'tilesECollision', source: tilesECollisionSource }
         ])
 
         this.loader.on('fileEnd', (_resource, _data) =>

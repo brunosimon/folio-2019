@@ -5,8 +5,9 @@ import Shadows from './Shadows.js'
 import Physics from '../Physics.js'
 import Objects from './Objects.js'
 import Car from './Car.js'
-import Projects from './Projects.js'
 import Areas from './Areas.js'
+import Tiles from './Tiles.js'
+import Projects from './Projects.js'
 
 export default class
 {
@@ -38,6 +39,7 @@ export default class
         this.setObjects()
         this.setCar()
         this.setAreas()
+        this.setTiles()
         this.setProjects()
     }
 
@@ -97,6 +99,22 @@ export default class
         })
 
         this.container.add(this.areas.container)
+    }
+
+    setTiles()
+    {
+        this.tiles = new Tiles({
+            resources: this.resources,
+            objects: this.objects,
+            debug: this.debug
+        })
+
+        this.tiles.add({
+            start: new THREE.Vector2(0, 0),
+            end: new THREE.Vector2(0, - 50)
+        })
+
+        this.container.add(this.tiles.container)
     }
 
     setObjects()
