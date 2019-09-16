@@ -92,6 +92,16 @@ export default class Materials
         this.shades.items.black.uniforms.matcap.value = this.resources.items.matcapBlackTexture
         this.items.black = this.shades.items.black
 
+        // Green emerald
+        this.shades.items.emeraldGreen = new MatcapMaterial()
+        this.shades.items.emeraldGreen.uniforms.matcap.value = this.resources.items.matcapEmeraldGreenTexture
+        this.items.emeraldGreen = this.shades.items.emeraldGreen
+
+        // Purple
+        this.shades.items.purple = new MatcapMaterial()
+        this.shades.items.purple.uniforms.matcap.value = this.resources.items.matcapPurpleTexture
+        this.items.purple = this.shades.items.purple
+
         // Update materials uniforms
         this.shades.updateMaterials = () =>
         {

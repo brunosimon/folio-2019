@@ -26,6 +26,8 @@ export default class Projects
 
         this.x = 30
         this.y = - 30
+        // this.x = 15
+        // this.y = 0
         this.interDistance = 26
         this.positionRandomess = 5
         this.projectHalfWidth = 9
@@ -90,7 +92,14 @@ export default class Projects
                         x: 3.2,
                         y: 1.5
                     }
-                }
+                },
+                distinctions:
+                [
+                    { type: 'cssda', x: 4.05, y: 5.2 },
+                    { type: 'awwwards', x: 5.4, y: 5.2 },
+                    { type: 'awwwards', x: 6.85, y: 5.2 },
+                    { type: 'fwa', x: 4.05, y: 2.8 }
+                ]
             },
             {
                 name: 'citrixRedbull2',
@@ -111,7 +120,14 @@ export default class Projects
                         x: 3.2,
                         y: 1.5
                     }
-                }
+                },
+                distinctions:
+                [
+                    { type: 'cssda', x: 4.05, y: 5.2 },
+                    { type: 'awwwards', x: 5.4, y: 5.2 },
+                    { type: 'awwwards', x: 6.85, y: 5.2 },
+                    { type: 'fwa', x: 4.05, y: 2.8 }
+                ]
             },
             {
                 name: 'citrixRedbull3',
@@ -132,28 +148,14 @@ export default class Projects
                         x: 3.2,
                         y: 1.5
                     }
-                }
-            },
-            {
-                name: 'citrixRedbull4',
-                images:
+                },
+                distinctions:
                 [
-                    this.resources.items.projectsCitrixRedbullSlideATexture,
-                    this.resources.items.projectsCitrixRedbullSlideBTexture,
-                    this.resources.items.projectsCitrixRedbullSlideCTexture
-                ],
-                floorTexture: this.resources.items.projectsCitrixRedbullFloorTexture,
-                link:
-                {
-                    href: 'https://google.fr',
-                    x: - 4.8,
-                    y: - 3,
-                    halfExtents:
-                    {
-                        x: 3.2,
-                        y: 1.5
-                    }
-                }
+                    { type: 'cssda', x: 4.05, y: 5.2 },
+                    { type: 'awwwards', x: 5.4, y: 5.2 },
+                    { type: 'awwwards', x: 6.85, y: 5.2 },
+                    { type: 'fwa', x: 4.05, y: 2.8 }
+                ]
             }
         ]
     }

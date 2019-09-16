@@ -24,8 +24,7 @@ export default class Objects
         // Add all objects from the list
         for(const _options of this.list)
         {
-            const object = this.add(_options)
-            this.container.add(object.container)
+            this.add(_options)
         }
     }
 
@@ -212,7 +211,7 @@ export default class Objects
                 {
                     // Find material
                     const match = _mesh.name.match(/^shade([a-z]+)_?[0-9]{0,3}?/i)
-                    const materialName = match[1].toLowerCase()
+                    const materialName = `${match[1].substring(0, 1).toLowerCase()}${match[1].substring(1)}` // PastalCase to camelCase
                     let material = this.materials.shades.items[materialName]
 
                     // Default
@@ -375,6 +374,7 @@ export default class Objects
         object.container = this.getConvertedMesh(_options.base.children, _options)
         object.container.position.copy(offset)
         object.container.rotation.copy(rotation)
+        this.container.add(object.container)
 
         // Deactivate matrix auto update
         if(_options.mass === 0)

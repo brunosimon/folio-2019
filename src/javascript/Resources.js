@@ -12,6 +12,8 @@ import matcapWhiteSource from '../models/matcaps/white.png'
 import matcapGreenSource from '../models/matcaps/green.png'
 import matcapBrownSource from '../models/matcaps/brown.png'
 import matcapGraySource from '../models/matcaps/gray.png'
+import matcapEmeraldGreenSource from '../models/matcaps/emeraldGreen.png'
+import matcapPurpleSource from '../models/matcaps/purple.png'
 
 // Intro
 import introStaticFloorShadowSource from '../models/intro/static/floorShadow.png'
@@ -70,6 +72,13 @@ import projectsBoardStructureFloorShadowSource from '../models/projects/board/fl
 import projectsBoardPlaneSource from '../models/projects/board/plane.glb'
 import projectsFloorAreaOpenSource from '../models/projects/floor/areaOpen.png'
 
+import projectsDistinctionsAwwwardsBaseSource from '../models/projects/distinctions/awwwards/base.glb'
+import projectsDistinctionsAwwwardsCollisionSource from '../models/projects/distinctions/awwwards/collision.glb'
+import projectsDistinctionsFWABaseSource from '../models/projects/distinctions/fwa/base.glb'
+import projectsDistinctionsFWACollisionSource from '../models/projects/distinctions/fwa/collision.glb'
+import projectsDistinctionsCSSDABaseSource from '../models/projects/distinctions/cssda/base.glb'
+import projectsDistinctionsCSSDACollisionSource from '../models/projects/distinctions/cssda/collision.glb'
+
 import projectsCitrixRedbullFloorSource from '../models/projects/citrixRedbull/floorTexture.jpg'
 import projectsCitrixRedbullSlideASources from '../models/projects/citrixRedbull/slideA.jpg'
 import projectsCitrixRedbullSlideBSources from '../models/projects/citrixRedbull/slideB.jpg'
@@ -113,6 +122,8 @@ export default class Resources extends EventEmitter
             { name: 'matcapGreen', source: matcapGreenSource, type: 'texture' },
             { name: 'matcapBrown', source: matcapBrownSource, type: 'texture' },
             { name: 'matcapGray', source: matcapGraySource, type: 'texture' },
+            { name: 'matcapEmeraldGreen', source: matcapEmeraldGreenSource, type: 'texture' },
+            { name: 'matcapPurple', source: matcapPurpleSource, type: 'texture' },
 
             // Intro
             { name: 'introStaticBase', source: introStaticBaseSource },
@@ -169,6 +180,14 @@ export default class Resources extends EventEmitter
             { name: 'projectsBoardStructureFloorShadow', source: projectsBoardStructureFloorShadowSource, type: 'texture' },
             { name: 'projectsBoardPlane', source: projectsBoardPlaneSource },
             { name: 'projectsFloorAreaOpen', source: projectsFloorAreaOpenSource, type: 'texture' },
+
+            { name: 'projectsDistinctionsAwwwardsBase', source: projectsDistinctionsAwwwardsBaseSource },
+            { name: 'projectsDistinctionsAwwwardsCollision', source: projectsDistinctionsAwwwardsCollisionSource },
+            { name: 'projectsDistinctionsFWABase', source: projectsDistinctionsFWABaseSource },
+            { name: 'projectsDistinctionsFWACollision', source: projectsDistinctionsFWACollisionSource },
+            { name: 'projectsDistinctionsCSSDABase', source: projectsDistinctionsCSSDABaseSource },
+            { name: 'projectsDistinctionsCSSDACollision', source: projectsDistinctionsCSSDACollisionSource },
+
 
             { name: 'projectsCitrixRedbullFloor', source: projectsCitrixRedbullFloorSource, type: 'texture' },
             { name: 'projectsCitrixRedbullSlideA', source: projectsCitrixRedbullSlideASources, type: 'texture' },

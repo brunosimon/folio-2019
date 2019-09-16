@@ -128,7 +128,7 @@ export default class Tiles
             rotation += model.rotationIndex / 4 * Math.PI * 2
 
             // Tile
-            const tile = this.objects.add({
+            this.objects.add({
                 base: model.base,
                 collision: model.collision,
                 offset: new THREE.Vector3(position.x, position.y, 0),
@@ -136,7 +136,7 @@ export default class Tiles
                 duplicated: true,
                 mass: 0
             })
-            tilePath.container.add(tile.container)
+            // tilePath.container.add(tile.container)
         }
     }
 }
