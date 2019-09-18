@@ -14,6 +14,7 @@ import matcapBrownSource from '../models/matcaps/brown.png'
 import matcapGraySource from '../models/matcaps/gray.png'
 import matcapEmeraldGreenSource from '../models/matcaps/emeraldGreen.png'
 import matcapPurpleSource from '../models/matcaps/purple.png'
+import matcapBlueSource from '../models/matcaps/blue.png'
 
 // Intro
 import introStaticFloorShadowSource from '../models/intro/static/floorShadow.png'
@@ -53,7 +54,7 @@ import introCreativeCollisionSource from '../models/intro/creative/collision.glb
 import introDevBaseSource from '../models/intro/dev/base.glb'
 import introDevCollisionSource from '../models/intro/dev/collision.glb'
 
-// Intro
+// Crossroads
 import crossroadsStaticFloorShadowSource from '../models/crossroads/static/floorShadow.png'
 import crossroadsStaticBaseSource from '../models/crossroads/static/base.glb'
 import crossroadsStaticCollisionSource from '../models/crossroads/static/collision.glb'
@@ -83,6 +84,9 @@ import projectsCitrixRedbullFloorSource from '../models/projects/citrixRedbull/f
 import projectsCitrixRedbullSlideASources from '../models/projects/citrixRedbull/slideA.jpg'
 import projectsCitrixRedbullSlideBSources from '../models/projects/citrixRedbull/slideB.jpg'
 import projectsCitrixRedbullSlideCSources from '../models/projects/citrixRedbull/slideC.jpg'
+
+// Information
+import informationPlaceBaseSource from '../models/information/place/base.glb'
 
 // Area
 import areaKeyEnterSource from '../models/area/keyEnter.png'
@@ -124,6 +128,7 @@ export default class Resources extends EventEmitter
             { name: 'matcapGray', source: matcapGraySource, type: 'texture' },
             { name: 'matcapEmeraldGreen', source: matcapEmeraldGreenSource, type: 'texture' },
             { name: 'matcapPurple', source: matcapPurpleSource, type: 'texture' },
+            { name: 'matcapBlue', source: matcapBlueSource, type: 'texture' },
 
             // Intro
             { name: 'introStaticBase', source: introStaticBaseSource },
@@ -175,6 +180,7 @@ export default class Resources extends EventEmitter
             { name: 'carBackLightsReverse', source: carBackLightsReverseSource },
             { name: 'carAntena', source: carAntenaSource },
 
+            // Project
             { name: 'projectsBoardStructure', source: projectsBoardStructureSource },
             { name: 'projectsBoardCollision', source: projectsBoardCollisionSource },
             { name: 'projectsBoardStructureFloorShadow', source: projectsBoardStructureFloorShadowSource, type: 'texture' },
@@ -193,6 +199,9 @@ export default class Resources extends EventEmitter
             { name: 'projectsCitrixRedbullSlideA', source: projectsCitrixRedbullSlideASources, type: 'texture' },
             { name: 'projectsCitrixRedbullSlideB', source: projectsCitrixRedbullSlideBSources, type: 'texture' },
             { name: 'projectsCitrixRedbullSlideC', source: projectsCitrixRedbullSlideCSources, type: 'texture' },
+
+            // Information
+            { name: 'informationPlaceBase', source: informationPlaceBaseSource },
 
             // Areas
             { name: 'areaKeyEnter', source: areaKeyEnterSource, type: 'texture' },

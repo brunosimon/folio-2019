@@ -9,7 +9,6 @@ export default class Project
         this.resources = _options.resources
         this.objects = _options.objects
         this.areas = _options.areas
-        this.debug = _options.debug
         this.name = _options.name
         this.geometries = _options.geometries
         this.meshes = _options.meshes
@@ -21,13 +20,6 @@ export default class Project
         this.floorTexture = _options.floorTexture
         this.link = _options.link
         this.distinctions = _options.distinctions
-
-        // Debug
-        if(this.debug)
-        {
-            this.debugFolder = this.debug.addFolder(this.name)
-            this.debugFolder.open()
-        }
 
         // Set up
         this.container = new THREE.Object3D()

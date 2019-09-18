@@ -7,7 +7,10 @@ import Objects from './Objects.js'
 import Car from './Car.js'
 import Areas from './Areas.js'
 import Tiles from './Tiles.js'
-import Projects from './Projects.js'
+import IntroSection from './Sections/IntroSection.js'
+import ProjectsSection from './Sections/ProjectsSection.js'
+import CrossroadsSection from './Sections/CrossroadsSection.js'
+import InformationSection from './Sections/InformationSection.js'
 
 export default class
 {
@@ -40,7 +43,7 @@ export default class
         this.setCar()
         this.setAreas()
         this.setTiles()
-        this.setProjects()
+        this.setSections()
     }
 
     setAxes()
@@ -109,23 +112,6 @@ export default class
             debug: this.debug
         })
 
-        // Intro
-        this.tiles.add({
-            start: new THREE.Vector2(0, - 4.5),
-            delta: new THREE.Vector2(0, - 4.5)
-        })
-
-        this.tiles.add({
-            start: new THREE.Vector2(0, - 10),
-            delta: new THREE.Vector2(0, - 16)
-        })
-
-        // Crosss roads
-        this.tiles.add({
-            start: new THREE.Vector2(12.5, - 30),
-            delta: new THREE.Vector2(7.5, 0)
-        })
-
         this.container.add(this.tiles.container)
     }
 
@@ -158,16 +144,42 @@ export default class
         this.container.add(this.car.container)
     }
 
-    setProjects()
+    setSections()
     {
-        this.projects = new Projects({
+        this.sections = {}
+
+        // Generic options
+        const options = {
             time: this.time,
             resources: this.resources,
             objects: this.objects,
             areas: this.areas,
             tiles: this.tiles,
             debug: this.debugFolder
+        }
+
+        // Intro
+        this.sections.intro = new IntroSection({
+            ...options
         })
-        this.container.add(this.projects.container)
+        this.container.add(this.sections.intro.container)
+
+        // Crossroads
+        this.sections.crossroads = new CrossroadsSection({
+            ...options
+        })
+        this.container.add(this.sections.crossroads.container)
+
+        // Projects
+        this.sections.projects = new ProjectsSection({
+            ...options
+        })
+        this.container.add(this.sections.projects.container)
+
+        // Projects
+        this.sections.information = new InformationSection({
+            ...options
+        })
+        this.container.add(this.sections.information.container)
     }
 }

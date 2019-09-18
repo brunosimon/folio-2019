@@ -1,8 +1,8 @@
 import * as THREE from 'three'
 import Project from './Project'
-import BillboardSheetMaterial from '../Materials/BillboardSheet.js'
+import BillboardSheetMaterial from '../../Materials/BillboardSheet.js'
 
-export default class Projects
+export default class ProjectsSection
 {
     constructor(_options)
     {
@@ -13,13 +13,6 @@ export default class Projects
         this.areas = _options.areas
         this.tiles = _options.tiles
         this.debug = _options.debug
-
-        // Debug
-        if(this.debug)
-        {
-            this.debugFolder = this.debug.addFolder('projects')
-            this.debugFolder.open()
-        }
 
         // Set up
         this.items = []
@@ -175,7 +168,6 @@ export default class Projects
             resources: this.resources,
             objects: this.objects,
             areas: this.areas,
-            debug: this.debugFolder,
             geometries: this.geometries,
             meshes: this.meshes,
             materials: this.materials,
