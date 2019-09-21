@@ -87,6 +87,11 @@ import projectsCitrixRedbullSlideCSources from '../models/projects/citrixRedbull
 
 // Information
 import informationPlaceBaseSource from '../models/information/place/base.glb'
+import informationPlaceCollisionSource from '../models/information/place/collision.glb'
+import informationPlaceFloorShadowSource from '../models/information/place/floorShadow.png'
+
+import informationBaguetteBaseSource from '../models/information/baguette/base.glb'
+import informationBaguetteCollisionSource from '../models/information/baguette/collision.glb'
 
 // Area
 import areaKeyEnterSource from '../models/area/keyEnter.png'
@@ -202,6 +207,11 @@ export default class Resources extends EventEmitter
 
             // Information
             { name: 'informationPlaceBase', source: informationPlaceBaseSource },
+            { name: 'informationPlaceCollision', source: informationPlaceCollisionSource },
+            { name: 'informationPlaceFloorShadow', source: informationPlaceFloorShadowSource, type: 'texture' },
+
+            { name: 'informationBaguetteBase', source: informationBaguetteBaseSource },
+            { name: 'informationBaguetteCollision', source: informationBaguetteCollisionSource },
 
             // Areas
             { name: 'areaKeyEnter', source: areaKeyEnterSource, type: 'texture' },
