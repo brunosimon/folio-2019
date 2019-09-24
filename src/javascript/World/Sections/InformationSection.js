@@ -18,40 +18,47 @@ export default class InformationSection
         this.container.updateMatrix()
 
         this.x = 0
-        // this.y = - 50
-        this.y = - 10
+        this.y = - 55
+        // this.y = - 10
 
-        this.setPlace()
+        this.setStatic()
+        this.setBaguettes()
         this.setTiles()
     }
 
-    setPlace()
+    setStatic()
     {
         this.objects.add({
-            base: this.resources.items.informationPlaceBase.scene,
-            collision: this.resources.items.informationPlaceCollision.scene,
-            floorShadowTexture: this.resources.items.informationPlaceFloorShadowTexture,
+            base: this.resources.items.informationStaticBase.scene,
+            collision: this.resources.items.informationStaticCollision.scene,
+            floorShadowTexture: this.resources.items.informationStaticFloorShadowTexture,
             offset: new THREE.Vector3(this.x, this.y, 0),
             mass: 0
         })
+    }
 
-        console.log(this.resources.items.informationPlaceShadowTexture)
+    setBaguettes()
+    {
+        this.baguettes = {}
 
-        this.objects.add({
+        this.baguettes.x = - 3
+        this.baguettes.y = 6
+
+        this.baguettes.a = this.objects.add({
             base: this.resources.items.informationBaguetteBase.scene,
             collision: this.resources.items.informationBaguetteCollision.scene,
-            offset: new THREE.Vector3(this.x - 0.56, this.y - 0.666, 0.2),
+            offset: new THREE.Vector3(this.x + this.baguettes.x - 0.56, this.y + this.baguettes.y - 0.666, 0.2),
             rotation: new THREE.Euler(0, 0, - Math.PI * 37 / 180),
             duplicated: true,
             shadow: { sizeX: 0.6, sizeY: 3.5, offsetZ: - 0.15, alpha: 0.35 },
             mass: 1.5
         })
 
-        this.objects.add({
+        this.baguettes.b = this.objects.add({
             base: this.resources.items.informationBaguetteBase.scene,
             collision: this.resources.items.informationBaguetteCollision.scene,
-            offset: new THREE.Vector3(this.x - 0.8, this.y - 1.5, 0.5),
-            rotation: new THREE.Euler(0, 0, Math.PI * 60 / 180),
+            offset: new THREE.Vector3(this.x + this.baguettes.x - 0.8, this.y + this.baguettes.y - 2, 0.5),
+            rotation: new THREE.Euler(0, - 0.5, Math.PI * 60 / 180),
             duplicated: true,
             shadow: { sizeX: 0.6, sizeY: 3.5, offsetZ: - 0.15, alpha: 0.35 },
             mass: 1.5,

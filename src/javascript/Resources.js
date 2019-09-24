@@ -86,9 +86,9 @@ import projectsCitrixRedbullSlideBSources from '../models/projects/citrixRedbull
 import projectsCitrixRedbullSlideCSources from '../models/projects/citrixRedbull/slideC.jpg'
 
 // Information
-import informationPlaceBaseSource from '../models/information/place/base.glb'
-import informationPlaceCollisionSource from '../models/information/place/collision.glb'
-import informationPlaceFloorShadowSource from '../models/information/place/floorShadow.png'
+import informationStaticBaseSource from '../models/information/static/base.glb'
+import informationStaticCollisionSource from '../models/information/static/collision.glb'
+import informationStaticFloorShadowSource from '../models/information/static/floorShadow.png'
 
 import informationBaguetteBaseSource from '../models/information/baguette/base.glb'
 import informationBaguetteCollisionSource from '../models/information/baguette/collision.glb'
@@ -206,9 +206,9 @@ export default class Resources extends EventEmitter
             { name: 'projectsCitrixRedbullSlideC', source: projectsCitrixRedbullSlideCSources, type: 'texture' },
 
             // Information
-            { name: 'informationPlaceBase', source: informationPlaceBaseSource },
-            { name: 'informationPlaceCollision', source: informationPlaceCollisionSource },
-            { name: 'informationPlaceFloorShadow', source: informationPlaceFloorShadowSource, type: 'texture' },
+            { name: 'informationStaticBase', source: informationStaticBaseSource },
+            { name: 'informationStaticCollision', source: informationStaticCollisionSource },
+            { name: 'informationStaticFloorShadow', source: informationStaticFloorShadowSource, type: 'texture' },
 
             { name: 'informationBaguetteBase', source: informationBaguetteBaseSource },
             { name: 'informationBaguetteCollision', source: informationBaguetteCollisionSource },
