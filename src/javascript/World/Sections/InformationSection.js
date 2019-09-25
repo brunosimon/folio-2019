@@ -15,7 +15,6 @@ export default class InformationSection
         // Set up
         this.container = new THREE.Object3D()
         this.container.matrixAutoUpdate = false
-        this.container.updateMatrix()
 
         this.x = 0
         // this.y = - 55
@@ -77,66 +76,63 @@ export default class InformationSection
         this.links.halfExtents.x = 1
         this.links.halfExtents.y = 1
         this.links.distanceBetween = 2.4
+        this.links.labelGeometry = new THREE.PlaneBufferGeometry(this.links.halfExtents.x * 2, this.links.halfExtents.y * 2, 1, 1)
+        this.links.labelOffset = - 2.2
+        this.links.items = []
 
-        // Twitter
-        this.links.twitter = {}
-        this.links.twitter.x = this.x + this.links.x + this.links.distanceBetween * 0
-        this.links.twitter.y = this.y + this.links.y
-        this.links.twitter.href = 'https://twitter.com/bruno_simon/'
+        this.links.container = new THREE.Object3D()
+        this.links.container.matrixAutoUpdate = false
+        this.container.add(this.links.container)
 
-        this.links.twitter.area = this.areas.add({
-            position: new THREE.Vector2(this.links.twitter.x, this.links.twitter.y),
-            halfExtents: new THREE.Vector2(this.links.halfExtents.x, this.links.halfExtents.y)
-        })
-        this.links.twitter.area.on('interact', () =>
+        // Options
+        this.links.options = [
+            {
+                href: 'https://twitter.com/bruno_simon/'
+            },
+            {
+                href: 'https://github.com/brunosimon/'
+            },
+            {
+                href: 'https://www.linkedin.com/in/simonbruno77/'
+            },
+            {
+                href: 'mailto:simon.bruno.77@gmail.com'
+            }
+        ]
+
+        // Create each link
+        let i = 0
+        for(const _option of this.links.options)
         {
-            window.open(this.links.twitter.href, '_blank')
-        })
+            // Set up
+            const item = {}
+            item.x = this.x + this.links.x + this.links.distanceBetween * i
+            item.y = this.y + this.links.y
+            item.href = _option.href
 
-        // Github
-        this.links.github = {}
-        this.links.github.x = this.x + this.links.x + this.links.distanceBetween * 1
-        this.links.github.y = this.y + this.links.y
-        this.links.github.href = 'https://github.com/brunosimon/'
+            // Create area
+            item.area = this.areas.add({
+                position: new THREE.Vector2(item.x, item.y),
+                halfExtents: new THREE.Vector2(this.links.halfExtents.x, this.links.halfExtents.y)
+            })
+            item.area.on('interact', () =>
+            {
+                window.open(_option.href, '_blank')
+            })
 
-        this.links.github.area = this.areas.add({
-            position: new THREE.Vector2(this.links.github.x, this.links.github.y),
-            halfExtents: new THREE.Vector2(this.links.halfExtents.x, this.links.halfExtents.y)
-        })
-        this.links.github.area.on('interact', () =>
-        {
-            window.open(this.links.github.href, '_blank')
-        })
+            // Create label
+            item.labelMesh = new THREE.Mesh(this.links.labelGeometry, new THREE.MeshBasicMaterial({ wireframe: false, color: 0xffffff }))
+            item.labelMesh.position.x = item.x
+            item.labelMesh.position.y = item.y + this.links.labelOffset
+            item.labelMesh.matrixAutoUpdate = false
+            item.labelMesh.updateMatrix()
+            this.links.container.add(item.labelMesh)
 
-        // Linkedin
-        this.links.linkedin = {}
-        this.links.linkedin.x = this.x + this.links.x + this.links.distanceBetween * 2
-        this.links.linkedin.y = this.y + this.links.y
-        this.links.linkedin.href = 'https://www.linkedin.com/in/simonbruno77/'
+            // Save
+            this.links.items.push(item)
 
-        this.links.linkedin.area = this.areas.add({
-            position: new THREE.Vector2(this.links.linkedin.x, this.links.linkedin.y),
-            halfExtents: new THREE.Vector2(this.links.halfExtents.x, this.links.halfExtents.y)
-        })
-        this.links.linkedin.area.on('interact', () =>
-        {
-            window.open(this.links.linkedin.href, '_blank')
-        })
-
-        // Mail
-        this.links.mail = {}
-        this.links.mail.x = this.x + this.links.x + this.links.distanceBetween * 3
-        this.links.mail.y = this.y + this.links.y
-        this.links.mail.href = 'mailto:simon.bruno.77@gmail.com'
-
-        this.links.mail.area = this.areas.add({
-            position: new THREE.Vector2(this.links.mail.x, this.links.mail.y),
-            halfExtents: new THREE.Vector2(this.links.halfExtents.x, this.links.halfExtents.y)
-        })
-        this.links.mail.area.on('interact', () =>
-        {
-            window.open(this.links.mail.href, '_blank')
-        })
+            i++
+        }
     }
 
     setTiles()
