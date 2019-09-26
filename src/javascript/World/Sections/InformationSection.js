@@ -125,6 +125,11 @@ export default class InformationSection
                 window.open(_option.href, '_blank')
             })
 
+            // Texture
+            item.texture = _option.labelTexture
+            item.texture.magFilter = THREE.NearestFilter
+            item.texture.minFilter = THREE.LinearFilter
+
             // Create label
             item.labelMesh = new THREE.Mesh(this.links.labelGeometry, new THREE.MeshBasicMaterial({ wireframe: false, color: 0xffffff, alphaMap: _option.labelTexture, transparent: true }))
             item.labelMesh.position.x = item.x

@@ -12,7 +12,7 @@ export default class Physics
         if(this.debug)
         {
             this.debugFolder = this.debug.addFolder('physics')
-            // this.debugFolder.open()
+            this.debugFolder.open()
         }
 
         this.setWorld()
@@ -31,6 +31,7 @@ export default class Physics
     {
         this.world = new CANNON.World()
         this.world.gravity.set(0, 0, - 3.25)
+        // this.world.gravity.set(0, 0, 0)
         // this.world.broadphase = new CANNON.SAPBroadphase(this.world)
         this.world.defaultContactMaterial.friction = 0
         this.world.defaultContactMaterial.restitution = 0.2
@@ -309,7 +310,7 @@ export default class Physics
                     this.car.upsideDown.pendingTimeout = window.setTimeout(() =>
                     {
                         this.car.upsideDown.state = 'turning'
-                        this.car.controls.jump()
+                        this.car.controls.jump(true)
 
                         this.car.upsideDown.turningTimeout = window.setTimeout(() =>
                         {
@@ -394,10 +395,10 @@ export default class Physics
         this.car.controls.actions.brake = false
         this.car.controls.actions.boost = false
 
-        this.car.controls.jump = () =>
+        this.car.controls.jump = (_toReturn = true) =>
         {
             let worldPosition = this.car.chassis.body.position
-            worldPosition = worldPosition.vadd(new CANNON.Vec3(0.08, 0, 0))
+            worldPosition = worldPosition.vadd(new CANNON.Vec3(_toReturn ? 0.08 : 0, 0, 0))
             this.car.chassis.body.applyImpulse(new CANNON.Vec3(0, 0, 60), worldPosition)
         }
 
@@ -438,7 +439,7 @@ export default class Physics
                     break
 
                 // case ' ':
-                //     this.car.controls.jump()
+                //     this.car.controls.jump(true)
                 //     break
             }
         }
@@ -626,7 +627,7 @@ export default class Physics
             this.car.debugFolder.add(this.car.options.chassisOffset, 'z').step(0.001).min(0).max(5).name('chassisOffset').onFinishChange(this.car.recreate)
             this.car.debugFolder.add(this.car.options, 'chassisMass').step(0.001).min(0).max(1000).name('chassisMass').onFinishChange(this.car.recreate)
             this.car.debugFolder.add(this.car.options, 'wheelFrontOffsetDepth').step(0.001).min(0).max(5).name('wheelFrontOffsetDepth').onFinishChange(this.car.recreate)
-            this.car.debugFolder.add(this.car.options, 'wheelBackOffsetDepth').step(0.001).min(0).max(5).name('wheelBackOffsetDepth').onFinishChange(this.car.recreate)
+            this.car.debugFolder.add(this.car.options, 'wheelBackOffsetDepth').step(0.001).min(- 5).max(0).name('wheelBackOffsetDepth').onFinishChange(this.car.recreate)
             this.car.debugFolder.add(this.car.options, 'wheelOffsetWidth').step(0.001).min(0).max(5).name('wheelOffsetWidth').onFinishChange(this.car.recreate)
             this.car.debugFolder.add(this.car.options, 'wheelRadius').step(0.001).min(0).max(2).name('wheelRadius').onFinishChange(this.car.recreate)
             this.car.debugFolder.add(this.car.options, 'wheelHeight').step(0.001).min(0).max(2).name('wheelHeight').onFinishChange(this.car.recreate)
@@ -638,7 +639,7 @@ export default class Physics
             this.car.debugFolder.add(this.car.options, 'wheelMaxSuspensionForce').step(0.001).min(0).max(1000000).name('wheelMaxSuspensionForce').onFinishChange(this.car.recreate)
             this.car.debugFolder.add(this.car.options, 'wheelRollInfluence').step(0.001).min(0).max(1).name('wheelRollInfluence').onFinishChange(this.car.recreate)
             this.car.debugFolder.add(this.car.options, 'wheelMaxSuspensionTravel').step(0.001).min(0).max(5).name('wheelMaxSuspensionTravel').onFinishChange(this.car.recreate)
-            this.car.debugFolder.add(this.car.options, 'wheelCustomSlidingRotationalSpeed').step(0.001).min(0).max(45).name('wheelCustomSlidingRotationalSpeed').onFinishChange(this.car.recreate)
+            this.car.debugFolder.add(this.car.options, 'wheelCustomSlidingRotationalSpeed').step(0.001).min(- 45).max(45).name('wheelCustomSlidingRotationalSpeed').onFinishChange(this.car.recreate)
             this.car.debugFolder.add(this.car.options, 'wheelMass').step(0.001).min(0).max(1000).name('wheelMass').onFinishChange(this.car.recreate)
             this.car.debugFolder.add(this.car.options, 'controlsSteeringSpeed').step(0.001).min(0).max(0.1).name('controlsSteeringSpeed')
             this.car.debugFolder.add(this.car.options, 'controlsSteeringMax').step(0.001).min(0).max(Math.PI * 0.5).name('controlsSteeringMax')
