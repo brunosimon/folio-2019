@@ -175,10 +175,17 @@ export default class Shadows
                 // Project the rotation as a vector on a plane and extract the angle
                 const rotationVector = new THREE.Vector3(1, 0, 0)
                 rotationVector.applyQuaternion(_shadow.reference.quaternion)
-                rotationVector.projectOnPlane(new THREE.Vector3(0, 0, 1))
-                rotationVector.normalize()
+                // const planeVector = new THREE.Vector3(0, 0, 1)
+                // planeVector.normalize()
+                const projectedRotationVector = rotationVector.clone().projectOnPlane(new THREE.Vector3(0, 0, 1))
 
-                const angle = Math.atan2(rotationVector.y, rotationVector.x)
+                let orientationAlpha = Math.abs(rotationVector.angleTo(new THREE.Vector3(0, 0, 1)) - Math.PI * 0.5) / (Math.PI * 0.5)
+                orientationAlpha /= 0.5
+                orientationAlpha -= 1 / 0.5
+                orientationAlpha = Math.abs(orientationAlpha)
+                orientationAlpha = Math.min(Math.max(orientationAlpha, 0), 1)
+
+                const angle = Math.atan2(projectedRotationVector.y, projectedRotationVector.x)
                 _shadow.mesh.rotation.z = angle
 
                 // Alpha
@@ -186,7 +193,7 @@ export default class Shadows
                 alpha = Math.min(Math.max(alpha, 0), 1)
                 alpha = Math.pow(alpha, this.distancePower)
 
-                _shadow.material.uniforms.uAlpha.value = this.alpha * _shadow.alpha * alpha
+                _shadow.material.uniforms.uAlpha.value = this.alpha * _shadow.alpha * orientationAlpha * alpha
             }
         })
 
