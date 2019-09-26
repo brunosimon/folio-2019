@@ -23,6 +23,7 @@ export default class InformationSection
         this.setStatic()
         this.setBaguettes()
         this.setLinks()
+        this.setCV()
         this.setTiles()
     }
 
@@ -137,6 +138,24 @@ export default class InformationSection
 
             i++
         }
+    }
+
+    setCV()
+    {
+        // Set up
+        this.cv = {}
+        this.cv.x = this.x + 0
+        this.cv.y = this.y - 10
+
+        // Mesh
+        this.cv.geometry = new THREE.PlaneBufferGeometry(5, 5, 1, 1)
+        this.cv.material = new THREE.MeshBasicMaterial({ wireframe: true, color: 0xffffff, transparent: true })
+        this.cv.mesh = new THREE.Mesh(this.cv.geometry, this.cv.material)
+        this.cv.mesh.position.x = this.cv.x
+        this.cv.mesh.position.y = this.cv.y
+        this.cv.mesh.matrixAutoUpdate = false
+        this.cv.mesh.updateMatrix()
+        this.container.add(this.cv.mesh)
     }
 
     setTiles()
