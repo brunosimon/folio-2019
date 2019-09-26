@@ -169,29 +169,8 @@ export default class Car
         // Time tick
         this.time.on('tick', () =>
         {
-            // Space is down
-            if(this.physics.car.controls.actions.brake)
-            {
-                this.backLightsBrake.material.opacity = 1
-                this.backLightsReverse.material.opacity = 0.5
-            }
-
-            // Space is not down
-            else
-            {
-                // Forward
-                if(this.movement.localSpeed.x > 0)
-                {
-                    this.backLightsBrake.material.opacity = this.movement.localAcceleration.x < - 0.001 ? 1 : 0.5
-                    this.backLightsReverse.material.opacity = 0.5
-                }
-                // Backward
-                else
-                {
-                    this.backLightsBrake.material.opacity = this.movement.localAcceleration.x > 0.001 ? 1 : 0.5
-                    this.backLightsReverse.material.opacity = this.movement.localAcceleration.x < - 0.001 ? 1 : 0.5
-                }
-            }
+            this.backLightsBrake.material.opacity = this.physics.car.controls.actions.brake ? 1 : 0.5
+            this.backLightsReverse.material.opacity = this.physics.car.controls.actions.down ? 1 : 0.5
         })
     }
 
