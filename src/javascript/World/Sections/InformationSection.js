@@ -23,7 +23,7 @@ export default class InformationSection
         this.setStatic()
         this.setBaguettes()
         this.setLinks()
-        this.setCV()
+        this.setActivities()
         this.setTiles()
     }
 
@@ -145,22 +145,31 @@ export default class InformationSection
         }
     }
 
-    setCV()
+    setActivities()
     {
         // Set up
-        this.cv = {}
-        this.cv.x = this.x + 0
-        this.cv.y = this.y - 10
+        this.activities = {}
+        this.activities.x = this.x + 0
+        this.activities.y = this.y - 10
+
+        // Geometry
+        this.activities.geometry = new THREE.PlaneBufferGeometry(10, 5, 1, 1)
+
+        // Texture
+        this.activities.texture = this.resources.items.informationActivitiesTexture
+        this.activities.texture.magFilter = THREE.NearestFilter
+        this.activities.texture.minFilter = THREE.LinearFilter
+
+        // Material
+        this.activities.material = new THREE.MeshBasicMaterial({ wireframe: false, color: 0xffffff, alphaMap: this.activities.texture, transparent: true })
 
         // Mesh
-        this.cv.geometry = new THREE.PlaneBufferGeometry(5, 5, 1, 1)
-        this.cv.material = new THREE.MeshBasicMaterial({ wireframe: true, color: 0xffffff, transparent: true })
-        this.cv.mesh = new THREE.Mesh(this.cv.geometry, this.cv.material)
-        this.cv.mesh.position.x = this.cv.x
-        this.cv.mesh.position.y = this.cv.y
-        this.cv.mesh.matrixAutoUpdate = false
-        this.cv.mesh.updateMatrix()
-        this.container.add(this.cv.mesh)
+        this.activities.mesh = new THREE.Mesh(this.activities.geometry, this.activities.material)
+        this.activities.mesh.position.x = this.activities.x
+        this.activities.mesh.position.y = this.activities.y
+        this.activities.mesh.matrixAutoUpdate = false
+        this.activities.mesh.updateMatrix()
+        this.container.add(this.activities.mesh)
     }
 
     setTiles()

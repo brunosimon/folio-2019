@@ -98,6 +98,8 @@ import informationContactGithubLabelSource from '../models/information/static/co
 import informationContactLinkedinLabelSource from '../models/information/static/contactLinkedinLabel.png'
 import informationContactMailLabelSource from '../models/information/static/contactMailLabel.png'
 
+import informationActivitiesSource from '../models/information/static/activities.png'
+
 // Area
 import areaKeyEnterSource from '../models/area/keyEnter.png'
 
@@ -222,6 +224,8 @@ export default class Resources extends EventEmitter
             { name: 'informationContactGithubLabel', source: informationContactGithubLabelSource, type: 'texture' },
             { name: 'informationContactLinkedinLabel', source: informationContactLinkedinLabelSource, type: 'texture' },
             { name: 'informationContactMailLabel', source: informationContactMailLabelSource, type: 'texture' },
+
+            { name: 'informationActivities', source: informationActivitiesSource, type: 'texture' },
 
             // Areas
             { name: 'areaKeyEnter', source: areaKeyEnterSource, type: 'texture' },
