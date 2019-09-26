@@ -93,6 +93,11 @@ import informationStaticFloorShadowSource from '../models/information/static/flo
 import informationBaguetteBaseSource from '../models/information/baguette/base.glb'
 import informationBaguetteCollisionSource from '../models/information/baguette/collision.glb'
 
+import informationContactTwitterLabelSource from '../models/information/static/contactTwitterLabel.png'
+import informationContactGithubLabelSource from '../models/information/static/contactGithubLabel.png'
+import informationContactLinkedinLabelSource from '../models/information/static/contactLinkedinLabel.png'
+import informationContactMailLabelSource from '../models/information/static/contactMailLabel.png'
+
 // Area
 import areaKeyEnterSource from '../models/area/keyEnter.png'
 
@@ -212,6 +217,11 @@ export default class Resources extends EventEmitter
 
             { name: 'informationBaguetteBase', source: informationBaguetteBaseSource },
             { name: 'informationBaguetteCollision', source: informationBaguetteCollisionSource },
+
+            { name: 'informationContactTwitterLabel', source: informationContactTwitterLabelSource, type: 'texture' },
+            { name: 'informationContactGithubLabel', source: informationContactGithubLabelSource, type: 'texture' },
+            { name: 'informationContactLinkedinLabel', source: informationContactLinkedinLabelSource, type: 'texture' },
+            { name: 'informationContactMailLabel', source: informationContactMailLabelSource, type: 'texture' },
 
             // Areas
             { name: 'areaKeyEnter', source: areaKeyEnterSource, type: 'texture' },
