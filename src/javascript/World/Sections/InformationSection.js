@@ -16,9 +16,9 @@ export default class InformationSection
         this.container = new THREE.Object3D()
         this.container.matrixAutoUpdate = false
 
-        this.x = 0
-        // this.y = - 55
-        this.y = - 10
+        this.x = 1.2
+        this.y = - 55
+        // this.y = - 10
 
         this.setStatic()
         this.setBaguettes()
@@ -42,7 +42,7 @@ export default class InformationSection
     {
         this.baguettes = {}
 
-        this.baguettes.x = - 3
+        this.baguettes.x = - 4
         this.baguettes.y = 6
 
         this.baguettes.a = this.objects.add({
@@ -71,7 +71,7 @@ export default class InformationSection
     {
         // Set up
         this.links = {}
-        this.links.x = 1.45
+        this.links.x = 1.95
         this.links.y = - 1.5
         this.links.halfExtents = {}
         this.links.halfExtents.x = 1
@@ -175,5 +175,9 @@ export default class InformationSection
 
     setTiles()
     {
+        this.tiles.add({
+            start: new THREE.Vector2(this.x - 1.2, this.y + 12),
+            delta: new THREE.Vector2(0, - 19)
+        })
     }
 }

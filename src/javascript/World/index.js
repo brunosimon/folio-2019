@@ -158,23 +158,23 @@ export default class
             debug: this.debugFolder
         }
 
-        // // Intro
-        // this.sections.intro = new IntroSection({
-        //     ...options
-        // })
-        // this.container.add(this.sections.intro.container)
+        // Intro
+        this.sections.intro = new IntroSection({
+            ...options
+        })
+        this.container.add(this.sections.intro.container)
 
-        // // Crossroads
-        // this.sections.crossroads = new CrossroadsSection({
-        //     ...options
-        // })
-        // this.container.add(this.sections.crossroads.container)
+        // Crossroads
+        this.sections.crossroads = new CrossroadsSection({
+            ...options
+        })
+        this.container.add(this.sections.crossroads.container)
 
-        // // Projects
-        // this.sections.projects = new ProjectsSection({
-        //     ...options
-        // })
-        // this.container.add(this.sections.projects.container)
+        // Projects
+        this.sections.projects = new ProjectsSection({
+            ...options
+        })
+        this.container.add(this.sections.projects.container)
 
         // Projects
         this.sections.information = new InformationSection({
