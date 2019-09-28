@@ -17,11 +17,11 @@ export default class ProjectsSection
         // Set up
         this.items = []
 
-        // this.x = 30
-        // this.y = - 30
-        this.x = 0
-        this.y = 0
-        this.interDistance = 26
+        this.x = 30
+        this.y = - 30
+        // this.x = 0
+        // this.y = 0
+        this.interDistance = 24
         this.positionRandomess = 5
         this.projectHalfWidth = 9
 
@@ -67,6 +67,60 @@ export default class ProjectsSection
     {
         this.list = [
             {
+                name: 'priorHoldings',
+                images:
+                [
+                    this.resources.items.projectsPriorHoldingsSlideATexture,
+                    this.resources.items.projectsPriorHoldingsSlideBTexture,
+                    this.resources.items.projectsPriorHoldingsSlideCTexture
+                ],
+                floorTexture: this.resources.items.projectsPriorHoldingsFloorTexture,
+                link:
+                {
+                    href: 'https://prior.co.jp/discover/',
+                    x: - 4.8,
+                    y: - 2,
+                    halfExtents:
+                    {
+                        x: 3.2,
+                        y: 1.5
+                    }
+                },
+                distinctions:
+                [
+                    { type: 'awwwards', x: 3.95, y: 4.15 },
+                    { type: 'fwa', x: 5.6, y: 4.15 },
+                    { type: 'cssda', x: 7.2, y: 4.15 }
+                ]
+            },
+            {
+                name: 'orano',
+                images:
+                [
+                    this.resources.items.projectsOranoSlideATexture,
+                    this.resources.items.projectsOranoSlideBTexture,
+                    this.resources.items.projectsOranoSlideCTexture
+                ],
+                floorTexture: this.resources.items.projectsOranoFloorTexture,
+                link:
+                {
+                    href: 'https://www.orano.group/experience/innovation/',
+                    x: - 4.8,
+                    y: - 2.4,
+                    halfExtents:
+                    {
+                        x: 3.2,
+                        y: 1.5
+                    }
+                },
+                distinctions:
+                [
+                    { type: 'awwwards', x: 3.95, y: 4.15 },
+                    { type: 'fwa', x: 5.6, y: 4.15 },
+                    { type: 'cssda', x: 7.2, y: 4.15 }
+                ]
+            },
+            {
                 name: 'citrixRedbull',
                 images:
                 [
@@ -89,22 +143,23 @@ export default class ProjectsSection
                 distinctions:
                 [
                     { type: 'awwwards', x: 3.95, y: 4.15 },
-                    { type: 'fwa', x: 5.55, y: 4.15 },
+                    { type: 'fwa', x: 5.6, y: 4.15 },
                     { type: 'cssda', x: 7.2, y: 4.15 }
                 ]
             },
             {
-                name: 'priorHoldings',
+                name: 'gleecChat',
                 images:
                 [
-                    this.resources.items.projectsPriorHoldingsSlideATexture,
-                    this.resources.items.projectsPriorHoldingsSlideBTexture,
-                    this.resources.items.projectsPriorHoldingsSlideCTexture
+                    this.resources.items.projectsGleecChatSlideATexture,
+                    this.resources.items.projectsGleecChatSlideBTexture,
+                    this.resources.items.projectsGleecChatSlideCTexture,
+                    this.resources.items.projectsGleecChatSlideDTexture
                 ],
-                floorTexture: this.resources.items.projectsPriorHoldingsFloorTexture,
+                floorTexture: this.resources.items.projectsGleecChatFloorTexture,
                 link:
                 {
-                    href: 'https://prior.co.jp/discover/',
+                    href: 'https://gleechat.com',
                     x: - 4.8,
                     y: - 2.4,
                     halfExtents:
@@ -116,24 +171,25 @@ export default class ProjectsSection
                 distinctions:
                 [
                     { type: 'awwwards', x: 3.95, y: 4.15 },
-                    { type: 'fwa', x: 5.55, y: 4.15 },
+                    { type: 'fwa', x: 5.6, y: 4.15 },
                     { type: 'cssda', x: 7.2, y: 4.15 }
                 ]
             },
             {
-                name: 'orano',
+                name: 'refletCommunication',
                 images:
                 [
-                    this.resources.items.projectsOranoSlideATexture,
-                    this.resources.items.projectsOranoSlideBTexture,
-                    this.resources.items.projectsOranoSlideCTexture
+                    this.resources.items.projectsRefletCommunicationSlideATexture,
+                    this.resources.items.projectsRefletCommunicationSlideBTexture,
+                    this.resources.items.projectsRefletCommunicationSlideCTexture,
+                    this.resources.items.projectsRefletCommunicationSlideDTexture
                 ],
-                floorTexture: this.resources.items.projectsOranoFloorTexture,
+                floorTexture: this.resources.items.projectsRefletCommunicationFloorTexture,
                 link:
                 {
-                    href: 'https://prior.co.jp/discover/',
+                    href: 'https://www.refletcommunication.com',
                     x: - 4.8,
-                    y: - 4,
+                    y: - 2,
                     halfExtents:
                     {
                         x: 3.2,
@@ -143,10 +199,32 @@ export default class ProjectsSection
                 distinctions:
                 [
                     { type: 'awwwards', x: 3.95, y: 4.15 },
-                    { type: 'fwa', x: 5.55, y: 4.15 },
+                    { type: 'fwa', x: 5.6, y: 4.15 },
                     { type: 'cssda', x: 7.2, y: 4.15 }
                 ]
             },
+            {
+                name: 'keppler',
+                images:
+                [
+                    this.resources.items.projectsKepplerSlideATexture,
+                    this.resources.items.projectsKepplerSlideBTexture,
+                    this.resources.items.projectsKepplerSlideCTexture
+                ],
+                floorTexture: this.resources.items.projectsKepplerFloorTexture,
+                link:
+                {
+                    href: 'https://brunosimon.github.io/keppler/',
+                    x: 2.75,
+                    y: - 0.1,
+                    halfExtents:
+                    {
+                        x: 3.2,
+                        y: 1.5
+                    }
+                },
+                distinctions: []
+            }
         ]
     }
 

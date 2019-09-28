@@ -176,8 +176,8 @@ export default class InformationSection
     setTiles()
     {
         this.tiles.add({
-            start: new THREE.Vector2(this.x - 1.2, this.y + 12),
-            delta: new THREE.Vector2(0, - 19)
+            start: new THREE.Vector2(this.x - 1.2, this.y + 13),
+            delta: new THREE.Vector2(0, - 20)
         })
     }
 }
