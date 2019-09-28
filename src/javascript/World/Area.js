@@ -91,7 +91,7 @@ export default class Area extends EventEmitter
         this.key.texture.minFilter = THREE.LinearFilter
 
         // Material
-        this.key.material = new THREE.MeshBasicMaterial({ color: 0xffffff, alphaMap: this.key.texture, transparent: true, opacity: 0 })
+        this.key.material = new THREE.MeshBasicMaterial({ color: 0xffffff, alphaMap: this.key.texture, transparent: true, opacity: 0, depthWrite: false })
 
         // Mesh
         this.key.mesh = new THREE.Mesh(this.key.geometry, this.key.material)
