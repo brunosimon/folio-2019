@@ -17,10 +17,10 @@ export default class ProjectsSection
         // Set up
         this.items = []
 
-        this.x = 30
-        this.y = - 30
-        // this.x = 15
-        // this.y = 0
+        // this.x = 30
+        // this.y = - 30
+        this.x = 0
+        this.y = 0
         this.interDistance = 26
         this.positionRandomess = 5
         this.projectHalfWidth = 9
@@ -77,9 +77,9 @@ export default class ProjectsSection
                 floorTexture: this.resources.items.projectsCitrixRedbullFloorTexture,
                 link:
                 {
-                    href: 'https://google.fr',
+                    href: 'https://thenewmobileworkforce.imm-g-prod.com/',
                     x: - 4.8,
-                    y: - 3,
+                    y: - 3.4,
                     halfExtents:
                     {
                         x: 3.2,
@@ -88,26 +88,25 @@ export default class ProjectsSection
                 },
                 distinctions:
                 [
-                    { type: 'cssda', x: 4.05, y: 5.2 },
-                    { type: 'awwwards', x: 5.4, y: 5.2 },
-                    { type: 'awwwards', x: 6.85, y: 5.2 },
-                    { type: 'fwa', x: 4.05, y: 2.8 }
+                    { type: 'awwwards', x: 3.95, y: 4.15 },
+                    { type: 'fwa', x: 5.55, y: 4.15 },
+                    { type: 'cssda', x: 7.2, y: 4.15 }
                 ]
             },
             {
-                name: 'citrixRedbull2',
+                name: 'priorHoldings',
                 images:
                 [
-                    this.resources.items.projectsCitrixRedbullSlideATexture,
-                    this.resources.items.projectsCitrixRedbullSlideBTexture,
-                    this.resources.items.projectsCitrixRedbullSlideCTexture
+                    this.resources.items.projectsPriorHoldingsSlideATexture,
+                    this.resources.items.projectsPriorHoldingsSlideBTexture,
+                    this.resources.items.projectsPriorHoldingsSlideCTexture
                 ],
-                floorTexture: this.resources.items.projectsCitrixRedbullFloorTexture,
+                floorTexture: this.resources.items.projectsPriorHoldingsFloorTexture,
                 link:
                 {
-                    href: 'https://google.fr',
+                    href: 'https://prior.co.jp/discover/',
                     x: - 4.8,
-                    y: - 3,
+                    y: - 2.4,
                     halfExtents:
                     {
                         x: 3.2,
@@ -116,26 +115,25 @@ export default class ProjectsSection
                 },
                 distinctions:
                 [
-                    { type: 'cssda', x: 4.05, y: 5.2 },
-                    { type: 'awwwards', x: 5.4, y: 5.2 },
-                    { type: 'awwwards', x: 6.85, y: 5.2 },
-                    { type: 'fwa', x: 4.05, y: 2.8 }
+                    { type: 'awwwards', x: 3.95, y: 4.15 },
+                    { type: 'fwa', x: 5.55, y: 4.15 },
+                    { type: 'cssda', x: 7.2, y: 4.15 }
                 ]
             },
             {
-                name: 'citrixRedbull3',
+                name: 'orano',
                 images:
                 [
-                    this.resources.items.projectsCitrixRedbullSlideATexture,
-                    this.resources.items.projectsCitrixRedbullSlideBTexture,
-                    this.resources.items.projectsCitrixRedbullSlideCTexture
+                    this.resources.items.projectsOranoSlideATexture,
+                    this.resources.items.projectsOranoSlideBTexture,
+                    this.resources.items.projectsOranoSlideCTexture
                 ],
-                floorTexture: this.resources.items.projectsCitrixRedbullFloorTexture,
+                floorTexture: this.resources.items.projectsOranoFloorTexture,
                 link:
                 {
-                    href: 'https://google.fr',
+                    href: 'https://prior.co.jp/discover/',
                     x: - 4.8,
-                    y: - 3,
+                    y: - 4,
                     halfExtents:
                     {
                         x: 3.2,
@@ -144,12 +142,11 @@ export default class ProjectsSection
                 },
                 distinctions:
                 [
-                    { type: 'cssda', x: 4.05, y: 5.2 },
-                    { type: 'awwwards', x: 5.4, y: 5.2 },
-                    { type: 'awwwards', x: 6.85, y: 5.2 },
-                    { type: 'fwa', x: 4.05, y: 2.8 }
+                    { type: 'awwwards', x: 3.95, y: 4.15 },
+                    { type: 'fwa', x: 5.55, y: 4.15 },
+                    { type: 'cssda', x: 7.2, y: 4.15 }
                 ]
-            }
+            },
         ]
     }
 

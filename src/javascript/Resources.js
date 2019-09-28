@@ -80,10 +80,20 @@ import projectsDistinctionsFWACollisionSource from '../models/projects/distincti
 import projectsDistinctionsCSSDABaseSource from '../models/projects/distinctions/cssda/base.glb'
 import projectsDistinctionsCSSDACollisionSource from '../models/projects/distinctions/cssda/collision.glb'
 
-import projectsCitrixRedbullFloorSource from '../models/projects/citrixRedbull/floorTexture.jpg'
+import projectsCitrixRedbullFloorSource from '../models/projects/citrixRedbull/floorTexture.png'
 import projectsCitrixRedbullSlideASources from '../models/projects/citrixRedbull/slideA.jpg'
 import projectsCitrixRedbullSlideBSources from '../models/projects/citrixRedbull/slideB.jpg'
 import projectsCitrixRedbullSlideCSources from '../models/projects/citrixRedbull/slideC.jpg'
+
+import projectsPriorHoldingsFloorSource from '../models/projects/priorHoldings/floorTexture.png'
+import projectsPriorHoldingsSlideASources from '../models/projects/priorHoldings/slideA.jpg'
+import projectsPriorHoldingsSlideBSources from '../models/projects/priorHoldings/slideB.jpg'
+import projectsPriorHoldingsSlideCSources from '../models/projects/priorHoldings/slideC.jpg'
+
+import projectsOranoFloorSource from '../models/projects/orano/floorTexture.png'
+import projectsOranoSlideASources from '../models/projects/orano/slideA.jpg'
+import projectsOranoSlideBSources from '../models/projects/orano/slideB.jpg'
+import projectsOranoSlideCSources from '../models/projects/orano/slideC.jpg'
 
 // Information
 import informationStaticBaseSource from '../models/information/static/base.glb'
@@ -206,11 +216,20 @@ export default class Resources extends EventEmitter
             { name: 'projectsDistinctionsCSSDABase', source: projectsDistinctionsCSSDABaseSource },
             { name: 'projectsDistinctionsCSSDACollision', source: projectsDistinctionsCSSDACollisionSource },
 
-
             { name: 'projectsCitrixRedbullFloor', source: projectsCitrixRedbullFloorSource, type: 'texture' },
             { name: 'projectsCitrixRedbullSlideA', source: projectsCitrixRedbullSlideASources, type: 'texture' },
             { name: 'projectsCitrixRedbullSlideB', source: projectsCitrixRedbullSlideBSources, type: 'texture' },
             { name: 'projectsCitrixRedbullSlideC', source: projectsCitrixRedbullSlideCSources, type: 'texture' },
+
+            { name: 'projectsPriorHoldingsFloor', source: projectsPriorHoldingsFloorSource, type: 'texture' },
+            { name: 'projectsPriorHoldingsSlideA', source: projectsPriorHoldingsSlideASources, type: 'texture' },
+            { name: 'projectsPriorHoldingsSlideB', source: projectsPriorHoldingsSlideBSources, type: 'texture' },
+            { name: 'projectsPriorHoldingsSlideC', source: projectsPriorHoldingsSlideCSources, type: 'texture' },
+
+            { name: 'projectsOranoFloor', source: projectsOranoFloorSource, type: 'texture' },
+            { name: 'projectsOranoSlideA', source: projectsOranoSlideASources, type: 'texture' },
+            { name: 'projectsOranoSlideB', source: projectsOranoSlideBSources, type: 'texture' },
+            { name: 'projectsOranoSlideC', source: projectsOranoSlideCSources, type: 'texture' },
 
             // Information
             { name: 'informationStaticBase', source: informationStaticBaseSource },

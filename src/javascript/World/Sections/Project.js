@@ -62,6 +62,8 @@ export default class Project
 
             // Texture
             board.texture = _image
+            board.texture.magFilter = THREE.NearestFilter
+            board.texture.minFilter = THREE.LinearFilter
 
             // Plane
             board.planeMesh = this.meshes.boardPlane.clone()
