@@ -13,6 +13,13 @@ export default class PlaygroundSection
         this.tiles = _options.tiles
         this.debug = _options.debug
 
+        // Debug
+        if(this.debug)
+        {
+            this.debugFolder = this.debug.addFolder('sections')
+            this.debugFolder.open()
+        }
+
         // Set up
         this.container = new THREE.Object3D()
         this.container.matrixAutoUpdate = false
@@ -37,9 +44,25 @@ export default class PlaygroundSection
 
     setBricksWalls()
     {
+        // Set up
         this.brickWalls = {}
         this.brickWalls.x = - 5
         this.brickWalls.y = 0
+        this.brickWalls.items = []
+
+        // Reset
+        this.brickWalls.reset = () =>
+        {
+            for(const _wall of this.brickWalls.items)
+            {
+                for(const _brick of _wall.items)
+                {
+                    _brick.collision.reset()
+                }
+            }
+        }
+
+        // Brick object options
         this.brickWalls.objectOptions = {
             base: this.resources.items.informationBrickBase.scene,
             collision: this.resources.items.informationBrickCollision.scene,
@@ -51,48 +74,50 @@ export default class PlaygroundSection
             // sleep: false
         }
 
-        this.walls.add({
-            object: this.brickWalls.objectOptions,
-            shape:
-            {
-                type: 'rectangle',
-                widthCount: 5,
-                heightCount: 6,
-                position: new THREE.Vector3(this.brickWalls.x + 0, this.brickWalls.y, 0),
-                offsetWidth: new THREE.Vector3(0, 1.05, 0),
-                offsetHeight: new THREE.Vector3(0, 0, 0.45),
-                randomOffset: new THREE.Vector3(0, 0, 0),
-                randomRotation: new THREE.Vector3(0, 0, 0.2)
-            }
-        })
+        this.brickWalls.items.push(
+            this.walls.add({
+                object: this.brickWalls.objectOptions,
+                shape:
+                {
+                    type: 'rectangle',
+                    widthCount: 5,
+                    heightCount: 6,
+                    position: new THREE.Vector3(this.brickWalls.x + 0, this.brickWalls.y, 0),
+                    offsetWidth: new THREE.Vector3(0, 1.05, 0),
+                    offsetHeight: new THREE.Vector3(0, 0, 0.45),
+                    randomOffset: new THREE.Vector3(0, 0, 0),
+                    randomRotation: new THREE.Vector3(0, 0, 0.4)
+                }
+            }),
+            this.walls.add({
+                object: this.brickWalls.objectOptions,
+                shape:
+                {
+                    type: 'brick',
+                    widthCount: 5,
+                    heightCount: 6,
+                    position: new THREE.Vector3(this.brickWalls.x - 5, this.brickWalls.y, 0),
+                    offsetWidth: new THREE.Vector3(0, 1.05, 0),
+                    offsetHeight: new THREE.Vector3(0, 0, 0.45),
+                    randomOffset: new THREE.Vector3(0, 0, 0),
+                    randomRotation: new THREE.Vector3(0, 0, 0.4)
+                }
+            }),
+            this.walls.add({
+                object: this.brickWalls.objectOptions,
+                shape:
+                {
+                    type: 'triangle',
+                    widthCount: 6,
+                    position: new THREE.Vector3(this.brickWalls.x - 10, this.brickWalls.y, 0),
+                    offsetWidth: new THREE.Vector3(0, 1.05, 0),
+                    offsetHeight: new THREE.Vector3(0, 0, 0.45),
+                    randomOffset: new THREE.Vector3(0, 0, 0),
+                    randomRotation: new THREE.Vector3(0, 0, 0.4)
+                }
+            })
+        )
 
-        this.walls.add({
-            object: this.brickWalls.objectOptions,
-            shape:
-            {
-                type: 'brick',
-                widthCount: 5,
-                heightCount: 6,
-                position: new THREE.Vector3(this.brickWalls.x - 5, this.brickWalls.y, 0),
-                offsetWidth: new THREE.Vector3(0, 1.05, 0),
-                offsetHeight: new THREE.Vector3(0, 0, 0.45),
-                randomOffset: new THREE.Vector3(0, 0, 0),
-                randomRotation: new THREE.Vector3(0, 0, 0.2)
-            }
-        })
-
-        this.walls.add({
-            object: this.brickWalls.objectOptions,
-            shape:
-            {
-                type: 'triangle',
-                widthCount: 6,
-                position: new THREE.Vector3(this.brickWalls.x - 10, this.brickWalls.y, 0),
-                offsetWidth: new THREE.Vector3(0, 1.05, 0),
-                offsetHeight: new THREE.Vector3(0, 0, 0.45),
-                randomOffset: new THREE.Vector3(0, 0, 0),
-                randomRotation: new THREE.Vector3(0, 0, 0.2)
-            }
-        })
+        this.debugFolder.add(this.brickWalls, 'reset').name('brickWalls reset')
     }
 }

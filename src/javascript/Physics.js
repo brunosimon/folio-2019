@@ -12,7 +12,7 @@ export default class Physics
         if(this.debug)
         {
             this.debugFolder = this.debug.addFolder('physics')
-            this.debugFolder.open()
+            // this.debugFolder.open()
         }
 
         this.setWorld()
@@ -810,12 +810,30 @@ export default class Physics
         collision.body.position.y += collision.center.y
         collision.body.position.z += collision.center.z
 
+        // Save origin
+        collision.origin = {}
+        collision.origin.position = collision.body.position.clone()
+        collision.origin.quaternion = collision.body.quaternion.clone()
+        collision.origin.sleep = _options.sleep
+
         // Time tick update
         this.time.on('tick', () =>
         {
             collision.model.container.position.set(collision.body.position.x, collision.body.position.y, collision.body.position.z)
             collision.model.container.quaternion.set(collision.body.quaternion.x, collision.body.quaternion.y, collision.body.quaternion.z, collision.body.quaternion.w)
         })
+
+        // Reset
+        collision.reset = () =>
+        {
+            collision.body.position.copy(collision.origin.position)
+            collision.body.quaternion.copy(collision.origin.quaternion)
+
+            if(collision.origin.sleep)
+            {
+                collision.body.sleep()
+            }
+        }
 
         return collision
     }

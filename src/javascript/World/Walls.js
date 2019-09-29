@@ -11,9 +11,11 @@ export default class Walls
 
     add(_options)
     {
-        const items = []
-        const shape = _options.shape
+        const wall = {}
+        wall.coordinates = []
+        wall.items = []
 
+        const shape = _options.shape
         let widthCount = shape.widthCount
         const heightCount = shape.widthCount
 
@@ -42,7 +44,7 @@ export default class Walls
                         rotation.y += (Math.random() - 0.5) * shape.randomRotation.y
                         rotation.z += (Math.random() - 0.5) * shape.randomRotation.z
 
-                        items.push({
+                        wall.coordinates.push({
                             offset,
                             rotation
                         })
@@ -75,7 +77,7 @@ export default class Walls
                         rotation.z += (Math.random() - 0.5) * shape.randomRotation.z
 
 
-                        items.push({
+                        wall.coordinates.push({
                             offset,
                             rotation
                         })
@@ -87,15 +89,17 @@ export default class Walls
                 break
         }
 
-        for(const _item of items)
+        for(const _coordinates of wall.coordinates)
         {
             const objectOptions = { ..._options.object }
-            objectOptions.offset = _options.object.offset.clone().add(_item.offset).add(shape.position)
+            objectOptions.offset = _options.object.offset.clone().add(_coordinates.offset).add(shape.position)
             objectOptions.rotation = _options.object.rotation.clone()
-            objectOptions.rotation.x += _item.rotation.x
-            objectOptions.rotation.y += _item.rotation.y
-            objectOptions.rotation.z += _item.rotation.z
-            this.objects.add(objectOptions)
+            objectOptions.rotation.x += _coordinates.rotation.x
+            objectOptions.rotation.y += _coordinates.rotation.y
+            objectOptions.rotation.z += _coordinates.rotation.z
+            wall.items.push(this.objects.add(objectOptions))
         }
+
+        return wall
     }
 }
