@@ -165,7 +165,9 @@ export default class Area extends EventEmitter
             new THREE.PlaneBufferGeometry(this.halfExtents.x * 2, this.halfExtents.y * 2, 1, 1),
             new THREE.MeshBasicMaterial({ transparent: true, opacity: 0 })
         )
+        this.mouseMesh.position.z = - 0.01
         this.mouseMesh.matrixAutoUpdate = false
+        this.mouseMesh.updateMatrix()
         this.container.add(this.mouseMesh)
 
         this.time.on('tick', () =>

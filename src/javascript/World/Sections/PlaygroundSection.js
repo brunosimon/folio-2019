@@ -82,7 +82,7 @@ export default class PlaygroundSection
                     type: 'rectangle',
                     widthCount: 5,
                     heightCount: 6,
-                    position: new THREE.Vector3(this.brickWalls.x + 0, this.brickWalls.y, 0),
+                    position: new THREE.Vector3(this.brickWalls.x - 5, this.brickWalls.y, 0),
                     offsetWidth: new THREE.Vector3(0, 1.05, 0),
                     offsetHeight: new THREE.Vector3(0, 0, 0.45),
                     randomOffset: new THREE.Vector3(0, 0, 0),
@@ -96,7 +96,7 @@ export default class PlaygroundSection
                     type: 'brick',
                     widthCount: 5,
                     heightCount: 6,
-                    position: new THREE.Vector3(this.brickWalls.x - 5, this.brickWalls.y, 0),
+                    position: new THREE.Vector3(this.brickWalls.x - 10, this.brickWalls.y, 0),
                     offsetWidth: new THREE.Vector3(0, 1.05, 0),
                     offsetHeight: new THREE.Vector3(0, 0, 0.45),
                     randomOffset: new THREE.Vector3(0, 0, 0),
@@ -109,7 +109,7 @@ export default class PlaygroundSection
                 {
                     type: 'triangle',
                     widthCount: 6,
-                    position: new THREE.Vector3(this.brickWalls.x - 10, this.brickWalls.y, 0),
+                    position: new THREE.Vector3(this.brickWalls.x - 15, this.brickWalls.y, 0),
                     offsetWidth: new THREE.Vector3(0, 1.05, 0),
                     offsetHeight: new THREE.Vector3(0, 0, 0.45),
                     randomOffset: new THREE.Vector3(0, 0, 0),
@@ -118,6 +118,30 @@ export default class PlaygroundSection
             })
         )
 
-        this.debugFolder.add(this.brickWalls, 'reset').name('brickWalls reset')
+        // Reset area
+        this.brickWalls.resetArea = this.areas.add({
+            position: new THREE.Vector2(this.x + this.brickWalls.x, this.y + this.brickWalls.y),
+            halfExtents: new THREE.Vector2(2, 2)
+        })
+        this.brickWalls.resetArea.on('interact', () =>
+        {
+            this.brickWalls.reset()
+        })
+
+        // Reset label
+        this.resources.items.areaResetTexture.magFilter = THREE.NearestFilter
+        this.resources.items.areaResetTexture.minFilter = THREE.LinearFilter
+        this.brickWalls.areaLabelMesh = new THREE.Mesh(new THREE.PlaneBufferGeometry(2, 0.5), new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false, color: 0xffffff, alphaMap: this.resources.items.areaResetTexture }))
+        this.brickWalls.areaLabelMesh.position.x = this.brickWalls.x
+        this.brickWalls.areaLabelMesh.position.y = this.brickWalls.y
+        this.brickWalls.areaLabelMesh.matrixAutoUpdate = false
+        this.brickWalls.areaLabelMesh.updateMatrix()
+        this.container.add(this.brickWalls.areaLabelMesh)
+
+        // Debug
+        if(this.debugFolder)
+        {
+            this.debugFolder.add(this.brickWalls, 'reset').name('brickWalls reset')
+        }
     }
 }

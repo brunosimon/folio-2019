@@ -71,7 +71,6 @@ import projectsBoardStructureSource from '../models/projects/board/structure.glb
 import projectsBoardCollisionSource from '../models/projects/board/collision.glb'
 import projectsBoardStructureFloorShadowSource from '../models/projects/board/floorShadow.png'
 import projectsBoardPlaneSource from '../models/projects/board/plane.glb'
-import projectsFloorAreaOpenSource from '../models/projects/floor/areaOpen.png'
 
 import projectsDistinctionsAwwwardsBaseSource from '../models/projects/distinctions/awwwards/base.glb'
 import projectsDistinctionsAwwwardsCollisionSource from '../models/projects/distinctions/awwwards/collision.glb'
@@ -138,6 +137,8 @@ import informationBrickCollisionSource from '../models/brick/collision.glb'
 
 // Area
 import areaKeyEnterSource from '../models/area/keyEnter.png'
+import areaOpenSource from '../models/area/open.png'
+import areaResetSource from '../models/area/reset.png'
 
 // Tiles
 import tilesABaseSource from '../models/tiles/a/base.glb'
@@ -233,7 +234,6 @@ export default class Resources extends EventEmitter
             { name: 'projectsBoardCollision', source: projectsBoardCollisionSource },
             { name: 'projectsBoardStructureFloorShadow', source: projectsBoardStructureFloorShadowSource, type: 'texture' },
             { name: 'projectsBoardPlane', source: projectsBoardPlaneSource },
-            { name: 'projectsFloorAreaOpen', source: projectsFloorAreaOpenSource, type: 'texture' },
 
             { name: 'projectsDistinctionsAwwwardsBase', source: projectsDistinctionsAwwwardsBaseSource },
             { name: 'projectsDistinctionsAwwwardsCollision', source: projectsDistinctionsAwwwardsCollisionSource },
@@ -300,6 +300,8 @@ export default class Resources extends EventEmitter
 
             // Areas
             { name: 'areaKeyEnter', source: areaKeyEnterSource, type: 'texture' },
+            { name: 'areaOpen', source: areaOpenSource, type: 'texture' },
+            { name: 'areaReset', source: areaResetSource, type: 'texture' },
 
             // Tiles
             { name: 'tilesABase', source: tilesABaseSource },
