@@ -15,8 +15,6 @@ export default class Tiles
         this.tangentDistance = 0.3
         this.positionRandomess = 0.3
         this.rotationRandomess = 0.1
-        this.container = new THREE.Object3D()
-        this.container.matrixAutoUpdate = false
 
         this.setModels()
     }
@@ -98,10 +96,6 @@ export default class Tiles
         tilePath.tangentVector = tilePath.directionVector.clone().rotateAround(new THREE.Vector2(0, 0), Math.PI * 0.5).multiplyScalar(this.tangentDistance)
         tilePath.angle = tilePath.directionVector.angle()
 
-        tilePath.container = new THREE.Object3D()
-        tilePath.container.matrixAutoUpdate = false
-        this.container.add(tilePath.container)
-
         // Create tiles
         for(let i = 0; i < tilePath.count; i++)
         {
@@ -136,7 +130,6 @@ export default class Tiles
                 duplicated: true,
                 mass: 0
             })
-            // tilePath.container.add(tile.container)
         }
     }
 }

@@ -127,6 +127,15 @@ import informationContactMailLabelSource from '../models/information/static/cont
 
 import informationActivitiesSource from '../models/information/static/activities.png'
 
+// Playground
+import playgroundStaticFloorShadowSource from '../models/playground/static/floorShadow.png'
+import playgroundStaticBaseSource from '../models/playground/static/base.glb'
+import playgroundStaticCollisionSource from '../models/playground/static/collision.glb'
+
+// Brick
+import informationBrickBaseSource from '../models/brick/base.glb'
+import informationBrickCollisionSource from '../models/brick/collision.glb'
+
 // Area
 import areaKeyEnterSource from '../models/area/keyEnter.png'
 
@@ -279,6 +288,15 @@ export default class Resources extends EventEmitter
             { name: 'informationContactMailLabel', source: informationContactMailLabelSource, type: 'texture' },
 
             { name: 'informationActivities', source: informationActivitiesSource, type: 'texture' },
+
+            // Playground
+            { name: 'playgroundStaticBase', source: playgroundStaticBaseSource },
+            { name: 'playgroundStaticCollision', source: playgroundStaticCollisionSource },
+            { name: 'playgroundStaticFloorShadow', source: playgroundStaticFloorShadowSource, type: 'texture' },
+
+            // Brick
+            { name: 'informationBrickBase', source: informationBrickBaseSource },
+            { name: 'informationBrickCollision', source: informationBrickCollisionSource },
 
             // Areas
             { name: 'areaKeyEnter', source: areaKeyEnterSource, type: 'texture' },

@@ -112,7 +112,7 @@ export default class Objects
         {
             // Create clone mesh with normal material
             const mesh = _mesh.clone()
-            mesh.material = new THREE.MeshNormalMaterial()
+            mesh.material = this.materials.shades.items.white
 
             return mesh
         }

@@ -7,10 +7,12 @@ import Objects from './Objects.js'
 import Car from './Car.js'
 import Areas from './Areas.js'
 import Tiles from './Tiles.js'
+import Walls from './Walls.js'
 import IntroSection from './Sections/IntroSection.js'
 import ProjectsSection from './Sections/ProjectsSection.js'
 import CrossroadsSection from './Sections/CrossroadsSection.js'
 import InformationSection from './Sections/InformationSection.js'
+import PlaygroundSection from './Sections/PlaygroundSection.js'
 
 export default class
 {
@@ -43,6 +45,7 @@ export default class
         this.setCar()
         this.setAreas()
         this.setTiles()
+        this.setWalls()
         this.setSections()
     }
 
@@ -111,8 +114,14 @@ export default class
             objects: this.objects,
             debug: this.debug
         })
+    }
 
-        this.container.add(this.tiles.container)
+    setWalls()
+    {
+        this.walls = new Walls({
+            resources: this.resources,
+            objects: this.objects
+        })
     }
 
     setObjects()
@@ -154,32 +163,39 @@ export default class
             resources: this.resources,
             objects: this.objects,
             areas: this.areas,
+            walls: this.walls,
             tiles: this.tiles,
             debug: this.debugFolder
         }
 
-        // Intro
-        this.sections.intro = new IntroSection({
-            ...options
-        })
-        this.container.add(this.sections.intro.container)
+        // // Intro
+        // this.sections.intro = new IntroSection({
+        //     ...options
+        // })
+        // this.container.add(this.sections.intro.container)
 
-        // Crossroads
-        this.sections.crossroads = new CrossroadsSection({
-            ...options
-        })
-        this.container.add(this.sections.crossroads.container)
+        // // Crossroads
+        // this.sections.crossroads = new CrossroadsSection({
+        //     ...options
+        // })
+        // this.container.add(this.sections.crossroads.container)
 
-        // Projects
-        this.sections.projects = new ProjectsSection({
-            ...options
-        })
-        this.container.add(this.sections.projects.container)
+        // // Projects
+        // this.sections.projects = new ProjectsSection({
+        //     ...options
+        // })
+        // this.container.add(this.sections.projects.container)
 
-        // Information
-        this.sections.information = new InformationSection({
+        // // Information
+        // this.sections.information = new InformationSection({
+        //     ...options
+        // })
+        // this.container.add(this.sections.information.container)
+
+        // Playground
+        this.sections.playground = new PlaygroundSection({
             ...options
         })
-        this.container.add(this.sections.information.container)
+        this.container.add(this.sections.playground.container)
     }
 }
