@@ -733,7 +733,7 @@ export default class Physics
 
                 if(shape === 'cylinder')
                 {
-                    shapeGeometry = new CANNON.Cylinder(mesh.scale.x, mesh.scale.x, mesh.scale.y, 8)
+                    shapeGeometry = new CANNON.Cylinder(mesh.scale.x, mesh.scale.x, mesh.scale.z, 8)
                 }
                 else if(shape === 'box')
                 {
