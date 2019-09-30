@@ -32,7 +32,7 @@ export default class Physics
         this.world = new CANNON.World()
         this.world.gravity.set(0, 0, - 3.25)
         // this.world.gravity.set(0, 0, 0)
-        // this.world.broadphase = new CANNON.SAPBroadphase(this.world)
+        this.world.broadphase = new CANNON.SAPBroadphase(this.world)
         this.world.defaultContactMaterial.friction = 0
         this.world.defaultContactMaterial.restitution = 0.2
 

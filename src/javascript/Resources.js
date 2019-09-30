@@ -132,8 +132,12 @@ import playgroundStaticBaseSource from '../models/playground/static/base.glb'
 import playgroundStaticCollisionSource from '../models/playground/static/collision.glb'
 
 // Brick
-import informationBrickBaseSource from '../models/brick/base.glb'
-import informationBrickCollisionSource from '../models/brick/collision.glb'
+import brickBaseSource from '../models/brick/base.glb'
+import brickCollisionSource from '../models/brick/collision.glb'
+
+// Bowling ball
+import bowlingBallBaseSource from '../models/bowlingBall/base.glb'
+import bowlingBallCollisionSource from '../models/bowlingBall/collision.glb'
 
 // Area
 import areaKeyEnterSource from '../models/area/keyEnter.png'
@@ -295,8 +299,12 @@ export default class Resources extends EventEmitter
             { name: 'playgroundStaticFloorShadow', source: playgroundStaticFloorShadowSource, type: 'texture' },
 
             // Brick
-            { name: 'informationBrickBase', source: informationBrickBaseSource },
-            { name: 'informationBrickCollision', source: informationBrickCollisionSource },
+            { name: 'brickBase', source: brickBaseSource },
+            { name: 'brickCollision', source: brickCollisionSource },
+
+            // Bownling ball
+            { name: 'bowlingBallBase', source: bowlingBallBaseSource },
+            { name: 'bowlingBallCollision', source: bowlingBallCollisionSource },
 
             // Areas
             { name: 'areaKeyEnter', source: areaKeyEnterSource, type: 'texture' },
