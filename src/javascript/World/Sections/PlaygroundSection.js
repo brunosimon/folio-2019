@@ -27,10 +27,12 @@ export default class PlaygroundSection
         this.resources.items.areaResetTexture.magFilter = THREE.NearestFilter
         this.resources.items.areaResetTexture.minFilter = THREE.LinearFilter
 
-        this.x = 0
+        // this.x = - 15
+        // this.y = - 30
+        this.x = - 15
         this.y = 0
 
-        // this.setStatic()
+        this.setStatic()
         this.setBricksWalls()
         this.setBowling()
     }
@@ -50,8 +52,8 @@ export default class PlaygroundSection
     {
         // Set up
         this.brickWalls = {}
-        this.brickWalls.x = - 5
-        this.brickWalls.y = 10
+        this.brickWalls.x = this.x + 5
+        this.brickWalls.y = this.y + 10
         this.brickWalls.items = []
 
         // Brick options
@@ -124,7 +126,7 @@ export default class PlaygroundSection
 
         // Reset area
         this.brickWalls.resetArea = this.areas.add({
-            position: new THREE.Vector2(this.x + this.brickWalls.x, this.y + this.brickWalls.y),
+            position: new THREE.Vector2(this.brickWalls.x, this.brickWalls.y),
             halfExtents: new THREE.Vector2(2, 2)
         })
         this.brickWalls.resetArea.on('interact', () =>
@@ -150,18 +152,18 @@ export default class PlaygroundSection
     setBowling()
     {
         this.bowling = {}
-        this.bowling.x = - 5
-        this.bowling.y = 0
+        this.bowling.x = this.x + 7
+        this.bowling.y = this.y + 0
 
         this.bowling.pins = this.walls.add({
             object:
             {
-                base: this.resources.items.brickBase.scene,
-                collision: this.resources.items.brickCollision.scene,
-                offset: new THREE.Vector3(0, 0, 0.5),
-                rotation: new THREE.Euler(Math.PI * 0.5, 0, 0),
+                base: this.resources.items.bowlingPinBase.scene,
+                collision: this.resources.items.bowlingPinCollision.scene,
+                offset: new THREE.Vector3(0, 0, 0.1),
+                rotation: new THREE.Euler(0, 0, 0),
                 duplicated: true,
-                shadow: { sizeX: 1.2, sizeY: 1.8, offsetZ: - 0.15, alpha: 0.35 },
+                shadow: { sizeX: 1.4, sizeY: 1.4, offsetZ: - 0.15, alpha: 0.35 },
                 mass: 0.1,
                 // sleep: false
             },
@@ -180,10 +182,10 @@ export default class PlaygroundSection
         this.bowling.ball = this.objects.add({
             base: this.resources.items.bowlingBallBase.scene,
             collision: this.resources.items.bowlingBallCollision.scene,
-            offset: new THREE.Vector3(this.bowling.x - 5, this.bowling.y, 0.6),
+            offset: new THREE.Vector3(this.bowling.x - 5, this.bowling.y, 0),
             rotation: new THREE.Euler(Math.PI * 0.5, 0, 0),
             duplicated: true,
-            shadow: { sizeX: 1.2, sizeY: 1.8, offsetZ: - 0.15, alpha: 0.35 },
+            shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.15, alpha: 0.35 },
             mass: 1,
             // sleep: false
         })
@@ -203,7 +205,7 @@ export default class PlaygroundSection
 
         // Reset area
         this.bowling.resetArea = this.areas.add({
-            position: new THREE.Vector2(this.x + this.bowling.x, this.y + this.bowling.y),
+            position: new THREE.Vector2(this.bowling.x, this.bowling.y),
             halfExtents: new THREE.Vector2(2, 2)
         })
         this.bowling.resetArea.on('interact', () =>

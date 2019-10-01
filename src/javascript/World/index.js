@@ -180,11 +180,11 @@ export default class
         // })
         // this.container.add(this.sections.crossroads.container)
 
-        // Projects
-        this.sections.projects = new ProjectsSection({
-            ...options
-        })
-        this.container.add(this.sections.projects.container)
+        // // Projects
+        // this.sections.projects = new ProjectsSection({
+        //     ...options
+        // })
+        // this.container.add(this.sections.projects.container)
 
         // // Information
         // this.sections.information = new InformationSection({

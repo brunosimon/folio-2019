@@ -139,6 +139,10 @@ import brickCollisionSource from '../models/brick/collision.glb'
 import bowlingBallBaseSource from '../models/bowlingBall/base.glb'
 import bowlingBallCollisionSource from '../models/bowlingBall/collision.glb'
 
+// Bowling pin
+import bowlingPinBaseSource from '../models/bowlingPin/base.glb'
+import bowlingPinCollisionSource from '../models/bowlingPin/collision.glb'
+
 // Area
 import areaKeyEnterSource from '../models/area/keyEnter.png'
 import areaOpenSource from '../models/area/open.png'
@@ -305,6 +309,10 @@ export default class Resources extends EventEmitter
             // Bownling ball
             { name: 'bowlingBallBase', source: bowlingBallBaseSource },
             { name: 'bowlingBallCollision', source: bowlingBallCollisionSource },
+
+            // Bownling ball
+            { name: 'bowlingPinBase', source: bowlingPinBaseSource },
+            { name: 'bowlingPinCollision', source: bowlingPinCollisionSource },
 
             // Areas
             { name: 'areaKeyEnter', source: areaKeyEnterSource, type: 'texture' },
