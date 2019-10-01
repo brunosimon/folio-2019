@@ -27,10 +27,10 @@ export default class PlaygroundSection
         this.resources.items.areaResetTexture.magFilter = THREE.NearestFilter
         this.resources.items.areaResetTexture.minFilter = THREE.LinearFilter
 
+        this.x = - 38
+        this.y = - 34
         // this.x = - 15
-        // this.y = - 30
-        this.x = - 15
-        this.y = 0
+        // this.y = - 4
 
         this.setStatic()
         this.setBricksWalls()
@@ -41,7 +41,7 @@ export default class PlaygroundSection
     {
         this.objects.add({
             base: this.resources.items.playgroundStaticBase.scene,
-            collision: this.resources.items.playgroundStaticBase.scene,
+            collision: this.resources.items.playgroundStaticCollision.scene,
             floorShadowTexture: this.resources.items.playgroundStaticFloorShadowTexture,
             offset: new THREE.Vector3(this.x, this.y, 0),
             mass: 0
@@ -52,8 +52,8 @@ export default class PlaygroundSection
     {
         // Set up
         this.brickWalls = {}
-        this.brickWalls.x = this.x + 5
-        this.brickWalls.y = this.y + 10
+        this.brickWalls.x = this.x + 15
+        this.brickWalls.y = this.y + 14
         this.brickWalls.items = []
 
         // Brick options
@@ -76,7 +76,7 @@ export default class PlaygroundSection
                     type: 'rectangle',
                     widthCount: 5,
                     heightCount: 6,
-                    position: new THREE.Vector3(this.brickWalls.x - 5, this.brickWalls.y, 0),
+                    position: new THREE.Vector3(this.brickWalls.x - 6, this.brickWalls.y, 0),
                     offsetWidth: new THREE.Vector3(0, 1.05, 0),
                     offsetHeight: new THREE.Vector3(0, 0, 0.45),
                     randomOffset: new THREE.Vector3(0, 0, 0),
@@ -90,7 +90,7 @@ export default class PlaygroundSection
                     type: 'brick',
                     widthCount: 5,
                     heightCount: 6,
-                    position: new THREE.Vector3(this.brickWalls.x - 10, this.brickWalls.y, 0),
+                    position: new THREE.Vector3(this.brickWalls.x - 12, this.brickWalls.y, 0),
                     offsetWidth: new THREE.Vector3(0, 1.05, 0),
                     offsetHeight: new THREE.Vector3(0, 0, 0.45),
                     randomOffset: new THREE.Vector3(0, 0, 0),
@@ -103,7 +103,7 @@ export default class PlaygroundSection
                 {
                     type: 'triangle',
                     widthCount: 6,
-                    position: new THREE.Vector3(this.brickWalls.x - 15, this.brickWalls.y, 0),
+                    position: new THREE.Vector3(this.brickWalls.x - 18, this.brickWalls.y, 0),
                     offsetWidth: new THREE.Vector3(0, 1.05, 0),
                     offsetHeight: new THREE.Vector3(0, 0, 0.45),
                     randomOffset: new THREE.Vector3(0, 0, 0),
@@ -152,8 +152,8 @@ export default class PlaygroundSection
     setBowling()
     {
         this.bowling = {}
-        this.bowling.x = this.x + 7
-        this.bowling.y = this.y + 0
+        this.bowling.x = this.x + 15
+        this.bowling.y = this.y + 4
 
         this.bowling.pins = this.walls.add({
             object:
@@ -171,7 +171,7 @@ export default class PlaygroundSection
             {
                 type: 'triangle',
                 widthCount: 4,
-                position: new THREE.Vector3(this.bowling.x - 15, this.bowling.y, 0),
+                position: new THREE.Vector3(this.bowling.x - 25, this.bowling.y, 0),
                 offsetWidth: new THREE.Vector3(0, 1, 0),
                 offsetHeight: new THREE.Vector3(0.65, 0, 0),
                 randomOffset: new THREE.Vector3(0, 0, 0),

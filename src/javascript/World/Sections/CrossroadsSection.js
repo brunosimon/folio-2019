@@ -48,5 +48,11 @@ export default class CrossroadsSection
             start: new THREE.Vector2(this.x + 12.5, this.y),
             delta: new THREE.Vector2(7.5, 0)
         })
+
+        // To projects
+        this.tiles.add({
+            start: new THREE.Vector2(this.x - 13, this.y),
+            delta: new THREE.Vector2(- 6, 0)
+        })
     }
 }
