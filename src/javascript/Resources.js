@@ -145,6 +145,7 @@ import bowlingPinCollisionSource from '../models/bowlingPin/collision.glb'
 
 // Area
 import areaKeyEnterSource from '../models/area/keyEnter.png'
+import areaEnterSource from '../models/area/enter.png'
 import areaOpenSource from '../models/area/open.png'
 import areaResetSource from '../models/area/reset.png'
 
@@ -316,6 +317,7 @@ export default class Resources extends EventEmitter
 
             // Areas
             { name: 'areaKeyEnter', source: areaKeyEnterSource, type: 'texture' },
+            { name: 'areaEnter', source: areaEnterSource, type: 'texture' },
             { name: 'areaOpen', source: areaOpenSource, type: 'texture' },
             { name: 'areaReset', source: areaResetSource, type: 'texture' },
 
