@@ -101,6 +101,7 @@ export default class Physics
         this.car = {}
 
         this.car.speed = 0
+        this.car.forwardSpeed = 0
         this.car.oldPosition = new CANNON.Vec3()
         this.car.goingForward = true
 
@@ -295,7 +296,8 @@ export default class Physics
             const worldForward = new CANNON.Vec3()
             this.car.chassis.body.vectorToWorldFrame(localForward, worldForward)
 
-            this.car.goingForward = worldForward.dot(positionDelta) > 0
+            this.car.forwardSpeed = worldForward.dot(positionDelta)
+            this.car.goingForward = this.car.forwardSpeed > 0
 
             // Updise down
             const localUp = new CANNON.Vec3(0, 0, 1)

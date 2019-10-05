@@ -36,6 +36,7 @@ export default class Application
             this.setCamera()
             this.setPasses()
             this.setWorld()
+            this.setTitle()
         })
     }
 
@@ -189,6 +190,36 @@ export default class Application
             renderer: this.renderer
         })
         this.scene.add(this.world.container)
+    }
+
+    /**
+     * Set title
+     */
+    setTitle()
+    {
+        this.title = {}
+        this.title.frequency = 300
+        this.title.width = 20
+        this.title.position = 0
+        this.title.$element = document.querySelector('title')
+        this.title.absolutePosition = Math.round(this.title.width * 0.25)
+
+        this.time.on('tick', () =>
+        {
+            this.title.absolutePosition += this.world.physics.car.forwardSpeed
+
+            if(this.title.absolutePosition < 0)
+            {
+                this.title.absolutePosition = 0
+            }
+        })
+
+        window.setInterval(() =>
+        {
+            this.title.position = Math.round(this.title.absolutePosition % this.title.width)
+
+            document.title = `${'_'.repeat(this.title.width - this.title.position)}🚗${'_'.repeat(this.title.position)}`
+        }, this.title.frequency)
     }
 
     /**
