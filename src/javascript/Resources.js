@@ -17,9 +17,12 @@ import matcapPurpleSource from '../models/matcaps/purple.png'
 import matcapBlueSource from '../models/matcaps/blue.png'
 
 // Intro
-import introStaticFloorShadowSource from '../models/intro/static/floorShadow.png'
 import introStaticBaseSource from '../models/intro/static/base.glb'
 import introStaticCollisionSource from '../models/intro/static/collision.glb'
+import introStaticFloorShadowSource from '../models/intro/static/floorShadow.png'
+
+import introInstructionsLabelsSource from '../models/intro/instructions/labels.glb'
+import introInstructionsArrowsSource from '../models/intro/instructions/arrows.png'
 
 import introArrowKeyBaseSource from '../models/intro/arrowKey/base.glb'
 import introArrowKeyCollisionSource from '../models/intro/arrowKey/collision.glb'
@@ -192,6 +195,9 @@ export default class Resources extends EventEmitter
             { name: 'introStaticBase', source: introStaticBaseSource },
             { name: 'introStaticCollision', source: introStaticCollisionSource },
             { name: 'introStaticFloorShadow', source: introStaticFloorShadowSource, type: 'texture' },
+
+            { name: 'introInstructionsLabels', source: introInstructionsLabelsSource },
+            { name: 'introInstructionsArrows', source: introInstructionsArrowsSource, type: 'texture' },
 
             { name: 'introArrowKeyBase', source: introArrowKeyBaseSource },
             { name: 'introArrowKeyCollision', source: introArrowKeyCollisionSource },

@@ -17,7 +17,7 @@ export default class Walls
 
         const shape = _options.shape
         let widthCount = shape.widthCount
-        const heightCount = shape.widthCount
+        let heightCount = shape.heightCount
 
         switch(_options.shape.type)
         {
@@ -25,7 +25,23 @@ export default class Walls
             case 'brick':
                 for(let i = 0; i < heightCount; i++)
                 {
-                    for(let j = 0; j < widthCount; j++)
+                    const lastLine = i === heightCount - 1
+                    let j = 0
+                    let widthCountTemp = widthCount
+
+                    if(_options.shape.type === 'brick' && lastLine && _options.shape.equilibrateLastLine)
+                    {
+                        if(i % 2 === 0)
+                        {
+                            widthCountTemp--
+                        }
+                        else
+                        {
+                            j++
+                        }
+                    }
+
+                    for(; j < widthCountTemp; j++)
                     {
                         const offset = new THREE.Vector3()
                         offset.add(shape.offsetWidth.clone().multiplyScalar(j - (shape.widthCount - 1) * 0.5))
@@ -54,6 +70,7 @@ export default class Walls
                 break
 
             case 'triangle':
+                heightCount = shape.widthCount
                 for(let i = 0; i < heightCount; i++)
                 {
                     for(let j = 0; j < widthCount; j++)

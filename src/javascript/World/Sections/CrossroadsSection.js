@@ -11,14 +11,12 @@ export default class CrossroadsSection
         this.areas = _options.areas
         this.tiles = _options.tiles
         this.debug = _options.debug
+        this.x = _options.x
+        this.y = _options.y
 
         // Set up
         this.container = new THREE.Object3D()
         this.container.matrixAutoUpdate = false
-        this.container.updateMatrix()
-
-        this.x = 0
-        this.y = - 30
 
         this.setStatic()
         this.setTiles()

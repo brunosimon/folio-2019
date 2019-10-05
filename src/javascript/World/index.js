@@ -170,31 +170,47 @@ export default class
 
         // Intro
         this.sections.intro = new IntroSection({
-            ...options
+            ...options,
+            x: 0,
+            y: 0
         })
         this.container.add(this.sections.intro.container)
 
         // Crossroads
         this.sections.crossroads = new CrossroadsSection({
-            ...options
+            ...options,
+            x: 0,
+            y: - 30
         })
         this.container.add(this.sections.crossroads.container)
 
         // Projects
         this.sections.projects = new ProjectsSection({
-            ...options
+            ...options,
+            x: 30,
+            y: - 30
+            // x: 0,
+            // y: 0
         })
         this.container.add(this.sections.projects.container)
 
         // Information
         this.sections.information = new InformationSection({
-            ...options
+            ...options,
+            x: 1.2,
+            y: - 55
+            // x: 0,
+            // y: - 10
         })
         this.container.add(this.sections.information.container)
 
         // Playground
         this.sections.playground = new PlaygroundSection({
-            ...options
+            ...options,
+            x: - 38,
+            y: - 34
+            // x: - 15,
+            // y: - 4
         })
         this.container.add(this.sections.playground.container)
     }

@@ -13,14 +13,12 @@ export default class ProjectsSection
         this.areas = _options.areas
         this.tiles = _options.tiles
         this.debug = _options.debug
+        this.x = _options.x
+        this.y = _options.y
 
         // Set up
         this.items = []
 
-        this.x = 30
-        this.y = - 30
-        // this.x = 0
-        // this.y = 0
         this.interDistance = 24
         this.positionRandomess = 5
         this.projectHalfWidth = 9

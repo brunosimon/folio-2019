@@ -12,6 +12,8 @@ export default class PlaygroundSection
         this.walls = _options.walls
         this.tiles = _options.tiles
         this.debug = _options.debug
+        this.x = _options.x
+        this.y = _options.y
 
         // Debug
         if(this.debug)
@@ -26,11 +28,6 @@ export default class PlaygroundSection
 
         this.resources.items.areaResetTexture.magFilter = THREE.NearestFilter
         this.resources.items.areaResetTexture.minFilter = THREE.LinearFilter
-
-        this.x = - 38
-        this.y = - 34
-        // this.x = - 15
-        // this.y = - 4
 
         this.setStatic()
         this.setBricksWalls()
