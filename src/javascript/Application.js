@@ -29,8 +29,10 @@ export default class Application
         this.sizes = new Sizes()
         this.resources = new Resources()
 
-        console.log(window.location.hash)
-        // this.debug = new dat.GUI({ width: 420 })
+        if(window.location.hash === '#debug')
+        {
+            this.debug = new dat.GUI({ width: 420 })
+        }
 
         this.resources.on('ready', () =>
         {
