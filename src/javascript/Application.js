@@ -27,8 +27,10 @@ export default class Application
         // Set up
         this.time = new Time()
         this.sizes = new Sizes()
-        this.debug = new dat.GUI({ width: 420 })
         this.resources = new Resources()
+
+        console.log(window.location.hash)
+        // this.debug = new dat.GUI({ width: 420 })
 
         this.resources.on('ready', () =>
         {
