@@ -3,6 +3,7 @@ import Materials from './Materials.js'
 import Floor from './Floor.js'
 import Shadows from './Shadows.js'
 import Physics from '../Physics.js'
+import Zones from './Zones.js'
 import Objects from './Objects.js'
 import Car from './Car.js'
 import Areas from './Areas.js'
@@ -24,6 +25,7 @@ export default class
         this.time = _options.time
         this.camera = _options.camera
         this.renderer = _options.renderer
+        this.passes = _options.passes
 
         // Debug
         if(this.debug)
@@ -41,6 +43,7 @@ export default class
         this.setFloor()
         this.setShadows()
         this.setPhysics()
+        this.setZones()
         this.setObjects()
         this.setCar()
         this.setAreas()
@@ -91,6 +94,16 @@ export default class
         })
 
         this.container.add(this.physics.models.container)
+    }
+
+    setZones()
+    {
+        this.zones = new Zones({
+            time: this.time,
+            physics: this.physics,
+            debug: this.debugFolder
+        })
+        this.container.add(this.zones.container)
     }
 
     setAreas()
@@ -161,8 +174,11 @@ export default class
         const options = {
             time: this.time,
             resources: this.resources,
+            camera: this.camera,
+            passes: this.passes,
             objects: this.objects,
             areas: this.areas,
+            zones: this.zones,
             walls: this.walls,
             tiles: this.tiles,
             debug: this.debugFolder

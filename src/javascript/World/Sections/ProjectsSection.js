@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import Project from './Project'
 import BillboardSheetMaterial from '../../Materials/BillboardSheet.js'
+import TweenLite from 'gsap/TweenLite'
 
 export default class ProjectsSection
 {
@@ -9,8 +10,11 @@ export default class ProjectsSection
         // Options
         this.time = _options.time
         this.resources = _options.resources
+        this.camera = _options.camera
+        this.passes = _options.passes
         this.objects = _options.objects
         this.areas = _options.areas
+        this.zones = _options.zones
         this.tiles = _options.tiles
         this.debug = _options.debug
         this.x = _options.x
@@ -31,6 +35,7 @@ export default class ProjectsSection
         this.setMeshes()
         this.setMaterials()
         this.setList()
+        this.setZone()
 
         // Add all project from the list
         for(const _options of this.list)
@@ -80,7 +85,7 @@ export default class ProjectsSection
                 {
                     href: 'https://prior.co.jp/discover/',
                     x: - 4.8,
-                    y: - 2,
+                    y: - 3,
                     halfExtents:
                     {
                         x: 3.2,
@@ -107,7 +112,7 @@ export default class ProjectsSection
                 {
                     href: 'https://www.orano.group/experience/innovation/',
                     x: - 4.8,
-                    y: - 2.4,
+                    y: - 3.4,
                     halfExtents:
                     {
                         x: 3.2,
@@ -134,7 +139,7 @@ export default class ProjectsSection
                 {
                     href: 'https://thenewmobileworkforce.imm-g-prod.com/',
                     x: - 4.8,
-                    y: - 3.4,
+                    y: - 4.4,
                     halfExtents:
                     {
                         x: 3.2,
@@ -162,7 +167,7 @@ export default class ProjectsSection
                 {
                     href: 'https://gleechat.com',
                     x: - 4.8,
-                    y: - 2.4,
+                    y: - 3.4,
                     halfExtents:
                     {
                         x: 3.2,
@@ -190,7 +195,7 @@ export default class ProjectsSection
                 {
                     href: 'https://www.refletcommunication.com',
                     x: - 4.8,
-                    y: - 2,
+                    y: - 3,
                     halfExtents:
                     {
                         x: 3.2,
@@ -217,7 +222,7 @@ export default class ProjectsSection
                 {
                     href: 'https://brunosimon.github.io/keppler/',
                     x: 2.75,
-                    y: - 0.1,
+                    y: - 1.1,
                     halfExtents:
                     {
                         x: 3.2,
@@ -227,6 +232,31 @@ export default class ProjectsSection
                 distinctions: []
             }
         ]
+    }
+
+    setZone()
+    {
+        const totalWidth = this.list.length * (this.interDistance / 2)
+
+        const zone = this.zones.add({
+            position: { x: this.x + totalWidth - this.projectHalfWidth - 6, y: this.y },
+            halfExtents: { x: totalWidth, y: 12 },
+            data: { cameraAngle: 'projects' }
+        })
+
+        zone.on('in', (_data) =>
+        {
+            this.camera.angle.set(_data.cameraAngle)
+            TweenLite.to(this.passes.horizontalBlurPass.material.uniforms.uStrength.value, 2, { x: 0 })
+            TweenLite.to(this.passes.verticalBlurPass.material.uniforms.uStrength.value, 2, { y: 0 })
+        })
+
+        zone.on('out', () =>
+        {
+            this.camera.angle.set('default')
+            TweenLite.to(this.passes.horizontalBlurPass.material.uniforms.uStrength.value, 2, { x: this.passes.horizontalBlurPass.strength })
+            TweenLite.to(this.passes.verticalBlurPass.material.uniforms.uStrength.value, 2, { y: this.passes.verticalBlurPass.strength })
+        })
     }
 
     add(_options)

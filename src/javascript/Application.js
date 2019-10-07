@@ -114,12 +114,14 @@ export default class Application
         this.passes.smaa.enabled = this.renderer.getPixelRatio() <= 1
 
         this.passes.horizontalBlurPass = new ShaderPass(BlurPass)
+        this.passes.horizontalBlurPass.strength = 1
         this.passes.horizontalBlurPass.material.uniforms.uResolution.value = new THREE.Vector2(this.sizes.viewport.width, this.sizes.viewport.height)
-        this.passes.horizontalBlurPass.material.uniforms.uStrength.value = new THREE.Vector2(1.25, 0.0)
+        this.passes.horizontalBlurPass.material.uniforms.uStrength.value = new THREE.Vector2(this.passes.horizontalBlurPass.strength, 0)
 
         this.passes.verticalBlurPass = new ShaderPass(BlurPass)
+        this.passes.verticalBlurPass.strength = 1
         this.passes.verticalBlurPass.material.uniforms.uResolution.value = new THREE.Vector2(this.sizes.viewport.width, this.sizes.viewport.height)
-        this.passes.verticalBlurPass.material.uniforms.uStrength.value = new THREE.Vector2(0.0, 1.25)
+        this.passes.verticalBlurPass.material.uniforms.uStrength.value = new THREE.Vector2(0, this.passes.verticalBlurPass.strength)
 
         // Debug
         if(this.debug)
@@ -191,7 +193,8 @@ export default class Application
             resources: this.resources,
             time: this.time,
             camera: this.camera,
-            renderer: this.renderer
+            renderer: this.renderer,
+            passes: this.passes
         })
         this.scene.add(this.world.container)
     }

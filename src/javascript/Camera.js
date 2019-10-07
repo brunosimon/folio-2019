@@ -1,5 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { TweenLite } from 'gsap/TweenLite'
+import { Power1 } from 'gsap/EasePack'
 
 export default class Camera
 {
@@ -12,7 +14,6 @@ export default class Camera
         this.debug = _options.debug
 
         // Set up
-        this.invertDirection = new THREE.Vector3(1.135, - 1.45, 1.15)
         this.target = new THREE.Vector3(0, 0, 0)
         this.targetEased = new THREE.Vector3(0, 0, 0)
         this.easing = 0.15
@@ -24,17 +25,44 @@ export default class Camera
             // this.debugFolder.open()
         }
 
+        this.setAngle()
         this.setInstance()
         this.setZoom()
         this.setOrbitControls()
+    }
+
+    setAngle()
+    {
+        // Set up
+        this.angle = {}
+
+        // Items
+        this.angle.items = {
+            default: new THREE.Vector3(1.135, - 1.45, 1.15),
+            projects: new THREE.Vector3(0.38, - 1.4, 1.63)
+        }
+
+        // Value
+        this.angle.value = new THREE.Vector3()
+        this.angle.value.copy(this.angle.items.default)
+
+        // Set method
+        this.angle.set = (_name) =>
+        {
+            const angle = this.angle.items[_name]
+            if(typeof angle !== 'undefined')
+            {
+                TweenLite.to(this.angle.value, 2, { ...angle, ease: Power1.easeInOut })
+            }
+        }
 
         // Debug
         if(this.debug)
         {
             this.debugFolder.add(this, 'easing').step(0.0001).min(0).max(1).name('easing')
-            this.debugFolder.add(this.invertDirection, 'x').step(0.001).min(- 2).max(2).name('invertDirectionX')
-            this.debugFolder.add(this.invertDirection, 'y').step(0.001).min(- 2).max(2).name('invertDirectionY')
-            this.debugFolder.add(this.invertDirection, 'z').step(0.001).min(- 2).max(2).name('invertDirectionZ')
+            this.debugFolder.add(this.angle.value, 'x').step(0.001).min(- 2).max(2).name('invertDirectionX').listen()
+            this.debugFolder.add(this.angle.value, 'y').step(0.001).min(- 2).max(2).name('invertDirectionY').listen()
+            this.debugFolder.add(this.angle.value, 'z').step(0.001).min(- 2).max(2).name('invertDirectionZ').listen()
         }
     }
 
@@ -43,7 +71,7 @@ export default class Camera
         // Set up
         this.instance = new THREE.PerspectiveCamera(40, this.sizes.viewport.width / this.sizes.viewport.height, 1, 50)
         this.instance.up.set(0, 0, 1)
-        this.instance.position.copy(this.invertDirection)
+        this.instance.position.copy(this.angle.value)
         this.instance.lookAt(new THREE.Vector3())
 
         // Resize event
@@ -62,7 +90,7 @@ export default class Camera
                 this.targetEased.y += (this.target.y - this.targetEased.y) * this.easing
                 this.targetEased.z += (this.target.z - this.targetEased.z) * this.easing
 
-                this.instance.position.copy(this.targetEased).add(this.invertDirection.clone().normalize().multiplyScalar(this.zoom.distance))
+                this.instance.position.copy(this.targetEased).add(this.angle.value.clone().normalize().multiplyScalar(this.zoom.distance))
 
                 this.instance.lookAt(this.targetEased)
             }

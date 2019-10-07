@@ -18,8 +18,8 @@ export default class PlaygroundSection
         // Debug
         if(this.debug)
         {
-            this.debugFolder = this.debug.addFolder('sections')
-            this.debugFolder.open()
+            this.debugFolder = this.debug.addFolder('playgroundSection')
+            // this.debugFolder.open()
         }
 
         // Set up
