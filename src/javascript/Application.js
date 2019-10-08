@@ -111,7 +111,7 @@ export default class Application
         this.passes.renderPass = new RenderPass(this.scene, this.camera.instance)
 
         this.passes.smaa = new SMAAPass(this.sizes.viewport.width * this.renderer.getPixelRatio(), this.sizes.viewport.height * this.renderer.getPixelRatio())
-        this.passes.smaa.enabled = this.renderer.getPixelRatio() <= 1
+        this.passes.smaa.enabled = false
 
         this.passes.horizontalBlurPass = new ShaderPass(BlurPass)
         this.passes.horizontalBlurPass.strength = 1
@@ -135,7 +135,7 @@ export default class Application
 
         this.passes.glowsPass = new ShaderPass(GlowsPass)
         this.passes.glowsPass.color = '#ffcfe0'
-        this.passes.glowsPass.material.uniforms.uPosition.value = new THREE.Vector2(1, 0.5)
+        this.passes.glowsPass.material.uniforms.uPosition.value = new THREE.Vector2(0, 0.25)
         this.passes.glowsPass.material.uniforms.uRadius.value = 0.7
         this.passes.glowsPass.material.uniforms.uColor.value = new THREE.Color(this.passes.glowsPass.color)
         this.passes.glowsPass.material.uniforms.uAlpha.value = 0.55

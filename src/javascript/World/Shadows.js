@@ -100,7 +100,7 @@ export default class Shadows
     setSun()
     {
         this.sun = {}
-        this.sun.position = new THREE.Vector3(3, 0, 3)
+        this.sun.position = new THREE.Vector3(- 2.5, - 2.65, 3.75)
         this.sun.vector = new THREE.Vector3()
         this.sun.helper = new THREE.ArrowHelper(new THREE.Vector3(0, 0, 1), new THREE.Vector3(0, 0, 0), 1, 0xffffff, 0.1, 0.4)
         this.sun.helper.visible = false
