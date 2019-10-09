@@ -148,6 +148,11 @@ export default class
             debug: this.debugFolder
         })
         this.container.add(this.objects.container)
+
+        // window.requestAnimationFrame(() =>
+        // {
+        //     this.objects.merge.update()
+        // })
     }
 
     setCar()

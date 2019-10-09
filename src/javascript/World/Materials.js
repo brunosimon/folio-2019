@@ -31,8 +31,11 @@ export default class Materials
         this.pures = {}
         this.pures.items = {}
         this.pures.items.red = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+        this.pures.items.red.name = 'pureRed'
         this.pures.items.white = new THREE.MeshBasicMaterial({ color: 0xffffff })
+        this.pures.items.white.name = 'pureWhite'
         this.pures.items.yellow = new THREE.MeshBasicMaterial({ color: 0xffe889 })
+        this.pures.items.yellow.name = 'pureYellow'
     }
 
     setShades()
@@ -54,56 +57,67 @@ export default class Materials
 
         // White
         this.shades.items.white = new MatcapMaterial()
+        this.shades.items.white.name = 'shadeWhite'
         this.shades.items.white.uniforms.matcap.value = this.resources.items.matcapWhiteTexture
         this.items.white = this.shades.items.white
 
         // Orange
         this.shades.items.orange = new MatcapMaterial()
+        this.shades.items.orange.name = 'shadeOrange'
         this.shades.items.orange.uniforms.matcap.value = this.resources.items.matcapOrangeTexture
         this.items.orange = this.shades.items.orange
 
         // Green
         this.shades.items.green = new MatcapMaterial()
+        this.shades.items.green.name = 'shadeGreen'
         this.shades.items.green.uniforms.matcap.value = this.resources.items.matcapGreenTexture
         this.items.green = this.shades.items.green
 
         // Brown
         this.shades.items.brown = new MatcapMaterial()
+        this.shades.items.brown.name = 'shadeBrown'
         this.shades.items.brown.uniforms.matcap.value = this.resources.items.matcapBrownTexture
         this.items.brown = this.shades.items.brown
 
         // Gray
         this.shades.items.gray = new MatcapMaterial()
+        this.shades.items.gray.name = 'shadeGray'
         this.shades.items.gray.uniforms.matcap.value = this.resources.items.matcapGrayTexture
         this.items.gray = this.shades.items.gray
 
         // Beige
         this.shades.items.beige = new MatcapMaterial()
+        this.shades.items.beige.name = 'shadeBeige'
         this.shades.items.beige.uniforms.matcap.value = this.resources.items.matcapBeigeTexture
         this.items.beige = this.shades.items.beige
 
         // Red
         this.shades.items.red = new MatcapMaterial()
+        this.shades.items.red.name = 'shadeRed'
         this.shades.items.red.uniforms.matcap.value = this.resources.items.matcapRedTexture
         this.items.red = this.shades.items.red
 
         // Black
         this.shades.items.black = new MatcapMaterial()
+        this.shades.items.black.name = 'shadeBlack'
         this.shades.items.black.uniforms.matcap.value = this.resources.items.matcapBlackTexture
         this.items.black = this.shades.items.black
 
         // Green emerald
         this.shades.items.emeraldGreen = new MatcapMaterial()
+        this.shades.items.emeraldGreen.name = 'shadeEmeraldGreen'
         this.shades.items.emeraldGreen.uniforms.matcap.value = this.resources.items.matcapEmeraldGreenTexture
         this.items.emeraldGreen = this.shades.items.emeraldGreen
 
         // Purple
         this.shades.items.purple = new MatcapMaterial()
+        this.shades.items.purple.name = 'shadePurple'
         this.shades.items.purple.uniforms.matcap.value = this.resources.items.matcapPurpleTexture
         this.items.purple = this.shades.items.purple
 
         // Blue
         this.shades.items.blue = new MatcapMaterial()
+        this.shades.items.blue.name = 'shadeBlue'
         this.shades.items.blue.uniforms.matcap.value = this.resources.items.matcapBlueTexture
         this.items.blue = this.shades.items.blue
 

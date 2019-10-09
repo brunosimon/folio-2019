@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
 
 export default class Objects
 {
@@ -19,6 +20,7 @@ export default class Objects
         this.items = []
 
         this.setParsers()
+        this.setMerge()
     }
 
     setParsers()
@@ -118,6 +120,89 @@ export default class Objects
         }
     }
 
+    setMerge()
+    {
+        this.merge = {}
+        this.merge.items = {}
+
+        this.merge.container = new THREE.Object3D()
+        this.merge.container.matrixAutoUpdate = false
+        this.container.add(this.merge.container)
+
+        this.merge.add = (_name, _mesh) =>
+        {
+            let mergeItem = this.merge.items[_name]
+
+            // Create merge item if not found
+            if(!mergeItem)
+            {
+                mergeItem = {}
+
+                // Geometry
+                mergeItem.geometry = new THREE.BufferGeometry()
+                mergeItem.geometriesToMerge = []
+
+                // Material
+                mergeItem.material = _mesh.material
+                mergeItem.material.side = THREE.DoubleSide
+
+                // Mesh
+                mergeItem.mesh = new THREE.Mesh(mergeItem.geometry, mergeItem.material)
+                this.merge.container.add(mergeItem.mesh)
+
+                // Save
+                this.merge.items[_name] = mergeItem
+            }
+
+            // Apply the object transform to the geometry and save it for later merge
+            const geometry = _mesh.geometry
+            _mesh.updateMatrixWorld() // Maybe not
+            geometry.applyMatrix(_mesh.matrixWorld)
+
+            mergeItem.geometriesToMerge.push(geometry)
+        }
+
+        this.merge.applyMerge = () =>
+        {
+            for(const _mergeItemName in this.merge.items)
+            {
+                const mergeItem = this.merge.items[_mergeItemName]
+
+                mergeItem.geometry = BufferGeometryUtils.mergeBufferGeometries(mergeItem.geometriesToMerge) // Should add original geometry
+                mergeItem.mesh.geometry = mergeItem.geometry
+            }
+        }
+
+        this.merge.update = () =>
+        {
+            for(const _object of this.items)
+            {
+                if(_object.shouldMerge)
+                {
+                    const children = [..._object.container.children]
+                    for(const _child of children)
+                    {
+                        const materialName = _child.material.name
+                        if(materialName !== '')
+                        {
+                            this.merge.add(materialName, _child)
+
+                            // Remove from parent
+                            _object.container.remove(_child)
+                        }
+                    }
+
+                    // If no children, remove
+
+                    _object.shouldMerge = false
+                }
+            }
+
+            // Apply merge
+            this.merge.applyMerge()
+        }
+    }
+
     getConvertedMesh(_children, _options = {})
     {
         const container = new THREE.Object3D()
@@ -174,6 +259,9 @@ export default class Objects
     add(_options)
     {
         const object = {}
+
+        object.merged = false
+        object.shouldMerge = _options.mass === 0
 
         // Offset
         const offset = new THREE.Vector3()
