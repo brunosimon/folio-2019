@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import * as dat from 'dat.gui'
+import platform from 'platform'
 
 import Sizes from './Utils/Sizes.js'
 import Time from './Utils/Time.js'
@@ -9,7 +10,6 @@ import Resources from './Resources.js'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
-import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js'
 import BlurPass from './Passes/Blur.js'
 import GlowsPass from './Passes/Glows.js'
 import Camera from './Camera.js'
@@ -36,12 +36,22 @@ export default class Application
 
         this.resources.on('ready', () =>
         {
+            this.setConfig()
             this.setRenderer()
             this.setCamera()
             this.setPasses()
             this.setWorld()
             this.setTitle()
         })
+    }
+
+    /**
+     * Set config
+     */
+    setConfig()
+    {
+        this.config = {}
+        this.config.mobile = ['Android', 'iOS', 'Windows Phone'].indexOf(platform.os.family) !== - 1
     }
 
     /**
@@ -110,16 +120,13 @@ export default class Application
         // Create passes
         this.passes.renderPass = new RenderPass(this.scene, this.camera.instance)
 
-        this.passes.smaa = new SMAAPass(this.sizes.viewport.width * this.renderer.getPixelRatio(), this.sizes.viewport.height * this.renderer.getPixelRatio())
-        this.passes.smaa.enabled = false
-
         this.passes.horizontalBlurPass = new ShaderPass(BlurPass)
-        this.passes.horizontalBlurPass.strength = 1
+        this.passes.horizontalBlurPass.strength = this.config.mobile ? 0 : 1
         this.passes.horizontalBlurPass.material.uniforms.uResolution.value = new THREE.Vector2(this.sizes.viewport.width, this.sizes.viewport.height)
         this.passes.horizontalBlurPass.material.uniforms.uStrength.value = new THREE.Vector2(this.passes.horizontalBlurPass.strength, 0)
 
         this.passes.verticalBlurPass = new ShaderPass(BlurPass)
-        this.passes.verticalBlurPass.strength = 1
+        this.passes.verticalBlurPass.strength = this.config.mobile ? 0 : 1
         this.passes.verticalBlurPass.material.uniforms.uResolution.value = new THREE.Vector2(this.sizes.viewport.width, this.sizes.viewport.height)
         this.passes.verticalBlurPass.material.uniforms.uStrength.value = new THREE.Vector2(0, this.passes.verticalBlurPass.strength)
 
@@ -161,11 +168,13 @@ export default class Application
         this.passes.composer.addPass(this.passes.horizontalBlurPass)
         this.passes.composer.addPass(this.passes.verticalBlurPass)
         this.passes.composer.addPass(this.passes.glowsPass)
-        this.passes.composer.addPass(this.passes.smaa)
 
         // Time tick
         this.time.on('tick', () =>
         {
+            this.passes.horizontalBlurPass.enabled = this.passes.horizontalBlurPass.material.uniforms.uStrength.value.x > 0
+            this.passes.verticalBlurPass.enabled = this.passes.verticalBlurPass.material.uniforms.uStrength.value.y > 0
+
             // Renderer
             this.passes.composer.render()
             // this.renderer.render(this.scene, this.camera.instance)
