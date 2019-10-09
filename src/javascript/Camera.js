@@ -69,7 +69,7 @@ export default class Camera
     setInstance()
     {
         // Set up
-        this.instance = new THREE.PerspectiveCamera(40, this.sizes.viewport.width / this.sizes.viewport.height, 1, 50)
+        this.instance = new THREE.PerspectiveCamera(40, this.sizes.viewport.width / this.sizes.viewport.height, 1, 80)
         this.instance.up.set(0, 0, 1)
         this.instance.position.copy(this.angle.value)
         this.instance.lookAt(new THREE.Vector3())
@@ -102,24 +102,24 @@ export default class Camera
         // Set up
         this.zoom = {}
         this.zoom.easing = 0.1
-        this.zoom.baseDistance = 20
-        this.zoom.distance = this.zoom.baseDistance
-        this.zoom.amplitude = 10
-        this.zoom.value = 0
-        this.zoom.targetValue = 0
+        this.zoom.minDistance = 10
+        this.zoom.amplitude = 12.5
+        this.zoom.value = 0.5
+        this.zoom.targetValue = this.zoom.value
+        this.zoom.distance = this.zoom.minDistance + this.zoom.amplitude * this.zoom.value
 
         // Listen to mousewheel event
         document.addEventListener('mousewheel', (_event) =>
         {
             this.zoom.targetValue += _event.deltaY * 0.001
-            this.zoom.targetValue = Math.min(Math.max(this.zoom.targetValue, - 1), 1)
+            this.zoom.targetValue = Math.min(Math.max(this.zoom.targetValue, 0), 1)
         }, { passive: true })
 
         // Time tick event
         this.time.on('tick', () =>
         {
             this.zoom.value += (this.zoom.targetValue - this.zoom.value) * this.zoom.easing
-            this.zoom.distance = this.zoom.baseDistance + this.zoom.value * this.zoom.amplitude
+            this.zoom.distance = this.zoom.minDistance + this.zoom.amplitude * this.zoom.value
         })
     }
 
