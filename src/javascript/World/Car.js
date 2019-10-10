@@ -169,8 +169,8 @@ export default class Car
         // Time tick
         this.time.on('tick', () =>
         {
-            this.backLightsBrake.material.opacity = this.physics.car.controls.actions.brake ? 1 : 0.5
-            this.backLightsReverse.material.opacity = this.physics.car.controls.actions.down ? 1 : 0.5
+            this.backLightsBrake.material.opacity = this.physics.controls.actions.brake ? 1 : 0.5
+            this.backLightsReverse.material.opacity = this.physics.controls.actions.down ? 1 : 0.5
         })
     }
 

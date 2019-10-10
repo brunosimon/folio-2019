@@ -5,8 +5,10 @@ export default class Physics
 {
     constructor(_options)
     {
+        this.config = _options.config
         this.debug = _options.debug
         this.time = _options.time
+        this.sizes = _options.sizes
 
         // Set up
         if(this.debug)
@@ -20,6 +22,7 @@ export default class Physics
         this.setMaterials()
         this.setFloor()
         this.setCar()
+        this.setControls()
 
         this.time.on('tick', () =>
         {
@@ -103,6 +106,8 @@ export default class Physics
         this.car = {}
 
         this.car.speed = 0
+        this.car.worldForward = new CANNON.Vec3()
+        this.car.angle = 0
         this.car.forwardSpeed = 0
         this.car.oldPosition = new CANNON.Vec3()
         this.car.goingForward = true
@@ -292,10 +297,10 @@ export default class Physics
 
             // Update forward
             const localForward = new CANNON.Vec3(1, 0, 0)
-            const worldForward = new CANNON.Vec3()
-            this.car.chassis.body.vectorToWorldFrame(localForward, worldForward)
+            this.car.chassis.body.vectorToWorldFrame(localForward, this.car.worldForward)
+            this.car.angle = Math.atan2(this.car.worldForward.y, this.car.worldForward.x)
 
-            this.car.forwardSpeed = worldForward.dot(positionDelta)
+            this.car.forwardSpeed = this.car.worldForward.dot(positionDelta)
             this.car.goingForward = this.car.forwardSpeed > 0
 
             // Updise down
@@ -311,7 +316,7 @@ export default class Physics
                     this.car.upsideDown.pendingTimeout = window.setTimeout(() =>
                     {
                         this.car.upsideDown.state = 'turning'
-                        this.car.controls.jump(true)
+                        this.controls.jump(true)
 
                         this.car.upsideDown.turningTimeout = window.setTimeout(() =>
                         {
@@ -350,9 +355,9 @@ export default class Physics
             }
 
             // Slow down back
-            if(!this.car.controls.actions.up && !this.car.controls.actions.down)
+            if(!this.controls.actions.up && !this.controls.actions.down)
             {
-                let slowDownForce = worldForward.clone()
+                let slowDownForce = this.car.worldForward.clone()
 
                 if(this.car.goingForward)
                 {
@@ -382,113 +387,6 @@ export default class Physics
             }
         })
 
-        // Keyboard
-        this.car.controls = {}
-
-        this.car.controls.steering = 0
-        this.car.controls.accelerating = 0
-
-        this.car.controls.actions = {}
-        this.car.controls.actions.up = false
-        this.car.controls.actions.right = false
-        this.car.controls.actions.down = false
-        this.car.controls.actions.left = false
-        this.car.controls.actions.brake = false
-        this.car.controls.actions.boost = false
-
-        this.car.controls.jump = (_toReturn = true) =>
-        {
-            let worldPosition = this.car.chassis.body.position
-            worldPosition = worldPosition.vadd(new CANNON.Vec3(_toReturn ? 0.08 : 0, 0, 0))
-            this.car.chassis.body.applyImpulse(new CANNON.Vec3(0, 0, 60), worldPosition)
-        }
-
-        this.car.controls.events = {}
-        this.car.controls.events.down = (_event) =>
-        {
-            switch(_event.key)
-            {
-                case 'ArrowUp':
-                case 'z':
-                case 'w':
-                    this.car.controls.actions.up = true
-                    break
-
-                case 'ArrowRight':
-                case 'd':
-                    this.car.controls.actions.right = true
-                    break
-
-                case 'ArrowDown':
-                case 's':
-                    this.car.controls.actions.down = true
-                    break
-
-                case 'ArrowLeft':
-                case 'q':
-                case 'a':
-                    this.car.controls.actions.left = true
-                    break
-
-                case 'Control':
-                case ' ':
-                    this.car.controls.actions.brake = true
-                    break
-
-                case 'Shift':
-                    this.car.controls.actions.boost = true
-                    break
-
-                // case ' ':
-                //     this.car.controls.jump(true)
-                //     break
-            }
-        }
-
-        this.car.controls.events.up = (_event) =>
-        {
-            switch(_event.key)
-            {
-                case 'ArrowUp':
-                case 'z':
-                case 'w':
-                    this.car.controls.actions.up = false
-                    break
-
-                case 'ArrowRight':
-                case 'd':
-                    this.car.controls.actions.right = false
-                    break
-
-                case 'ArrowDown':
-                case 's':
-                    this.car.controls.actions.down = false
-                    break
-
-                case 'ArrowLeft':
-                case 'q':
-                case 'a':
-                    this.car.controls.actions.left = false
-                    break
-
-                case 'Control':
-                case ' ':
-                    this.car.controls.actions.brake = false
-                    break
-
-                case 'Shift':
-                    this.car.controls.actions.boost = false
-                    break
-
-                case 'r':
-                    this.car.recreate()
-                    break
-            }
-        }
-
-        document.addEventListener('keydown', this.car.controls.events.down)
-        document.addEventListener('keyup', this.car.controls.events.up)
-
         this.time.on('tick', () =>
         {
             /**
@@ -497,94 +395,94 @@ export default class Physics
             const steerStrength = this.time.delta * this.car.options.controlsSteeringSpeed
 
             // Steer right
-            if(this.car.controls.actions.right)
+            if(this.controls.actions.right)
             {
-                this.car.controls.steering += steerStrength
+                this.controls.steering += steerStrength
             }
             // Steer left
-            else if(this.car.controls.actions.left)
+            else if(this.controls.actions.left)
             {
-                this.car.controls.steering -= steerStrength
+                this.controls.steering -= steerStrength
             }
             // Steer center
             else
             {
-                if(Math.abs(this.car.controls.steering) > steerStrength)
+                if(Math.abs(this.controls.steering) > steerStrength)
                 {
-                    this.car.controls.steering -= steerStrength * Math.sign(this.car.controls.steering)
+                    this.controls.steering -= steerStrength * Math.sign(this.controls.steering)
                 }
                 else
                 {
-                    this.car.controls.steering = 0
+                    this.controls.steering = 0
                 }
             }
 
             // Clamp steer
-            if(Math.abs(this.car.controls.steering) > this.car.options.controlsSteeringMax)
+            if(Math.abs(this.controls.steering) > this.car.options.controlsSteeringMax)
             {
-                this.car.controls.steering = Math.sign(this.car.controls.steering) * this.car.options.controlsSteeringMax
+                this.controls.steering = Math.sign(this.controls.steering) * this.car.options.controlsSteeringMax
             }
 
             // Update wheels
-            this.car.vehicle.setSteeringValue(- this.car.controls.steering, this.car.wheels.indexes.frontLeft)
-            this.car.vehicle.setSteeringValue(- this.car.controls.steering, this.car.wheels.indexes.frontRight)
+            this.car.vehicle.setSteeringValue(- this.controls.steering, this.car.wheels.indexes.frontLeft)
+            this.car.vehicle.setSteeringValue(- this.controls.steering, this.car.wheels.indexes.frontRight)
 
             if(this.car.options.controlsSteeringQuad)
             {
-                this.car.vehicle.setSteeringValue(this.car.controls.steering, this.car.wheels.indexes.backLeft)
-                this.car.vehicle.setSteeringValue(this.car.controls.steering, this.car.wheels.indexes.backRight)
+                this.car.vehicle.setSteeringValue(this.controls.steering, this.car.wheels.indexes.backLeft)
+                this.car.vehicle.setSteeringValue(this.controls.steering, this.car.wheels.indexes.backRight)
             }
 
             /**
              * Accelerate
              */
-            const accelerationSpeed = this.car.controls.actions.boost ? this.car.options.controlsAcceleratingSpeedBoost : this.car.options.controlsAcceleratingSpeed
+            const accelerationSpeed = this.controls.actions.boost ? this.car.options.controlsAcceleratingSpeedBoost : this.car.options.controlsAcceleratingSpeed
             const accelerateStrength = this.time.delta * accelerationSpeed
-            const controlsAcceleratinMaxSpeed = this.car.controls.actions.boost ? this.car.options.controlsAcceleratinMaxSpeedBoost : this.car.options.controlsAcceleratinMaxSpeed
+            const controlsAcceleratinMaxSpeed = this.controls.actions.boost ? this.car.options.controlsAcceleratinMaxSpeedBoost : this.car.options.controlsAcceleratinMaxSpeed
 
             // Accelerate up
-            if(this.car.controls.actions.up)
+            if(this.controls.actions.up)
             {
                 if(this.car.speed < controlsAcceleratinMaxSpeed || !this.car.goingForward)
                 {
-                    this.car.controls.accelerating = accelerateStrength
+                    this.controls.accelerating = accelerateStrength
                 }
                 else
                 {
-                    this.car.controls.accelerating = 0
+                    this.controls.accelerating = 0
                 }
             }
 
             // Accelerate Down
-            else if(this.car.controls.actions.down)
+            else if(this.controls.actions.down)
             {
                 if(this.car.speed < controlsAcceleratinMaxSpeed || this.car.goingForward)
                 {
-                    this.car.controls.accelerating = - accelerateStrength
+                    this.controls.accelerating = - accelerateStrength
                 }
                 else
                 {
-                    this.car.controls.accelerating = 0
+                    this.controls.accelerating = 0
                 }
             }
             else
             {
-                this.car.controls.accelerating = 0
+                this.controls.accelerating = 0
             }
 
-            this.car.vehicle.applyEngineForce(- this.car.controls.accelerating, this.car.wheels.indexes.backLeft)
-            this.car.vehicle.applyEngineForce(- this.car.controls.accelerating, this.car.wheels.indexes.backRight)
+            this.car.vehicle.applyEngineForce(- this.controls.accelerating, this.car.wheels.indexes.backLeft)
+            this.car.vehicle.applyEngineForce(- this.controls.accelerating, this.car.wheels.indexes.backRight)
 
             if(this.car.options.controlsSteeringQuad)
             {
-                this.car.vehicle.applyEngineForce(- this.car.controls.accelerating, this.car.wheels.indexes.frontLeft)
-                this.car.vehicle.applyEngineForce(- this.car.controls.accelerating, this.car.wheels.indexes.frontRight)
+                this.car.vehicle.applyEngineForce(- this.controls.accelerating, this.car.wheels.indexes.frontLeft)
+                this.car.vehicle.applyEngineForce(- this.controls.accelerating, this.car.wheels.indexes.frontRight)
             }
 
             /**
              * Brake
              */
-            if(this.car.controls.actions.brake)
+            if(this.controls.actions.brake)
             {
                 this.car.vehicle.setBrake(this.car.options.controlsBrakeStrength, 0)
                 this.car.vehicle.setBrake(this.car.options.controlsBrakeStrength, 1)
@@ -650,7 +548,310 @@ export default class Physics
             this.car.debugFolder.add(this.car.options, 'controlsAcceleratingQuad').name('controlsAcceleratingQuad')
             this.car.debugFolder.add(this.car.options, 'controlsBrakeStrength').step(0.001).min(0).max(5).name('controlsBrakeStrength')
             this.car.debugFolder.add(this.car, 'recreate')
-            this.car.debugFolder.add(this.car.controls, 'jump')
+            this.car.debugFolder.add(this.controls, 'jump')
+        }
+    }
+
+    setControls()
+    {
+        this.controls = {}
+
+        this.controls.steering = 0
+        this.controls.accelerating = 0
+
+        this.controls.actions = {}
+        this.controls.actions.up = false
+        this.controls.actions.right = false
+        this.controls.actions.down = false
+        this.controls.actions.left = false
+        this.controls.actions.brake = false
+        this.controls.actions.boost = false
+
+        this.controls.jump = (_toReturn = true) =>
+        {
+            let worldPosition = this.car.chassis.body.position
+            worldPosition = worldPosition.vadd(new CANNON.Vec3(_toReturn ? 0.08 : 0, 0, 0))
+            this.car.chassis.body.applyImpulse(new CANNON.Vec3(0, 0, 60), worldPosition)
+        }
+
+        this.controls.events = {}
+
+        /**
+         * Keyboard
+         */
+        this.controls.events.keyDown = (_event) =>
+        {
+            switch(_event.key)
+            {
+                case 'ArrowUp':
+                case 'z':
+                case 'w':
+                    this.controls.actions.up = true
+                    break
+
+                case 'ArrowRight':
+                case 'd':
+                    this.controls.actions.right = true
+                    break
+
+                case 'ArrowDown':
+                case 's':
+                    this.controls.actions.down = true
+                    break
+
+                case 'ArrowLeft':
+                case 'q':
+                case 'a':
+                    this.controls.actions.left = true
+                    break
+
+                case 'Control':
+                case ' ':
+                    this.controls.actions.brake = true
+                    break
+
+                case 'Shift':
+                    this.controls.actions.boost = true
+                    break
+
+                // case ' ':
+                //     this.controls.jump(true)
+                //     break
+            }
+        }
+
+        this.controls.events.keyUp = (_event) =>
+        {
+            switch(_event.key)
+            {
+                case 'ArrowUp':
+                case 'z':
+                case 'w':
+                    this.controls.actions.up = false
+                    break
+
+                case 'ArrowRight':
+                case 'd':
+                    this.controls.actions.right = false
+                    break
+
+                case 'ArrowDown':
+                case 's':
+                    this.controls.actions.down = false
+                    break
+
+                case 'ArrowLeft':
+                case 'q':
+                case 'a':
+                    this.controls.actions.left = false
+                    break
+
+                case 'Control':
+                case ' ':
+                    this.controls.actions.brake = false
+                    break
+
+                case 'Shift':
+                    this.controls.actions.boost = false
+                    break
+
+                case 'r':
+                    this.car.recreate()
+                    break
+            }
+        }
+
+        document.addEventListener('keydown', this.controls.events.keyDown)
+        document.addEventListener('keyup', this.controls.events.keyUp)
+
+        /**
+         * Touch
+         */
+        if(this.config.mobile)
+        {
+            this.controls.touch = {}
+
+            /**
+             * Joystick
+             */
+            this.controls.touch.joystick = {}
+            this.controls.touch.joystick.active = false
+
+            // Element
+            this.controls.touch.joystick.$element = document.createElement('div')
+            this.controls.touch.joystick.$element.style.position = 'fixed'
+            this.controls.touch.joystick.$element.style.bottom = '0px'
+            this.controls.touch.joystick.$element.style.right = '0px'
+            this.controls.touch.joystick.$element.style.width = '200px'
+            this.controls.touch.joystick.$element.style.height = '200px'
+            this.controls.touch.joystick.$element.style.backgroundColor = '#ff0000'
+            document.body.appendChild(this.controls.touch.joystick.$element)
+
+            // Angle
+            this.controls.touch.joystick.angle = {}
+            this.controls.touch.joystick.angle.center = {}
+            this.controls.touch.joystick.angle.center.x = 0
+            this.controls.touch.joystick.angle.center.y = 0
+
+            this.controls.touch.joystick.angle.current = {}
+            this.controls.touch.joystick.angle.current.x = 0
+            this.controls.touch.joystick.angle.current.y = 0
+
+            this.controls.touch.joystick.angle.value = 0
+
+            // Resize
+            this.controls.touch.joystick.resize = () =>
+            {
+                const boundings = this.controls.touch.joystick.$element.getBoundingClientRect()
+
+                this.controls.touch.joystick.angle.center.x = boundings.left + boundings.width * 0.5
+                this.controls.touch.joystick.angle.center.y = boundings.top + boundings.height * 0.5
+            }
+
+            this.sizes.on('resize', this.controls.touch.joystick.resize)
+            this.controls.touch.joystick.resize()
+
+            // Time tick
+            this.time.on('tick', () =>
+            {
+                this.controls.touch.joystick.angle.value = Math.atan2(
+                    this.controls.touch.joystick.angle.center.y - this.controls.touch.joystick.angle.current.y,
+                    this.controls.touch.joystick.angle.center.x - this.controls.touch.joystick.angle.current.x
+                )
+
+                // let deltaAngle = this.car.angle - this.controls.touch.joystick.angle.value
+                // deltaAngle = (deltaAngle + Math.PI) % (Math.PI * 2) - Math.PI
+
+                // console.log(this.car.angle)
+                // console.log(-this.controls.touch.joystick.angle.value)
+            })
+
+            // Events
+            this.controls.touch.joystick.events = {}
+            this.controls.touch.joystick.events.touchstart = (_event) =>
+            {
+                this.controls.touch.joystick.active = true
+
+                this.controls.touch.joystick.angle.current.x = _event.touches[0].clientX
+                this.controls.touch.joystick.angle.current.y = _event.touches[0].clientY
+
+                document.addEventListener('touchend', this.controls.touch.joystick.events.touchend)
+                document.addEventListener('touchmove', this.controls.touch.joystick.events.touchmove)
+            }
+
+            this.controls.touch.joystick.events.touchmove = (_event) =>
+            {
+                this.controls.touch.joystick.angle.current.x = _event.touches[0].clientX
+                this.controls.touch.joystick.angle.current.y = _event.touches[0].clientY
+            }
+
+            this.controls.touch.joystick.events.touchend = () =>
+            {
+                this.controls.touch.joystick.active = false
+
+                document.removeEventListener('touchend', this.controls.touch.joystick.events.touchend)
+            }
+
+            this.controls.touch.joystick.$element.addEventListener('touchstart', this.controls.touch.joystick.events.touchstart)
+
+            /**
+             * Forward
+             */
+            this.controls.touch.forward = {}
+
+            // Element
+            this.controls.touch.forward.$element = document.createElement('div')
+            this.controls.touch.forward.$element.style.position = 'fixed'
+            this.controls.touch.forward.$element.style.bottom = '200px'
+            this.controls.touch.forward.$element.style.left = '0px'
+            this.controls.touch.forward.$element.style.width = '100px'
+            this.controls.touch.forward.$element.style.height = '100px'
+            this.controls.touch.forward.$element.style.backgroundColor = '#00ff00'
+            document.body.appendChild(this.controls.touch.forward.$element)
+
+            // Events
+            this.controls.touch.forward.events = {}
+            this.controls.touch.forward.events.touchstart = () =>
+            {
+                this.controls.actions.up = true
+
+                document.addEventListener('touchend', this.controls.touch.forward.events.touchend)
+            }
+
+            this.controls.touch.forward.events.touchend = () =>
+            {
+                this.controls.actions.up = false
+
+                document.removeEventListener('touchend', this.controls.touch.forward.events.touchend)
+            }
+
+            this.controls.touch.forward.$element.addEventListener('touchstart', this.controls.touch.forward.events.touchstart)
+
+            /**
+             * Brake
+             */
+            this.controls.touch.brake = {}
+
+            // Element
+            this.controls.touch.brake.$element = document.createElement('div')
+            this.controls.touch.brake.$element.style.position = 'fixed'
+            this.controls.touch.brake.$element.style.bottom = '100px'
+            this.controls.touch.brake.$element.style.left = '0px'
+            this.controls.touch.brake.$element.style.width = '100px'
+            this.controls.touch.brake.$element.style.height = '100px'
+            this.controls.touch.brake.$element.style.backgroundColor = '#ff0000'
+            document.body.appendChild(this.controls.touch.brake.$element)
+
+            // Events
+            this.controls.touch.brake.events = {}
+            this.controls.touch.brake.events.touchstart = () =>
+            {
+                this.controls.actions.brake = true
+
+                document.addEventListener('touchend', this.controls.touch.brake.events.touchend)
+            }
+
+            this.controls.touch.brake.events.touchend = () =>
+            {
+                this.controls.actions.brake = false
+
+                document.removeEventListener('touchend', this.controls.touch.brake.events.touchend)
+            }
+
+            this.controls.touch.brake.$element.addEventListener('touchstart', this.controls.touch.brake.events.touchstart)
+
+            /**
+             * Backward
+             */
+            this.controls.touch.backward = {}
+
+            // Element
+            this.controls.touch.backward.$element = document.createElement('div')
+            this.controls.touch.backward.$element.style.position = 'fixed'
+            this.controls.touch.backward.$element.style.bottom = '0px'
+            this.controls.touch.backward.$element.style.left = '0px'
+            this.controls.touch.backward.$element.style.width = '100px'
+            this.controls.touch.backward.$element.style.height = '100px'
+            this.controls.touch.backward.$element.style.backgroundColor = '#0000ff'
+            document.body.appendChild(this.controls.touch.backward.$element)
+
+            // Events
+            this.controls.touch.backward.events = {}
+            this.controls.touch.backward.events.touchstart = () =>
+            {
+                this.controls.actions.down = true
+
+                document.addEventListener('touchend', this.controls.touch.backward.events.touchend)
+            }
+
+            this.controls.touch.backward.events.touchend = () =>
+            {
+                this.controls.actions.down = false
+
+                document.removeEventListener('touchend', this.controls.touch.backward.events.touchend)
+            }
+
+            this.controls.touch.backward.$element.addEventListener('touchstart', this.controls.touch.backward.events.touchstart)
         }
     }
 

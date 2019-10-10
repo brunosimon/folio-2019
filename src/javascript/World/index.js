@@ -20,9 +20,11 @@ export default class
     constructor(_options)
     {
         // Options
+        this.config = _options.config
         this.debug = _options.debug
         this.resources = _options.resources
         this.time = _options.time
+        this.sizes = _options.sizes
         this.camera = _options.camera
         this.renderer = _options.renderer
         this.passes = _options.passes
@@ -89,8 +91,10 @@ export default class
     setPhysics()
     {
         this.physics = new Physics({
+            config: this.config,
             debug: this.debug,
-            time: this.time
+            time: this.time,
+            sizes: this.sizes
         })
 
         this.container.add(this.physics.models.container)

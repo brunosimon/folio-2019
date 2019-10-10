@@ -198,9 +198,11 @@ export default class Application
     setWorld()
     {
         this.world = new World({
+            config: this.config,
             debug: this.debug,
             resources: this.resources,
             time: this.time,
+            sizes: this.sizes,
             camera: this.camera,
             renderer: this.renderer,
             passes: this.passes
