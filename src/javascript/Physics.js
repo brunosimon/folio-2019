@@ -31,6 +31,7 @@ export default class Physics
     {
         this.world = new CANNON.World()
         this.world.gravity.set(0, 0, - 3.25)
+        this.world.allowSleep = true
         // this.world.gravity.set(0, 0, 0)
         // this.world.broadphase = new CANNON.SAPBroadphase(this.world)
         this.world.defaultContactMaterial.friction = 0
@@ -51,6 +52,7 @@ export default class Physics
         this.models.materials = {}
         this.models.materials.static = new THREE.MeshBasicMaterial({ color: 0x0000ff, wireframe: true })
         this.models.materials.dynamic = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true })
+        this.models.materials.dynamicSleeping = new THREE.MeshBasicMaterial({ color: 0xffff00, wireframe: true })
 
         // Debug
         if(this.debug)
@@ -140,16 +142,12 @@ export default class Physics
         this.car.options.controlsBrakeStrength = 0.45
 
         /**
-         * Updsize down
+         * Upsize down
          */
         this.car.upsideDown = {}
         this.car.upsideDown.state = 'watching' // 'wathing' | 'pending' | 'turning'
         this.car.upsideDown.pendingTimeout = null
         this.car.upsideDown.turningTimeout = null
-
-        this.time.on('tick', () =>
-        {
-        })
 
         /**
          * Create method
@@ -164,6 +162,7 @@ export default class Physics
             this.car.chassis.shape = new CANNON.Box(new CANNON.Vec3(this.car.options.chassisDepth * 0.5, this.car.options.chassisWidth * 0.5, this.car.options.chassisHeight * 0.5))
 
             this.car.chassis.body = new CANNON.Body({ mass: this.car.options.chassisMass })
+            this.car.chassis.body.allowSleep = false
             this.car.chassis.body.position.set(0, 0, 3)
             this.car.chassis.body.addShape(this.car.chassis.shape, this.car.options.chassisOffset)
             this.car.chassis.body.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 0, 1), - Math.PI * 0.5)
@@ -676,6 +675,8 @@ export default class Physics
             mass: _options.mass,
             material: bodyMaterial
         })
+        collision.body.allowSleep = true
+        collision.body.sleepSpeedLimit = 0.01
         if(_options.sleep)
         {
             collision.body.sleep()
@@ -823,6 +824,14 @@ export default class Physics
         {
             collision.model.container.position.set(collision.body.position.x, collision.body.position.y, collision.body.position.z)
             collision.model.container.quaternion.set(collision.body.quaternion.x, collision.body.quaternion.y, collision.body.quaternion.z, collision.body.quaternion.w)
+
+            if(this.models.container.visible && _options.mass > 0)
+            {
+                for(const _mesh of collision.model.container.children)
+                {
+                    _mesh.material = collision.body.sleepState === 2 ? this.models.materials.dynamicSleeping : this.models.materials.dynamic
+                }
+            }
         })
 
         // Reset
