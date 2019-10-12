@@ -762,7 +762,8 @@ export default class Physics
                     deltaAngle = deltaAngle < - Math.PI ? deltaAngle + Math.PI * 2 : deltaAngle
 
                     // Update steering directly
-                    this.controls.steering = deltaAngle * (this.car.goingForward ? - 1 : 1)
+                    const goingForward = Math.abs(this.car.forwardSpeed) < 0.01 ? true : this.car.goingForward
+                    this.controls.steering = deltaAngle * (goingForward ? - 1 : 1)
 
                     // Clamp steer
                     if(Math.abs(this.controls.steering) > this.car.options.controlsSteeringMax)
