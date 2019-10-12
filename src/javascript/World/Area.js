@@ -14,6 +14,7 @@ export default class Area extends EventEmitter
         super()
 
         // Options
+        this.config = _options.config
         this.resources = _options.resources
         this.car = _options.car
         this.time = _options.time
@@ -209,7 +210,7 @@ export default class Area extends EventEmitter
 
                 if(this.isIn)
                 {
-                    this.in()
+                    this.in(!this.config.mobile)
                 }
                 else
                 {

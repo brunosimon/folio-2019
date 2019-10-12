@@ -113,6 +113,7 @@ export default class
     setAreas()
     {
         this.areas = new Areas({
+            config: this.config,
             resources: this.resources,
             debug: this.debug,
             renderer: this.renderer,
@@ -181,6 +182,7 @@ export default class
 
         // Generic options
         const options = {
+            config: this.config,
             time: this.time,
             resources: this.resources,
             camera: this.camera,

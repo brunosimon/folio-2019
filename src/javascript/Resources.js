@@ -23,6 +23,7 @@ import introStaticFloorShadowSource from '../models/intro/static/floorShadow.png
 
 import introInstructionsLabelsSource from '../models/intro/instructions/labels.glb'
 import introInstructionsArrowsSource from '../models/intro/instructions/arrows.png'
+import introInstructionsControlsSource from '../models/intro/instructions/controls.png'
 
 import introArrowKeyBaseSource from '../models/intro/arrowKey/base.glb'
 import introArrowKeyCollisionSource from '../models/intro/arrowKey/collision.glb'
@@ -198,6 +199,7 @@ export default class Resources extends EventEmitter
 
             { name: 'introInstructionsLabels', source: introInstructionsLabelsSource },
             { name: 'introInstructionsArrows', source: introInstructionsArrowsSource, type: 'texture' },
+            { name: 'introInstructionsControls', source: introInstructionsControlsSource, type: 'texture' },
 
             { name: 'introArrowKeyBase', source: introArrowKeyBaseSource },
             { name: 'introArrowKeyCollision', source: introArrowKeyCollisionSource },

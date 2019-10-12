@@ -7,6 +7,7 @@ export default class Areas
     constructor(_options)
     {
         // Options
+        this.config = _options.config
         this.resources = _options.resources
         this.car = _options.car
         this.renderer = _options.renderer
@@ -103,6 +104,7 @@ export default class Areas
     add(_options)
     {
         const area = new Area({
+            config: this.config,
             resources: this.resources,
             car: this.car,
             time: this.time,
