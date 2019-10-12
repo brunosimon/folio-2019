@@ -215,6 +215,11 @@ export default class Application
      */
     setTitle()
     {
+        if(this.config.mobile)
+        {
+            return
+        }
+
         this.title = {}
         this.title.frequency = 300
         this.title.width = 20

@@ -1,5 +1,7 @@
 import CANNON, { Vec3 } from 'cannon'
 import * as THREE from 'three'
+import mobileTriangle from '../images/mobile/triangle.png'
+import mobileCross from '../images/mobile/cross.png'
 
 export default class Physics
 {
@@ -392,35 +394,38 @@ export default class Physics
             /**
              * Steering
              */
-            const steerStrength = this.time.delta * this.car.options.controlsSteeringSpeed
+            if(!this.config.mobile || !this.controls.touch.joystick.active)
+            {
+                const steerStrength = this.time.delta * this.car.options.controlsSteeringSpeed
 
-            // Steer right
-            if(this.controls.actions.right)
-            {
-                this.controls.steering += steerStrength
-            }
-            // Steer left
-            else if(this.controls.actions.left)
-            {
-                this.controls.steering -= steerStrength
-            }
-            // Steer center
-            else
-            {
-                if(Math.abs(this.controls.steering) > steerStrength)
+                // Steer right
+                if(this.controls.actions.right)
                 {
-                    this.controls.steering -= steerStrength * Math.sign(this.controls.steering)
+                    this.controls.steering += steerStrength
                 }
+                // Steer left
+                else if(this.controls.actions.left)
+                {
+                    this.controls.steering -= steerStrength
+                }
+                // Steer center
                 else
                 {
-                    this.controls.steering = 0
+                    if(Math.abs(this.controls.steering) > steerStrength)
+                    {
+                        this.controls.steering -= steerStrength * Math.sign(this.controls.steering)
+                    }
+                    else
+                    {
+                        this.controls.steering = 0
+                    }
                 }
-            }
 
-            // Clamp steer
-            if(Math.abs(this.controls.steering) > this.car.options.controlsSteeringMax)
-            {
-                this.controls.steering = Math.sign(this.controls.steering) * this.car.options.controlsSteeringMax
+                // Clamp steer
+                if(Math.abs(this.controls.steering) > this.car.options.controlsSteeringMax)
+                {
+                    this.controls.steering = Math.sign(this.controls.steering) * this.car.options.controlsSteeringMax
+                }
             }
 
             // Update wheels
@@ -684,11 +689,40 @@ export default class Physics
             this.controls.touch.joystick.$element.style.right = '0px'
             this.controls.touch.joystick.$element.style.width = '200px'
             this.controls.touch.joystick.$element.style.height = '200px'
-            this.controls.touch.joystick.$element.style.backgroundColor = '#ff0000'
+            // this.controls.touch.joystick.$element.style.backgroundColor = '#ff0000'
             document.body.appendChild(this.controls.touch.joystick.$element)
+
+            this.controls.touch.joystick.$cursor = document.createElement('div')
+            this.controls.touch.joystick.$cursor.style.position = 'absolute'
+            this.controls.touch.joystick.$cursor.style.top = 'calc(50% - 30px)'
+            this.controls.touch.joystick.$cursor.style.left = 'calc(50% - 30px)'
+            this.controls.touch.joystick.$cursor.style.width = '60px'
+            this.controls.touch.joystick.$cursor.style.height = '60px'
+            this.controls.touch.joystick.$cursor.style.border = '2px solid #ffffff'
+            this.controls.touch.joystick.$cursor.style.borderRadius = '50%'
+            this.controls.touch.joystick.$cursor.style.boxSizing = 'border-box'
+            this.controls.touch.joystick.$cursor.style.pointerEvents = 'none'
+            this.controls.touch.joystick.$cursor.style.willChange = 'transform'
+            this.controls.touch.joystick.$element.appendChild(this.controls.touch.joystick.$cursor)
+
+            this.controls.touch.joystick.$limit = document.createElement('div')
+            this.controls.touch.joystick.$limit.style.position = 'absolute'
+            this.controls.touch.joystick.$limit.style.top = 'calc(50% - 75px)'
+            this.controls.touch.joystick.$limit.style.left = 'calc(50% - 75px)'
+            this.controls.touch.joystick.$limit.style.width = '150px'
+            this.controls.touch.joystick.$limit.style.height = '150px'
+            this.controls.touch.joystick.$limit.style.border = '2px solid #ffffff'
+            this.controls.touch.joystick.$limit.style.borderRadius = '50%'
+            this.controls.touch.joystick.$limit.style.opacity = '0.25'
+            this.controls.touch.joystick.$limit.style.pointerEvents = 'none'
+            this.controls.touch.joystick.$limit.style.boxSizing = 'border-box'
+            this.controls.touch.joystick.$element.appendChild(this.controls.touch.joystick.$limit)
 
             // Angle
             this.controls.touch.joystick.angle = {}
+
+            this.controls.touch.joystick.angle.offset = Math.PI * 0.18
+
             this.controls.touch.joystick.angle.center = {}
             this.controls.touch.joystick.angle.center.x = 0
             this.controls.touch.joystick.angle.center.y = 0
@@ -714,45 +748,100 @@ export default class Physics
             // Time tick
             this.time.on('tick', () =>
             {
-                this.controls.touch.joystick.angle.value = Math.atan2(
-                    this.controls.touch.joystick.angle.center.y - this.controls.touch.joystick.angle.current.y,
-                    this.controls.touch.joystick.angle.center.x - this.controls.touch.joystick.angle.current.x
-                )
+                // Joystick active
+                if(this.controls.touch.joystick.active)
+                {
+                    // Calculate joystick angle
+                    this.controls.touch.joystick.angle.value = - Math.atan2(
+                        this.controls.touch.joystick.angle.current.y - this.controls.touch.joystick.angle.center.y,
+                        this.controls.touch.joystick.angle.current.x - this.controls.touch.joystick.angle.center.x
+                    )
 
-                // let deltaAngle = this.car.angle - this.controls.touch.joystick.angle.value
-                // deltaAngle = (deltaAngle + Math.PI) % (Math.PI * 2) - Math.PI
+                    // Calculate delta between joystick and car angles
+                    let deltaAngle = (this.controls.touch.joystick.angle.value + this.controls.touch.joystick.angle.offset - this.car.angle + Math.PI) % (Math.PI * 2) - Math.PI
+                    deltaAngle = deltaAngle < - Math.PI ? deltaAngle + Math.PI * 2 : deltaAngle
 
-                // console.log(this.car.angle)
-                // console.log(-this.controls.touch.joystick.angle.value)
+                    // Update steering directly
+                    this.controls.steering = deltaAngle * (this.car.goingForward ? - 1 : 1)
+
+                    // Clamp steer
+                    if(Math.abs(this.controls.steering) > this.car.options.controlsSteeringMax)
+                    {
+                        this.controls.steering = Math.sign(this.controls.steering) * this.car.options.controlsSteeringMax
+                    }
+
+                    // Update joystick
+                    const distance = Math.hypot(this.controls.touch.joystick.angle.current.y - this.controls.touch.joystick.angle.center.y, this.controls.touch.joystick.angle.current.x - this.controls.touch.joystick.angle.center.x)
+                    let radius = distance
+                    if(radius > 20)
+                    {
+                        radius = 20 + Math.log(distance - 20) * 5
+                    }
+                    if(radius > 43)
+                    {
+                        radius = 43
+                    }
+                    const cursorX = Math.sin(this.controls.touch.joystick.angle.value + Math.PI * 0.5) * radius
+                    const cursorY = Math.cos(this.controls.touch.joystick.angle.value + Math.PI * 0.5) * radius
+                    this.controls.touch.joystick.$cursor.style.transform = `translateX(${cursorX}px) translateY(${cursorY}px)`
+                }
             })
 
             // Events
             this.controls.touch.joystick.events = {}
+            this.controls.touch.joystick.touchIdentifier = null
             this.controls.touch.joystick.events.touchstart = (_event) =>
             {
-                this.controls.touch.joystick.active = true
+                _event.preventDefault()
 
-                this.controls.touch.joystick.angle.current.x = _event.touches[0].clientX
-                this.controls.touch.joystick.angle.current.y = _event.touches[0].clientY
+                const touch = _event.touches[0]
 
-                document.addEventListener('touchend', this.controls.touch.joystick.events.touchend)
-                document.addEventListener('touchmove', this.controls.touch.joystick.events.touchmove)
+                if(touch)
+                {
+                    this.controls.touch.joystick.active = true
+
+                    this.controls.touch.joystick.touchIdentifier = touch.identifier
+
+                    this.controls.touch.joystick.angle.current.x = touch.clientX
+                    this.controls.touch.joystick.angle.current.y = touch.clientY
+
+                    this.controls.touch.joystick.$limit.style.opacity = '0.5'
+
+                    document.addEventListener('touchend', this.controls.touch.joystick.events.touchend)
+                    document.addEventListener('touchmove', this.controls.touch.joystick.events.touchmove, { passive: false })
+                }
             }
 
             this.controls.touch.joystick.events.touchmove = (_event) =>
             {
-                this.controls.touch.joystick.angle.current.x = _event.touches[0].clientX
-                this.controls.touch.joystick.angle.current.y = _event.touches[0].clientY
+                _event.preventDefault()
+
+                const touches = [..._event.changedTouches]
+                const touch = touches.find((_touch) => _touch.identifier === this.controls.touch.joystick.touchIdentifier)
+
+                if(touch)
+                {
+                    this.controls.touch.joystick.angle.current.x = touch.clientX
+                    this.controls.touch.joystick.angle.current.y = touch.clientY
+                }
             }
 
-            this.controls.touch.joystick.events.touchend = () =>
+            this.controls.touch.joystick.events.touchend = (_event) =>
             {
-                this.controls.touch.joystick.active = false
+                const touches = [..._event.changedTouches]
+                const touch = touches.find((_touch) => _touch.identifier === this.controls.touch.joystick.touchIdentifier)
 
-                document.removeEventListener('touchend', this.controls.touch.joystick.events.touchend)
+                if(touch)
+                {
+                    this.controls.touch.joystick.active = false
+
+                    this.controls.touch.joystick.$limit.style.opacity = '0.25'
+
+                    document.removeEventListener('touchend', this.controls.touch.joystick.events.touchend)
+                }
             }
 
-            this.controls.touch.joystick.$element.addEventListener('touchstart', this.controls.touch.joystick.events.touchstart)
+            this.controls.touch.joystick.$element.addEventListener('touchstart', this.controls.touch.joystick.events.touchstart, { passive: false })
 
             /**
              * Forward
@@ -762,27 +851,68 @@ export default class Physics
             // Element
             this.controls.touch.forward.$element = document.createElement('div')
             this.controls.touch.forward.$element.style.position = 'fixed'
-            this.controls.touch.forward.$element.style.bottom = '200px'
+            this.controls.touch.forward.$element.style.bottom = 'calc(70px * 2 + 15px)'
             this.controls.touch.forward.$element.style.left = '0px'
-            this.controls.touch.forward.$element.style.width = '100px'
-            this.controls.touch.forward.$element.style.height = '100px'
-            this.controls.touch.forward.$element.style.backgroundColor = '#00ff00'
+            this.controls.touch.forward.$element.style.width = '95px'
+            this.controls.touch.forward.$element.style.height = '70px'
+            // this.controls.touch.forward.$element.style.backgroundColor = '#00ff00'
             document.body.appendChild(this.controls.touch.forward.$element)
+
+            this.controls.touch.forward.$border = document.createElement('div')
+            this.controls.touch.forward.$border.style.position = 'absolute'
+            this.controls.touch.forward.$border.style.top = 'calc(50% - 30px)'
+            this.controls.touch.forward.$border.style.left = 'calc(50% - 30px)'
+            this.controls.touch.forward.$border.style.width = '60px'
+            this.controls.touch.forward.$border.style.height = '60px'
+            this.controls.touch.forward.$border.style.border = '2px solid #ffffff'
+            this.controls.touch.forward.$border.style.borderRadius = '10px'
+            this.controls.touch.forward.$border.style.boxSizing = 'border-box'
+            this.controls.touch.forward.$border.style.opacity = '0.25'
+            this.controls.touch.forward.$border.style.willChange = 'opacity'
+            this.controls.touch.forward.$element.appendChild(this.controls.touch.forward.$border)
+
+            this.controls.touch.forward.$icon = document.createElement('div')
+            this.controls.touch.forward.$icon.style.position = 'absolute'
+            this.controls.touch.forward.$icon.style.top = 'calc(50% - 9px)'
+            this.controls.touch.forward.$icon.style.left = 'calc(50% - 11px)'
+            this.controls.touch.forward.$icon.style.width = '22px'
+            this.controls.touch.forward.$icon.style.height = '18px'
+            this.controls.touch.forward.$icon.style.backgroundImage = `url(${mobileTriangle})`
+            this.controls.touch.forward.$icon.style.backgroundSize = 'cover'
+            this.controls.touch.forward.$element.appendChild(this.controls.touch.forward.$icon)
 
             // Events
             this.controls.touch.forward.events = {}
-            this.controls.touch.forward.events.touchstart = () =>
+            this.controls.touch.forward.touchIdentifier = null
+            this.controls.touch.forward.events.touchstart = (_event) =>
             {
-                this.controls.actions.up = true
+                const touch = _event.changedTouches[0]
 
-                document.addEventListener('touchend', this.controls.touch.forward.events.touchend)
+                if(touch)
+                {
+                    this.controls.touch.forward.touchIdentifier = touch.identifier
+
+                    this.controls.actions.up = true
+
+                    this.controls.touch.forward.$border.style.opacity = '0.5'
+
+                    document.addEventListener('touchend', this.controls.touch.forward.events.touchend)
+                }
             }
 
-            this.controls.touch.forward.events.touchend = () =>
+            this.controls.touch.forward.events.touchend = (_event) =>
             {
-                this.controls.actions.up = false
+                const touches = [..._event.changedTouches]
+                const touch = touches.find((_touch) => _touch.identifier === this.controls.touch.forward.touchIdentifier)
 
-                document.removeEventListener('touchend', this.controls.touch.forward.events.touchend)
+                if(touch)
+                {
+                    this.controls.actions.up = false
+
+                    this.controls.touch.forward.$border.style.opacity = '0.25'
+
+                    document.removeEventListener('touchend', this.controls.touch.forward.events.touchend)
+                }
             }
 
             this.controls.touch.forward.$element.addEventListener('touchstart', this.controls.touch.forward.events.touchstart)
@@ -795,27 +925,69 @@ export default class Physics
             // Element
             this.controls.touch.brake.$element = document.createElement('div')
             this.controls.touch.brake.$element.style.position = 'fixed'
-            this.controls.touch.brake.$element.style.bottom = '100px'
+            this.controls.touch.brake.$element.style.bottom = 'calc(70px + 15px)'
             this.controls.touch.brake.$element.style.left = '0px'
-            this.controls.touch.brake.$element.style.width = '100px'
-            this.controls.touch.brake.$element.style.height = '100px'
-            this.controls.touch.brake.$element.style.backgroundColor = '#ff0000'
+            this.controls.touch.brake.$element.style.width = '95px'
+            this.controls.touch.brake.$element.style.height = '70px'
+            // this.controls.touch.brake.$element.style.backgroundColor = '#ff0000'
             document.body.appendChild(this.controls.touch.brake.$element)
+
+            this.controls.touch.brake.$border = document.createElement('div')
+            this.controls.touch.brake.$border.style.position = 'absolute'
+            this.controls.touch.brake.$border.style.top = 'calc(50% - 30px)'
+            this.controls.touch.brake.$border.style.left = 'calc(50% - 30px)'
+            this.controls.touch.brake.$border.style.width = '60px'
+            this.controls.touch.brake.$border.style.height = '60px'
+            this.controls.touch.brake.$border.style.border = '2px solid #ffffff'
+            this.controls.touch.brake.$border.style.borderRadius = '10px'
+            this.controls.touch.brake.$border.style.boxSizing = 'border-box'
+            this.controls.touch.brake.$border.style.opacity = '0.25'
+            this.controls.touch.brake.$border.style.willChange = 'opacity'
+            this.controls.touch.brake.$element.appendChild(this.controls.touch.brake.$border)
+
+            this.controls.touch.brake.$icon = document.createElement('div')
+            this.controls.touch.brake.$icon.style.position = 'absolute'
+            this.controls.touch.brake.$icon.style.top = 'calc(50% - 7px)'
+            this.controls.touch.brake.$icon.style.left = 'calc(50% - 7px)'
+            this.controls.touch.brake.$icon.style.width = '15px'
+            this.controls.touch.brake.$icon.style.height = '15px'
+            this.controls.touch.brake.$icon.style.backgroundImage = `url(${mobileCross})`
+            this.controls.touch.brake.$icon.style.backgroundSize = 'cover'
+            this.controls.touch.brake.$icon.style.transform = 'rotate(180deg)'
+            this.controls.touch.brake.$element.appendChild(this.controls.touch.brake.$icon)
 
             // Events
             this.controls.touch.brake.events = {}
-            this.controls.touch.brake.events.touchstart = () =>
+            this.controls.touch.brake.touchIdentifier = null
+            this.controls.touch.brake.events.touchstart = (_event) =>
             {
-                this.controls.actions.brake = true
+                const touch = _event.changedTouches[0]
 
-                document.addEventListener('touchend', this.controls.touch.brake.events.touchend)
+                if(touch)
+                {
+                    this.controls.touch.brake.touchIdentifier = touch.identifier
+
+                    this.controls.actions.brake = true
+
+                    this.controls.touch.brake.$border.style.opacity = '0.5'
+
+                    document.addEventListener('touchend', this.controls.touch.brake.events.touchend)
+                }
             }
 
-            this.controls.touch.brake.events.touchend = () =>
+            this.controls.touch.brake.events.touchend = (_event) =>
             {
-                this.controls.actions.brake = false
+                const touches = [..._event.changedTouches]
+                const touch = touches.find((_touch) => _touch.identifier === this.controls.touch.forward.touchIdentifier)
 
-                document.removeEventListener('touchend', this.controls.touch.brake.events.touchend)
+                if(touch)
+                {
+                    this.controls.actions.brake = false
+
+                    this.controls.touch.brake.$border.style.opacity = '0.25'
+
+                    document.removeEventListener('touchend', this.controls.touch.brake.events.touchend)
+                }
             }
 
             this.controls.touch.brake.$element.addEventListener('touchstart', this.controls.touch.brake.events.touchstart)
@@ -828,27 +1000,69 @@ export default class Physics
             // Element
             this.controls.touch.backward.$element = document.createElement('div')
             this.controls.touch.backward.$element.style.position = 'fixed'
-            this.controls.touch.backward.$element.style.bottom = '0px'
+            this.controls.touch.backward.$element.style.bottom = '15px'
             this.controls.touch.backward.$element.style.left = '0px'
-            this.controls.touch.backward.$element.style.width = '100px'
-            this.controls.touch.backward.$element.style.height = '100px'
-            this.controls.touch.backward.$element.style.backgroundColor = '#0000ff'
+            this.controls.touch.backward.$element.style.width = '95px'
+            this.controls.touch.backward.$element.style.height = '70px'
+            // this.controls.touch.backward.$element.style.backgroundColor = '#0000ff'
             document.body.appendChild(this.controls.touch.backward.$element)
+
+            this.controls.touch.backward.$border = document.createElement('div')
+            this.controls.touch.backward.$border.style.position = 'absolute'
+            this.controls.touch.backward.$border.style.top = 'calc(50% - 30px)'
+            this.controls.touch.backward.$border.style.left = 'calc(50% - 30px)'
+            this.controls.touch.backward.$border.style.width = '60px'
+            this.controls.touch.backward.$border.style.height = '60px'
+            this.controls.touch.backward.$border.style.border = '2px solid #ffffff'
+            this.controls.touch.backward.$border.style.borderRadius = '10px'
+            this.controls.touch.backward.$border.style.boxSizing = 'border-box'
+            this.controls.touch.backward.$border.style.opacity = '0.25'
+            this.controls.touch.backward.$border.style.willChange = 'opacity'
+            this.controls.touch.backward.$element.appendChild(this.controls.touch.backward.$border)
+
+            this.controls.touch.backward.$icon = document.createElement('div')
+            this.controls.touch.backward.$icon.style.position = 'absolute'
+            this.controls.touch.backward.$icon.style.top = 'calc(50% - 9px)'
+            this.controls.touch.backward.$icon.style.left = 'calc(50% - 11px)'
+            this.controls.touch.backward.$icon.style.width = '22px'
+            this.controls.touch.backward.$icon.style.height = '18px'
+            this.controls.touch.backward.$icon.style.backgroundImage = `url(${mobileTriangle})`
+            this.controls.touch.backward.$icon.style.backgroundSize = 'cover'
+            this.controls.touch.backward.$icon.style.transform = 'rotate(180deg)'
+            this.controls.touch.backward.$element.appendChild(this.controls.touch.backward.$icon)
 
             // Events
             this.controls.touch.backward.events = {}
-            this.controls.touch.backward.events.touchstart = () =>
+            this.controls.touch.backward.touchIdentifier = null
+            this.controls.touch.backward.events.touchstart = (_event) =>
             {
-                this.controls.actions.down = true
+                const touch = _event.changedTouches[0]
 
-                document.addEventListener('touchend', this.controls.touch.backward.events.touchend)
+                if(touch)
+                {
+                    this.controls.touch.backward.touchIdentifier = touch.identifier
+
+                    this.controls.actions.down = true
+
+                    this.controls.touch.backward.$border.style.opacity = '0.5'
+
+                    document.addEventListener('touchend', this.controls.touch.backward.events.touchend)
+                }
             }
 
-            this.controls.touch.backward.events.touchend = () =>
+            this.controls.touch.backward.events.touchend = (_event) =>
             {
-                this.controls.actions.down = false
+                const touches = [..._event.changedTouches]
+                const touch = touches.find((_touch) => _touch.identifier === this.controls.touch.backward.touchIdentifier)
 
-                document.removeEventListener('touchend', this.controls.touch.backward.events.touchend)
+                if(touch)
+                {
+                    this.controls.actions.down = false
+
+                    this.controls.touch.backward.$border.style.opacity = '0.25'
+
+                    document.removeEventListener('touchend', this.controls.touch.backward.events.touchend)
+                }
             }
 
             this.controls.touch.backward.$element.addEventListener('touchstart', this.controls.touch.backward.events.touchstart)
