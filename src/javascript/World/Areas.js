@@ -50,6 +50,15 @@ export default class Areas
             }
         })
 
+        // Touch
+        this.renderer.domElement.addEventListener('touchstart', (_event) =>
+        {
+            this.mouse.coordinates.x = (_event.changedTouches[0].clientX / window.innerWidth) * 2 - 1
+            this.mouse.coordinates.y = - (_event.changedTouches[0].clientY / window.innerHeight) * 2 + 1
+
+            this.mouse.needsUpdate = true
+        })
+
         // Time tick event
         this.time.on('tick', () =>
         {
