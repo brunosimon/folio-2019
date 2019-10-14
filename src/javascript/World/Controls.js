@@ -1,3 +1,4 @@
+import mobileDoubleTriangle from '../../images/mobile/doubleTriangle.png'
 import mobileTriangle from '../../images/mobile/triangle.png'
 import mobileCross from '../../images/mobile/cross.png'
 import EventEmitter from '../Utils/EventEmitter'
@@ -19,7 +20,6 @@ export default class Controls extends EventEmitter
 
     setActions()
     {
-
         this.actions = {}
         this.actions.up = false
         this.actions.right = false
@@ -282,6 +282,82 @@ export default class Controls extends EventEmitter
         }
 
         this.touch.joystick.$element.addEventListener('touchstart', this.touch.joystick.events.touchstart, { passive: false })
+
+        /**
+         * Boost
+         */
+        this.touch.boost = {}
+
+        // Element
+        this.touch.boost.$element = document.createElement('div')
+        this.touch.boost.$element.style.position = 'fixed'
+        this.touch.boost.$element.style.bottom = 'calc(70px * 3 + 15px)'
+        this.touch.boost.$element.style.left = '0px'
+        this.touch.boost.$element.style.width = '95px'
+        this.touch.boost.$element.style.height = '70px'
+        // this.touch.boost.$element.style.backgroundColor = '#00ff00'
+        document.body.appendChild(this.touch.boost.$element)
+
+        this.touch.boost.$border = document.createElement('div')
+        this.touch.boost.$border.style.position = 'absolute'
+        this.touch.boost.$border.style.top = 'calc(50% - 30px)'
+        this.touch.boost.$border.style.left = 'calc(50% - 30px)'
+        this.touch.boost.$border.style.width = '60px'
+        this.touch.boost.$border.style.height = '60px'
+        this.touch.boost.$border.style.border = '2px solid #ffffff'
+        this.touch.boost.$border.style.borderRadius = '10px'
+        this.touch.boost.$border.style.boxSizing = 'border-box'
+        this.touch.boost.$border.style.opacity = '0.25'
+        this.touch.boost.$border.style.willChange = 'opacity'
+        this.touch.boost.$element.appendChild(this.touch.boost.$border)
+
+        this.touch.boost.$icon = document.createElement('div')
+        this.touch.boost.$icon.style.position = 'absolute'
+        this.touch.boost.$icon.style.top = 'calc(50% - 13px)'
+        this.touch.boost.$icon.style.left = 'calc(50% - 11px)'
+        this.touch.boost.$icon.style.width = '22px'
+        this.touch.boost.$icon.style.height = '26px'
+        this.touch.boost.$icon.style.backgroundImage = `url(${mobileDoubleTriangle})`
+        this.touch.boost.$icon.style.backgroundSize = 'cover'
+        this.touch.boost.$element.appendChild(this.touch.boost.$icon)
+
+        // Events
+        this.touch.boost.events = {}
+        this.touch.boost.touchIdentifier = null
+        this.touch.boost.events.touchstart = (_event) =>
+        {
+            const touch = _event.changedTouches[0]
+
+            if(touch)
+            {
+                this.touch.boost.touchIdentifier = touch.identifier
+
+                this.actions.up = true
+                this.actions.boost = true
+
+                this.touch.boost.$border.style.opacity = '0.5'
+
+                document.addEventListener('touchend', this.touch.boost.events.touchend)
+            }
+        }
+
+        this.touch.boost.events.touchend = (_event) =>
+        {
+            const touches = [..._event.changedTouches]
+            const touch = touches.find((_touch) => _touch.identifier === this.touch.boost.touchIdentifier)
+
+            if(touch)
+            {
+                this.actions.up = false
+                this.actions.boost = false
+
+                this.touch.boost.$border.style.opacity = '0.25'
+
+                document.removeEventListener('touchend', this.touch.boost.events.touchend)
+            }
+        }
+
+        this.touch.boost.$element.addEventListener('touchstart', this.touch.boost.events.touchstart)
 
         /**
          * Forward
