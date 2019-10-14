@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import Materials from './Materials.js'
 import Floor from './Floor.js'
 import Shadows from './Shadows.js'
-import Physics from '../Physics.js'
+import Physics from './Physics.js'
 import Zones from './Zones.js'
 import Objects from './Objects.js'
 import Car from './Car.js'
@@ -14,6 +14,7 @@ import ProjectsSection from './Sections/ProjectsSection.js'
 import CrossroadsSection from './Sections/CrossroadsSection.js'
 import InformationSection from './Sections/InformationSection.js'
 import PlaygroundSection from './Sections/PlaygroundSection.js'
+import Controls from './Controls.js'
 
 export default class
 {
@@ -41,6 +42,7 @@ export default class
         this.container.matrixAutoUpdate = false
 
         // this.setAxes()
+        this.setControls()
         this.setMaterials()
         this.setFloor()
         this.setShadows()
@@ -58,6 +60,15 @@ export default class
     {
         this.axis = new THREE.AxesHelper()
         this.container.add(this.axis)
+    }
+
+    setControls()
+    {
+        this.controls = new Controls({
+            config: this.config,
+            sizes: this.sizes,
+            time: this.time
+        })
     }
 
     setMaterials()
@@ -94,7 +105,8 @@ export default class
             config: this.config,
             debug: this.debug,
             time: this.time,
-            sizes: this.sizes
+            sizes: this.sizes,
+            controls: this.controls
         })
 
         this.container.add(this.physics.models.container)
