@@ -184,7 +184,8 @@ export default class Controls extends EventEmitter
         this.touch.joystick.angle.current.x = 0
         this.touch.joystick.angle.current.y = 0
 
-        this.touch.joystick.angle.value = 0
+        this.touch.joystick.angle.originalValue = 0
+        this.touch.joystick.angle.value = - Math.PI * 0.5
 
         // Resize
         this.touch.joystick.resize = () =>
@@ -205,10 +206,11 @@ export default class Controls extends EventEmitter
             if(this.touch.joystick.active)
             {
                 // Calculate joystick angle
-                this.touch.joystick.angle.value = - Math.atan2(
+                this.touch.joystick.angle.originalValue = - Math.atan2(
                     this.touch.joystick.angle.current.y - this.touch.joystick.angle.center.y,
                     this.touch.joystick.angle.current.x - this.touch.joystick.angle.center.x
                 )
+                this.touch.joystick.angle.value = this.touch.joystick.angle.originalValue + this.touch.joystick.angle.offset
 
                 // Update joystick
                 const distance = Math.hypot(this.touch.joystick.angle.current.y - this.touch.joystick.angle.center.y, this.touch.joystick.angle.current.x - this.touch.joystick.angle.center.x)
@@ -221,8 +223,8 @@ export default class Controls extends EventEmitter
                 {
                     radius = 43
                 }
-                const cursorX = Math.sin(this.touch.joystick.angle.value + Math.PI * 0.5) * radius
-                const cursorY = Math.cos(this.touch.joystick.angle.value + Math.PI * 0.5) * radius
+                const cursorX = Math.sin(this.touch.joystick.angle.originalValue + Math.PI * 0.5) * radius
+                const cursorY = Math.cos(this.touch.joystick.angle.originalValue + Math.PI * 0.5) * radius
                 this.touch.joystick.$cursor.style.transform = `translateX(${cursorX}px) translateY(${cursorY}px)`
             }
         })
