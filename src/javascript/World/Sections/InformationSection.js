@@ -75,8 +75,9 @@ export default class InformationSection
         this.links.halfExtents.x = 1
         this.links.halfExtents.y = 1
         this.links.distanceBetween = 2.4
-        this.links.labelGeometry = new THREE.PlaneBufferGeometry(this.links.halfExtents.x * 2, this.links.halfExtents.y * 0.5, 1, 1)
-        this.links.labelOffset = - 1.4
+        this.links.labelWidth = this.links.halfExtents.x * 2 + 1
+        this.links.labelGeometry = new THREE.PlaneBufferGeometry(this.links.labelWidth, this.links.labelWidth * 0.25, 1, 1)
+        this.links.labelOffset = - 1.6
         this.links.items = []
 
         this.links.container = new THREE.Object3D()
@@ -129,8 +130,8 @@ export default class InformationSection
             item.texture.minFilter = THREE.LinearFilter
 
             // Create label
-            item.labelMesh = new THREE.Mesh(this.links.labelGeometry, new THREE.MeshBasicMaterial({ wireframe: false, color: 0xffffff, alphaMap: _option.labelTexture, transparent: true }))
-            item.labelMesh.position.x = item.x
+            item.labelMesh = new THREE.Mesh(this.links.labelGeometry, new THREE.MeshBasicMaterial({ wireframe: false, color: 0xffffff, alphaMap: _option.labelTexture, depthTest: false, depthWrite: false, transparent: true }))
+            item.labelMesh.position.x = item.x + this.links.labelWidth * 0.5 - this.links.halfExtents.x
             item.labelMesh.position.y = item.y + this.links.labelOffset
             item.labelMesh.matrixAutoUpdate = false
             item.labelMesh.updateMatrix()
