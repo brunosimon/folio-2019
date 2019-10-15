@@ -137,6 +137,7 @@ export default class Controls extends EventEmitter
 
         // Element
         this.touch.joystick.$element = document.createElement('div')
+        this.touch.joystick.$element.style.userSelect = 'none'
         this.touch.joystick.$element.style.position = 'fixed'
         this.touch.joystick.$element.style.bottom = '0px'
         this.touch.joystick.$element.style.right = '0px'
@@ -292,6 +293,7 @@ export default class Controls extends EventEmitter
 
         // Element
         this.touch.boost.$element = document.createElement('div')
+        this.touch.boost.$element.style.userSelect = 'none'
         this.touch.boost.$element.style.position = 'fixed'
         this.touch.boost.$element.style.bottom = 'calc(70px * 3 + 15px)'
         this.touch.boost.$element.style.left = '0px'
@@ -328,6 +330,8 @@ export default class Controls extends EventEmitter
         this.touch.boost.touchIdentifier = null
         this.touch.boost.events.touchstart = (_event) =>
         {
+            _event.preventDefault()
+
             const touch = _event.changedTouches[0]
 
             if(touch)
@@ -368,6 +372,7 @@ export default class Controls extends EventEmitter
 
         // Element
         this.touch.forward.$element = document.createElement('div')
+        this.touch.forward.$element.style.userSelect = 'none'
         this.touch.forward.$element.style.position = 'fixed'
         this.touch.forward.$element.style.bottom = 'calc(70px * 2 + 15px)'
         this.touch.forward.$element.style.left = '0px'
@@ -404,6 +409,8 @@ export default class Controls extends EventEmitter
         this.touch.forward.touchIdentifier = null
         this.touch.forward.events.touchstart = (_event) =>
         {
+            _event.preventDefault()
+
             const touch = _event.changedTouches[0]
 
             if(touch)
@@ -442,6 +449,7 @@ export default class Controls extends EventEmitter
 
         // Element
         this.touch.brake.$element = document.createElement('div')
+        this.touch.brake.$element.style.userSelect = 'none'
         this.touch.brake.$element.style.position = 'fixed'
         this.touch.brake.$element.style.bottom = 'calc(70px + 15px)'
         this.touch.brake.$element.style.left = '0px'
@@ -479,6 +487,8 @@ export default class Controls extends EventEmitter
         this.touch.brake.touchIdentifier = null
         this.touch.brake.events.touchstart = (_event) =>
         {
+            _event.preventDefault()
+
             const touch = _event.changedTouches[0]
 
             if(touch)
@@ -496,7 +506,7 @@ export default class Controls extends EventEmitter
         this.touch.brake.events.touchend = (_event) =>
         {
             const touches = [..._event.changedTouches]
-            const touch = touches.find((_touch) => _touch.identifier === this.touch.forward.touchIdentifier)
+            const touch = touches.find((_touch) => _touch.identifier === this.touch.brake.touchIdentifier)
 
             if(touch)
             {
@@ -517,6 +527,7 @@ export default class Controls extends EventEmitter
 
         // Element
         this.touch.backward.$element = document.createElement('div')
+        this.touch.backward.$element.style.userSelect = 'none'
         this.touch.backward.$element.style.position = 'fixed'
         this.touch.backward.$element.style.bottom = '15px'
         this.touch.backward.$element.style.left = '0px'
@@ -554,6 +565,8 @@ export default class Controls extends EventEmitter
         this.touch.backward.touchIdentifier = null
         this.touch.backward.events.touchstart = (_event) =>
         {
+            _event.preventDefault()
+
             const touch = _event.changedTouches[0]
 
             if(touch)
