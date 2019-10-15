@@ -237,7 +237,7 @@ export default class Controls extends EventEmitter
         {
             _event.preventDefault()
 
-            const touch = _event.touches[0]
+            const touch = _event.changedTouches[0]
 
             if(touch)
             {
