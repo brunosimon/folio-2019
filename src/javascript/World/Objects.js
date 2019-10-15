@@ -11,6 +11,7 @@ export default class Objects
         this.materials = _options.materials
         this.physics = _options.physics
         this.shadows = _options.shadows
+        this.sounds = _options.sounds
         this.debug = _options.debug
 
         // Set up
@@ -311,6 +312,21 @@ export default class Objects
         for(const _child of object.container.children)
         {
             _child.position.sub(object.collision.center)
+        }
+
+        // Sound
+        const soundMinimumVelocity = typeof _options.soundMinimumVelocity === 'undefined' ? 1 : _options.soundMinimumVelocity
+        if(_options.soundName)
+        {
+            object.collision.body.addEventListener('collide', (_event) =>
+            {
+                const relativeVelocity = _event.contact.getImpactVelocityAlongNormal()
+
+                if(relativeVelocity > soundMinimumVelocity)
+                {
+                    this.sounds.play(_options.soundName)
+                }
+            })
         }
 
         // Shadow

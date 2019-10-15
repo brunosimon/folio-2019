@@ -636,6 +636,7 @@ export default class Physics
         {
             collision.body.sleep()
         }
+
         this.world.addBody(collision.body)
 
         // Rotation

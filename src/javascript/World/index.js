@@ -15,6 +15,7 @@ import CrossroadsSection from './Sections/CrossroadsSection.js'
 import InformationSection from './Sections/InformationSection.js'
 import PlaygroundSection from './Sections/PlaygroundSection.js'
 import Controls from './Controls.js'
+import Sounds from './Sounds.js'
 
 export default class
 {
@@ -42,6 +43,7 @@ export default class
         this.container.matrixAutoUpdate = false
 
         // this.setAxes()
+        this.setSounds()
         this.setControls()
         this.setMaterials()
         this.setFloor()
@@ -54,6 +56,17 @@ export default class
         this.setTiles()
         this.setWalls()
         this.setSections()
+    }
+
+    setSounds()
+    {
+        this.sounds = new Sounds()
+
+        this.sounds.add({
+            name: 'brick',
+            maxCount: 5,
+            minDelta: 0.05
+        })
     }
 
     setAxes()
@@ -162,6 +175,7 @@ export default class
             materials: this.materials,
             physics: this.physics,
             shadows: this.shadows,
+            sounds: this.sounds,
             debug: this.debugFolder
         })
         this.container.add(this.objects.container)

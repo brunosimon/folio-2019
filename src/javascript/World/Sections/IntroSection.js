@@ -229,7 +229,8 @@ export default class IntroSection
             duplicated: true,
             shadow: { sizeX: 1.2, sizeY: 1.8, offsetZ: - 0.15, alpha: 0.35 },
             mass: 0.5,
-            // sleep: false
+            soundName: 'brick',
+            soundMinimumVelocity: 1.5
         }
 
         this.walls.add({
