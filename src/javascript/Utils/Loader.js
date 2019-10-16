@@ -1,7 +1,7 @@
 import EventEmitter from './EventEmitter.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js'
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
+// import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 
 export default class Resources extends EventEmitter
 {
@@ -75,23 +75,23 @@ export default class Resources extends EventEmitter
             }
         })
 
-        // Draco
-        DRACOLoader.setDecoderPath('draco/')
-        DRACOLoader.setDecoderConfig({ type: 'js' })
-        const dracoLoader = new DRACOLoader()
+        // // Draco
+        // DRACOLoader.setDecoderPath('draco/')
+        // DRACOLoader.setDecoderConfig({ type: 'js' })
+        // const dracoLoader = new DRACOLoader()
 
-        this.loaders.push({
-            extensions: ['drc'],
-            action: (_resource) =>
-            {
-                dracoLoader.load(_resource.source, (_data) =>
-                {
-                    this.fileLoadEnd(_resource, _data)
+        // this.loaders.push({
+        //     extensions: ['drc'],
+        //     action: (_resource) =>
+        //     {
+        //         dracoLoader.load(_resource.source, (_data) =>
+        //         {
+        //             this.fileLoadEnd(_resource, _data)
 
-                    DRACOLoader.releaseDecoderModule()
-                })
-            }
-        })
+        //             DRACOLoader.releaseDecoderModule()
+        //         })
+        //     }
+        // })
     }
 
     /**
