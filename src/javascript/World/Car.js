@@ -12,6 +12,7 @@ export default class Car
         this.physics = _options.physics
         this.shadows = _options.shadows
         this.materials = _options.materials
+        this.sounds = _options.sounds
         this.renderer = _options.renderer
         this.camera = _options.camera
         this.debug = _options.debug
@@ -54,6 +55,10 @@ export default class Car
 
             this.movement.localSpeed = this.movement.speed.clone().applyAxisAngle(new THREE.Vector3(0, 0, 1), - this.chassis.object.rotation.z)
             this.movement.localAcceleration = this.movement.acceleration.clone().applyAxisAngle(new THREE.Vector3(0, 0, 1), - this.chassis.object.rotation.z)
+
+            // Sound
+            this.sounds.engine.speed = this.movement.localSpeed.x
+            this.sounds.engine.acceleration = this.movement.localAcceleration.x
         })
     }
 

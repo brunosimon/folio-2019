@@ -60,7 +60,10 @@ export default class
 
     setSounds()
     {
-        this.sounds = new Sounds()
+        this.sounds = new Sounds({
+            debug: this.debugFolder,
+            time: this.time
+        })
 
         this.sounds.add({
             name: 'brick',
@@ -195,6 +198,7 @@ export default class
             physics: this.physics,
             shadows: this.shadows,
             materials: this.materials,
+            sounds: this.sounds,
             renderer: this.renderer,
             camera: this.camera,
             debug: this.debugFolder
