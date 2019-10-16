@@ -46,10 +46,19 @@ export default class Sounds
         this.muted = typeof this.debug !== 'undefined'
         Howler.mute(this.muted)
 
+        window.addEventListener('keydown', (_event) =>
+        {
+            if(_event.key === 'm')
+            {
+                this.muted = !this.muted
+                Howler.mute(this.muted)
+            }
+        })
+
         // Debug
         if(this.debug)
         {
-            this.debugFolder.add(this, 'muted').onChange(() =>
+            this.debugFolder.add(this, 'muted').listen().onChange(() =>
             {
                 Howler.mute(this.muted)
             })
