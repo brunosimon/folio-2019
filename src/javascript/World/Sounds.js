@@ -1,5 +1,5 @@
 import { Howl, Howler } from 'howler'
-import engineSound from '../../sounds/1/low_off.wav'
+import engineSound from '../../sounds/engines/1/low_off.wav'
 
 export default class Sounds
 {
@@ -30,6 +30,11 @@ export default class Sounds
         this.masterVolume = 0.4
         Howler.volume(this.masterVolume)
 
+        window.requestAnimationFrame(() =>
+        {
+            Howler.volume(this.masterVolume)
+        })
+
         // Debug
         if(this.debug)
         {
@@ -46,11 +51,25 @@ export default class Sounds
         this.muted = typeof this.debug !== 'undefined'
         Howler.mute(this.muted)
 
+        // M Key
         window.addEventListener('keydown', (_event) =>
         {
             if(_event.key === 'm')
             {
                 this.muted = !this.muted
+                Howler.mute(this.muted)
+            }
+        })
+
+        // Tab focus / blur
+        document.addEventListener('visibilitychange', () =>
+        {
+            if(document.hidden)
+            {
+                Howler.mute(true)
+            }
+            else
+            {
                 Howler.mute(this.muted)
             }
         })
