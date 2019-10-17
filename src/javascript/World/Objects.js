@@ -315,17 +315,12 @@ export default class Objects
         }
 
         // Sound
-        const soundMinimumVelocity = typeof _options.soundMinimumVelocity === 'undefined' ? 1 : _options.soundMinimumVelocity
         if(_options.soundName)
         {
             object.collision.body.addEventListener('collide', (_event) =>
             {
                 const relativeVelocity = _event.contact.getImpactVelocityAlongNormal()
-
-                if(relativeVelocity > soundMinimumVelocity)
-                {
-                    this.sounds.play(_options.soundName)
-                }
+                this.sounds.play(_options.soundName, relativeVelocity)
             })
         }
 

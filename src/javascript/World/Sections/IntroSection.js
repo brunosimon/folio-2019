@@ -229,9 +229,28 @@ export default class IntroSection
             duplicated: true,
             shadow: { sizeX: 1.2, sizeY: 1.8, offsetZ: - 0.15, alpha: 0.35 },
             mass: 0.5,
-            soundName: 'brick',
-            soundMinimumVelocity: 1.5
+            soundName: 'brick'
         }
+
+        this.walls.add({
+            object:
+            {
+                ...this.dikes.brickOptions,
+                rotation: new THREE.Euler(0, 0, Math.PI * 0.5)
+            },
+            shape:
+            {
+                type: 'brick',
+                equilibrateLastLine: true,
+                widthCount: 3,
+                heightCount: 2,
+                position: new THREE.Vector3(this.x + 0, this.y - 4, 0),
+                offsetWidth: new THREE.Vector3(1.05, 0, 0),
+                offsetHeight: new THREE.Vector3(0, 0, 0.45),
+                randomOffset: new THREE.Vector3(0, 0, 0),
+                randomRotation: new THREE.Vector3(0, 0, 0.2)
+            }
+        })
 
         this.walls.add({
             object: this.dikes.brickOptions,

@@ -1,5 +1,13 @@
 import { Howl, Howler } from 'howler'
 import engineSound from '../../sounds/engines/1/low_off.wav'
+import brick1Sound from '../../sounds/bricks/brick-1.wav'
+import brick2Sound from '../../sounds/bricks/brick-2.wav'
+// import brick3Sound from '../../sounds/bricks/brick-3.wav'
+import brick4Sound from '../../sounds/bricks/brick-4.wav'
+// import brick5Sound from '../../sounds/bricks/brick-5.wav'
+import brick6Sound from '../../sounds/bricks/brick-6.wav'
+import brick7Sound from '../../sounds/bricks/brick-7.wav'
+import brick8Sound from '../../sounds/bricks/brick-8.wav'
 
 export default class Sounds
 {
@@ -19,9 +27,30 @@ export default class Sounds
         // Set up
         this.items = []
 
+        this.setSettings()
         this.setMasterVolume()
         this.setMute()
         this.setEngine()
+    }
+
+    setSettings()
+    {
+        this.settings = [
+            {
+                name: 'brick',
+                sounds: [brick1Sound, brick2Sound, brick4Sound, brick6Sound, brick7Sound, brick8Sound],
+                minDelta: 100,
+                velocityMin: 1,
+                velocityMultiplier: 1,
+                volumeMin: 0.2,
+                volumeMax: 1
+            }
+        ]
+
+        for(const _settings of this.settings)
+        {
+            this.add(_settings)
+        }
     }
 
     setMasterVolume()
@@ -153,11 +182,46 @@ export default class Sounds
 
     add(_options)
     {
-        console.log('add', _options)
+        const item = {
+            name: _options.name,
+            minDelta: _options.minDelta,
+            velocityMin: _options.velocityMin,
+            velocityMultiplier: _options.velocityMultiplier,
+            volumeMin: _options.volumeMin,
+            volumeMax: _options.volumeMax,
+            lastTime: 0,
+            sounds: []
+        }
+
+        for(const _sound of _options.sounds)
+        {
+            const sound = new Howl({ src: [_sound] })
+
+            item.sounds.push(sound)
+        }
+
+        this.items.push(item)
     }
 
-    play(_name)
+    play(_name, _velocity)
     {
-        console.log('play', _name)
+        const item = this.items.find((_item) => _item.name === _name)
+        const time = Date.now()
+
+        if(item && time > item.lastTime + item.minDelta && _velocity > item.velocityMin)
+        {
+            // Find random sound
+            const sound = item.sounds[Math.floor(Math.random() * item.sounds.length)]
+
+            // Update volume
+            const volume = Math.min(Math.max((_velocity - item.velocityMin) * item.velocityMultiplier, item.volumeMin), item.volumeMax)
+            sound.volume(volume)
+
+            // Play
+            sound.play()
+
+            // Save last play time
+            item.lastTime = time
+        }
     }
 }

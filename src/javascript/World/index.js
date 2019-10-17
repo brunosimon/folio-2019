@@ -64,12 +64,6 @@ export default class
             debug: this.debugFolder,
             time: this.time
         })
-
-        this.sounds.add({
-            name: 'brick',
-            maxCount: 5,
-            minDelta: 0.05
-        })
     }
 
     setAxes()
