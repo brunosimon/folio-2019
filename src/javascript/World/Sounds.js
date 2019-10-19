@@ -39,11 +39,13 @@ export default class Sounds
             {
                 name: 'brick',
                 sounds: [brick1Sound, brick2Sound, brick4Sound, brick6Sound, brick7Sound, brick8Sound],
-                minDelta: 100,
-                velocityMin: 1,
-                velocityMultiplier: 1,
-                volumeMin: 0.2,
-                volumeMax: 1
+                minDelta: 150,
+                velocityMin: 0.35,
+                velocityMultiplier: 0.5,
+                volumeMin: 0,
+                volumeMax: 1,
+                rateMin: 0.5,
+                rateMax: 0.75
             }
         ]
 
@@ -189,6 +191,8 @@ export default class Sounds
             velocityMultiplier: _options.velocityMultiplier,
             volumeMin: _options.volumeMin,
             volumeMax: _options.volumeMax,
+            rateMin: _options.rateMin,
+            rateMax: _options.rateMax,
             lastTime: 0,
             sounds: []
         }
@@ -214,8 +218,13 @@ export default class Sounds
             const sound = item.sounds[Math.floor(Math.random() * item.sounds.length)]
 
             // Update volume
-            const volume = Math.min(Math.max((_velocity - item.velocityMin) * item.velocityMultiplier, item.volumeMin), item.volumeMax)
+            let volume = Math.min(Math.max((_velocity - item.velocityMin) * item.velocityMultiplier, item.volumeMin), item.volumeMax)
+            volume = Math.pow(volume, 2)
             sound.volume(volume)
+
+            // Update rate
+            const rateAmplitude = item.rateMax - item.rateMin
+            sound.rate(item.rateMin + Math.random() * rateAmplitude)
 
             // Play
             sound.play()
