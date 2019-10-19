@@ -154,7 +154,8 @@ export default class Project
                     rotation: new THREE.Euler(0, 0, 0),
                     duplicated: true,
                     shadow: { sizeX: shadowSizeX, sizeY: shadowSizeY, offsetZ: - 0.1, alpha: 0.5 },
-                    mass: 1.5
+                    mass: 1.5,
+                    soundName: 'brick'
                 })
             }
         }

@@ -72,7 +72,8 @@ export default class IntroSection
                 rotation: new THREE.Euler(0, 0, 0),
                 duplicated: true,
                 shadow: { sizeX: 1, sizeY: 1, offsetZ: - 0.2, alpha: 0.5 },
-                mass: 1.5
+                mass: 1.5,
+                soundName: 'brick'
             })
             this.instructions.arrows.down = this.objects.add({
                 base: this.resources.items.introArrowKeyBase.scene,
@@ -81,7 +82,8 @@ export default class IntroSection
                 rotation: new THREE.Euler(0, 0, Math.PI),
                 duplicated: true,
                 shadow: { sizeX: 1, sizeY: 1, offsetZ: - 0.2, alpha: 0.5 },
-                mass: 1.5
+                mass: 1.5,
+                soundName: 'brick'
             })
             this.instructions.arrows.left = this.objects.add({
                 base: this.resources.items.introArrowKeyBase.scene,
@@ -90,7 +92,8 @@ export default class IntroSection
                 rotation: new THREE.Euler(0, 0, Math.PI * 0.5),
                 duplicated: true,
                 shadow: { sizeX: 1, sizeY: 1, offsetZ: - 0.2, alpha: 0.5 },
-                mass: 1.5
+                mass: 1.5,
+                soundName: 'brick'
             })
             this.instructions.arrows.right = this.objects.add({
                 base: this.resources.items.introArrowKeyBase.scene,
@@ -99,7 +102,8 @@ export default class IntroSection
                 rotation: new THREE.Euler(0, 0, - Math.PI * 0.5),
                 duplicated: true,
                 shadow: { sizeX: 1, sizeY: 1, offsetZ: - 0.2, alpha: 0.5 },
-                mass: 1.5
+                mass: 1.5,
+                soundName: 'brick'
             })
         }
     }
@@ -113,7 +117,8 @@ export default class IntroSection
             offset: new THREE.Vector3(0, 0, 0),
             rotation: new THREE.Euler(0, 0, 0),
             shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
-            mass: 1.5
+            mass: 1.5,
+            soundName: 'brick'
         })
         this.objects.add({
             base: this.resources.items.introRBase.scene,
@@ -121,7 +126,8 @@ export default class IntroSection
             offset: new THREE.Vector3(0, 0, 0),
             rotation: new THREE.Euler(0, 0, 0),
             shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
-            mass: 1.5
+            mass: 1.5,
+            soundName: 'brick'
         })
         this.objects.add({
             base: this.resources.items.introUBase.scene,
@@ -129,7 +135,8 @@ export default class IntroSection
             offset: new THREE.Vector3(0, 0, 0),
             rotation: new THREE.Euler(0, 0, 0),
             shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
-            mass: 1.5
+            mass: 1.5,
+            soundName: 'brick'
         })
         this.objects.add({
             base: this.resources.items.introNBase.scene,
@@ -138,7 +145,8 @@ export default class IntroSection
             rotation: new THREE.Euler(0, 0, 0),
             duplicated: true,
             shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
-            mass: 1.5
+            mass: 1.5,
+            soundName: 'brick'
         })
         this.objects.add({
             base: this.resources.items.introOBase.scene,
@@ -147,7 +155,8 @@ export default class IntroSection
             rotation: new THREE.Euler(0, 0, 0),
             duplicated: true,
             shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
-            mass: 1.5
+            mass: 1.5,
+            soundName: 'brick'
         })
         this.objects.add({
             base: this.resources.items.introSBase.scene,
@@ -155,7 +164,8 @@ export default class IntroSection
             offset: new THREE.Vector3(0, 0, 0),
             rotation: new THREE.Euler(0, 0, 0),
             shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
-            mass: 1.5
+            mass: 1.5,
+            soundName: 'brick'
         })
         this.objects.add({
             base: this.resources.items.introIBase.scene,
@@ -163,7 +173,8 @@ export default class IntroSection
             offset: new THREE.Vector3(0, 0, 0),
             rotation: new THREE.Euler(0, 0, 0),
             shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
-            mass: 1.5
+            mass: 1.5,
+            soundName: 'brick'
         })
         this.objects.add({
             base: this.resources.items.introMBase.scene,
@@ -171,7 +182,8 @@ export default class IntroSection
             offset: new THREE.Vector3(0, 0, 0),
             rotation: new THREE.Euler(0, 0, 0),
             shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
-            mass: 1.5
+            mass: 1.5,
+            soundName: 'brick'
         })
         this.objects.add({
             base: this.resources.items.introOBase.scene,
@@ -180,7 +192,8 @@ export default class IntroSection
             rotation: new THREE.Euler(0, 0, 0),
             duplicated: true,
             shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
-            mass: 1.5
+            mass: 1.5,
+            soundName: 'brick'
         })
         this.objects.add({
             base: this.resources.items.introNBase.scene,
@@ -189,7 +202,8 @@ export default class IntroSection
             rotation: new THREE.Euler(0, 0, 0),
             duplicated: true,
             shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.4 },
-            mass: 1.5
+            mass: 1.5,
+            soundName: 'brick'
         })
         this.objects.add({
             base: this.resources.items.introCreativeBase.scene,
@@ -198,7 +212,8 @@ export default class IntroSection
             rotation: new THREE.Euler(0, 0, 0.25),
             shadow: { sizeX: 5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.3 },
             mass: 1.5,
-            sleep: false
+            sleep: false,
+            soundName: 'brick'
         })
         this.objects.add({
             base: this.resources.items.introDevBase.scene,
@@ -206,7 +221,8 @@ export default class IntroSection
             offset: new THREE.Vector3(0, 0, 0),
             rotation: new THREE.Euler(0, 0, 0),
             shadow: { sizeX: 2.5, sizeY: 1.5, offsetZ: - 0.6, alpha: 0.3 },
-            mass: 1.5
+            mass: 1.5,
+            soundName: 'brick'
         })
     }
 

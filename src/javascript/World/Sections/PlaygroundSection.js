@@ -62,7 +62,7 @@ export default class PlaygroundSection
             duplicated: true,
             shadow: { sizeX: 1.2, sizeY: 1.8, offsetZ: - 0.15, alpha: 0.35 },
             mass: 0.5,
-            // sleep: false
+            soundName: 'brick'
         }
 
         this.brickWalls.items.push(
@@ -162,6 +162,7 @@ export default class PlaygroundSection
                 duplicated: true,
                 shadow: { sizeX: 1.4, sizeY: 1.4, offsetZ: - 0.15, alpha: 0.35 },
                 mass: 0.1,
+                soundName: 'bowlingPin'
                 // sleep: false
             },
             shape:

@@ -8,6 +8,7 @@ import brick4Sound from '../../sounds/bricks/brick-4.wav'
 import brick6Sound from '../../sounds/bricks/brick-6.wav'
 import brick7Sound from '../../sounds/bricks/brick-7.wav'
 import brick8Sound from '../../sounds/bricks/brick-8.wav'
+import bowlingPin1Sound from '../../sounds/bowling/pin-1.wav'
 
 export default class Sounds
 {
@@ -39,12 +40,23 @@ export default class Sounds
             {
                 name: 'brick',
                 sounds: [brick1Sound, brick2Sound, brick4Sound, brick6Sound, brick7Sound, brick8Sound],
-                minDelta: 150,
-                velocityMin: 0.35,
-                velocityMultiplier: 0.5,
-                volumeMin: 0,
+                minDelta: 100,
+                velocityMin: 1,
+                velocityMultiplier: 1,
+                volumeMin: 0.2,
                 volumeMax: 1,
                 rateMin: 0.5,
+                rateMax: 0.75
+            },
+            {
+                name: 'bowlingPin',
+                sounds: [bowlingPin1Sound, bowlingPin1Sound, bowlingPin1Sound],
+                minDelta: 0,
+                velocityMin: 1,
+                velocityMultiplier: 1,
+                volumeMin: 0.35,
+                volumeMax: 1,
+                rateMin: 0.1,
                 rateMax: 0.75
             }
         ]
