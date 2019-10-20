@@ -116,7 +116,8 @@ export default class
             debug: this.debug,
             time: this.time,
             sizes: this.sizes,
-            controls: this.controls
+            controls: this.controls,
+            sounds: this.sounds
         })
 
         this.container.add(this.physics.models.container)

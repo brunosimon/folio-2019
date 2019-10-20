@@ -1,4 +1,5 @@
 import { Howl, Howler } from 'howler'
+
 import engineSound from '../../sounds/engines/1/low_off.wav'
 import brick1Sound from '../../sounds/bricks/brick-1.wav'
 import brick2Sound from '../../sounds/bricks/brick-2.wav'
@@ -8,7 +9,14 @@ import brick4Sound from '../../sounds/bricks/brick-4.wav'
 import brick6Sound from '../../sounds/bricks/brick-6.wav'
 import brick7Sound from '../../sounds/bricks/brick-7.wav'
 import brick8Sound from '../../sounds/bricks/brick-8.wav'
+
 import bowlingPin1Sound from '../../sounds/bowling/pin-1.wav'
+
+import carHit1Sound from '../../sounds/car-hits/car-hit-1.wav'
+// import carHit2Sound from '../../sounds/car-hits/car-hit-2.wav'
+import carHit3Sound from '../../sounds/car-hits/car-hit-3.wav'
+import carHit4Sound from '../../sounds/car-hits/car-hit-4.wav'
+import carHit5Sound from '../../sounds/car-hits/car-hit-5.wav'
 
 export default class Sounds
 {
@@ -42,7 +50,7 @@ export default class Sounds
                 sounds: [brick1Sound, brick2Sound, brick4Sound, brick6Sound, brick7Sound, brick8Sound],
                 minDelta: 100,
                 velocityMin: 1,
-                velocityMultiplier: 1,
+                velocityMultiplier: 0.5,
                 volumeMin: 0.2,
                 volumeMax: 1,
                 rateMin: 0.5,
@@ -53,10 +61,21 @@ export default class Sounds
                 sounds: [bowlingPin1Sound, bowlingPin1Sound, bowlingPin1Sound],
                 minDelta: 0,
                 velocityMin: 1,
-                velocityMultiplier: 1,
+                velocityMultiplier: 0.5,
                 volumeMin: 0.35,
                 volumeMax: 1,
                 rateMin: 0.1,
+                rateMax: 0.75
+            },
+            {
+                name: 'carHit',
+                sounds: [carHit1Sound, carHit3Sound, carHit4Sound, carHit5Sound],
+                minDelta: 100,
+                velocityMin: 2,
+                velocityMultiplier: 1,
+                volumeMin: 0.2,
+                volumeMax: 0.6,
+                rateMin: 0.5,
                 rateMax: 0.75
             }
         ]

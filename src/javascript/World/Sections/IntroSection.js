@@ -248,25 +248,25 @@ export default class IntroSection
             soundName: 'brick'
         }
 
-        this.walls.add({
-            object:
-            {
-                ...this.dikes.brickOptions,
-                rotation: new THREE.Euler(0, 0, Math.PI * 0.5)
-            },
-            shape:
-            {
-                type: 'brick',
-                equilibrateLastLine: true,
-                widthCount: 3,
-                heightCount: 2,
-                position: new THREE.Vector3(this.x + 0, this.y - 4, 0),
-                offsetWidth: new THREE.Vector3(1.05, 0, 0),
-                offsetHeight: new THREE.Vector3(0, 0, 0.45),
-                randomOffset: new THREE.Vector3(0, 0, 0),
-                randomRotation: new THREE.Vector3(0, 0, 0.2)
-            }
-        })
+        // this.walls.add({
+        //     object:
+        //     {
+        //         ...this.dikes.brickOptions,
+        //         rotation: new THREE.Euler(0, 0, Math.PI * 0.5)
+        //     },
+        //     shape:
+        //     {
+        //         type: 'brick',
+        //         equilibrateLastLine: true,
+        //         widthCount: 3,
+        //         heightCount: 2,
+        //         position: new THREE.Vector3(this.x + 0, this.y - 4, 0),
+        //         offsetWidth: new THREE.Vector3(1.05, 0, 0),
+        //         offsetHeight: new THREE.Vector3(0, 0, 0.45),
+        //         randomOffset: new THREE.Vector3(0, 0, 0),
+        //         randomRotation: new THREE.Vector3(0, 0, 0.2)
+        //     }
+        // })
 
         this.walls.add({
             object: this.dikes.brickOptions,
@@ -312,7 +312,7 @@ export default class IntroSection
                 equilibrateLastLine: false,
                 widthCount: 3,
                 heightCount: 2,
-                position: new THREE.Vector3(this.x + 9.7, this.y + 4.7, 0),
+                position: new THREE.Vector3(this.x + 9.9, this.y + 4.7, 0),
                 offsetWidth: new THREE.Vector3(0, - 1.05, 0),
                 offsetHeight: new THREE.Vector3(0, 0, 0.45),
                 randomOffset: new THREE.Vector3(0, 0, 0),

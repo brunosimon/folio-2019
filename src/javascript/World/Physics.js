@@ -10,6 +10,7 @@ export default class Physics
         this.time = _options.time
         this.sizes = _options.sizes
         this.controls = _options.controls
+        this.sounds = _options.sounds
 
         // Set up
         if(this.debug)
@@ -183,6 +184,16 @@ export default class Physics
             this.car.chassis.body.position.set(0, 0, 3)
             this.car.chassis.body.addShape(this.car.chassis.shape, this.car.options.chassisOffset)
             this.car.chassis.body.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 0, 1), - Math.PI * 0.5)
+
+            /**
+             * Sound
+             */
+
+            this.car.chassis.body.addEventListener('collide', (_event) =>
+            {
+                const relativeVelocity = _event.contact.getImpactVelocityAlongNormal()
+                this.sounds.play('carHit', relativeVelocity)
+            })
 
             /**
              * Vehicle
