@@ -22,6 +22,8 @@ import woodHit1Sound from '../../sounds/wood-hits/wood-hit-1.wav'
 
 import screech1Sound from '../../sounds/screeches/screech-1.wav'
 
+import uiArea1Sound from '../../sounds/ui/area-1.wav'
+
 export default class Sounds
 {
     constructor(_options)
@@ -62,6 +64,17 @@ export default class Sounds
             },
             {
                 name: 'bowlingPin',
+                sounds: [bowlingPin1Sound],
+                minDelta: 0,
+                velocityMin: 1,
+                velocityMultiplier: 0.5,
+                volumeMin: 0.35,
+                volumeMax: 1,
+                rateMin: 0.1,
+                rateMax: 0.85
+            },
+            {
+                name: 'bowlingBall',
                 sounds: [bowlingPin1Sound, bowlingPin1Sound, bowlingPin1Sound],
                 minDelta: 0,
                 velocityMin: 1,
@@ -69,7 +82,7 @@ export default class Sounds
                 volumeMin: 0.35,
                 volumeMax: 1,
                 rateMin: 0.1,
-                rateMax: 0.75
+                rateMax: 0.2
             },
             {
                 name: 'carHit',
@@ -103,6 +116,17 @@ export default class Sounds
                 volumeMax: 1,
                 rateMin: 0.9,
                 rateMax: 1.1
+            },
+            {
+                name: 'uiArea',
+                sounds: [uiArea1Sound],
+                minDelta: 100,
+                velocityMin: 0,
+                velocityMultiplier: 1,
+                volumeMin: 0.75,
+                volumeMax: 1,
+                rateMin: 0.95,
+                rateMax: 1.05
             }
         ]
 
@@ -263,14 +287,15 @@ export default class Sounds
     {
         const item = this.items.find((_item) => _item.name === _name)
         const time = Date.now()
+        const velocity = typeof _velocity === 'undefined' ? 0 : _velocity
 
-        if(item && time > item.lastTime + item.minDelta && (item.velocityMin === 0 || _velocity > item.velocityMin))
+        if(item && time > item.lastTime + item.minDelta && (item.velocityMin === 0 || velocity > item.velocityMin))
         {
             // Find random sound
             const sound = item.sounds[Math.floor(Math.random() * item.sounds.length)]
 
             // Update volume
-            let volume = Math.min(Math.max((_velocity - item.velocityMin) * item.velocityMultiplier, item.volumeMin), item.volumeMax)
+            let volume = Math.min(Math.max((velocity - item.velocityMin) * item.velocityMultiplier, item.volumeMin), item.volumeMax)
             volume = Math.pow(volume, 2)
             sound.volume(volume)
 

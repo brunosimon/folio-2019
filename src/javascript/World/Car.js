@@ -63,7 +63,7 @@ export default class Car
 
             if(this.movement.localAcceleration.x > 0.01)
             {
-                this.sounds.play('screech', 0)
+                this.sounds.play('screech')
             }
         })
     }

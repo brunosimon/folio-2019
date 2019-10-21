@@ -17,6 +17,7 @@ export default class Area extends EventEmitter
         this.config = _options.config
         this.resources = _options.resources
         this.car = _options.car
+        this.sounds = _options.sounds
         this.time = _options.time
         this.position = _options.position
         this.halfExtents = _options.halfExtents
@@ -148,6 +149,9 @@ export default class Area extends EventEmitter
             TweenLite.fromTo(this.key.icon.material, 1.5, { opacity: 1 }, { opacity: 0.5 })
             TweenLite.fromTo(this.key.enter.material, 1.5, { opacity: 1 }, { opacity: 0.5 })
         }
+
+        // Play sound
+        this.sounds.play('uiArea')
 
         this.trigger('interact')
     }

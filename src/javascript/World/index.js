@@ -142,6 +142,7 @@ export default class
             renderer: this.renderer,
             camera: this.camera,
             car: this.car,
+            sounds: this.sounds,
             time: this.time
         })
 

@@ -185,6 +185,7 @@ export default class PlaygroundSection
             duplicated: true,
             shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.15, alpha: 0.35 },
             mass: 1,
+            soundName: 'bowlingBall'
             // sleep: false
         })
 

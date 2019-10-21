@@ -10,6 +10,7 @@ export default class Areas
         this.config = _options.config
         this.resources = _options.resources
         this.car = _options.car
+        this.sounds = _options.sounds
         this.renderer = _options.renderer
         this.camera = _options.camera
         this.time = _options.time
@@ -116,6 +117,7 @@ export default class Areas
             config: this.config,
             resources: this.resources,
             car: this.car,
+            sounds: this.sounds,
             time: this.time,
             ..._options
         })
