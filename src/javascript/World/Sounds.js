@@ -165,12 +165,13 @@ export default class Sounds
         this.engine = {}
 
         this.engine.progress = 0
-        this.engine.progressEasing = 0.15
+        this.engine.progressEasingUp = 0.3
+        this.engine.progressEasingDown = 0.15
 
         this.engine.speed = 0
         this.engine.speedMultiplier = 2.5
         this.engine.acceleration = 0
-        this.engine.accelerationMultiplier = 20
+        this.engine.accelerationMultiplier = 0.4
 
         this.engine.rate = {}
         this.engine.rate.min = 0.4
@@ -190,17 +191,10 @@ export default class Sounds
         // Time tick
         this.time.on('tick', () =>
         {
-            let progress = Math.abs(this.engine.speed) * this.engine.speedMultiplier + Math.max(0, this.engine.acceleration) * this.engine.accelerationMultiplier
+            let progress = Math.abs(this.engine.speed) * this.engine.speedMultiplier + Math.max(this.engine.acceleration, 0) * this.engine.accelerationMultiplier
             progress = Math.min(Math.max(progress, 0), 1)
 
-            if(progress > this.engine.progress)
-            {
-                this.engine.progress = progress
-            }
-            else
-            {
-                this.engine.progress += (progress - this.engine.progress) * this.engine.progressEasing
-            }
+            this.engine.progress += (progress - this.engine.progress) * this.engine[progress > this.engine.progress ? 'progressEasingUp' : 'progressEasingDown']
 
             // Rate
             const rateAmplitude = this.engine.rate.max - this.engine.rate.min
@@ -217,7 +211,8 @@ export default class Sounds
             const folder = this.debugFolder.addFolder('engine')
             folder.open()
 
-            folder.add(this.engine, 'progressEasing').step(0.001).min(0).max(1).name('progressEasing')
+            folder.add(this.engine, 'progressEasingUp').step(0.001).min(0).max(1).name('progressEasingUp')
+            folder.add(this.engine, 'progressEasingDown').step(0.001).min(0).max(1).name('progressEasingDown')
             folder.add(this.engine.rate, 'min').step(0.001).min(0).max(4).name('rateMin')
             folder.add(this.engine.rate, 'max').step(0.001).min(0).max(4).name('rateMax')
             folder.add(this.engine, 'speedMultiplier').step(0.01).min(0).max(5).name('speedMultiplier')

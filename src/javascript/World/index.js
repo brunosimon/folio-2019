@@ -193,6 +193,7 @@ export default class
             physics: this.physics,
             shadows: this.shadows,
             materials: this.materials,
+            controls: this.controls,
             sounds: this.sounds,
             renderer: this.renderer,
             camera: this.camera,

@@ -12,6 +12,7 @@ export default class Car
         this.physics = _options.physics
         this.shadows = _options.shadows
         this.materials = _options.materials
+        this.controls = _options.controls
         this.sounds = _options.sounds
         this.renderer = _options.renderer
         this.camera = _options.camera
@@ -58,7 +59,7 @@ export default class Car
 
             // Sound
             this.sounds.engine.speed = this.movement.localSpeed.x
-            this.sounds.engine.acceleration = this.movement.localAcceleration.x
+            this.sounds.engine.acceleration = this.controls.actions.up ? (this.controls.actions.boost ? 1 : 0.5) : 0
         })
     }
 
