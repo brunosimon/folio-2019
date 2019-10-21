@@ -18,6 +18,8 @@ import carHit3Sound from '../../sounds/car-hits/car-hit-3.wav'
 import carHit4Sound from '../../sounds/car-hits/car-hit-4.wav'
 import carHit5Sound from '../../sounds/car-hits/car-hit-5.wav'
 
+import woodHit1Sound from '../../sounds/wood-hits/wood-hit-1.wav'
+
 export default class Sounds
 {
     constructor(_options)
@@ -77,6 +79,17 @@ export default class Sounds
                 volumeMax: 0.6,
                 rateMin: 0.5,
                 rateMax: 0.75
+            },
+            {
+                name: 'woodHit',
+                sounds: [woodHit1Sound],
+                minDelta: 30,
+                velocityMin: 2,
+                velocityMultiplier: 1,
+                volumeMin: 0.5,
+                volumeMax: 1,
+                rateMin: 0.5,
+                rateMax: 1.5
             }
         ]
 

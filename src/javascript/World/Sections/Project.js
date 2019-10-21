@@ -155,7 +155,7 @@ export default class Project
                     duplicated: true,
                     shadow: { sizeX: shadowSizeX, sizeY: shadowSizeY, offsetZ: - 0.1, alpha: 0.5 },
                     mass: 1.5,
-                    soundName: 'brick'
+                    soundName: 'woodHit'
                 })
             }
         }
