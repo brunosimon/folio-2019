@@ -54,7 +54,7 @@ export default class Sounds
                 velocityMin: 1,
                 velocityMultiplier: 0.5,
                 volumeMin: 0.2,
-                volumeMax: 1,
+                volumeMax: 0.85,
                 rateMin: 0.5,
                 rateMax: 0.75
             },
@@ -77,8 +77,8 @@ export default class Sounds
                 velocityMultiplier: 1,
                 volumeMin: 0.2,
                 volumeMax: 0.6,
-                rateMin: 0.5,
-                rateMax: 0.75
+                rateMin: 0.35,
+                rateMax: 0.55
             },
             {
                 name: 'woodHit',
@@ -88,7 +88,7 @@ export default class Sounds
                 velocityMultiplier: 1,
                 volumeMin: 0.5,
                 volumeMax: 1,
-                rateMin: 0.5,
+                rateMin: 0.75,
                 rateMax: 1.5
             }
         ]

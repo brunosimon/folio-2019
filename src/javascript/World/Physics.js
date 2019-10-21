@@ -188,11 +188,13 @@ export default class Physics
             /**
              * Sound
              */
-
             this.car.chassis.body.addEventListener('collide', (_event) =>
             {
-                const relativeVelocity = _event.contact.getImpactVelocityAlongNormal()
-                this.sounds.play('carHit', relativeVelocity)
+                if(_event.body.mass === 0)
+                {
+                    const relativeVelocity = _event.contact.getImpactVelocityAlongNormal()
+                    this.sounds.play('carHit', relativeVelocity)
+                }
             })
 
             /**
