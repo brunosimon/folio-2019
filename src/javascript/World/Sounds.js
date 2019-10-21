@@ -20,6 +20,8 @@ import carHit5Sound from '../../sounds/car-hits/car-hit-5.wav'
 
 import woodHit1Sound from '../../sounds/wood-hits/wood-hit-1.wav'
 
+import screech1Sound from '../../sounds/screeches/screech-1.wav'
+
 export default class Sounds
 {
     constructor(_options)
@@ -84,12 +86,23 @@ export default class Sounds
                 name: 'woodHit',
                 sounds: [woodHit1Sound],
                 minDelta: 30,
-                velocityMin: 2,
+                velocityMin: 1,
                 velocityMultiplier: 1,
                 volumeMin: 0.5,
                 volumeMax: 1,
                 rateMin: 0.75,
                 rateMax: 1.5
+            },
+            {
+                name: 'screech',
+                sounds: [screech1Sound],
+                minDelta: 1000,
+                velocityMin: 0,
+                velocityMultiplier: 1,
+                volumeMin: 0.75,
+                volumeMax: 1,
+                rateMin: 0.9,
+                rateMax: 1.1
             }
         ]
 
@@ -102,7 +115,7 @@ export default class Sounds
     setMasterVolume()
     {
         // Set up
-        this.masterVolume = 0.4
+        this.masterVolume = 0.5
         Howler.volume(this.masterVolume)
 
         window.requestAnimationFrame(() =>
@@ -251,7 +264,7 @@ export default class Sounds
         const item = this.items.find((_item) => _item.name === _name)
         const time = Date.now()
 
-        if(item && time > item.lastTime + item.minDelta && _velocity > item.velocityMin)
+        if(item && time > item.lastTime + item.minDelta && (item.velocityMin === 0 || _velocity > item.velocityMin))
         {
             // Find random sound
             const sound = item.sounds[Math.floor(Math.random() * item.sounds.length)]
