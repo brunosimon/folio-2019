@@ -1,28 +1,29 @@
 import { Howl, Howler } from 'howler'
 
-import engineSound from '../../sounds/engines/1/low_off.wav'
-import brick1Sound from '../../sounds/bricks/brick-1.wav'
-import brick2Sound from '../../sounds/bricks/brick-2.wav'
-// import brick3Sound from '../../sounds/bricks/brick-3.wav'
-import brick4Sound from '../../sounds/bricks/brick-4.wav'
-// import brick5Sound from '../../sounds/bricks/brick-5.wav'
-import brick6Sound from '../../sounds/bricks/brick-6.wav'
-import brick7Sound from '../../sounds/bricks/brick-7.wav'
-import brick8Sound from '../../sounds/bricks/brick-8.wav'
+import engineSound from '../../sounds/engines/1/low_off.mp3'
 
-import bowlingPin1Sound from '../../sounds/bowling/pin-1.wav'
+import brick1Sound from '../../sounds/bricks/brick-1.mp3'
+import brick2Sound from '../../sounds/bricks/brick-2.mp3'
+// import brick3Sound from '../../sounds/bricks/brick-3.mp3'
+import brick4Sound from '../../sounds/bricks/brick-4.mp3'
+// import brick5Sound from '../../sounds/bricks/brick-5.mp3'
+import brick6Sound from '../../sounds/bricks/brick-6.mp3'
+import brick7Sound from '../../sounds/bricks/brick-7.mp3'
+import brick8Sound from '../../sounds/bricks/brick-8.mp3'
 
-import carHit1Sound from '../../sounds/car-hits/car-hit-1.wav'
-// import carHit2Sound from '../../sounds/car-hits/car-hit-2.wav'
-import carHit3Sound from '../../sounds/car-hits/car-hit-3.wav'
-import carHit4Sound from '../../sounds/car-hits/car-hit-4.wav'
-import carHit5Sound from '../../sounds/car-hits/car-hit-5.wav'
+import bowlingPin1Sound from '../../sounds/bowling/pin-1.mp3'
 
-import woodHit1Sound from '../../sounds/wood-hits/wood-hit-1.wav'
+import carHit1Sound from '../../sounds/car-hits/car-hit-1.mp3'
+// import carHit2Sound from '../../sounds/car-hits/car-hit-2.mp3'
+import carHit3Sound from '../../sounds/car-hits/car-hit-3.mp3'
+import carHit4Sound from '../../sounds/car-hits/car-hit-4.mp3'
+import carHit5Sound from '../../sounds/car-hits/car-hit-5.mp3'
 
-import screech1Sound from '../../sounds/screeches/screech-1.wav'
+import woodHit1Sound from '../../sounds/wood-hits/wood-hit-1.mp3'
 
-import uiArea1Sound from '../../sounds/ui/area-1.wav'
+import screech1Sound from '../../sounds/screeches/screech-1.mp3'
+
+import uiArea1Sound from '../../sounds/ui/area-1.mp3'
 
 export default class Sounds
 {
