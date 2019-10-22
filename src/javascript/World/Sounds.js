@@ -218,6 +218,7 @@ export default class Sounds
         this.engine.volume = {}
         this.engine.volume.min = 0.4
         this.engine.volume.max = 1
+        this.engine.volume.master = 0
 
         this.engine.sound = new Howl({
             src: [engineSound],
@@ -240,7 +241,7 @@ export default class Sounds
 
             // Volume
             const volumeAmplitude = this.engine.volume.max - this.engine.volume.min
-            this.engine.sound.volume(this.engine.volume.min + volumeAmplitude * this.engine.progress)
+            this.engine.sound.volume((this.engine.volume.min + volumeAmplitude * this.engine.progress) * this.engine.volume.master)
         })
 
         // Debug

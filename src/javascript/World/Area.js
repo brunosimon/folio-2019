@@ -6,6 +6,7 @@ import EventEmitter from '../Utils/EventEmitter.js'
 import AreaFloorBorderBufferGeometry from '../Geometries/AreaFloorBorderBufferGeometry.js'
 import AreaFenceBufferGeometry from '../Geometries/AreaFenceBufferGeometry.js'
 import AreaFenceMaterial from '../Materials/AreaFence.js'
+import AreaFloorBordereMaterial from '../Materials/AreaFloorBorder.js'
 
 export default class Area extends EventEmitter
 {
@@ -21,6 +22,9 @@ export default class Area extends EventEmitter
         this.time = _options.time
         this.position = _options.position
         this.halfExtents = _options.halfExtents
+        this.hasKey = _options.hasKey
+        this.testCar = _options.testCar
+        this.active = _options.active
 
         // Set up
         this.container = new THREE.Object3D()
@@ -33,8 +37,32 @@ export default class Area extends EventEmitter
 
         this.setFloorBorder()
         this.setFence()
-        this.setKey()
         this.setInteractions()
+
+        if(this.hasKey)
+        {
+            this.setKey()
+        }
+    }
+
+    activate()
+    {
+        this.active = true
+
+        if(this.isIn)
+        {
+            this.in()
+        }
+    }
+
+    deactivate()
+    {
+        this.active = false
+
+        if(this.isIn)
+        {
+            this.out()
+        }
     }
 
     setFloorBorder()
@@ -42,7 +70,11 @@ export default class Area extends EventEmitter
         this.floorBorder = {}
 
         this.floorBorder.geometry = new AreaFloorBorderBufferGeometry(this.halfExtents.x * 2, this.halfExtents.y * 2, 0.25)
-        this.floorBorder.material = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: false, transparent: true, opacity: 0.5 })
+        this.floorBorder.material = new AreaFloorBordereMaterial()
+        this.floorBorder.material.uniforms.uColor.value = new THREE.Color(0xffffff)
+        this.floorBorder.material.uniforms.uAlpha.value = 0.5
+        this.floorBorder.material.uniforms.uLoadProgress.value = 1
+        this.floorBorder.material.uniforms.uProgress.value = 1
         this.floorBorder.mesh = new THREE.Mesh(this.floorBorder.geometry, this.floorBorder.material)
         this.floorBorder.mesh.matrixAutoUpdate = false
 
@@ -129,21 +161,25 @@ export default class Area extends EventEmitter
     {
         // Kill tweens
         TweenLite.killTweensOf(this.fence.mesh.position)
-        TweenLite.killTweensOf(this.floorBorder.material)
+        TweenLite.killTweensOf(this.floorBorder.material.uniforms.uAlpha)
         TweenLite.killTweensOf(this.fence.material.uniforms.uBorderAlpha)
-        TweenLite.killTweensOf(this.key.container.position)
-        TweenLite.killTweensOf(this.key.icon.material)
-        TweenLite.killTweensOf(this.key.enter.material)
+
+        if(this.hasKey)
+        {
+            TweenLite.killTweensOf(this.key.container.position)
+            TweenLite.killTweensOf(this.key.icon.material)
+            TweenLite.killTweensOf(this.key.enter.material)
+        }
 
         // Animate
         TweenLite.to(this.fence.mesh.position, 0.05, { z: 0, onComplete: () =>
         {
             TweenLite.to(this.fence.mesh.position, 0.25, { z: 0.5, ease: Back.easeOut.config(2) })
-            TweenLite.fromTo(this.floorBorder.material, 1.5, { opacity: 1 }, { opacity: 0.5 })
+            TweenLite.fromTo(this.floorBorder.material.uniforms.uAlpha, 1.5, { value: 1 }, { value: 0.5 })
             TweenLite.fromTo(this.fence.material.uniforms.uBorderAlpha, 1.5, { value: 1 }, { value: 0.5 })
         } })
 
-        if(_showKey)
+        if(this.hasKey && _showKey)
         {
             this.key.container.position.z = this.key.shownZ
             TweenLite.fromTo(this.key.icon.material, 1.5, { opacity: 1 }, { opacity: 0.5 })
@@ -158,37 +194,55 @@ export default class Area extends EventEmitter
 
     in(_showKey = true)
     {
-        // Kill tweens
-        TweenLite.killTweensOf(this.fence.mesh.position)
-        TweenLite.killTweensOf(this.key.container.position)
-        TweenLite.killTweensOf(this.key.icon.material)
-        TweenLite.killTweensOf(this.key.enter.material)
+        this.isIn = true
 
-        // Animate
-        if(_showKey)
+        // Not active
+        if(!this.active)
         {
-            TweenLite.to(this.key.container.position, 0.35, { z: this.key.shownZ, ease: Back.easeOut.config(3), delay: 0.1 })
-            TweenLite.to(this.key.icon.material, 0.35, { opacity: 0.5, ease: Back.easeOut.config(3), delay: 0.1 })
-            TweenLite.to(this.key.enter.material, 0.35, { opacity: 0.5, ease: Back.easeOut.config(3), delay: 0.1 })
+            return
         }
+
+        // Fence
+        TweenLite.killTweensOf(this.fence.mesh.position)
         TweenLite.to(this.fence.mesh.position, 0.35, { z: this.fence.offset, ease: Back.easeOut.config(3) })
+
+        // Key
+        if(this.hasKey)
+        {
+            TweenLite.killTweensOf(this.key.container.position)
+            TweenLite.killTweensOf(this.key.icon.material)
+            TweenLite.killTweensOf(this.key.enter.material)
+
+            // Animate
+            if(_showKey)
+            {
+                TweenLite.to(this.key.container.position, 0.35, { z: this.key.shownZ, ease: Back.easeOut.config(3), delay: 0.1 })
+                TweenLite.to(this.key.icon.material, 0.35, { opacity: 0.5, ease: Back.easeOut.config(3), delay: 0.1 })
+                TweenLite.to(this.key.enter.material, 0.35, { opacity: 0.5, ease: Back.easeOut.config(3), delay: 0.1 })
+            }
+        }
 
         this.trigger('in')
     }
 
     out()
     {
-        // Kill tweens
-        TweenLite.killTweensOf(this.fence.mesh.position)
-        TweenLite.killTweensOf(this.key.container.position)
-        TweenLite.killTweensOf(this.key.icon.material)
-        TweenLite.killTweensOf(this.key.enter.material)
+        this.isIn = false
 
-        // Animate
-        TweenLite.to(this.key.container.position, 0.35, { z: this.key.hiddenZ, ease: Back.easeIn.config(4), delay: 0.1 })
-        TweenLite.to(this.key.icon.material, 0.35, { opacity: 0, ease: Back.easeIn.config(4), delay: 0.1 })
-        TweenLite.to(this.key.enter.material, 0.35, { opacity: 0, ease: Back.easeIn.config(4), delay: 0.1 })
+        // Fence
+        TweenLite.killTweensOf(this.fence.mesh.position)
         TweenLite.to(this.fence.mesh.position, 0.35, { z: - this.fence.depth, ease: Back.easeIn.config(4) })
+
+        // Key
+        if(this.hasKey)
+        {
+            TweenLite.killTweensOf(this.key.container.position)
+            TweenLite.killTweensOf(this.key.icon.material)
+            TweenLite.killTweensOf(this.key.enter.material)
+            TweenLite.to(this.key.container.position, 0.35, { z: this.key.hiddenZ, ease: Back.easeIn.config(4), delay: 0.1 })
+            TweenLite.to(this.key.icon.material, 0.35, { opacity: 0, ease: Back.easeIn.config(4), delay: 0.1 })
+            TweenLite.to(this.key.enter.material, 0.35, { opacity: 0, ease: Back.easeIn.config(4), delay: 0.1 })
+        }
 
         this.trigger('out')
     }
@@ -204,24 +258,25 @@ export default class Area extends EventEmitter
         this.mouseMesh.updateMatrix()
         this.container.add(this.mouseMesh)
 
-        this.time.on('tick', () =>
+        if(this.testCar)
         {
-            const isIn = Math.abs(this.car.position.x - this.position.x) < Math.abs(this.halfExtents.x) && Math.abs(this.car.position.y - this.position.y) < Math.abs(this.halfExtents.y)
-
-            if(isIn !== this.isIn)
+            this.time.on('tick', () =>
             {
-                this.isIn = isIn
+                const isIn = Math.abs(this.car.position.x - this.position.x) < Math.abs(this.halfExtents.x) && Math.abs(this.car.position.y - this.position.y) < Math.abs(this.halfExtents.y)
 
-                if(this.isIn)
+                if(isIn !== this.isIn)
                 {
-                    this.in(!this.config.mobile)
+                    if(isIn)
+                    {
+                        this.in(!this.config.mobile)
+                    }
+                    else
+                    {
+                        this.out()
+                    }
                 }
-                else
-                {
-                    this.out()
-                }
-            }
-        })
+            })
+        }
 
         window.addEventListener('keydown', (_event) =>
         {
