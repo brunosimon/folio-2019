@@ -55,7 +55,7 @@ export default class IntroSection
         this.instructions.arrows.label.texture.magFilter = THREE.NearestFilter
         this.instructions.arrows.label.texture.minFilter = THREE.LinearFilter
 
-        this.instructions.arrows.label.material = new THREE.MeshBasicMaterial({ transparent: true, alphaMap: this.instructions.arrows.label.texture, color: 0xffffff, depthWrite: false })
+        this.instructions.arrows.label.material = new THREE.MeshBasicMaterial({ transparent: true, alphaMap: this.instructions.arrows.label.texture, color: 0xffffff, depthWrite: false, opacity: 0 })
 
         this.instructions.arrows.label.geometry = this.resources.items.introInstructionsLabels.scene.children.find((_mesh) => _mesh.name === 'arrows').geometry
 

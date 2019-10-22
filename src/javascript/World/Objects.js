@@ -19,6 +19,7 @@ export default class Objects
         this.container.matrixAutoUpdate = false
 
         this.items = []
+        this.floorShadows = []
 
         this.setParsers()
         this.setMerge()
@@ -99,11 +100,13 @@ export default class Objects
 
                     material.uniforms.tShadow.value = _options.floorShadowTexture
                     material.uniforms.uShadowColor.value = new THREE.Color(this.materials.items.floorShadow.shadowColor)
+                    material.uniforms.uAlpha.value = 0
 
                     const mesh = new THREE.Mesh(geometry, material)
-                    mesh.visible = false
                     mesh.matrixAutoUpdate = false
                     mesh.updateMatrix()
+
+                    this.floorShadows.push(mesh)
 
                     return mesh
                 }

@@ -7,7 +7,8 @@ export default function()
 {
     const uniforms = {
         tShadow: { value: null },
-        uShadowColor: { value: null }
+        uShadowColor: { value: null },
+        uAlpha: { value: null }
     }
 
     const material = new THREE.ShaderMaterial({

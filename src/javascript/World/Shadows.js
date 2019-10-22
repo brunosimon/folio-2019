@@ -13,7 +13,7 @@ export default class Shadows
         this.camera = _options.camera
 
         // Set up
-        this.alpha = 0.5
+        this.alpha = 0
         this.maxDistance = 3
         this.distancePower = 2
         this.zFightingDistance = 0.001
@@ -142,7 +142,7 @@ export default class Shadows
         this.materials.base = new ShadowMaterial()
         this.materials.base.depthWrite = false
         this.materials.base.uniforms.uColor.value = new THREE.Color(this.color)
-        this.materials.base.uniforms.uAlpha.value = 0.5
+        this.materials.base.uniforms.uAlpha.value = 0
         this.materials.base.uniforms.uFadeRadius.value = 0.35
     }
 

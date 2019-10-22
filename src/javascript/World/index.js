@@ -16,6 +16,7 @@ import InformationSection from './Sections/InformationSection.js'
 import PlaygroundSection from './Sections/PlaygroundSection.js'
 import Controls from './Controls.js'
 import Sounds from './Sounds.js'
+import { TweenLite } from 'gsap'
 
 export default class
 {
@@ -46,10 +47,12 @@ export default class
         this.setSounds()
         this.setControls()
         this.setFloor()
+        this.setStartingScreen()
     }
 
     start()
     {
+        this.setReveal()
         this.setMaterials()
         this.setShadows()
         this.setPhysics()
@@ -60,6 +63,82 @@ export default class
         this.setTiles()
         this.setWalls()
         this.setSections()
+
+        window.setTimeout(() =>
+        {
+            this.reveal.go()
+        }, 200)
+    }
+
+    setReveal()
+    {
+        this.reveal = {}
+        this.reveal.matcapsProgress = 0
+        this.reveal.floorShadowsProgress = 0
+        this.reveal.previousMatcapsProgress = null
+        this.reveal.previousFloorShadowsProgress = null
+
+        // Go method
+        this.reveal.go = () =>
+        {
+            TweenLite.fromTo(this.reveal, 3, { matcapsProgress: 0 }, { matcapsProgress: 1 })
+            TweenLite.fromTo(this.reveal, 3, { floorShadowsProgress: 0 }, { floorShadowsProgress: 1, delay: 0.5 })
+            TweenLite.fromTo(this.shadows, 3, { alpha: 0 }, { alpha: 0.5, delay: 0.5 })
+            TweenLite.fromTo(this.sections.intro.instructions.arrows.label.material, 0.3, { opacity: 0 }, { opacity: 1, delay: 0.5 })
+
+            // Car
+            this.physics.car.chassis.body.sleep()
+            this.physics.car.chassis.body.position.set(0, 0, 12)
+
+            window.setTimeout(() =>
+            {
+                this.physics.car.chassis.body.wakeUp()
+            }, 300)
+        }
+
+        // Time tick
+        this.time.on('tick',() =>
+        {
+            // Matcap progress changed
+            if(this.reveal.matcapsProgress !== this.reveal.previousMatcapsProgress)
+            {
+                // Update each material
+                for(const _materialKey in this.materials.shades.items)
+                {
+                    const material = this.materials.shades.items[_materialKey]
+                    material.uniforms.uRevealProgress.value = this.reveal.matcapsProgress
+                }
+
+                // Save
+                this.reveal.previousMatcapsProgress = this.reveal.matcapsProgress
+            }
+
+            // Matcap progress changed
+            if(this.reveal.floorShadowsProgress !== this.reveal.previousFloorShadowsProgress)
+            {
+                // Update each floor shadow
+                for(const _mesh of this.objects.floorShadows)
+                {
+                    _mesh.material.uniforms.uAlpha.value = this.reveal.floorShadowsProgress
+                }
+
+                // Save
+                this.reveal.previousFloorShadowsProgress = this.reveal.floorShadowsProgress
+            }
+        })
+
+        // Debug
+        if(this.debug)
+        {
+            this.debugFolder.add(this.reveal, 'matcapsProgress').step(0.0001).min(0).max(1).name('matcapsProgress')
+            this.debugFolder.add(this.reveal, 'floorShadowsProgress').step(0.0001).min(0).max(1).name('floorShadowsProgress')
+            this.debugFolder.add(this.reveal, 'go').name('reveal')
+        }
+    }
+
+    setStartingScreen()
+    {
+        this.startingScreen = {}
     }
 
     setSounds()
