@@ -21,7 +21,11 @@ varying vec3 vViewPosition;
 #include <clipping_planes_pars_vertex>
 
 // Custom start
+uniform float uRevealProgress;
+
 varying vec3 vWorldPosition;
+
+#pragma glslify: easeSin = require(../partials/easeSin.glsl)
 // Custom end
 
 void main() {
@@ -49,10 +53,27 @@ void main() {
     vec4 worldNormal = modelMatrix * vec4(normal, 1.0);
 
     vec4 worldPosition = modelMatrix * vec4(transformed, 1.0);
+
+    // Reveal
+    float distanceToCenter = length(worldPosition);
+    float zAmplitude = 3.2;
+    float revealProgress = (uRevealProgress - distanceToCenter / 30.0) * 5.0;
+    revealProgress = 1.0 - clamp(revealProgress, - 0.1, 1.0);
+    revealProgress = pow(revealProgress, 2.0);
+    if(uRevealProgress > 0.9)
+    {
+        revealProgress = 0.0;
+    }
+    worldPosition.z -= revealProgress * zAmplitude;
+
+    // Update varying
     vWorldPosition = worldPosition.xyz;
+
+    vec4 mvPosition = viewMatrix * worldPosition;
+    gl_Position = projectionMatrix * mvPosition;
     // Custom end
 
-    #include <project_vertex>
+    // #include <project_vertex>
 
     #include <logdepthbuf_vertex>
     #include <clipping_planes_vertex>

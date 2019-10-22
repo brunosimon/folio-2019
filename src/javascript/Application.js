@@ -34,13 +34,20 @@ export default class Application
             this.debug = new dat.GUI({ width: 420 })
         }
 
+        this.resources.on('progress', (_progress) =>
+        {
+            // console.log(_progress)
+        })
+
+        this.setConfig()
+        this.setRenderer()
+        this.setCamera()
+        this.setPasses()
+        this.setWorld()
+
         this.resources.on('ready', () =>
         {
-            this.setConfig()
-            this.setRenderer()
-            this.setCamera()
-            this.setPasses()
-            this.setWorld()
+            this.world.start()
             this.setTitle()
         })
     }
@@ -100,7 +107,11 @@ export default class Application
 
         this.time.on('tick', () =>
         {
-            this.camera.target.copy(this.world.car.chassis.object.position)
+            if(this.world && this.world.car)
+            {
+                this.camera.target.x = this.world.car.chassis.object.position.x
+                this.camera.target.y = this.world.car.chassis.object.position.y
+            }
         })
     }
 

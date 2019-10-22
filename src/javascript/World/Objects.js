@@ -101,6 +101,7 @@ export default class Objects
                     material.uniforms.uShadowColor.value = new THREE.Color(this.materials.items.floorShadow.shadowColor)
 
                     const mesh = new THREE.Mesh(geometry, material)
+                    mesh.visible = false
                     mesh.matrixAutoUpdate = false
                     mesh.updateMatrix()
 

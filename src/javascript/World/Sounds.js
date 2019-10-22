@@ -37,7 +37,7 @@ export default class Sounds
         if(this.debug)
         {
             this.debugFolder = this.debug.addFolder('sounds')
-            this.debugFolder.open()
+            // this.debugFolder.open()
         }
 
         // Set up

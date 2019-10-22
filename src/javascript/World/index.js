@@ -45,8 +45,12 @@ export default class
         // this.setAxes()
         this.setSounds()
         this.setControls()
-        this.setMaterials()
         this.setFloor()
+    }
+
+    start()
+    {
+        this.setMaterials()
         this.setShadows()
         this.setPhysics()
         this.setZones()

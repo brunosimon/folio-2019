@@ -358,6 +358,9 @@ export default class Resources extends EventEmitter
 
                 this.items[`${_resource.name}Texture`] = texture
             }
+
+            // Trigger progress
+            this.trigger('progress', [this.loader.loaded / this.loader.toLoad])
         })
 
         this.loader.on('end', () =>

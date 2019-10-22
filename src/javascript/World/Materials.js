@@ -14,7 +14,7 @@ export default class Materials
         if(this.debug)
         {
             this.debugFolder = this.debug.addFolder('materials')
-            // this.debugFolder.open()
+            this.debugFolder.open()
         }
 
         // Set up
@@ -46,6 +46,7 @@ export default class Materials
         this.shades.indirectColor = '#d04500'
 
         this.shades.uniforms = {
+            uRevealProgress: 0,
             uIndirectDistanceAmplitude: 1.75,
             uIndirectDistanceStrength: 0.5,
             uIndirectDistancePower: 2.0,
@@ -124,6 +125,7 @@ export default class Materials
         // Update materials uniforms
         this.shades.updateMaterials = () =>
         {
+            this.shades.uniforms.uRevealProgress = this.shades.uniforms.uRevealProgress
             this.shades.uniforms.uIndirectColor = new THREE.Color(this.shades.indirectColor)
 
             // Each uniform
@@ -148,6 +150,7 @@ export default class Materials
             const folder = this.debugFolder.addFolder('shades')
             folder.open()
 
+            folder.add(this.shades.uniforms, 'uRevealProgress').step(0.0001).min(0).max(1).onChange(this.shades.updateMaterials)
             folder.add(this.shades.uniforms, 'uIndirectDistanceAmplitude').step(0.001).min(0).max(3).onChange(this.shades.updateMaterials)
             folder.add(this.shades.uniforms, 'uIndirectDistanceStrength').step(0.001).min(0).max(2).onChange(this.shades.updateMaterials)
             folder.add(this.shades.uniforms, 'uIndirectDistancePower').step(0.001).min(0).max(5).onChange(this.shades.updateMaterials)

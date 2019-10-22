@@ -12,6 +12,7 @@ export default function()
         ...THREE.UniformsLib.displacementmap,
         ...THREE.UniformsLib.fog,
         matcap: { value: null },
+        uRevealProgress: { value: null },
         uIndirectDistanceAmplitude: { value: null },
         uIndirectDistanceStrength: { value: null },
         uIndirectDistancePower: { value: null },
