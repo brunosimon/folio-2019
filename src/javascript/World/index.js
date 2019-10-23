@@ -94,6 +94,9 @@ export default class
 
             // Sound
             TweenLite.fromTo(this.sounds.engine.volume, 0.5, { master: 0 }, { master: 1, delay: 0.3, ease: Power2.easeIn })
+
+            // Controls
+            this.controls.touch.reveal()
         }
 
         // Time tick

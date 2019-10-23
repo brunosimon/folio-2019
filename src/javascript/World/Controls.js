@@ -143,6 +143,9 @@ export default class Controls extends EventEmitter
         this.touch.joystick.$element.style.left = '0px'
         this.touch.joystick.$element.style.width = '200px'
         this.touch.joystick.$element.style.height = '200px'
+        this.touch.joystick.$element.style.transition = 'opacity 0.3s 0.0s'
+        this.touch.joystick.$element.style.willChange = 'opacity'
+        this.touch.joystick.$element.style.opacity = '0'
         // this.touch.joystick.$element.style.backgroundColor = '#ff0000'
         document.body.appendChild(this.touch.joystick.$element)
 
@@ -299,6 +302,9 @@ export default class Controls extends EventEmitter
         this.touch.boost.$element.style.right = '0px'
         this.touch.boost.$element.style.width = '95px'
         this.touch.boost.$element.style.height = '70px'
+        this.touch.boost.$element.style.transition = 'opacity 0.3s 0.4s'
+        this.touch.boost.$element.style.willChange = 'opacity'
+        this.touch.boost.$element.style.opacity = '0'
         // this.touch.boost.$element.style.backgroundColor = '#00ff00'
         document.body.appendChild(this.touch.boost.$element)
 
@@ -378,6 +384,9 @@ export default class Controls extends EventEmitter
         this.touch.forward.$element.style.right = '0px'
         this.touch.forward.$element.style.width = '95px'
         this.touch.forward.$element.style.height = '70px'
+        this.touch.forward.$element.style.transition = 'opacity 0.3s 0.3s'
+        this.touch.forward.$element.style.willChange = 'opacity'
+        this.touch.forward.$element.style.opacity = '0'
         // this.touch.forward.$element.style.backgroundColor = '#00ff00'
         document.body.appendChild(this.touch.forward.$element)
 
@@ -455,6 +464,9 @@ export default class Controls extends EventEmitter
         this.touch.brake.$element.style.right = '0px'
         this.touch.brake.$element.style.width = '95px'
         this.touch.brake.$element.style.height = '70px'
+        this.touch.brake.$element.style.transition = 'opacity 0.3s 0.2s'
+        this.touch.brake.$element.style.willChange = 'opacity'
+        this.touch.brake.$element.style.opacity = '0'
         // this.touch.brake.$element.style.backgroundColor = '#ff0000'
         document.body.appendChild(this.touch.brake.$element)
 
@@ -533,6 +545,9 @@ export default class Controls extends EventEmitter
         this.touch.backward.$element.style.right = '0px'
         this.touch.backward.$element.style.width = '95px'
         this.touch.backward.$element.style.height = '70px'
+        this.touch.backward.$element.style.transition = 'opacity 0.3s 0.1s'
+        this.touch.backward.$element.style.willChange = 'opacity'
+        this.touch.backward.$element.style.opacity = '0'
         // this.touch.backward.$element.style.backgroundColor = '#0000ff'
         document.body.appendChild(this.touch.backward.$element)
 
@@ -597,5 +612,15 @@ export default class Controls extends EventEmitter
         }
 
         this.touch.backward.$element.addEventListener('touchstart', this.touch.backward.events.touchstart)
+
+        // Reveal
+        this.touch.reveal = () =>
+        {
+            this.touch.joystick.$element.style.opacity = 1
+            this.touch.backward.$element.style.opacity = 1
+            this.touch.brake.$element.style.opacity = 1
+            this.touch.forward.$element.style.opacity = 1
+            this.touch.boost.$element.style.opacity = 1
+        }
     }
 }
