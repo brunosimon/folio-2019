@@ -57,7 +57,7 @@ export default class Sounds
                 sounds: [brick1Sound, brick2Sound, brick4Sound, brick6Sound, brick7Sound, brick8Sound],
                 minDelta: 100,
                 velocityMin: 1,
-                velocityMultiplier: 0.5,
+                velocityMultiplier: 0.75,
                 volumeMin: 0.2,
                 volumeMax: 0.85,
                 rateMin: 0.5,
@@ -299,6 +299,7 @@ export default class Sounds
             // Update volume
             let volume = Math.min(Math.max((velocity - item.velocityMin) * item.velocityMultiplier, item.volumeMin), item.volumeMax)
             volume = Math.pow(volume, 2)
+            console.log(_name, volume)
             sound.volume(volume)
 
             // Update rate
