@@ -1,5 +1,7 @@
 import { Howl, Howler } from 'howler'
 
+import revealSound from '../../sounds/reveal/reveal-1.mp3'
+
 import engineSound from '../../sounds/engines/1/low_off.mp3'
 
 import brick1Sound from '../../sounds/bricks/brick-1.mp3'
@@ -52,6 +54,17 @@ export default class Sounds
     setSettings()
     {
         this.settings = [
+            {
+                name: 'reveal',
+                sounds: [revealSound],
+                minDelta: 100,
+                velocityMin: 0,
+                velocityMultiplier: 1,
+                volumeMin: 1,
+                volumeMax: 1,
+                rateMin: 1,
+                rateMax: 1
+            },
             {
                 name: 'brick',
                 sounds: [brick1Sound, brick2Sound, brick4Sound, brick6Sound, brick7Sound, brick8Sound],

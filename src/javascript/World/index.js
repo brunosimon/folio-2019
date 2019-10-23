@@ -93,7 +93,11 @@ export default class
             }, 300)
 
             // Sound
-            TweenLite.fromTo(this.sounds.engine.volume, 0.5, { master: 0 }, { master: 1, delay: 0.3, ease: Power2.easeIn })
+            TweenLite.fromTo(this.sounds.engine.volume, 0.5, { master: 0 }, { master: 0.7, delay: 0.3, ease: Power2.easeIn })
+            window.setTimeout(() =>
+            {
+                this.sounds.play('reveal')
+            }, 400)
 
             // Controls
             if(this.controls.touch)
