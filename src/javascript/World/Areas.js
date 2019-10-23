@@ -92,12 +92,6 @@ export default class Areas
                         // Play in
                         this.mouse.currentArea = area
                         this.mouse.currentArea.in(false)
-
-                        // Change cursor
-                        if(this.mouse.currentArea.active)
-                        {
-                            this.renderer.domElement.classList.add('has-cursor-pointer')
-                        }
                     }
                 }
                 // No intersections found but was previously over an area
@@ -106,9 +100,6 @@ export default class Areas
                     // Play out
                     this.mouse.currentArea.out()
                     this.mouse.currentArea = null
-
-                    // Change cursor
-                    this.renderer.domElement.classList.remove('has-cursor-pointer')
                 }
             }
         })
@@ -118,6 +109,7 @@ export default class Areas
     {
         const area = new Area({
             config: this.config,
+            renderer: this.renderer,
             resources: this.resources,
             car: this.car,
             sounds: this.sounds,

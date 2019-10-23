@@ -299,7 +299,6 @@ export default class Sounds
             // Update volume
             let volume = Math.min(Math.max((velocity - item.velocityMin) * item.velocityMultiplier, item.volumeMin), item.volumeMax)
             volume = Math.pow(volume, 2)
-            console.log(_name, volume)
             sound.volume(volume)
 
             // Update rate

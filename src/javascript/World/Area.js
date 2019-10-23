@@ -16,6 +16,7 @@ export default class Area extends EventEmitter
 
         // Options
         this.config = _options.config
+        this.renderer = _options.renderer
         this.resources = _options.resources
         this.car = _options.car
         this.sounds = _options.sounds
@@ -159,6 +160,12 @@ export default class Area extends EventEmitter
 
     interact(_showKey = true)
     {
+        // Not active
+        if(!this.active)
+        {
+            return
+        }
+
         // Kill tweens
         TweenLite.killTweensOf(this.fence.mesh.position)
         TweenLite.killTweensOf(this.floorBorder.material.uniforms.uAlpha)
@@ -222,6 +229,12 @@ export default class Area extends EventEmitter
             }
         }
 
+        // Change cursor
+        if(!this.config.mobile)
+        {
+            this.renderer.domElement.classList.add('has-cursor-pointer')
+        }
+
         this.trigger('in')
     }
 
@@ -242,6 +255,12 @@ export default class Area extends EventEmitter
             TweenLite.to(this.key.container.position, 0.35, { z: this.key.hiddenZ, ease: Back.easeIn.config(4), delay: 0.1 })
             TweenLite.to(this.key.icon.material, 0.35, { opacity: 0, ease: Back.easeIn.config(4), delay: 0.1 })
             TweenLite.to(this.key.enter.material, 0.35, { opacity: 0, ease: Back.easeIn.config(4), delay: 0.1 })
+        }
+
+        // Change cursor
+        if(!this.config.mobile)
+        {
+            this.renderer.domElement.classList.remove('has-cursor-pointer')
         }
 
         this.trigger('out')
