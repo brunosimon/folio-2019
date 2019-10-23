@@ -50,7 +50,8 @@ export default class InformationSection
             rotation: new THREE.Euler(0, 0, - Math.PI * 37 / 180),
             duplicated: true,
             shadow: { sizeX: 0.6, sizeY: 3.5, offsetZ: - 0.15, alpha: 0.35 },
-            mass: 1.5
+            mass: 1.5,
+            soundName: 'woodHit'
         })
 
         this.baguettes.b = this.objects.add({
@@ -61,7 +62,8 @@ export default class InformationSection
             duplicated: true,
             shadow: { sizeX: 0.6, sizeY: 3.5, offsetZ: - 0.15, alpha: 0.35 },
             mass: 1.5,
-            sleep: false
+            sleep: false,
+            soundName: 'woodHit'
         })
     }
 
