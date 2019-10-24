@@ -306,6 +306,7 @@ export default class Physics
         {
             this.car.destroy()
             this.car.create()
+            this.car.chassis.body.wakeUp()
         }
 
         /**
