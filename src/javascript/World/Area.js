@@ -230,7 +230,7 @@ export default class Area extends EventEmitter
         }
 
         // Change cursor
-        if(!this.config.mobile)
+        if(!this.config.touch)
         {
             this.renderer.domElement.classList.add('has-cursor-pointer')
         }
@@ -258,7 +258,7 @@ export default class Area extends EventEmitter
         }
 
         // Change cursor
-        if(!this.config.mobile)
+        if(!this.config.touch)
         {
             this.renderer.domElement.classList.remove('has-cursor-pointer')
         }
@@ -287,7 +287,7 @@ export default class Area extends EventEmitter
                 {
                     if(isIn)
                     {
-                        this.in(!this.config.mobile)
+                        this.in(!this.config.touch)
                     }
                     else
                     {

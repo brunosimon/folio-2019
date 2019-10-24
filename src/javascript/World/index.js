@@ -102,7 +102,10 @@ export default class
             // Controls
             if(this.controls.touch)
             {
-                this.controls.touch.reveal()
+                window.setTimeout(() =>
+                {
+                    this.controls.touch.reveal()
+                }, 400)
             }
         }
 
@@ -194,19 +197,19 @@ export default class
             // Update area
             this.startingScreen.area.floorBorder.material.uniforms.uAlpha.value = 1
             this.startingScreen.area.floorBorder.material.uniforms.uLoadProgress.value = _progress
+        })
 
-            // End
-            if(_progress === 1)
+        // Ready
+        this.resources.on('ready', () =>
+        {
+            window.requestAnimationFrame(() =>
             {
-                window.requestAnimationFrame(() =>
-                {
-                    this.startingScreen.area.activate()
+                this.startingScreen.area.activate()
 
-                    TweenLite.to(this.startingScreen.area.floorBorder.material.uniforms.uAlpha, 0.3, { value: 0.3 })
-                    TweenLite.to(this.startingScreen.loadingLabel.material, 0.3, { opacity: 0 })
-                    TweenLite.to(this.startingScreen.startLabel.material, 0.3, { opacity: 1, delay: 0.3 })
-                })
-            }
+                TweenLite.to(this.startingScreen.area.floorBorder.material.uniforms.uAlpha, 0.3, { value: 0.3 })
+                TweenLite.to(this.startingScreen.loadingLabel.material, 0.3, { opacity: 0 })
+                TweenLite.to(this.startingScreen.startLabel.material, 0.3, { opacity: 1, delay: 0.3 })
+            })
         })
 
         // On interact, reveal
@@ -216,6 +219,8 @@ export default class
             TweenLite.to(this.startingScreen.area.floorBorder.material.uniforms.uProgress, 0.3, { value: 0, delay: 0.4 })
 
             TweenLite.to(this.startingScreen.startLabel.material, 0.3, { opacity: 0, delay: 0.4 })
+
+            this.start()
 
             window.setTimeout(() =>
             {

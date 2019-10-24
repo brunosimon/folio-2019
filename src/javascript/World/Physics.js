@@ -457,7 +457,7 @@ export default class Physics
             /**
              * Steering
              */
-            if(this.config.mobile)
+            if(this.controls.touch)
             {
                 // Calculate delta between joystick and car angles
                 let deltaAngle = (this.controls.touch.joystick.angle.value - this.car.angle + Math.PI) % (Math.PI * 2) - Math.PI
@@ -474,7 +474,7 @@ export default class Physics
                 }
             }
 
-            if(!this.config.mobile || !this.controls.touch.joystick.active)
+            if(!this.controls.touch || !this.controls.touch.joystick.active)
             {
                 const steerStrength = this.time.delta * this.car.options.controlsSteeringSpeed
 

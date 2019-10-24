@@ -51,7 +51,7 @@ export default class IntroSection
         // Label
         this.instructions.arrows.label = {}
 
-        this.instructions.arrows.label.texture = this.config.mobile ? this.resources.items.introInstructionsControlsTexture : this.resources.items.introInstructionsArrowsTexture
+        this.instructions.arrows.label.texture = this.config.touch ? this.resources.items.introInstructionsControlsTexture : this.resources.items.introInstructionsArrowsTexture
         this.instructions.arrows.label.texture.magFilter = THREE.NearestFilter
         this.instructions.arrows.label.texture.minFilter = THREE.LinearFilter
 
@@ -62,7 +62,7 @@ export default class IntroSection
         this.instructions.arrows.label.mesh = new THREE.Mesh(this.instructions.arrows.label.geometry, this.instructions.arrows.label.material)
         this.container.add(this.instructions.arrows.label.mesh)
 
-        if(!this.config.mobile)
+        if(!this.config.touch)
         {
             // Keys
             this.instructions.arrows.up = this.objects.add({

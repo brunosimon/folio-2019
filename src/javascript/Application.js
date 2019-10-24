@@ -1,6 +1,5 @@
 import * as THREE from 'three'
 import * as dat from 'dat.gui'
-import platform from 'platform'
 
 import Sizes from './Utils/Sizes.js'
 import Time from './Utils/Time.js'
@@ -34,22 +33,12 @@ export default class Application
             this.debug = new dat.GUI({ width: 420 })
         }
 
-        this.resources.on('progress', (_progress) =>
-        {
-            // console.log(_progress)
-        })
-
         this.setConfig()
         this.setRenderer()
         this.setCamera()
         this.setPasses()
         this.setWorld()
-
-        this.resources.on('ready', () =>
-        {
-            this.world.start()
-            this.setTitle()
-        })
+        this.setTitle()
     }
 
     /**
@@ -58,7 +47,18 @@ export default class Application
     setConfig()
     {
         this.config = {}
-        this.config.mobile = ['Android', 'iOS', 'Windows Phone'].indexOf(platform.os.family) !== - 1
+        this.config.touch = false
+
+        window.addEventListener('touchstart', () =>
+        {
+            this.config.touch = true
+            this.world.controls.setTouch()
+
+            this.passes.horizontalBlurPass.strength = 1
+            this.passes.horizontalBlurPass.material.uniforms.uStrength.value = new THREE.Vector2(this.passes.horizontalBlurPass.strength, 0)
+            this.passes.verticalBlurPass.strength = 1
+            this.passes.verticalBlurPass.material.uniforms.uStrength.value = new THREE.Vector2(0, this.passes.verticalBlurPass.strength)
+        }, { once: true })
     }
 
     /**
@@ -132,12 +132,12 @@ export default class Application
         this.passes.renderPass = new RenderPass(this.scene, this.camera.instance)
 
         this.passes.horizontalBlurPass = new ShaderPass(BlurPass)
-        this.passes.horizontalBlurPass.strength = this.config.mobile ? 0 : 1
+        this.passes.horizontalBlurPass.strength = this.config.touch ? 0 : 1
         this.passes.horizontalBlurPass.material.uniforms.uResolution.value = new THREE.Vector2(this.sizes.viewport.width, this.sizes.viewport.height)
         this.passes.horizontalBlurPass.material.uniforms.uStrength.value = new THREE.Vector2(this.passes.horizontalBlurPass.strength, 0)
 
         this.passes.verticalBlurPass = new ShaderPass(BlurPass)
-        this.passes.verticalBlurPass.strength = this.config.mobile ? 0 : 1
+        this.passes.verticalBlurPass.strength = this.config.touch ? 0 : 1
         this.passes.verticalBlurPass.material.uniforms.uResolution.value = new THREE.Vector2(this.sizes.viewport.width, this.sizes.viewport.height)
         this.passes.verticalBlurPass.material.uniforms.uStrength.value = new THREE.Vector2(0, this.passes.verticalBlurPass.strength)
 
@@ -227,11 +227,6 @@ export default class Application
      */
     setTitle()
     {
-        if(this.config.mobile)
-        {
-            return
-        }
-
         this.title = {}
         this.title.frequency = 300
         this.title.width = 20
@@ -241,11 +236,14 @@ export default class Application
 
         this.time.on('tick', () =>
         {
-            this.title.absolutePosition += this.world.physics.car.forwardSpeed
-
-            if(this.title.absolutePosition < 0)
+            if(this.world.physics)
             {
-                this.title.absolutePosition = 0
+                this.title.absolutePosition += this.world.physics.car.forwardSpeed
+
+                if(this.title.absolutePosition < 0)
+                {
+                    this.title.absolutePosition = 0
+                }
             }
         })
 

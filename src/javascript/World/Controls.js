@@ -15,7 +15,6 @@ export default class Controls extends EventEmitter
 
         this.setActions()
         this.setKeyboard()
-        this.setTouch()
     }
 
     setActions()
@@ -122,11 +121,6 @@ export default class Controls extends EventEmitter
 
     setTouch()
     {
-        if(!this.config.mobile)
-        {
-            return
-        }
-
         this.touch = {}
 
         /**
