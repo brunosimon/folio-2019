@@ -165,7 +165,7 @@ export default class ProjectsSection
                 floorTexture: this.resources.items.projectsGleecChatFloorTexture,
                 link:
                 {
-                    href: 'https://gleechat.com',
+                    href: 'http://gleec.imm-g-prod.com',
                     x: - 4.8,
                     y: - 3.4,
                     halfExtents:
