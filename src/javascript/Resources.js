@@ -15,6 +15,7 @@ import matcapGraySource from '../models/matcaps/gray.png'
 import matcapEmeraldGreenSource from '../models/matcaps/emeraldGreen.png'
 import matcapPurpleSource from '../models/matcaps/purple.png'
 import matcapBlueSource from '../models/matcaps/blue.png'
+import matcapYellowSource from '../models/matcaps/yellow.png'
 
 // Intro
 import introStaticBaseSource from '../models/intro/static/base.glb'
@@ -139,6 +140,10 @@ import playgroundStaticCollisionSource from '../models/playground/static/collisi
 import brickBaseSource from '../models/brick/base.glb'
 import brickCollisionSource from '../models/brick/collision.glb'
 
+// Lemon
+import lemonBaseSource from '../models/lemon/base.glb'
+import lemonCollisionSource from '../models/lemon/collision.glb'
+
 // Bowling ball
 import bowlingBallBaseSource from '../models/bowlingBall/base.glb'
 import bowlingBallCollisionSource from '../models/bowlingBall/collision.glb'
@@ -169,6 +174,9 @@ import tilesDCollisionSource from '../models/tiles/d/collision.glb'
 import tilesEBaseSource from '../models/tiles/e/base.glb'
 import tilesECollisionSource from '../models/tiles/e/collision.glb'
 
+// Konami
+import konamiLabelSource from '../models/konami/label.png'
+
 export default class Resources extends EventEmitter
 {
     constructor()
@@ -191,6 +199,7 @@ export default class Resources extends EventEmitter
             { name: 'matcapEmeraldGreen', source: matcapEmeraldGreenSource, type: 'texture' },
             { name: 'matcapPurple', source: matcapPurpleSource, type: 'texture' },
             { name: 'matcapBlue', source: matcapBlueSource, type: 'texture' },
+            { name: 'matcapYellow', source: matcapYellowSource, type: 'texture' },
 
             // Intro
             { name: 'introStaticBase', source: introStaticBaseSource },
@@ -315,6 +324,10 @@ export default class Resources extends EventEmitter
             { name: 'brickBase', source: brickBaseSource },
             { name: 'brickCollision', source: brickCollisionSource },
 
+            // Lemon
+            { name: 'lemonBase', source: lemonBaseSource },
+            { name: 'lemonCollision', source: lemonCollisionSource },
+
             // Bownling ball
             { name: 'bowlingBallBase', source: bowlingBallBaseSource },
             { name: 'bowlingBallCollision', source: bowlingBallCollisionSource },
@@ -343,7 +356,10 @@ export default class Resources extends EventEmitter
             { name: 'tilesDCollision', source: tilesDCollisionSource },
 
             { name: 'tilesEBase', source: tilesEBaseSource },
-            { name: 'tilesECollision', source: tilesECollisionSource }
+            { name: 'tilesECollision', source: tilesECollisionSource },
+
+            // Konami
+            { name: 'konamiLabel', source: konamiLabelSource, type: 'texture' }
         ])
 
         this.loader.on('fileEnd', (_resource, _data) =>

@@ -18,6 +18,7 @@ import Controls from './Controls.js'
 import Sounds from './Sounds.js'
 import { TweenLite } from 'gsap/TweenLite'
 import { Power2 } from 'gsap/EasePack'
+import EasterEggs from './EasterEggs.js'
 
 export default class
 {
@@ -65,6 +66,7 @@ export default class
         this.setTiles()
         this.setWalls()
         this.setSections()
+        this.setEasterEggs()
     }
 
     setReveal()
@@ -438,5 +440,16 @@ export default class
             // y: - 4
         })
         this.container.add(this.sections.playground.container)
+    }
+
+    setEasterEggs()
+    {
+        this.easterEggs = new EasterEggs({
+            resources: this.resources,
+            car: this.car,
+            walls: this.walls,
+            objects: this.objects
+        })
+        this.container.add(this.easterEggs.container)
     }
 }
