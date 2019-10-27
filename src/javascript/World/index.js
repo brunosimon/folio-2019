@@ -448,7 +448,9 @@ export default class
             resources: this.resources,
             car: this.car,
             walls: this.walls,
-            objects: this.objects
+            objects: this.objects,
+            materials: this.materials,
+            areas: this.areas
         })
         this.container.add(this.easterEggs.container)
     }

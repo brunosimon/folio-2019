@@ -157,6 +157,7 @@ import areaKeyEnterSource from '../models/area/keyEnter.png'
 import areaEnterSource from '../models/area/enter.png'
 import areaOpenSource from '../models/area/open.png'
 import areaResetSource from '../models/area/reset.png'
+import areaQuestionMarkSource from '../models/area/questionMark.png'
 
 // Tiles
 import tilesABaseSource from '../models/tiles/a/base.glb'
@@ -176,6 +177,12 @@ import tilesECollisionSource from '../models/tiles/e/collision.glb'
 
 // Konami
 import konamiLabelSource from '../models/konami/label.png'
+
+// Wigs
+import wig1Source from '../models/wigs/wig1.glb'
+import wig2Source from '../models/wigs/wig2.glb'
+import wig3Source from '../models/wigs/wig3.glb'
+import wig4Source from '../models/wigs/wig4.glb'
 
 export default class Resources extends EventEmitter
 {
@@ -341,6 +348,7 @@ export default class Resources extends EventEmitter
             { name: 'areaEnter', source: areaEnterSource, type: 'texture' },
             { name: 'areaOpen', source: areaOpenSource, type: 'texture' },
             { name: 'areaReset', source: areaResetSource, type: 'texture' },
+            { name: 'areaQuestionMark', source: areaQuestionMarkSource, type: 'texture' },
 
             // Tiles
             { name: 'tilesABase', source: tilesABaseSource },
@@ -359,7 +367,13 @@ export default class Resources extends EventEmitter
             { name: 'tilesECollision', source: tilesECollisionSource },
 
             // Konami
-            { name: 'konamiLabel', source: konamiLabelSource, type: 'texture' }
+            { name: 'konamiLabel', source: konamiLabelSource, type: 'texture' },
+
+            // Wigs
+            { name: 'wig1', source: wig1Source },
+            { name: 'wig2', source: wig2Source },
+            { name: 'wig3', source: wig3Source },
+            { name: 'wig4', source: wig4Source }
         ])
 
         this.loader.on('fileEnd', (_resource, _data) =>

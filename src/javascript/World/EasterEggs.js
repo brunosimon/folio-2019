@@ -9,11 +9,14 @@ export default class EasterEggs
         this.car = _options.car
         this.walls = _options.walls
         this.objects = _options.objects
+        this.materials = _options.materials
+        this.areas = _options.areas
 
         this.container = new THREE.Object3D()
         this.container.matrixAutoUpdate = false
 
         this.setKonamiCode()
+        this.setWigs()
     }
 
     setKonamiCode()
@@ -85,5 +88,102 @@ export default class EasterEggs
                 }
             }
         })
+    }
+
+    setWigs()
+    {
+        this.wigs = {}
+        this.wigs.currentWig = null
+
+        // Container
+        this.wigs.container = new THREE.Object3D()
+        this.wigs.container.position.x = - 0.1
+        this.wigs.container.position.y = - 30
+        this.wigs.container.matrixAutoUpdate = false
+        this.wigs.container.updateMatrix()
+        this.container.add(this.wigs.container)
+
+        // Materials
+        this.wigs.materials = [
+            this.materials.shades.items.green,
+            this.materials.shades.items.red,
+            this.materials.shades.items.emeraldGreen,
+            this.materials.shades.items.purple,
+            this.materials.shades.items.yellow,
+            this.materials.shades.items.white
+        ]
+
+        // List
+        this.wigs.list = [
+            this.resources.items.wig1,
+            this.resources.items.wig2,
+            this.resources.items.wig3,
+            this.resources.items.wig4
+        ]
+
+        // Items
+        this.wigs.items = []
+
+        for(const _wig of this.wigs.list)
+        {
+            const container = new THREE.Object3D()
+            container.visible = false
+            container.matrixAutoUpdate = false
+            this.wigs.container.add(container)
+
+            const children = [..._wig.scene.children]
+            for(const _mesh of children)
+            {
+                _mesh.material = this.wigs.materials[0]
+                container.add(_mesh)
+            }
+
+            this.wigs.items.push(container)
+        }
+
+        // Change
+        this.wigs.change = () =>
+        {
+            // Hide previous wig
+            if(this.wigs.currentWig)
+            {
+                this.wigs.currentWig.visible = false
+            }
+
+            // Set random wig
+            let randomWig = null
+            do
+            {
+                randomWig = this.wigs.items[Math.floor(Math.random() * this.wigs.items.length)]
+            } while(this.wigs.currentWig === randomWig)
+
+            this.wigs.currentWig = randomWig
+            this.wigs.currentWig.visible = true
+
+            // Set random material
+            const randomMaterial = this.wigs.materials[Math.floor(Math.random() * this.wigs.materials.length)]
+
+            for(const _mesh of this.wigs.currentWig.children)
+            {
+                _mesh.material = randomMaterial
+            }
+        }
+
+        // Area
+        this.wigs.area = this.areas.add({
+            position: new THREE.Vector2(0, 80),
+            halfExtents: new THREE.Vector2(2, 2)
+        })
+        this.wigs.area.on('interact', this.wigs.change)
+
+        // Label
+        this.resources.items.areaQuestionMarkTexture.magFilter = THREE.NearestFilter
+        this.resources.items.areaQuestionMarkTexture.minFilter = THREE.LinearFilter
+        this.wigs.areaLabel = new THREE.Mesh(new THREE.PlaneBufferGeometry(1, 1), new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false, color: 0xffffff, alphaMap: this.resources.items.areaQuestionMarkTexture }))
+        this.wigs.areaLabel.position.x = 0
+        this.wigs.areaLabel.position.y = 80
+        this.wigs.areaLabel.matrixAutoUpdate = false
+        this.wigs.areaLabel.updateMatrix()
+        this.container.add(this.wigs.areaLabel)
     }
 }
