@@ -115,8 +115,12 @@ export default class Car
         // Time tick
         this.time.on('tick', () =>
         {
-            this.antena.speed.x -= this.movement.acceleration.x * this.antena.speedStrength
-            this.antena.speed.y -= this.movement.acceleration.y * this.antena.speedStrength
+            const max = 1
+            const accelerationX = Math.min(Math.max(this.movement.acceleration.x, - max), max)
+            const accelerationY = Math.min(Math.max(this.movement.acceleration.y, - max), max)
+
+            this.antena.speed.x -= accelerationX * this.antena.speedStrength
+            this.antena.speed.y -= accelerationY * this.antena.speedStrength
 
             const position = this.antena.absolutePosition.clone()
             const pullBack = position.negate().multiplyScalar(position.length() * this.antena.pullBackStrength)
