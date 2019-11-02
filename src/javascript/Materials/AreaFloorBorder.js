@@ -16,7 +16,7 @@ export default function()
         wireframe: false,
         transparent: true,
         depthTest: true,
-        depthWrite: true,
+        depthWrite: false,
         uniforms,
         vertexShader: shaderVertex,
         fragmentShader: shaderFragment
