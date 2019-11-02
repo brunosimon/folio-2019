@@ -396,8 +396,6 @@ export default class Physics
                 }
             }
 
-            // console.log(Math.round(worldUp.dot(localUp) * 1000) / 1000)
-
             // Update wheel bodies
             for(let i = 0; i < this.car.vehicle.wheelInfos.length; i++)
             {
@@ -459,9 +457,14 @@ export default class Physics
              */
             if(this.controls.touch)
             {
-                // Calculate delta between joystick and car angles
-                let deltaAngle = (this.controls.touch.joystick.angle.value - this.car.angle + Math.PI) % (Math.PI * 2) - Math.PI
-                deltaAngle = deltaAngle < - Math.PI ? deltaAngle + Math.PI * 2 : deltaAngle
+                let deltaAngle = 0
+
+                if(this.controls.touch.joystick.active)
+                {
+                    // Calculate delta between joystick and car angles
+                    deltaAngle = (this.controls.touch.joystick.angle.value - this.car.angle + Math.PI) % (Math.PI * 2) - Math.PI
+                    deltaAngle = deltaAngle < - Math.PI ? deltaAngle + Math.PI * 2 : deltaAngle
+                }
 
                 // Update steering directly
                 const goingForward = Math.abs(this.car.forwardSpeed) < 0.01 ? true : this.car.goingForward

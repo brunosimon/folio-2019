@@ -2,6 +2,7 @@ import mobileDoubleTriangle from '../../images/mobile/doubleTriangle.png'
 import mobileTriangle from '../../images/mobile/triangle.png'
 import mobileCross from '../../images/mobile/cross.png'
 import EventEmitter from '../Utils/EventEmitter'
+import { TweenLite } from 'gsap/TweenLite'
 
 export default class Controls extends EventEmitter
 {
@@ -249,6 +250,8 @@ export default class Controls extends EventEmitter
 
                 document.addEventListener('touchend', this.touch.joystick.events.touchend)
                 document.addEventListener('touchmove', this.touch.joystick.events.touchmove, { passive: false })
+
+                this.trigger('joystickStart')
             }
         }
 
@@ -263,6 +266,8 @@ export default class Controls extends EventEmitter
             {
                 this.touch.joystick.angle.current.x = touch.clientX
                 this.touch.joystick.angle.current.y = touch.clientY
+
+                this.trigger('joystickMove')
             }
         }
 
@@ -277,7 +282,11 @@ export default class Controls extends EventEmitter
 
                 this.touch.joystick.$limit.style.opacity = '0.25'
 
+                this.touch.joystick.$cursor.style.transform = 'translateX(0px) translateY(0px)'
+
                 document.removeEventListener('touchend', this.touch.joystick.events.touchend)
+
+                this.trigger('joystickEnd')
             }
         }
 
