@@ -34,6 +34,7 @@ export default class Area extends EventEmitter
         this.container.matrixAutoUpdate = false
         this.container.updateMatrix()
 
+        this.initialTestCar = this.testCar
         this.isIn = false
 
         this.setFloorBorder()
@@ -277,9 +278,9 @@ export default class Area extends EventEmitter
         this.mouseMesh.updateMatrix()
         this.container.add(this.mouseMesh)
 
-        if(this.testCar)
+        this.time.on('tick', () =>
         {
-            this.time.on('tick', () =>
+            if(this.testCar)
             {
                 const isIn = Math.abs(this.car.position.x - this.position.x) < Math.abs(this.halfExtents.x) && Math.abs(this.car.position.y - this.position.y) < Math.abs(this.halfExtents.y)
 
@@ -294,8 +295,8 @@ export default class Area extends EventEmitter
                         this.out()
                     }
                 }
-            })
-        }
+            }
+        })
 
         window.addEventListener('keydown', (_event) =>
         {

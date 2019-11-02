@@ -87,11 +87,13 @@ export default class Areas
                         {
                             // Play out
                             this.mouse.currentArea.out()
+                            this.mouse.currentArea.testCar = this.mouse.currentArea.initialTestCar
                         }
 
                         // Play in
                         this.mouse.currentArea = area
                         this.mouse.currentArea.in(false)
+                        this.mouse.currentArea.testCar = false
                     }
                 }
                 // No intersections found but was previously over an area
@@ -99,6 +101,7 @@ export default class Areas
                 {
                     // Play out
                     this.mouse.currentArea.out()
+                    this.mouse.currentArea.testCar = this.mouse.currentArea.initialTestCar
                     this.mouse.currentArea = null
                 }
             }
