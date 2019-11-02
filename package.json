@@ -32,7 +32,7 @@
     "parcel-plugin-asset-copier": "^1.0.0",
     "parcel-plugin-static-files-copy": "^2.1.2",
     "shx": "^0.3.2",
-    "three": "^0.109.0"
+    "three": "git+https://github.com/Samsy/threenext.git"
   },
   "staticFiles": {
     "staticPath": "static",
