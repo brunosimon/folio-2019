@@ -137,7 +137,7 @@ export default class IntroSection
         this.otherInstructions.label.texture.magFilter = THREE.NearestFilter
         this.otherInstructions.label.texture.minFilter = THREE.LinearFilter
 
-        this.otherInstructions.label.material = new THREE.MeshBasicMaterial({ transparent: true, alphaMap: this.otherInstructions.label.texture, color: 0xffffff, depthWrite: false })
+        this.otherInstructions.label.material = new THREE.MeshBasicMaterial({ transparent: true, alphaMap: this.otherInstructions.label.texture, color: 0xffffff, depthWrite: false, opacity: 0 })
 
         this.otherInstructions.label.mesh = new THREE.Mesh(this.otherInstructions.label.geometry, this.otherInstructions.label.material)
         this.otherInstructions.label.mesh.matrixAutoUpdate = false
