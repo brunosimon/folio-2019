@@ -23,6 +23,7 @@ export default class IntroSection
 
         this.setStatic()
         this.setInstructions()
+        this.setOtherInstructions()
         this.setTitles()
         this.setTiles()
         this.setDikes()
@@ -106,6 +107,41 @@ export default class IntroSection
                 soundName: 'brick'
             })
         }
+    }
+
+    setOtherInstructions()
+    {
+        if(this.config.touch)
+        {
+            return
+        }
+
+        this.otherInstructions = {}
+        this.otherInstructions.x = 16
+        this.otherInstructions.y = - 2
+
+        // Container
+        this.otherInstructions.container = new THREE.Object3D()
+        this.otherInstructions.container.position.x = this.otherInstructions.x
+        this.otherInstructions.container.position.y = this.otherInstructions.y
+        this.otherInstructions.container.matrixAutoUpdate = false
+        this.otherInstructions.container.updateMatrix()
+        this.container.add(this.otherInstructions.container)
+
+        // Label
+        this.otherInstructions.label = {}
+
+        this.otherInstructions.label.geometry = new THREE.PlaneBufferGeometry(6, 6, 1, 1)
+
+        this.otherInstructions.label.texture = this.resources.items.introInstructionsOtherTexture
+        this.otherInstructions.label.texture.magFilter = THREE.NearestFilter
+        this.otherInstructions.label.texture.minFilter = THREE.LinearFilter
+
+        this.otherInstructions.label.material = new THREE.MeshBasicMaterial({ transparent: true, alphaMap: this.otherInstructions.label.texture, color: 0xffffff, depthWrite: false })
+
+        this.otherInstructions.label.mesh = new THREE.Mesh(this.otherInstructions.label.geometry, this.otherInstructions.label.material)
+        this.otherInstructions.label.mesh.matrixAutoUpdate = false
+        this.otherInstructions.container.add(this.otherInstructions.label.mesh)
     }
 
     setTitles()
@@ -371,5 +407,44 @@ export default class IntroSection
                 randomRotation: new THREE.Vector3(0, 0, 0.2)
             }
         })
+
+        if(!this.config.touch)
+        {
+            this.walls.add({
+                object:
+                {
+                    ...this.dikes.brickOptions,
+                    rotation: new THREE.Euler(0, 0, Math.PI * 0.5)
+                },
+                shape:
+                {
+                    type: 'brick',
+                    equilibrateLastLine: true,
+                    widthCount: 2,
+                    heightCount: 2,
+                    position: new THREE.Vector3(this.x + 18.5, this.y + 3, 0),
+                    offsetWidth: new THREE.Vector3(1.05, 0, 0),
+                    offsetHeight: new THREE.Vector3(0, 0, 0.45),
+                    randomOffset: new THREE.Vector3(0, 0, 0),
+                    randomRotation: new THREE.Vector3(0, 0, 0.2)
+                }
+            })
+
+            this.walls.add({
+                object: this.dikes.brickOptions,
+                shape:
+                {
+                    type: 'brick',
+                    equilibrateLastLine: false,
+                    widthCount: 2,
+                    heightCount: 2,
+                    position: new THREE.Vector3(this.x + 19.9, this.y + 2.2, 0),
+                    offsetWidth: new THREE.Vector3(0, - 1.05, 0),
+                    offsetHeight: new THREE.Vector3(0, 0, 0.45),
+                    randomOffset: new THREE.Vector3(0, 0, 0),
+                    randomRotation: new THREE.Vector3(0, 0, 0.2)
+                }
+            })
+        }
     }
 }
