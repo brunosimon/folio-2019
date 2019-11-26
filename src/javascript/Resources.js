@@ -178,6 +178,7 @@ import tilesECollisionSource from '../models/tiles/e/collision.glb'
 
 // Konami
 import konamiLabelSource from '../models/konami/label.png'
+import konamiLabelTouchSource from '../models/konami/label-touch.png'
 
 // Wigs
 import wig1Source from '../models/wigs/wig1.glb'
@@ -370,6 +371,7 @@ export default class Resources extends EventEmitter
 
             // Konami
             { name: 'konamiLabel', source: konamiLabelSource, type: 'texture' },
+            { name: 'konamiLabelTouch', source: konamiLabelTouchSource, type: 'texture' },
 
             // Wigs
             { name: 'wig1', source: wig1Source },

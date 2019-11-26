@@ -11,6 +11,7 @@ export default class EasterEggs
         this.objects = _options.objects
         this.materials = _options.materials
         this.areas = _options.areas
+        this.config = _options.config
 
         this.container = new THREE.Object3D()
         this.container.matrixAutoUpdate = false
@@ -24,15 +25,30 @@ export default class EasterEggs
         this.konamiCode = {}
         this.konamiCode.x = - 60
         this.konamiCode.y = - 100
-        this.konamiCode.sequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a']
+        this.konamiCode.sequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight']
+
+        if(!this.config.touch)
+        {
+            this.konamiCode.sequence.push('b', 'a')
+        }
+
         this.konamiCode.keyIndex = 0
         this.konamiCode.latestKeys = []
         this.konamiCode.count = 0
 
         // Label
-        this.resources.items.konamiLabelTexture.magFilter = THREE.NearestFilter
-        this.resources.items.konamiLabelTexture.minFilter = THREE.LinearFilter
-        this.konamiCode.label = new THREE.Mesh(new THREE.PlaneBufferGeometry(8, 8 / 16), new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false, color: 0xffffff, alphaMap: this.resources.items.konamiLabelTexture }))
+        if(this.config.touch)
+        {
+            this.konamiCode.labelTexture = this.resources.items.konamiLabelTouchTexture
+        }
+        else
+        {
+            this.konamiCode.labelTexture = this.resources.items.konamiLabelTexture
+        }
+
+        this.konamiCode.labelTexture.magFilter = THREE.NearestFilter
+        this.konamiCode.labelTexture.minFilter = THREE.LinearFilter
+        this.konamiCode.label = new THREE.Mesh(new THREE.PlaneBufferGeometry(8, 8 / 16), new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false, color: 0xffffff, alphaMap: this.konamiCode.labelTexture }))
         this.konamiCode.label.position.x = this.konamiCode.x + 5
         this.konamiCode.label.position.y = this.konamiCode.y
         this.konamiCode.label.matrixAutoUpdate = false
@@ -58,9 +74,9 @@ export default class EasterEggs
             offset: new THREE.Vector3(this.konamiCode.x, this.konamiCode.y, 0.4)
         })
 
-        window.addEventListener('keydown', (_event) =>
+        this.konamiCode.testInput = (_input) =>
         {
-            this.konamiCode.latestKeys.push(_event.key)
+            this.konamiCode.latestKeys.push(_input)
 
             if(this.konamiCode.latestKeys.length > this.konamiCode.sequence.length)
             {
@@ -87,7 +103,70 @@ export default class EasterEggs
                     }, i * 50)
                 }
             }
+        }
+
+        /**
+         * Keyboard handling
+         */
+        window.addEventListener('keydown', (_event) =>
+        {
+            this.konamiCode.testInput(_event.key)
         })
+
+        /**
+         * Touch handling
+         */
+        this.konamiCode.touch = {}
+        this.konamiCode.touch.x = 0
+        this.konamiCode.touch.y = 0
+
+        this.konamiCode.touch.touchstart = (_event) =>
+        {
+            window.addEventListener('touchend', this.konamiCode.touch.touchend)
+
+            this.konamiCode.touch.x = _event.changedTouches[0].clientX
+            this.konamiCode.touch.y = _event.changedTouches[0].clientY
+        }
+        this.konamiCode.touch.touchend = (_event) =>
+        {
+            window.removeEventListener('touchend', this.konamiCode.touch.touchend)
+
+            const endX = _event.changedTouches[0].clientX
+            const endY = _event.changedTouches[0].clientY
+            const deltaX = endX - this.konamiCode.touch.x
+            const deltaY = endY - this.konamiCode.touch.y
+            const distance = Math.hypot(deltaX, deltaY)
+
+            if(distance > 30)
+            {
+                const angle = Math.atan2(deltaY, deltaX)
+                let direction = null
+
+                if(angle < - Math.PI * 0.75)
+                {
+                    direction = 'ArrowLeft'
+                }
+                else if(angle < - Math.PI * 0.25)
+                {
+                    direction = 'ArrowUp'
+                }
+                else if(angle < Math.PI * 0.25)
+                {
+                    direction = 'ArrowRight'
+                }
+                else if(angle < Math.PI * 0.75)
+                {
+                    direction = 'ArrowDown'
+                }
+                else
+                {
+                    direction = 'ArrowLeft'
+                }
+
+                this.konamiCode.testInput(direction)
+            }
+        }
+        window.addEventListener('touchstart', this.konamiCode.touch.touchstart)
     }
 
     setWigs()

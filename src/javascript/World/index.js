@@ -454,7 +454,8 @@ export default class
             walls: this.walls,
             objects: this.objects,
             materials: this.materials,
-            areas: this.areas
+            areas: this.areas,
+            config: this.config
         })
         this.container.add(this.easterEggs.container)
     }
