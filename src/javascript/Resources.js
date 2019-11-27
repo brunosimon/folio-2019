@@ -16,6 +16,7 @@ import matcapEmeraldGreenSource from '../models/matcaps/emeraldGreen.png'
 import matcapPurpleSource from '../models/matcaps/purple.png'
 import matcapBlueSource from '../models/matcaps/blue.png'
 import matcapYellowSource from '../models/matcaps/yellow.png'
+import matcapMetalSource from '../models/matcaps/metal.png'
 
 // Intro
 import introStaticBaseSource from '../models/intro/static/base.glb'
@@ -65,12 +66,19 @@ import crossroadsStaticFloorShadowSource from '../models/crossroads/static/floor
 import crossroadsStaticBaseSource from '../models/crossroads/static/base.glb'
 import crossroadsStaticCollisionSource from '../models/crossroads/static/collision.glb'
 
-// Car
-import carChassisSource from '../models/car/chassis.glb'
-import carWheelSource from '../models/car/wheel.glb'
-import carBackLightsBrakeSource from '../models/car/backLightsBrake.glb'
-import carBackLightsReverseSource from '../models/car/backLightsReverse.glb'
-import carAntenaSource from '../models/car/antena.glb'
+// Car default
+import carDefaultChassisSource from '../models/car/default/chassis.glb'
+import carDefaultWheelSource from '../models/car/default/wheel.glb'
+import carDefaultBackLightsBrakeSource from '../models/car/default/backLightsBrake.glb'
+import carDefaultBackLightsReverseSource from '../models/car/default/backLightsReverse.glb'
+import carDefaultAntenaSource from '../models/car/default/antena.glb'
+
+// Car cyber truck
+import carCyberTruckChassisSource from '../models/car/cyberTruck/chassis.glb'
+import carCyberTruckWheelSource from '../models/car/cyberTruck/wheel.glb'
+import carCyberTruckBackLightsBrakeSource from '../models/car/cyberTruck/backLightsBrake.glb'
+import carCyberTruckBackLightsReverseSource from '../models/car/cyberTruck/backLightsReverse.glb'
+import carCyberTruckAntenaSource from '../models/car/cyberTruck/antena.glb'
 
 // Projects
 import projectsBoardStructureSource from '../models/projects/board/structure.glb'
@@ -209,6 +217,7 @@ export default class Resources extends EventEmitter
             { name: 'matcapPurple', source: matcapPurpleSource, type: 'texture' },
             { name: 'matcapBlue', source: matcapBlueSource, type: 'texture' },
             { name: 'matcapYellow', source: matcapYellowSource, type: 'texture' },
+            { name: 'matcapMetal', source: matcapMetalSource, type: 'texture' },
 
             // Intro
             { name: 'introStaticBase', source: introStaticBaseSource },
@@ -258,12 +267,19 @@ export default class Resources extends EventEmitter
             { name: 'crossroadsStaticCollision', source: crossroadsStaticCollisionSource },
             { name: 'crossroadsStaticFloorShadow', source: crossroadsStaticFloorShadowSource, type: 'texture' },
 
-            // Car
-            { name: 'carChassis', source: carChassisSource },
-            { name: 'carWheel', source: carWheelSource },
-            { name: 'carBackLightsBrake', source: carBackLightsBrakeSource },
-            { name: 'carBackLightsReverse', source: carBackLightsReverseSource },
-            { name: 'carAntena', source: carAntenaSource },
+            // Car default
+            { name: 'carDefaultChassis', source: carDefaultChassisSource },
+            { name: 'carDefaultWheel', source: carDefaultWheelSource },
+            { name: 'carDefaultBackLightsBrake', source: carDefaultBackLightsBrakeSource },
+            { name: 'carDefaultBackLightsReverse', source: carDefaultBackLightsReverseSource },
+            { name: 'carDefaultAntena', source: carDefaultAntenaSource },
+
+            // Car default
+            { name: 'carCyberTruckChassis', source: carCyberTruckChassisSource },
+            { name: 'carCyberTruckWheel', source: carCyberTruckWheelSource },
+            { name: 'carCyberTruckBackLightsBrake', source: carCyberTruckBackLightsBrakeSource },
+            { name: 'carCyberTruckBackLightsReverse', source: carCyberTruckBackLightsReverseSource },
+            { name: 'carCyberTruckAntena', source: carCyberTruckAntenaSource },
 
             // Project
             { name: 'projectsBoardStructure', source: projectsBoardStructureSource },

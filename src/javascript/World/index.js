@@ -375,7 +375,8 @@ export default class
             sounds: this.sounds,
             renderer: this.renderer,
             camera: this.camera,
-            debug: this.debugFolder
+            debug: this.debugFolder,
+            config: this.config
         })
         this.container.add(this.car.container)
     }

@@ -17,6 +17,7 @@ export default class Car
         this.renderer = _options.renderer
         this.camera = _options.camera
         this.debug = _options.debug
+        this.config = _options.config
 
         // Set up
         this.container = new THREE.Object3D()
@@ -29,12 +30,38 @@ export default class Car
             // this.debugFolder.open()
         }
 
+        this.setModels()
         this.setMovement()
         this.setChassis()
         this.setAntena()
         this.setBackLights()
         this.setWheels()
         this.setTransformControls()
+    }
+
+    setModels()
+    {
+        this.models = {}
+
+        // Cyber truck
+        if(this.config.cyberTruck)
+        {
+            this.models.chassis = this.resources.items.carCyberTruckChassis
+            this.models.antena = this.resources.items.carCyberTruckAntena
+            this.models.backLightsBrake = this.resources.items.carCyberTruckBackLightsBrake
+            this.models.backLightsReverse = this.resources.items.carCyberTruckBackLightsReverse
+            this.models.wheel = this.resources.items.carCyberTruckWheel
+        }
+
+        // Default
+        else
+        {
+            this.models.chassis = this.resources.items.carDefaultChassis
+            this.models.antena = this.resources.items.carDefaultAntena
+            this.models.backLightsBrake = this.resources.items.carDefaultBackLightsBrake
+            this.models.backLightsReverse = this.resources.items.carDefaultBackLightsReverse
+            this.models.wheel = this.resources.items.carDefaultWheel
+        }
     }
 
     setMovement()
@@ -72,7 +99,7 @@ export default class Car
     {
         this.chassis = {}
         this.chassis.offset = new THREE.Vector3(0, 0, - 0.28)
-        this.chassis.object = this.objects.getConvertedMesh(this.resources.items.carChassis.scene.children)
+        this.chassis.object = this.objects.getConvertedMesh(this.models.chassis.scene.children)
         this.chassis.object.position.copy(this.physics.car.chassis.body.position)
         this.chassis.oldPosition = this.chassis.object.position.clone()
         this.container.add(this.chassis.object)
@@ -105,7 +132,7 @@ export default class Car
         this.antena.damping = 0.035
         this.antena.pullBackStrength = 0.02
 
-        this.antena.object = this.objects.getConvertedMesh(this.resources.items.carAntena.scene.children)
+        this.antena.object = this.objects.getConvertedMesh(this.models.antena.scene.children)
         this.chassis.object.add(this.antena.object)
 
         this.antena.speed = new THREE.Vector2()
@@ -158,7 +185,7 @@ export default class Car
         this.backLightsBrake.material.transparent = true
         this.backLightsBrake.material.opacity = 0.5
 
-        this.backLightsBrake.object = this.objects.getConvertedMesh(this.resources.items.carBackLightsBrake.scene.children)
+        this.backLightsBrake.object = this.objects.getConvertedMesh(this.models.backLightsBrake.scene.children)
         for(const _child of this.backLightsBrake.object.children)
         {
             _child.material = this.backLightsBrake.material
@@ -173,7 +200,7 @@ export default class Car
         this.backLightsReverse.material.transparent = true
         this.backLightsReverse.material.opacity = 0.5
 
-        this.backLightsReverse.object = this.objects.getConvertedMesh(this.resources.items.carBackLightsReverse.scene.children)
+        this.backLightsReverse.object = this.objects.getConvertedMesh(this.models.backLightsReverse.scene.children)
         for(const _child of this.backLightsReverse.object.children)
         {
             _child.material = this.backLightsReverse.material
@@ -192,7 +219,7 @@ export default class Car
     setWheels()
     {
         this.wheels = {}
-        this.wheels.object = this.objects.getConvertedMesh(this.resources.items.carWheel.scene.children)
+        this.wheels.object = this.objects.getConvertedMesh(this.models.wheel.scene.children)
         this.wheels.items = []
 
         for(let i = 0; i < 4; i++)

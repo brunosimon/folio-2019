@@ -28,12 +28,8 @@ export default class Application
         this.sizes = new Sizes()
         this.resources = new Resources()
 
-        if(window.location.hash === '#debug')
-        {
-            this.debug = new dat.GUI({ width: 420 })
-        }
-
         this.setConfig()
+        this.setDebug()
         this.setRenderer()
         this.setCamera()
         this.setPasses()
@@ -47,6 +43,8 @@ export default class Application
     setConfig()
     {
         this.config = {}
+        this.config.debug = window.location.hash === '#debug'
+        this.config.cyberTruck = window.location.hash === '#cybertruck'
         this.config.touch = false
 
         window.addEventListener('touchstart', () =>
@@ -59,6 +57,17 @@ export default class Application
             this.passes.verticalBlurPass.strength = 1
             this.passes.verticalBlurPass.material.uniforms.uStrength.value = new THREE.Vector2(0, this.passes.verticalBlurPass.strength)
         }, { once: true })
+    }
+
+    /**
+     * Set debug
+     */
+    setDebug()
+    {
+        if(this.config.debug)
+        {
+            this.debug = new dat.GUI({ width: 420 })
+        }
     }
 
     /**
