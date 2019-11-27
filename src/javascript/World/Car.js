@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import CANNON from 'cannon'
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js'
 
 export default class Car
@@ -37,6 +38,7 @@ export default class Car
         this.setBackLights()
         this.setWheels()
         this.setTransformControls()
+        this.setShootingBall()
     }
 
     setModels()
@@ -287,5 +289,42 @@ export default class Car
                 this.transformControls.visible = this.transformControls.enabled
             })
         }
+    }
+
+    setShootingBall()
+    {
+        if(!this.config.cyberTruck)
+        {
+            return
+        }
+
+        window.addEventListener('keydown', (_event) =>
+        {
+            if(_event.key === 'b')
+            {
+                const angle = Math.random() * Math.PI * 2
+                const distance = 10
+                const x = this.position.x + Math.cos(angle) * distance
+                const y = this.position.y + Math.sin(angle) * distance
+                const z = 2 + 2 * Math.random()
+                const bowlingBall = this.objects.add({
+                    base: this.resources.items.bowlingBallBase.scene,
+                    collision: this.resources.items.bowlingBallCollision.scene,
+                    offset: new THREE.Vector3(x, y, z),
+                    rotation: new THREE.Euler(Math.PI * 0.5, 0, 0),
+                    duplicated: true,
+                    shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.15, alpha: 0.35 },
+                    mass: 5,
+                    soundName: 'bowlingBall',
+                    sleep: false
+                })
+
+                const carPosition = new CANNON.Vec3(this.position.x, this.position.y, this.position.z + 1)
+                let direction = carPosition.vsub(bowlingBall.collision.body.position)
+                direction.normalize()
+                direction = direction.scale(100)
+                bowlingBall.collision.body.applyImpulse(direction, bowlingBall.collision.body.position)
+            }
+        })
     }
 }

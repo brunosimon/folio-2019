@@ -1,4 +1,4 @@
-import CANNON, { Vec3 } from 'cannon'
+import CANNON from 'cannon'
 import * as THREE from 'three'
 
 export default class Physics
@@ -644,7 +644,7 @@ export default class Physics
 
         // Body
         collision.body = new CANNON.Body({
-            position: new Vec3(_options.offset.x, _options.offset.y, _options.offset.z),
+            position: new CANNON.Vec3(_options.offset.x, _options.offset.y, _options.offset.z),
             mass: _options.mass,
             material: bodyMaterial
         })
@@ -666,7 +666,7 @@ export default class Physics
         }
 
         // Center
-        collision.center = new Vec3(0, 0, 0)
+        collision.center = new CANNON.Vec3(0, 0, 0)
 
         // Shapes
         const shapes = []
