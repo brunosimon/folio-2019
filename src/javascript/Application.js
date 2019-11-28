@@ -109,7 +109,8 @@ export default class Application
             time: this.time,
             sizes: this.sizes,
             renderer: this.renderer,
-            debug: this.debug
+            debug: this.debug,
+            config: this.config
         })
 
         this.scene.add(this.camera.instance)

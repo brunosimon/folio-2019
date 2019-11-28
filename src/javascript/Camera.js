@@ -12,6 +12,7 @@ export default class Camera
         this.sizes = _options.sizes
         this.renderer = _options.renderer
         this.debug = _options.debug
+        this.config = _options.config
 
         // Set up
         this.target = new THREE.Vector3(0, 0, 0)
@@ -104,7 +105,7 @@ export default class Camera
         this.zoom.easing = 0.1
         this.zoom.minDistance = 14
         this.zoom.amplitude = 15
-        this.zoom.value = 0.5
+        this.zoom.value = this.config.cyberTruck ? 0.3 : 0.5
         this.zoom.targetValue = this.zoom.value
         this.zoom.distance = this.zoom.minDistance + this.zoom.amplitude * this.zoom.value
 
