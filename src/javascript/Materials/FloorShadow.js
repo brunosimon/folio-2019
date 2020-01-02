@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 
-import shaderFragment from '../shaders/floorShadow/fragment.glsl'
-import shaderVertex from '../shaders/floorShadow/vertex.glsl'
+import shaderFragment from '../../shaders/floorShadow/fragment.glsl'
+import shaderVertex from '../../shaders/floorShadow/vertex.glsl'
 
 export default function()
 {

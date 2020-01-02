@@ -1,5 +1,5 @@
-import shaderFragment from '../shaders/glows/fragment.glsl'
-import shaderVertex from '../shaders/glows/vertex.glsl'
+import shaderFragment from '../../shaders/glows/fragment.glsl'
+import shaderVertex from '../../shaders/glows/vertex.glsl'
 
 export default {
     uniforms:

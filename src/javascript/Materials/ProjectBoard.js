@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 
-import shaderFragment from '../shaders/projectBoard/fragment.glsl'
-import shaderVertex from '../shaders/projectBoard/vertex.glsl'
+import shaderFragment from '../../shaders/projectBoard/fragment.glsl'
+import shaderVertex from '../../shaders/projectBoard/vertex.glsl'
 
 export default function()
 {
