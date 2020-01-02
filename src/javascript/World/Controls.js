@@ -27,6 +27,19 @@ export default class Controls extends EventEmitter
         this.actions.left = false
         this.actions.brake = false
         this.actions.boost = false
+
+        document.addEventListener('visibilitychange', () =>
+        {
+            if(!document.hidden)
+            {
+                this.actions.up = false
+                this.actions.right = false
+                this.actions.down = false
+                this.actions.left = false
+                this.actions.brake = false
+                this.actions.boost = false
+            }
+        })
     }
 
     setKeyboard()
