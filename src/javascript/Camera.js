@@ -139,7 +139,7 @@ export default class Camera
     {
         // Set up
         this.pan = {}
-        this.pan.enabled = true
+        this.pan.enabled = false
         this.pan.active = false
         this.pan.easing = 0.1
         this.pan.start = {}
@@ -155,31 +155,49 @@ export default class Camera
         this.pan.mouse = new THREE.Vector2()
         this.pan.needsUpdate = false
         this.pan.hitMesh = new THREE.Mesh(
-            new THREE.PlaneBufferGeometry(60, 60, 1, 1),
-            new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true })
+            new THREE.PlaneBufferGeometry(500, 500, 1, 1),
+            new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true, visible: false })
         )
-        this.pan.hitMesh.rotation.z = - Math.PI * 0.25
         this.container.add(this.pan.hitMesh)
 
-        window.addEventListener('mousemove', (_event) =>
+        this.pan.reset = () =>
         {
-            if(this.pan.active)
+            this.pan.targetValue.x = 0
+            this.pan.targetValue.y = 0
+        }
+
+        this.pan.enable = () =>
+        {
+            this.pan.enabled = true
+
+            // Update cursor
+            this.renderer.domElement.classList.add('has-cursor-grab')
+        }
+
+        this.pan.disable = () =>
+        {
+            this.pan.enabled = false
+
+            // Update cursor
+            this.renderer.domElement.classList.remove('has-cursor-grab')
+        }
+
+        this.pan.down = (_x, _y) =>
+        {
+            if(!this.pan.enabled)
             {
-                this.pan.mouse.x = (_event.clientX / this.sizes.viewport.width) * 2 - 1
-                this.pan.mouse.y = - (_event.clientY / this.sizes.viewport.height) * 2 + 1
-
-                this.pan.needsUpdate = true
+                return
             }
-        })
 
-        window.addEventListener('mousedown', (_event) =>
-        {
+            // Update cursor
+            this.renderer.domElement.classList.add('has-cursor-grabbing')
+
             // Activate
             this.pan.active = true
 
             // Update mouse position
-            this.pan.mouse.x = (_event.clientX / this.sizes.viewport.width) * 2 - 1
-            this.pan.mouse.y = - (_event.clientY / this.sizes.viewport.height) * 2 + 1
+            this.pan.mouse.x = (_x / this.sizes.viewport.width) * 2 - 1
+            this.pan.mouse.y = - (_y / this.sizes.viewport.height) * 2 + 1
 
             // Get start position
             this.pan.raycaster.setFromCamera(this.pan.mouse, this.instance)
@@ -191,31 +209,72 @@ export default class Camera
                 this.pan.start.x = intersects[0].point.x
                 this.pan.start.y = intersects[0].point.y
             }
-        })
+        }
 
-        window.addEventListener('mouseup', (_event) =>
+        this.pan.move = (_x, _y) =>
+        {
+            if(!this.pan.enabled)
+            {
+                return
+            }
+
+            if(!this.pan.active)
+            {
+                return
+            }
+
+            this.pan.mouse.x = (_x / this.sizes.viewport.width) * 2 - 1
+            this.pan.mouse.y = - (_y / this.sizes.viewport.height) * 2 + 1
+
+            this.pan.needsUpdate = true
+        }
+
+        this.pan.up = () =>
         {
             // Deactivate
             this.pan.active = false
+
+            // Update cursor
+            this.renderer.domElement.classList.remove('has-cursor-grabbing')
+        }
+
+        // Mouse
+        window.addEventListener('mousedown', (_event) =>
+        {
+            this.pan.down(_event.clientX, _event.clientY)
         })
 
+        window.addEventListener('mousemove', (_event) =>
+        {
+            this.pan.move(_event.clientX, _event.clientY)
+        })
+
+        window.addEventListener('mouseup', () =>
+        {
+            this.pan.up()
+        })
+
+        // Touch
+        this.renderer.domElement.addEventListener('touchstart', (_event) =>
+        {
+            this.pan.down(_event.touches[0].clientX, _event.touches[0].clientY)
+        })
+
+        this.renderer.domElement.addEventListener('touchmove', (_event) =>
+        {
+            this.pan.move(_event.touches[0].clientX, _event.touches[0].clientY)
+        })
+
+        this.renderer.domElement.addEventListener('touchend', () =>
+        {
+            this.pan.up()
+        })
+
+        // Time tick event
         this.time.on('tick', () =>
         {
-            // Move hit mesh
-            // this.pan.hitMesh.position.x = this.instance.position.x
-            // this.pan.hitMesh.position.y = this.instance.position.y
-            // this.pan.hitMesh.position.x = this.instance.position.x - 20
-            // this.pan.hitMesh.position.y = this.instance.position.y + 30
-
-            // const lookDirection = this.instance.rotation.toVector3()
-            // const test = lookDirection.projectOnPlane(new THREE.Vector3(0, 0, 1))
-            // const test2 = test.multiplyScalar(this.zoom.distance)
-            // // console.log(test.multiplyScalar(this.zoom.distance))
-            // this.pan.hitMesh.position.x = this.instance.position.x - test2.x
-            // this.pan.hitMesh.position.y = this.instance.position.y - test2.y
-
             // If active
-            if(this.pan.active)
+            if(this.pan.active && this.pan.needsUpdate)
             {
                 // Update target value
                 this.pan.raycaster.setFromCamera(this.pan.mouse, this.instance)
@@ -227,6 +286,9 @@ export default class Camera
                     this.pan.targetValue.x = - (intersects[0].point.x - this.pan.start.x)
                     this.pan.targetValue.y = - (intersects[0].point.y - this.pan.start.y)
                 }
+
+                // Update needsUpdate
+                this.pan.needsUpdate = false
             }
 
             // Update value and apply easing

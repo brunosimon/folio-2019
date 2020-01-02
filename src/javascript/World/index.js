@@ -55,6 +55,11 @@ export default class
 
     start()
     {
+        window.setTimeout(() =>
+        {
+            this.camera.pan.enable()
+        }, 2000)
+
         this.setReveal()
         this.setMaterials()
         this.setShadows()
@@ -254,7 +259,8 @@ export default class
         this.controls = new Controls({
             config: this.config,
             sizes: this.sizes,
-            time: this.time
+            time: this.time,
+            camera: this.camera
         })
     }
 

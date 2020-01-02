@@ -13,6 +13,7 @@ export default class Controls extends EventEmitter
         this.config = _options.config
         this.sizes = _options.sizes
         this.time = _options.time
+        this.camera = _options.camera
 
         this.setActions()
         this.setKeyboard()
@@ -54,6 +55,7 @@ export default class Controls extends EventEmitter
                 case 'ArrowUp':
                 case 'z':
                 case 'w':
+                    this.camera.pan.reset()
                     this.actions.up = true
                     break
 
@@ -64,6 +66,7 @@ export default class Controls extends EventEmitter
 
                 case 'ArrowDown':
                 case 's':
+                    this.camera.pan.reset()
                     this.actions.down = true
                     break
 
@@ -358,6 +361,8 @@ export default class Controls extends EventEmitter
 
             if(touch)
             {
+                this.camera.pan.reset()
+
                 this.touch.boost.touchIdentifier = touch.identifier
 
                 this.actions.up = true
@@ -440,6 +445,8 @@ export default class Controls extends EventEmitter
 
             if(touch)
             {
+                this.camera.pan.reset()
+
                 this.touch.forward.touchIdentifier = touch.identifier
 
                 this.actions.up = true
@@ -602,6 +609,8 @@ export default class Controls extends EventEmitter
 
             if(touch)
             {
+                this.camera.pan.reset()
+
                 this.touch.backward.touchIdentifier = touch.identifier
 
                 this.actions.down = true

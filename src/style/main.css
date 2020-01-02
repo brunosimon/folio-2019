@@ -24,6 +24,16 @@ html
     height: 100%;
 }
 
+.canvas.has-cursor-grab
+{
+    cursor: grab;
+}
+
+.canvas.has-cursor-grabbing
+{
+    cursor: grabbing;
+}
+
 .canvas.has-cursor-pointer
 {
     cursor: pointer;
