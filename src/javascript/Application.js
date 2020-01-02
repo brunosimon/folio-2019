@@ -113,7 +113,7 @@ export default class Application
             config: this.config
         })
 
-        this.scene.add(this.camera.instance)
+        this.scene.add(this.camera.container)
 
         this.time.on('tick', () =>
         {
