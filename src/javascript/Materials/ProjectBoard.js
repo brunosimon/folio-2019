@@ -1,20 +1,19 @@
 import * as THREE from 'three'
 
-import shaderFragment from '../shaders/billboardSheet/fragment.glsl'
-import shaderVertex from '../shaders/billboardSheet/vertex.glsl'
+import shaderFragment from '../shaders/projectBoard/fragment.glsl'
+import shaderVertex from '../shaders/projectBoard/vertex.glsl'
 
 export default function()
 {
     const uniforms = {
         uTexture: { value: null },
-        uCount: { value: null },
-        uProgress: { value: null }
+        uTextureAlpha: { value: null },
+        uColor: { value: null }
     }
 
     const material = new THREE.ShaderMaterial({
         wireframe: false,
         transparent: false,
-        side: THREE.DoubleSide,
         uniforms,
         vertexShader: shaderVertex,
         fragmentShader: shaderFragment

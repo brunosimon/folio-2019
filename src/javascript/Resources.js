@@ -94,36 +94,11 @@ import projectsDistinctionsCSSDABaseSource from '../models/projects/distinctions
 import projectsDistinctionsCSSDACollisionSource from '../models/projects/distinctions/cssda/collision.glb'
 
 import projectsCitrixRedbullFloorSource from '../models/projects/citrixRedbull/floorTexture.png'
-import projectsCitrixRedbullSlideASources from '../models/projects/citrixRedbull/slideA.jpg'
-import projectsCitrixRedbullSlideBSources from '../models/projects/citrixRedbull/slideB.jpg'
-import projectsCitrixRedbullSlideCSources from '../models/projects/citrixRedbull/slideC.jpg'
-
 import projectsPriorHoldingsFloorSource from '../models/projects/priorHoldings/floorTexture.png'
-import projectsPriorHoldingsSlideASources from '../models/projects/priorHoldings/slideA.jpg'
-import projectsPriorHoldingsSlideBSources from '../models/projects/priorHoldings/slideB.jpg'
-import projectsPriorHoldingsSlideCSources from '../models/projects/priorHoldings/slideC.jpg'
-
 import projectsOranoFloorSource from '../models/projects/orano/floorTexture.png'
-import projectsOranoSlideASources from '../models/projects/orano/slideA.jpg'
-import projectsOranoSlideBSources from '../models/projects/orano/slideB.jpg'
-import projectsOranoSlideCSources from '../models/projects/orano/slideC.jpg'
-
 import projectsGleecChatFloorSource from '../models/projects/gleecChat/floorTexture.png'
-import projectsGleecChatSlideASources from '../models/projects/gleecChat/slideA.jpg'
-import projectsGleecChatSlideBSources from '../models/projects/gleecChat/slideB.jpg'
-import projectsGleecChatSlideCSources from '../models/projects/gleecChat/slideC.jpg'
-import projectsGleecChatSlideDSources from '../models/projects/gleecChat/slideD.jpg'
-
 import projectsRefletCommunicationFloorSource from '../models/projects/refletCommunication/floorTexture.png'
-import projectsRefletCommunicationSlideASources from '../models/projects/refletCommunication/slideA.jpg'
-import projectsRefletCommunicationSlideBSources from '../models/projects/refletCommunication/slideB.jpg'
-import projectsRefletCommunicationSlideCSources from '../models/projects/refletCommunication/slideC.jpg'
-import projectsRefletCommunicationSlideDSources from '../models/projects/refletCommunication/slideD.jpg'
-
 import projectsKepplerFloorSource from '../models/projects/keppler/floorTexture.png'
-import projectsKepplerSlideASources from '../models/projects/keppler/slideA.jpg'
-import projectsKepplerSlideBSources from '../models/projects/keppler/slideB.jpg'
-import projectsKepplerSlideCSources from '../models/projects/keppler/slideC.jpg'
 
 // Information
 import informationStaticBaseSource from '../models/information/static/base.glb'
@@ -295,36 +270,36 @@ export default class Resources extends EventEmitter
             { name: 'projectsDistinctionsCSSDACollision', source: projectsDistinctionsCSSDACollisionSource },
 
             { name: 'projectsCitrixRedbullFloor', source: projectsCitrixRedbullFloorSource, type: 'texture' },
-            { name: 'projectsCitrixRedbullSlideA', source: projectsCitrixRedbullSlideASources, type: 'texture' },
-            { name: 'projectsCitrixRedbullSlideB', source: projectsCitrixRedbullSlideBSources, type: 'texture' },
-            { name: 'projectsCitrixRedbullSlideC', source: projectsCitrixRedbullSlideCSources, type: 'texture' },
+            // { name: 'projectsCitrixRedbullSlideA', source: projectsCitrixRedbullSlideASources, type: 'texture' },
+            // { name: 'projectsCitrixRedbullSlideB', source: projectsCitrixRedbullSlideBSources, type: 'texture' },
+            // { name: 'projectsCitrixRedbullSlideC', source: projectsCitrixRedbullSlideCSources, type: 'texture' },
 
             { name: 'projectsPriorHoldingsFloor', source: projectsPriorHoldingsFloorSource, type: 'texture' },
-            { name: 'projectsPriorHoldingsSlideA', source: projectsPriorHoldingsSlideASources, type: 'texture' },
-            { name: 'projectsPriorHoldingsSlideB', source: projectsPriorHoldingsSlideBSources, type: 'texture' },
-            { name: 'projectsPriorHoldingsSlideC', source: projectsPriorHoldingsSlideCSources, type: 'texture' },
+            // { name: 'projectsPriorHoldingsSlideA', source: projectsPriorHoldingsSlideASources, type: 'texture' },
+            // { name: 'projectsPriorHoldingsSlideB', source: projectsPriorHoldingsSlideBSources, type: 'texture' },
+            // { name: 'projectsPriorHoldingsSlideC', source: projectsPriorHoldingsSlideCSources, type: 'texture' },
 
             { name: 'projectsOranoFloor', source: projectsOranoFloorSource, type: 'texture' },
-            { name: 'projectsOranoSlideA', source: projectsOranoSlideASources, type: 'texture' },
-            { name: 'projectsOranoSlideB', source: projectsOranoSlideBSources, type: 'texture' },
-            { name: 'projectsOranoSlideC', source: projectsOranoSlideCSources, type: 'texture' },
+            // { name: 'projectsOranoSlideA', source: projectsOranoSlideASources, type: 'texture' },
+            // { name: 'projectsOranoSlideB', source: projectsOranoSlideBSources, type: 'texture' },
+            // { name: 'projectsOranoSlideC', source: projectsOranoSlideCSources, type: 'texture' },
 
             { name: 'projectsGleecChatFloor', source: projectsGleecChatFloorSource, type: 'texture' },
-            { name: 'projectsGleecChatSlideA', source: projectsGleecChatSlideASources, type: 'texture' },
-            { name: 'projectsGleecChatSlideB', source: projectsGleecChatSlideBSources, type: 'texture' },
-            { name: 'projectsGleecChatSlideC', source: projectsGleecChatSlideCSources, type: 'texture' },
-            { name: 'projectsGleecChatSlideD', source: projectsGleecChatSlideDSources, type: 'texture' },
+            // { name: 'projectsGleecChatSlideA', source: projectsGleecChatSlideASources, type: 'texture' },
+            // { name: 'projectsGleecChatSlideB', source: projectsGleecChatSlideBSources, type: 'texture' },
+            // { name: 'projectsGleecChatSlideC', source: projectsGleecChatSlideCSources, type: 'texture' },
+            // { name: 'projectsGleecChatSlideD', source: projectsGleecChatSlideDSources, type: 'texture' },
 
             { name: 'projectsRefletCommunicationFloor', source: projectsRefletCommunicationFloorSource, type: 'texture' },
-            { name: 'projectsRefletCommunicationSlideA', source: projectsRefletCommunicationSlideASources, type: 'texture' },
-            { name: 'projectsRefletCommunicationSlideB', source: projectsRefletCommunicationSlideBSources, type: 'texture' },
-            { name: 'projectsRefletCommunicationSlideC', source: projectsRefletCommunicationSlideCSources, type: 'texture' },
-            { name: 'projectsRefletCommunicationSlideD', source: projectsRefletCommunicationSlideDSources, type: 'texture' },
+            // { name: 'projectsRefletCommunicationSlideA', source: projectsRefletCommunicationSlideASources, type: 'texture' },
+            // { name: 'projectsRefletCommunicationSlideB', source: projectsRefletCommunicationSlideBSources, type: 'texture' },
+            // { name: 'projectsRefletCommunicationSlideC', source: projectsRefletCommunicationSlideCSources, type: 'texture' },
+            // { name: 'projectsRefletCommunicationSlideD', source: projectsRefletCommunicationSlideDSources, type: 'texture' },
 
             { name: 'projectsKepplerFloor', source: projectsKepplerFloorSource, type: 'texture' },
-            { name: 'projectsKepplerSlideA', source: projectsKepplerSlideASources, type: 'texture' },
-            { name: 'projectsKepplerSlideB', source: projectsKepplerSlideBSources, type: 'texture' },
-            { name: 'projectsKepplerSlideC', source: projectsKepplerSlideCSources, type: 'texture' },
+            // { name: 'projectsKepplerSlideA', source: projectsKepplerSlideASources, type: 'texture' },
+            // { name: 'projectsKepplerSlideB', source: projectsKepplerSlideBSources, type: 'texture' },
+            // { name: 'projectsKepplerSlideC', source: projectsKepplerSlideCSources, type: 'texture' },
 
             // Information
             { name: 'informationStaticBase', source: informationStaticBaseSource },

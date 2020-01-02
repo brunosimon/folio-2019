@@ -1,5 +1,9 @@
 import * as THREE from 'three'
 
+import ProjectBoardMaterial from '../../Materials/ProjectBoard.js'
+import TweenLite from 'gsap/TweenLite'
+import { Power4 } from 'gsap/EasePack'
+
 export default class Project
 {
     constructor(_options)
@@ -12,11 +16,11 @@ export default class Project
         this.name = _options.name
         this.geometries = _options.geometries
         this.meshes = _options.meshes
-        this.materials = _options.materials
+        this.debug = _options.debug
         this.name = _options.name
         this.x = _options.x
         this.y = _options.y
-        this.images = _options.images
+        this.imageSources = _options.imageSources
         this.floorTexture = _options.floorTexture
         this.link = _options.link
         this.distinctions = _options.distinctions
@@ -38,11 +42,21 @@ export default class Project
         this.boards.xStart = - 5
         this.boards.xInter = 5
         this.boards.y = 5
+        this.boards.color = '#8e7161'
+        this.boards.threeColor = new THREE.Color(this.boards.color)
+
+        if(this.debug)
+        {
+            this.debug.addColor(this.boards, 'color').name('boardColor').onChange(() =>
+            {
+                this.boards.threeColor.set(this.boards.color)
+            })
+        }
 
         // Create each board
         let i = 0
 
-        for(const _image of this.images)
+        for(const _imageSource of this.imageSources)
         {
             // Set up
             const board = {}
@@ -60,10 +74,21 @@ export default class Project
                 mass: 0
             })
 
-            // Texture
-            board.texture = _image
-            board.texture.magFilter = THREE.NearestFilter
-            board.texture.minFilter = THREE.LinearFilter
+            // Image load
+            const image = new Image()
+            image.addEventListener('load', () =>
+            {
+                board.texture = new THREE.Texture(image)
+                board.texture.needsUpdate = true
+                board.texture.magFilter = THREE.NearestFilter
+                board.texture.minFilter = THREE.LinearFilter
+
+                board.planeMesh.material.uniforms.uTexture.value = board.texture
+
+                TweenLite.to(board.planeMesh.material.uniforms.uTextureAlpha, 1, { value: 1, ease: Power4.inOut })
+            })
+
+            image.src = _imageSource
 
             // Plane
             board.planeMesh = this.meshes.boardPlane.clone()
@@ -71,7 +96,9 @@ export default class Project
             board.planeMesh.position.y = board.y
             board.planeMesh.matrixAutoUpdate = false
             board.planeMesh.updateMatrix()
-            board.planeMesh.material = new THREE.MeshBasicMaterial({ map: board.texture })
+            board.planeMesh.material = new ProjectBoardMaterial()
+            board.planeMesh.material.uniforms.uColor.value = this.boards.threeColor
+            board.planeMesh.material.uniforms.uTextureAlpha.value = 0
             this.container.add(board.planeMesh)
 
             // Save
@@ -105,8 +132,7 @@ export default class Project
         this.floor.geometry = this.geometries.floor
 
         // Material
-        this.floor.material = this.materials.floor.clone()
-        this.floor.material.alphaMap = this.floor.texture
+        this.floor.material =  new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false, alphaMap: this.floor.texture })
 
         // Mesh
         this.floor.mesh = new THREE.Mesh(this.floor.geometry, this.floor.material)

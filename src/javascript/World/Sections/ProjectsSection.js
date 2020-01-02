@@ -1,7 +1,32 @@
 import * as THREE from 'three'
 import Project from './Project'
-import BillboardSheetMaterial from '../../Materials/BillboardSheet.js'
 import TweenLite from 'gsap/TweenLite'
+
+import projectsCitrixRedbullSlideASources from '../../../models/projects/citrixRedbull/slideA.jpg'
+import projectsCitrixRedbullSlideBSources from '../../../models/projects/citrixRedbull/slideB.jpg'
+import projectsCitrixRedbullSlideCSources from '../../../models/projects/citrixRedbull/slideC.jpg'
+
+import projectsPriorHoldingsSlideASources from '../../../models/projects/priorHoldings/slideA.jpg'
+import projectsPriorHoldingsSlideBSources from '../../../models/projects/priorHoldings/slideB.jpg'
+import projectsPriorHoldingsSlideCSources from '../../../models/projects/priorHoldings/slideC.jpg'
+
+import projectsOranoSlideASources from '../../../models/projects/orano/slideA.jpg'
+import projectsOranoSlideBSources from '../../../models/projects/orano/slideB.jpg'
+import projectsOranoSlideCSources from '../../../models/projects/orano/slideC.jpg'
+
+import projectsGleecChatSlideASources from '../../../models/projects/gleecChat/slideA.jpg'
+import projectsGleecChatSlideBSources from '../../../models/projects/gleecChat/slideB.jpg'
+import projectsGleecChatSlideCSources from '../../../models/projects/gleecChat/slideC.jpg'
+import projectsGleecChatSlideDSources from '../../../models/projects/gleecChat/slideD.jpg'
+
+import projectsRefletCommunicationSlideASources from '../../../models/projects/refletCommunication/slideA.jpg'
+import projectsRefletCommunicationSlideBSources from '../../../models/projects/refletCommunication/slideB.jpg'
+import projectsRefletCommunicationSlideCSources from '../../../models/projects/refletCommunication/slideC.jpg'
+import projectsRefletCommunicationSlideDSources from '../../../models/projects/refletCommunication/slideD.jpg'
+
+import projectsKepplerSlideASources from '../../../models/projects/keppler/slideA.jpg'
+import projectsKepplerSlideBSources from '../../../models/projects/keppler/slideB.jpg'
+import projectsKepplerSlideCSources from '../../../models/projects/keppler/slideC.jpg'
 
 export default class ProjectsSection
 {
@@ -20,6 +45,13 @@ export default class ProjectsSection
         this.x = _options.x
         this.y = _options.y
 
+        // Debug
+        if(this.debug)
+        {
+            this.debugFolder = this.debug.addFolder('projects')
+            this.debugFolder.open()
+        }
+
         // Set up
         this.items = []
 
@@ -33,7 +65,6 @@ export default class ProjectsSection
 
         this.setGeometries()
         this.setMeshes()
-        this.setMaterials()
         this.setList()
         this.setZone()
 
@@ -62,23 +93,16 @@ export default class ProjectsSection
         this.meshes.areaLabel.matrixAutoUpdate = false
     }
 
-    setMaterials()
-    {
-        this.materials = {}
-        this.materials.sheet = new BillboardSheetMaterial()
-        this.materials.floor = new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false })
-    }
-
     setList()
     {
         this.list = [
             {
                 name: 'priorHoldings',
-                images:
+                imageSources:
                 [
-                    this.resources.items.projectsPriorHoldingsSlideATexture,
-                    this.resources.items.projectsPriorHoldingsSlideBTexture,
-                    this.resources.items.projectsPriorHoldingsSlideCTexture
+                    projectsPriorHoldingsSlideASources,
+                    projectsPriorHoldingsSlideBSources,
+                    projectsPriorHoldingsSlideCSources
                 ],
                 floorTexture: this.resources.items.projectsPriorHoldingsFloorTexture,
                 link:
@@ -101,11 +125,11 @@ export default class ProjectsSection
             },
             {
                 name: 'orano',
-                images:
+                imageSources:
                 [
-                    this.resources.items.projectsOranoSlideATexture,
-                    this.resources.items.projectsOranoSlideBTexture,
-                    this.resources.items.projectsOranoSlideCTexture
+                    projectsOranoSlideASources,
+                    projectsOranoSlideBSources,
+                    projectsOranoSlideCSources
                 ],
                 floorTexture: this.resources.items.projectsOranoFloorTexture,
                 link:
@@ -128,11 +152,11 @@ export default class ProjectsSection
             },
             {
                 name: 'citrixRedbull',
-                images:
+                imageSources:
                 [
-                    this.resources.items.projectsCitrixRedbullSlideATexture,
-                    this.resources.items.projectsCitrixRedbullSlideBTexture,
-                    this.resources.items.projectsCitrixRedbullSlideCTexture
+                    projectsCitrixRedbullSlideASources,
+                    projectsCitrixRedbullSlideBSources,
+                    projectsCitrixRedbullSlideCSources
                 ],
                 floorTexture: this.resources.items.projectsCitrixRedbullFloorTexture,
                 link:
@@ -155,12 +179,12 @@ export default class ProjectsSection
             },
             {
                 name: 'gleecChat',
-                images:
+                imageSources:
                 [
-                    this.resources.items.projectsGleecChatSlideATexture,
-                    this.resources.items.projectsGleecChatSlideBTexture,
-                    this.resources.items.projectsGleecChatSlideCTexture,
-                    this.resources.items.projectsGleecChatSlideDTexture
+                    projectsGleecChatSlideASources,
+                    projectsGleecChatSlideBSources,
+                    projectsGleecChatSlideCSources,
+                    projectsGleecChatSlideDSources
                 ],
                 floorTexture: this.resources.items.projectsGleecChatFloorTexture,
                 link:
@@ -183,12 +207,12 @@ export default class ProjectsSection
             },
             {
                 name: 'refletCommunication',
-                images:
+                imageSources:
                 [
-                    this.resources.items.projectsRefletCommunicationSlideATexture,
-                    this.resources.items.projectsRefletCommunicationSlideBTexture,
-                    this.resources.items.projectsRefletCommunicationSlideCTexture,
-                    this.resources.items.projectsRefletCommunicationSlideDTexture
+                    projectsRefletCommunicationSlideASources,
+                    projectsRefletCommunicationSlideBSources,
+                    projectsRefletCommunicationSlideCSources,
+                    projectsRefletCommunicationSlideDSources
                 ],
                 floorTexture: this.resources.items.projectsRefletCommunicationFloorTexture,
                 link:
@@ -211,11 +235,11 @@ export default class ProjectsSection
             },
             {
                 name: 'keppler',
-                images:
+                imageSources:
                 [
-                    this.resources.items.projectsKepplerSlideATexture,
-                    this.resources.items.projectsKepplerSlideBTexture,
-                    this.resources.items.projectsKepplerSlideCTexture
+                    projectsKepplerSlideASources,
+                    projectsKepplerSlideBSources,
+                    projectsKepplerSlideCSources
                 ],
                 floorTexture: this.resources.items.projectsKepplerFloorTexture,
                 link:
@@ -276,7 +300,7 @@ export default class ProjectsSection
             areas: this.areas,
             geometries: this.geometries,
             meshes: this.meshes,
-            materials: this.materials,
+            debug: this.debugFolder,
             x: x,
             y: y,
             ..._options
