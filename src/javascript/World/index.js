@@ -260,7 +260,8 @@ export default class
             config: this.config,
             sizes: this.sizes,
             time: this.time,
-            camera: this.camera
+            camera: this.camera,
+            sounds: this.sounds
         })
     }
 

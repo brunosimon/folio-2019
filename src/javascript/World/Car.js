@@ -39,6 +39,7 @@ export default class Car
         this.setWheels()
         this.setTransformControls()
         this.setShootingBall()
+        this.setKlaxon()
     }
 
     setModels()
@@ -324,6 +325,49 @@ export default class Car
                 direction.normalize()
                 direction = direction.scale(100)
                 bowlingBall.collision.body.applyImpulse(direction, bowlingBall.collision.body.position)
+            }
+        })
+    }
+
+    setKlaxon()
+    {
+        this.klaxon = {}
+        this.klaxon.waitDuration = 150
+        this.klaxon.can = true
+
+        window.addEventListener('keydown', (_event) =>
+        {
+            // Play horn sound
+            if(_event.key === 'h' && this.klaxon.can)
+            {
+                this.klaxon.can = false
+                window.setTimeout(() =>
+                {
+                    this.klaxon.can = true
+                }, this.klaxon.waitDuration)
+
+                this.physics.car.jump(false, 20)
+                this.sounds.play(Math.random() < 0.002 ? 'carHorn2' : 'carHorn1')
+            }
+
+            // Rain horns
+            if(_event.key === 'k')
+            {
+                const x = this.position.x + (Math.random() - 0.5) * 3
+                const y = this.position.y + (Math.random() - 0.5) * 3
+                const z = 6 + 2 * Math.random()
+
+                this.objects.add({
+                    base: this.resources.items.hornBase.scene,
+                    collision: this.resources.items.hornCollision.scene,
+                    offset: new THREE.Vector3(x, y, z),
+                    rotation: new THREE.Euler(Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2),
+                    duplicated: true,
+                    shadow: { sizeX: 1.5, sizeY: 1.5, offsetZ: - 0.15, alpha: 0.35 },
+                    mass: 5,
+                    soundName: 'horn',
+                    sleep: false
+                })
             }
         })
     }

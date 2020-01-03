@@ -160,11 +160,11 @@ export default class Physics
         /**
          * Jump
          */
-        this.car.jump = (_toReturn = true) =>
+        this.car.jump = (_toReturn = true, _strength = 60) =>
         {
             let worldPosition = this.car.chassis.body.position
             worldPosition = worldPosition.vadd(new CANNON.Vec3(_toReturn ? 0.08 : 0, 0, 0))
-            this.car.chassis.body.applyImpulse(new CANNON.Vec3(0, 0, 60), worldPosition)
+            this.car.chassis.body.applyImpulse(new CANNON.Vec3(0, 0, _strength), worldPosition)
         }
 
         /**

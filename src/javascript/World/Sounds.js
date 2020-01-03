@@ -27,6 +27,13 @@ import screech1Sound from '../../sounds/screeches/screech-1.mp3'
 
 import uiArea1Sound from '../../sounds/ui/area-1.mp3'
 
+import carHorn1Sound from '../../sounds/car-horns/car-horn-1.mp3'
+import carHorn2Sound from '../../sounds/car-horns/car-horn-2.mp3'
+
+import horn1Sound from '../../sounds/horns/horn-1.mp3'
+import horn2Sound from '../../sounds/horns/horn-2.mp3'
+import horn3Sound from '../../sounds/horns/horn-3.mp3'
+
 export default class Sounds
 {
     constructor(_options)
@@ -141,6 +148,39 @@ export default class Sounds
                 volumeMax: 1,
                 rateMin: 0.95,
                 rateMax: 1.05
+            },
+            {
+                name: 'carHorn1',
+                sounds: [carHorn1Sound],
+                minDelta: 0,
+                velocityMin: 0,
+                velocityMultiplier: 1,
+                volumeMin: 0.95,
+                volumeMax: 1,
+                rateMin: 1,
+                rateMax: 1
+            },
+            {
+                name: 'carHorn2',
+                sounds: [carHorn2Sound],
+                minDelta: 0,
+                velocityMin: 0,
+                velocityMultiplier: 1,
+                volumeMin: 0.95,
+                volumeMax: 1,
+                rateMin: 1,
+                rateMax: 1
+            },
+            {
+                name: 'horn',
+                sounds: [horn1Sound, horn2Sound, horn3Sound],
+                minDelta: 100,
+                velocityMin: 1,
+                velocityMultiplier: 0.75,
+                volumeMin: 0.5,
+                volumeMax: 1,
+                rateMin: 0.75,
+                rateMax: 1
             }
         ]
 

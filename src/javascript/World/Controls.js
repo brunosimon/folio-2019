@@ -14,6 +14,7 @@ export default class Controls extends EventEmitter
         this.sizes = _options.sizes
         this.time = _options.time
         this.camera = _options.camera
+        this.sounds = _options.sounds
 
         this.setActions()
         this.setKeyboard()

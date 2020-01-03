@@ -142,6 +142,19 @@ export default class IntroSection
         this.otherInstructions.label.mesh = new THREE.Mesh(this.otherInstructions.label.geometry, this.otherInstructions.label.material)
         this.otherInstructions.label.mesh.matrixAutoUpdate = false
         this.otherInstructions.container.add(this.otherInstructions.label.mesh)
+
+        // Horn
+        this.otherInstructions.horn = this.objects.add({
+            base: this.resources.items.hornBase.scene,
+            collision: this.resources.items.hornCollision.scene,
+            offset: new THREE.Vector3(this.otherInstructions.x + 1.25, this.otherInstructions.y - 2.75, 0.2),
+            rotation: new THREE.Euler(0, 0, 0.5),
+            duplicated: true,
+            shadow: { sizeX: 1.65, sizeY: 0.75, offsetZ: - 0.1, alpha: 0.4 },
+            mass: 1.5,
+            soundName: 'horn',
+            sleep: false
+        })
     }
 
     setTitles()

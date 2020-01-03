@@ -124,6 +124,10 @@ import playgroundStaticCollisionSource from '../models/playground/static/collisi
 import brickBaseSource from '../models/brick/base.glb'
 import brickCollisionSource from '../models/brick/collision.glb'
 
+// Horn
+import hornBaseSource from '../models/horn/base.glb'
+import hornCollisionSource from '../models/horn/collision.glb'
+
 // Lemon
 import lemonBaseSource from '../models/lemon/base.glb'
 import lemonCollisionSource from '../models/lemon/collision.glb'
@@ -324,6 +328,10 @@ export default class Resources extends EventEmitter
             // Brick
             { name: 'brickBase', source: brickBaseSource },
             { name: 'brickCollision', source: brickCollisionSource },
+
+            // Horn
+            { name: 'hornBase', source: hornBaseSource },
+            { name: 'hornCollision', source: hornCollisionSource },
 
             // Lemon
             { name: 'lemonBase', source: lemonBaseSource },
