@@ -127,6 +127,34 @@ export default class Camera
             this.zoom.targetValue = Math.min(Math.max(this.zoom.targetValue, 0), 1)
         }, { passive: true })
 
+        // Touch
+        this.zoom.touch = {}
+        this.zoom.touch.startDistance = 0
+        this.zoom.touch.startValue = 0
+
+        this.renderer.domElement.addEventListener('touchstart', (_event) =>
+        {
+            if(_event.touches.length === 2)
+            {
+                this.zoom.touch.startDistance = Math.hypot(_event.touches[0].clientX - _event.touches[1].clientX, _event.touches[0].clientX - _event.touches[1].clientX)
+                this.zoom.touch.startValue = this.zoom.targetValue
+            }
+        })
+
+        this.renderer.domElement.addEventListener('touchmove', (_event) =>
+        {
+            if(_event.touches.length === 2)
+            {
+                _event.preventDefault()
+
+                const distance = Math.hypot(_event.touches[0].clientX - _event.touches[1].clientX, _event.touches[0].clientX - _event.touches[1].clientX)
+                const ratio = distance / this.zoom.touch.startDistance
+
+                this.zoom.targetValue = this.zoom.touch.startValue - (ratio - 1)
+                this.zoom.targetValue = Math.min(Math.max(this.zoom.targetValue, 0), 1)
+            }
+        })
+
         // Time tick event
         this.time.on('tick', () =>
         {
@@ -257,12 +285,18 @@ export default class Camera
         // Touch
         this.renderer.domElement.addEventListener('touchstart', (_event) =>
         {
-            this.pan.down(_event.touches[0].clientX, _event.touches[0].clientY)
+            if(_event.touches.length === 1)
+            {
+                this.pan.down(_event.touches[0].clientX, _event.touches[0].clientY)
+            }
         })
 
         this.renderer.domElement.addEventListener('touchmove', (_event) =>
         {
-            this.pan.move(_event.touches[0].clientX, _event.touches[0].clientY)
+            if(_event.touches.length === 1)
+            {
+                this.pan.move(_event.touches[0].clientX, _event.touches[0].clientY)
+            }
         })
 
         this.renderer.domElement.addEventListener('touchend', () =>
