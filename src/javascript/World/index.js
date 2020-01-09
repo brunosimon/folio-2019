@@ -14,6 +14,8 @@ import ProjectsSection from './Sections/ProjectsSection.js'
 import CrossroadsSection from './Sections/CrossroadsSection.js'
 import InformationSection from './Sections/InformationSection.js'
 import PlaygroundSection from './Sections/PlaygroundSection.js'
+import DistinctionASection from './Sections/DistinctionASection.js'
+import DistinctionBSection from './Sections/DistinctionBSection.js'
 import Controls from './Controls.js'
 import Sounds from './Sounds.js'
 import { TweenLite } from 'gsap/TweenLite'
@@ -88,10 +90,14 @@ export default class
             TweenLite.fromTo(this.reveal, 3, { matcapsProgress: 0 }, { matcapsProgress: 1 })
             TweenLite.fromTo(this.reveal, 3, { floorShadowsProgress: 0 }, { floorShadowsProgress: 1, delay: 0.5 })
             TweenLite.fromTo(this.shadows, 3, { alpha: 0 }, { alpha: 0.5, delay: 0.5 })
-            TweenLite.fromTo(this.sections.intro.instructions.arrows.label.material, 0.3, { opacity: 0 }, { opacity: 1, delay: 0.5 })
-            if(this.sections.intro.otherInstructions)
+
+            if(this.sections.intro)
             {
-                TweenLite.fromTo(this.sections.intro.otherInstructions.label.material, 0.3, { opacity: 0 }, { opacity: 1, delay: 0.75 })
+                TweenLite.fromTo(this.sections.intro.instructions.arrows.label.material, 0.3, { opacity: 0 }, { opacity: 1, delay: 0.5 })
+                if(this.sections.intro.otherInstructions)
+                {
+                    TweenLite.fromTo(this.sections.intro.otherInstructions.label.material, 0.3, { opacity: 0 }, { opacity: 1, delay: 0.75 })
+                }
             }
 
             // Car
@@ -406,6 +412,22 @@ export default class
             tiles: this.tiles,
             debug: this.debugFolder
         }
+
+        // // Distinction A
+        // this.sections.distinctionA = new DistinctionASection({
+        //     ...options,
+        //     x: 0,
+        //     y: - 15
+        // })
+        // this.container.add(this.sections.distinctionA.container)
+
+        // // Distinction B
+        // this.sections.distinctionB = new DistinctionBSection({
+        //     ...options,
+        //     x: 0,
+        //     y: - 15
+        // })
+        // this.container.add(this.sections.distinctionB.container)
 
         // Intro
         this.sections.intro = new IntroSection({

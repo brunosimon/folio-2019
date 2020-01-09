@@ -128,6 +128,20 @@ import brickCollisionSource from '../models/brick/collision.glb'
 import hornBaseSource from '../models/horn/base.glb'
 import hornCollisionSource from '../models/horn/collision.glb'
 
+// // Distinction A
+// import distinctionAStaticFloorShadowSource from '../models/distinctionA/static/floorShadow.png'
+// import distinctionAStaticBaseSource from '../models/distinctionA/static/base.glb'
+// import distinctionAStaticCollisionSource from '../models/distinctionA/static/collision.glb'
+
+// // Distinction B
+// import distinctionBStaticFloorShadowSource from '../models/distinctionB/static/floorShadow.png'
+// import distinctionBStaticBaseSource from '../models/distinctionB/static/base.glb'
+// import distinctionBStaticCollisionSource from '../models/distinctionB/static/collision.glb'
+
+// // Cone
+// import coneBaseSource from '../models/cone/base.glb'
+// import coneCollisionSource from '../models/cone/collision.glb'
+
 // Lemon
 import lemonBaseSource from '../models/lemon/base.glb'
 import lemonCollisionSource from '../models/lemon/collision.glb'
@@ -332,6 +346,20 @@ export default class Resources extends EventEmitter
             // Horn
             { name: 'hornBase', source: hornBaseSource },
             { name: 'hornCollision', source: hornCollisionSource },
+
+            // // Distinction A
+            // { name: 'distinctionAStaticBase', source: distinctionAStaticBaseSource },
+            // { name: 'distinctionAStaticCollision', source: distinctionAStaticCollisionSource },
+            // { name: 'distinctionAStaticFloorShadow', source: distinctionAStaticFloorShadowSource, type: 'texture' },
+
+            // // Distinction B
+            // { name: 'distinctionBStaticBase', source: distinctionBStaticBaseSource },
+            // { name: 'distinctionBStaticCollision', source: distinctionBStaticCollisionSource },
+            // { name: 'distinctionBStaticFloorShadow', source: distinctionBStaticFloorShadowSource, type: 'texture' },
+
+            // // Cone
+            // { name: 'coneBase', source: coneBaseSource },
+            // { name: 'coneCollision', source: coneCollisionSource },
 
             // Lemon
             { name: 'lemonBase', source: lemonBaseSource },
