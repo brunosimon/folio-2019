@@ -14,8 +14,9 @@ import ProjectsSection from './Sections/ProjectsSection.js'
 import CrossroadsSection from './Sections/CrossroadsSection.js'
 import InformationSection from './Sections/InformationSection.js'
 import PlaygroundSection from './Sections/PlaygroundSection.js'
-import DistinctionASection from './Sections/DistinctionASection.js'
-import DistinctionBSection from './Sections/DistinctionBSection.js'
+// import DistinctionASection from './Sections/DistinctionASection.js'
+// import DistinctionBSection from './Sections/DistinctionBSection.js'
+// import DistinctionCSection from './Sections/DistinctionCSection.js'
 import Controls from './Controls.js'
 import Sounds from './Sounds.js'
 import { TweenLite } from 'gsap/TweenLite'
@@ -428,6 +429,14 @@ export default class
         //     y: - 15
         // })
         // this.container.add(this.sections.distinctionB.container)
+
+        // // Distinction C
+        // this.sections.distinctionC = new DistinctionCSection({
+        //     ...options,
+        //     x: 0,
+        //     y: 0
+        // })
+        // this.container.add(this.sections.distinctionC.container)
 
         // Intro
         this.sections.intro = new IntroSection({

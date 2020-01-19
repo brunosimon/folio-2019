@@ -17,6 +17,7 @@ import matcapPurpleSource from '../models/matcaps/purple.png'
 import matcapBlueSource from '../models/matcaps/blue.png'
 import matcapYellowSource from '../models/matcaps/yellow.png'
 import matcapMetalSource from '../models/matcaps/metal.png'
+// import matcapGoldSource from '../models/matcaps/gold.png'
 
 // Intro
 import introStaticBaseSource from '../models/intro/static/base.glb'
@@ -142,6 +143,10 @@ import hornCollisionSource from '../models/horn/collision.glb'
 // import coneBaseSource from '../models/cone/base.glb'
 // import coneCollisionSource from '../models/cone/collision.glb'
 
+// // Awwwards trophy
+// import awwwardsTrophyBaseSource from '../models/awwwardsTrophy/base.glb'
+// import awwwardsTrophyCollisionSource from '../models/awwwardsTrophy/collision.glb'
+
 // Lemon
 import lemonBaseSource from '../models/lemon/base.glb'
 import lemonCollisionSource from '../models/lemon/collision.glb'
@@ -211,6 +216,7 @@ export default class Resources extends EventEmitter
             { name: 'matcapBlue', source: matcapBlueSource, type: 'texture' },
             { name: 'matcapYellow', source: matcapYellowSource, type: 'texture' },
             { name: 'matcapMetal', source: matcapMetalSource, type: 'texture' },
+            // { name: 'matcapGold', source: matcapGoldSource, type: 'texture' },
 
             // Intro
             { name: 'introStaticBase', source: introStaticBaseSource },
@@ -360,6 +366,10 @@ export default class Resources extends EventEmitter
             // // Cone
             // { name: 'coneBase', source: coneBaseSource },
             // { name: 'coneCollision', source: coneCollisionSource },
+
+            // Awwwards trophy
+            { name: 'awwwardsTrophyBase', source: awwwardsTrophyBaseSource },
+            { name: 'awwwardsTrophyCollision', source: awwwardsTrophyCollisionSource },
 
             // Lemon
             { name: 'lemonBase', source: lemonBaseSource },
