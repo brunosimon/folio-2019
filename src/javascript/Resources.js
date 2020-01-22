@@ -367,9 +367,9 @@ export default class Resources extends EventEmitter
             // { name: 'coneBase', source: coneBaseSource },
             // { name: 'coneCollision', source: coneCollisionSource },
 
-            // Awwwards trophy
-            { name: 'awwwardsTrophyBase', source: awwwardsTrophyBaseSource },
-            { name: 'awwwardsTrophyCollision', source: awwwardsTrophyCollisionSource },
+            // // Awwwards trophy
+            // { name: 'awwwardsTrophyBase', source: awwwardsTrophyBaseSource },
+            // { name: 'awwwardsTrophyCollision', source: awwwardsTrophyCollisionSource },
 
             // Lemon
             { name: 'lemonBase', source: lemonBaseSource },
