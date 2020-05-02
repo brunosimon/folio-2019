@@ -139,6 +139,11 @@ import hornCollisionSource from '../models/horn/collision.glb'
 // import distinctionBStaticBaseSource from '../models/distinctionB/static/base.glb'
 // import distinctionBStaticCollisionSource from '../models/distinctionB/static/collision.glb'
 
+// // Distinction C
+// import distinctionCStaticFloorShadowSource from '../models/distinctionC/static/floorShadow.png'
+// import distinctionCStaticBaseSource from '../models/distinctionC/static/base.glb'
+// import distinctionCStaticCollisionSource from '../models/distinctionC/static/collision.glb'
+
 // // Cone
 // import coneBaseSource from '../models/cone/base.glb'
 // import coneCollisionSource from '../models/cone/collision.glb'
@@ -146,6 +151,10 @@ import hornCollisionSource from '../models/horn/collision.glb'
 // // Awwwards trophy
 // import awwwardsTrophyBaseSource from '../models/awwwardsTrophy/base.glb'
 // import awwwardsTrophyCollisionSource from '../models/awwwardsTrophy/collision.glb'
+
+// Awwwards trophy
+import webbyTrophyBaseSource from '../models/webbyTrophy/base.glb'
+import webbyTrophyCollisionSource from '../models/webbyTrophy/collision.glb'
 
 // Lemon
 import lemonBaseSource from '../models/lemon/base.glb'
@@ -363,6 +372,11 @@ export default class Resources extends EventEmitter
             // { name: 'distinctionBStaticCollision', source: distinctionBStaticCollisionSource },
             // { name: 'distinctionBStaticFloorShadow', source: distinctionBStaticFloorShadowSource, type: 'texture' },
 
+            // // Distinction C
+            // { name: 'distinctionCStaticBase', source: distinctionCStaticBaseSource },
+            // { name: 'distinctionCStaticCollision', source: distinctionCStaticCollisionSource },
+            // { name: 'distinctionCStaticFloorShadow', source: distinctionCStaticFloorShadowSource, type: 'texture' },
+
             // // Cone
             // { name: 'coneBase', source: coneBaseSource },
             // { name: 'coneCollision', source: coneCollisionSource },
@@ -370,6 +384,10 @@ export default class Resources extends EventEmitter
             // // Awwwards trophy
             // { name: 'awwwardsTrophyBase', source: awwwardsTrophyBaseSource },
             // { name: 'awwwardsTrophyCollision', source: awwwardsTrophyCollisionSource },
+
+            // Webby trophy
+            { name: 'webbyTrophyBase', source: webbyTrophyBaseSource },
+            { name: 'webbyTrophyCollision', source: webbyTrophyCollisionSource },
 
             // Lemon
             { name: 'lemonBase', source: lemonBaseSource },
