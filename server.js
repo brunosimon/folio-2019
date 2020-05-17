@@ -35,9 +35,8 @@ app.use(express.static(__dirname + '/dist'));
 let clients = {}
 
 //Socket setup
-io.on('connect', client=>{
-  client.emit('testInfo')
-
+io.on('connection', client=>{
+  console.log('testInfo: Hello 🚗🚗')
   // console.log('User ' + client.id + ' connected, there are ' + io.engine.clientsCount + ' clients connected');
 
   //Add a new client indexed by his id
