@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --config ./bundler/webpack.prod.js",
+    "start": "concurrently \"nodemon server.js\" \"webpack --watch --config ./bundler/webpack.dev.js\"",
     "dev": "webpack-dev-server --config ./bundler/webpack.dev.js",
-    "watch": "webpack --watch --config ./bundler/webpack.config.js"
+    "watch": "webpack --watch --config ./bundler/webpack.dev.js"
   },
   "repository": {
     "type": "git",
@@ -45,5 +46,11 @@
     "staticPath": "static",
     "watcherGlob": "**"
   },
-  "dependencies": {}
+  "dependencies": {
+    "concurrently": "^5.2.0",
+    "ejs": "^3.1.3",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.4",
+    "socket.io": "^2.3.0"
+  }
 }
