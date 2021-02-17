@@ -94,11 +94,13 @@ import projectsDistinctionsFWACollisionSource from '../models/projects/distincti
 import projectsDistinctionsCSSDABaseSource from '../models/projects/distinctions/cssda/base.glb'
 import projectsDistinctionsCSSDACollisionSource from '../models/projects/distinctions/cssda/collision.glb'
 
+import projectsThreejsJourneyFloorSource from '../models/projects/threejsJourney/floorTexture.png'
+import projectsChartogneFloorSource from '../models/projects/chartogne/floorTexture.png'
+import projectsZenlyFloorSource from '../models/projects/zenly/floorTexture.png'
 import projectsCitrixRedbullFloorSource from '../models/projects/citrixRedbull/floorTexture.png'
 import projectsPriorHoldingsFloorSource from '../models/projects/priorHoldings/floorTexture.png'
 import projectsOranoFloorSource from '../models/projects/orano/floorTexture.png'
 import projectsGleecChatFloorSource from '../models/projects/gleecChat/floorTexture.png'
-import projectsRefletCommunicationFloorSource from '../models/projects/refletCommunication/floorTexture.png'
 import projectsKepplerFloorSource from '../models/projects/keppler/floorTexture.png'
 
 // Information
@@ -302,37 +304,14 @@ export default class Resources extends EventEmitter
             { name: 'projectsDistinctionsCSSDABase', source: projectsDistinctionsCSSDABaseSource },
             { name: 'projectsDistinctionsCSSDACollision', source: projectsDistinctionsCSSDACollisionSource },
 
+            { name: 'projectsThreejsJourneyFloor', source: projectsThreejsJourneyFloorSource, type: 'texture' },
+            { name: 'projectsChartogneFloor', source: projectsChartogneFloorSource, type: 'texture' },
+            { name: 'projectsZenlyFloor', source: projectsZenlyFloorSource, type: 'texture' },
             { name: 'projectsCitrixRedbullFloor', source: projectsCitrixRedbullFloorSource, type: 'texture' },
-            // { name: 'projectsCitrixRedbullSlideA', source: projectsCitrixRedbullSlideASources, type: 'texture' },
-            // { name: 'projectsCitrixRedbullSlideB', source: projectsCitrixRedbullSlideBSources, type: 'texture' },
-            // { name: 'projectsCitrixRedbullSlideC', source: projectsCitrixRedbullSlideCSources, type: 'texture' },
-
             { name: 'projectsPriorHoldingsFloor', source: projectsPriorHoldingsFloorSource, type: 'texture' },
-            // { name: 'projectsPriorHoldingsSlideA', source: projectsPriorHoldingsSlideASources, type: 'texture' },
-            // { name: 'projectsPriorHoldingsSlideB', source: projectsPriorHoldingsSlideBSources, type: 'texture' },
-            // { name: 'projectsPriorHoldingsSlideC', source: projectsPriorHoldingsSlideCSources, type: 'texture' },
-
             { name: 'projectsOranoFloor', source: projectsOranoFloorSource, type: 'texture' },
-            // { name: 'projectsOranoSlideA', source: projectsOranoSlideASources, type: 'texture' },
-            // { name: 'projectsOranoSlideB', source: projectsOranoSlideBSources, type: 'texture' },
-            // { name: 'projectsOranoSlideC', source: projectsOranoSlideCSources, type: 'texture' },
-
             { name: 'projectsGleecChatFloor', source: projectsGleecChatFloorSource, type: 'texture' },
-            // { name: 'projectsGleecChatSlideA', source: projectsGleecChatSlideASources, type: 'texture' },
-            // { name: 'projectsGleecChatSlideB', source: projectsGleecChatSlideBSources, type: 'texture' },
-            // { name: 'projectsGleecChatSlideC', source: projectsGleecChatSlideCSources, type: 'texture' },
-            // { name: 'projectsGleecChatSlideD', source: projectsGleecChatSlideDSources, type: 'texture' },
-
-            { name: 'projectsRefletCommunicationFloor', source: projectsRefletCommunicationFloorSource, type: 'texture' },
-            // { name: 'projectsRefletCommunicationSlideA', source: projectsRefletCommunicationSlideASources, type: 'texture' },
-            // { name: 'projectsRefletCommunicationSlideB', source: projectsRefletCommunicationSlideBSources, type: 'texture' },
-            // { name: 'projectsRefletCommunicationSlideC', source: projectsRefletCommunicationSlideCSources, type: 'texture' },
-            // { name: 'projectsRefletCommunicationSlideD', source: projectsRefletCommunicationSlideDSources, type: 'texture' },
-
             { name: 'projectsKepplerFloor', source: projectsKepplerFloorSource, type: 'texture' },
-            // { name: 'projectsKepplerSlideA', source: projectsKepplerSlideASources, type: 'texture' },
-            // { name: 'projectsKepplerSlideB', source: projectsKepplerSlideBSources, type: 'texture' },
-            // { name: 'projectsKepplerSlideC', source: projectsKepplerSlideCSources, type: 'texture' },
 
             // Information
             { name: 'informationStaticBase', source: informationStaticBaseSource },

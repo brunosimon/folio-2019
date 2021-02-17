@@ -2,6 +2,19 @@ import * as THREE from 'three'
 import Project from './Project'
 import TweenLite from 'gsap/TweenLite'
 
+import projectsThreejsJourneySlideASources from '../../../models/projects/threejsJourney/slideA.jpg'
+import projectsThreejsJourneySlideBSources from '../../../models/projects/threejsJourney/slideB.jpg'
+import projectsThreejsJourneySlideCSources from '../../../models/projects/threejsJourney/slideC.jpg'
+import projectsThreejsJourneySlideDSources from '../../../models/projects/threejsJourney/slideD.jpg'
+
+import projectsChartogneSlideASources from '../../../models/projects/chartogne/slideA.jpg'
+import projectsChartogneSlideBSources from '../../../models/projects/chartogne/slideB.jpg'
+import projectsChartogneSlideCSources from '../../../models/projects/chartogne/slideC.jpg'
+
+import projectsZenlySlideASources from '../../../models/projects/zenly/slideA.jpg'
+import projectsZenlySlideBSources from '../../../models/projects/zenly/slideB.jpg'
+import projectsZenlySlideCSources from '../../../models/projects/zenly/slideC.jpg'
+
 import projectsCitrixRedbullSlideASources from '../../../models/projects/citrixRedbull/slideA.jpg'
 import projectsCitrixRedbullSlideBSources from '../../../models/projects/citrixRedbull/slideB.jpg'
 import projectsCitrixRedbullSlideCSources from '../../../models/projects/citrixRedbull/slideC.jpg'
@@ -18,11 +31,6 @@ import projectsGleecChatSlideASources from '../../../models/projects/gleecChat/s
 import projectsGleecChatSlideBSources from '../../../models/projects/gleecChat/slideB.jpg'
 import projectsGleecChatSlideCSources from '../../../models/projects/gleecChat/slideC.jpg'
 import projectsGleecChatSlideDSources from '../../../models/projects/gleecChat/slideD.jpg'
-
-import projectsRefletCommunicationSlideASources from '../../../models/projects/refletCommunication/slideA.jpg'
-import projectsRefletCommunicationSlideBSources from '../../../models/projects/refletCommunication/slideB.jpg'
-import projectsRefletCommunicationSlideCSources from '../../../models/projects/refletCommunication/slideC.jpg'
-import projectsRefletCommunicationSlideDSources from '../../../models/projects/refletCommunication/slideD.jpg'
 
 import projectsKepplerSlideASources from '../../../models/projects/keppler/slideA.jpg'
 import projectsKepplerSlideBSources from '../../../models/projects/keppler/slideB.jpg'
@@ -96,6 +104,86 @@ export default class ProjectsSection
     setList()
     {
         this.list = [
+            {
+                name: 'Three.js Journey',
+                imageSources:
+                [
+                    projectsThreejsJourneySlideASources,
+                    projectsThreejsJourneySlideBSources,
+                    projectsThreejsJourneySlideCSources,
+                    projectsThreejsJourneySlideDSources
+                ],
+                floorTexture: this.resources.items.projectsThreejsJourneyFloorTexture,
+                link:
+                {
+                    href: 'https://threejs-journey.xyz',
+                    x: - 4.8,
+                    y: - 3,
+                    halfExtents:
+                    {
+                        x: 3.2,
+                        y: 1.5
+                    }
+                },
+                distinctions:
+                [
+                    { type: 'fwa', x: 3.95, y: 4.15 }
+                ]
+            },
+            {
+                name: 'Chartogne Taillet',
+                imageSources:
+                [
+                    projectsChartogneSlideASources,
+                    projectsChartogneSlideBSources,
+                    projectsChartogneSlideCSources
+                ],
+                floorTexture: this.resources.items.projectsChartogneFloorTexture,
+                link:
+                {
+                    href: 'https://chartogne-taillet.com',
+                    x: - 4.8,
+                    y: - 3.3,
+                    halfExtents:
+                    {
+                        x: 3.2,
+                        y: 1.5
+                    }
+                },
+                distinctions:
+                [
+                    { type: 'awwwards', x: 3.95, y: 4.15 },
+                    { type: 'fwa', x: 5.6, y: 4.15 },
+                    { type: 'cssda', x: 7.2, y: 4.15 }
+                ]
+            },
+            {
+                name: 'Zenly',
+                imageSources:
+                [
+                    projectsZenlySlideASources,
+                    projectsZenlySlideBSources,
+                    projectsZenlySlideCSources
+                ],
+                floorTexture: this.resources.items.projectsZenlyFloorTexture,
+                link:
+                {
+                    href: 'https://zen.ly',
+                    x: - 4.8,
+                    y: - 4.2,
+                    halfExtents:
+                    {
+                        x: 3.2,
+                        y: 1.5
+                    }
+                },
+                distinctions:
+                [
+                    { type: 'awwwards', x: 3.95, y: 4.15 },
+                    { type: 'fwa', x: 5.6, y: 4.15 },
+                    { type: 'cssda', x: 7.2, y: 4.15 }
+                ]
+            },
             {
                 name: 'priorHoldings',
                 imageSources:
@@ -192,34 +280,6 @@ export default class ProjectsSection
                     href: 'http://gleec.imm-g-prod.com',
                     x: - 4.8,
                     y: - 3.4,
-                    halfExtents:
-                    {
-                        x: 3.2,
-                        y: 1.5
-                    }
-                },
-                distinctions:
-                [
-                    { type: 'awwwards', x: 3.95, y: 4.15 },
-                    { type: 'fwa', x: 5.6, y: 4.15 },
-                    { type: 'cssda', x: 7.2, y: 4.15 }
-                ]
-            },
-            {
-                name: 'refletCommunication',
-                imageSources:
-                [
-                    projectsRefletCommunicationSlideASources,
-                    projectsRefletCommunicationSlideBSources,
-                    projectsRefletCommunicationSlideCSources,
-                    projectsRefletCommunicationSlideDSources
-                ],
-                floorTexture: this.resources.items.projectsRefletCommunicationFloorTexture,
-                link:
-                {
-                    href: 'https://www.refletcommunication.com',
-                    x: - 4.8,
-                    y: - 3,
                     halfExtents:
                     {
                         x: 3.2,
