@@ -73,6 +73,8 @@ import carDefaultWheelSource from '../models/car/default/wheel.glb'
 import carDefaultBackLightsBrakeSource from '../models/car/default/backLightsBrake.glb'
 import carDefaultBackLightsReverseSource from '../models/car/default/backLightsReverse.glb'
 import carDefaultAntenaSource from '../models/car/default/antena.glb'
+// import carDefaultBunnyEarLeftSource from '../models/car/default/bunnyEarLeft.glb'
+// import carDefaultBunnyEarRightSource from '../models/car/default/bunnyEarRight.glb'
 
 // Car cyber truck
 import carCyberTruckChassisSource from '../models/car/cyberTruck/chassis.glb'
@@ -203,6 +205,10 @@ import wig2Source from '../models/wigs/wig2.glb'
 import wig3Source from '../models/wigs/wig3.glb'
 import wig4Source from '../models/wigs/wig4.glb'
 
+// // Egg
+// import eggBaseSource from '../models/egg/base.glb'
+// import eggCollisionSource from '../models/egg/collision.glb'
+
 export default class Resources extends EventEmitter
 {
     constructor()
@@ -283,6 +289,8 @@ export default class Resources extends EventEmitter
             { name: 'carDefaultBackLightsBrake', source: carDefaultBackLightsBrakeSource },
             { name: 'carDefaultBackLightsReverse', source: carDefaultBackLightsReverseSource },
             { name: 'carDefaultAntena', source: carDefaultAntenaSource },
+            // { name: 'carDefaultBunnyEarLeft', source: carDefaultBunnyEarLeftSource },
+            // { name: 'carDefaultBunnyEarRight', source: carDefaultBunnyEarRightSource },
 
             // Car default
             { name: 'carCyberTruckChassis', source: carCyberTruckChassisSource },
@@ -411,7 +419,11 @@ export default class Resources extends EventEmitter
             { name: 'wig1', source: wig1Source },
             { name: 'wig2', source: wig2Source },
             { name: 'wig3', source: wig3Source },
-            { name: 'wig4', source: wig4Source }
+            { name: 'wig4', source: wig4Source },
+
+            // // Egg
+            // { name: 'eggBase', source: eggBaseSource },
+            // { name: 'eggCollision', source: eggCollisionSource },
         ])
 
         this.loader.on('fileEnd', (_resource, _data) =>

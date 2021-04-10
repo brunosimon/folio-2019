@@ -12,12 +12,14 @@ export default class EasterEggs
         this.materials = _options.materials
         this.areas = _options.areas
         this.config = _options.config
+        this.physics = _options.physics
 
         this.container = new THREE.Object3D()
         this.container.matrixAutoUpdate = false
 
         this.setKonamiCode()
         this.setWigs()
+        // this.setEggs()
     }
 
     setKonamiCode()
@@ -100,6 +102,13 @@ export default class EasterEggs
                             rotation: new THREE.Euler(Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2),
                             sleep: false
                         })
+                        // this.eggs.add({
+                        //     offset: new THREE.Vector3(x, y, 10),
+                        //     rotation: new THREE.Euler(Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2),
+                        //     material: this.materials.shades.items.yellow,
+                        //     code: 'MjAyMWVnZ2N2b3V6ZXI=',
+                        //     sleep: false
+                        // })
                     }, i * 50)
                 }
             }
@@ -246,6 +255,13 @@ export default class EasterEggs
             {
                 _mesh.material = randomMaterial
             }
+
+            // this.eggs.add({
+            //     offset: new THREE.Vector3(0, 80, 10),
+            //     material: this.materials.shades.items.metal,
+            //     code: 'MjAyMWVnZ2F6ZW9jYmI=',
+            //     sleep: false
+            // })
         }
 
         // Area
@@ -264,5 +280,106 @@ export default class EasterEggs
         this.wigs.areaLabel.matrixAutoUpdate = false
         this.wigs.areaLabel.updateMatrix()
         this.container.add(this.wigs.areaLabel)
+    }
+
+    setEggs()
+    {
+        this.eggs = {}
+        this.eggs.items = []
+
+        // Console
+        console.log('🥚 2021eggbvpoabe')
+
+        // Base eggs options
+        const eggOptions = [
+            {
+                offset: new THREE.Vector3(- 29.80, - 18.94, 0.5),
+                material: this.materials.shades.items.emeraldGreen,
+                code: 'MjAyMWVnZ2Fvem5kZXo='
+            },
+            {
+                offset: new THREE.Vector3(103.91, 128.56, 0.5),
+                material: this.materials.shades.items.red,
+                code: 'MjAyMWVnZ3Fxc3ZwcG8='
+            },
+            {
+                offset: new THREE.Vector3(39.68, -23.67, 0.5),
+                material: this.materials.shades.items.purple,
+                code: 'MjAyMWVnZ212b2Focnc='
+            },
+            {
+                offset: new THREE.Vector3(107.62, -155.75, 0.5),
+                material: this.materials.shades.items.blue,
+                code: 'MjAyMWVnZ2N1ZHBhaW4='
+            },
+        ]
+
+        this.eggs.add = (_options) =>
+        {
+            const egg = {}
+            egg.found = false
+            egg.code = _options.code
+
+            // Create object
+            egg.object = this.objects.add({
+                base: this.resources.items.eggBase.scene,
+                collision: this.resources.items.eggCollision.scene,
+                duplicated: true,
+                shadow: { sizeX: 1.2, sizeY: 1.8, offsetZ: - 0.15, alpha: 0.35 },
+                mass: 0.5,
+                sleep: typeof _options.sleep !== 'undefined' ? _options.sleep : true,
+                soundName: 'woodHit',
+                offset: _options.offset,
+                rotation: typeof _options.sleep !== 'undefined' ? _options.rotation : new THREE.Euler(0, 0, 0)
+            })
+
+            // Change material
+            egg.object.container.children[0].material = _options.material
+
+            // Collision callback
+            egg.collisionCallback = (_event) =>
+            {
+                // Collision with car
+                if(_event.body === this.physics.car.chassis.body && !egg.found)
+                {
+                    egg.found = true
+
+                    // egg.object.collision.body.removeEventListener('collide', egg.collisionCallback)
+
+                    const code = atob(egg.code)
+
+                    window.setTimeout(() =>
+                    {
+                        if(window.confirm(`
+You find an egg!
+Here is your code for a 30% discount on https://threejs-journey.xyz
+${code}
+
+Would you like to go on the subscription page?
+                        `))
+                        {
+                            window.open(`https://threejs-journey.xyz/subscribe/${code}`, '_blank')
+                        }
+
+                        window.setTimeout(() =>
+                        {
+                            egg.found = false
+                        }, 1000)
+                    }, 600)
+                }
+            }
+
+            // Listen to collide event
+            egg.object.collision.body.addEventListener('collide', egg.collisionCallback)
+
+            // Save
+            this.eggs.items.push(egg)
+        }
+
+        // Create base eggs
+        for(const _eggOption of eggOptions)
+        {
+            this.eggs.add(_eggOption)
+        }
     }
 }

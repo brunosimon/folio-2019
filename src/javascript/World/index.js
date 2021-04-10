@@ -503,7 +503,8 @@ export default class
             objects: this.objects,
             materials: this.materials,
             areas: this.areas,
-            config: this.config
+            config: this.config,
+            physics: this.physics
         })
         this.container.add(this.easterEggs.container)
     }

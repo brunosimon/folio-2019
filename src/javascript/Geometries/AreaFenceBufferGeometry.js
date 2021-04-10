@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 
-// BirdBufferGeometry
+// AreaFenceBufferGeometry
 function AreaFenceBufferGeometry(_width, _height, _depth,)
 {
     THREE.BufferGeometry.call(this)

@@ -61,6 +61,8 @@ export default class Car
         {
             this.models.chassis = this.resources.items.carDefaultChassis
             this.models.antena = this.resources.items.carDefaultAntena
+            // this.models.bunnyEarLeft = this.resources.items.carDefaultBunnyEarLeft
+            // this.models.bunnyEarRight = this.resources.items.carDefaultBunnyEarRight
             this.models.backLightsBrake = this.resources.items.carDefaultBackLightsBrake
             this.models.backLightsReverse = this.resources.items.carDefaultBackLightsReverse
             this.models.wheel = this.resources.items.carDefaultWheel
@@ -138,6 +140,12 @@ export default class Car
         this.antena.object = this.objects.getConvertedMesh(this.models.antena.scene.children)
         this.chassis.object.add(this.antena.object)
 
+        // this.antena.bunnyEarLeft = this.objects.getConvertedMesh(this.models.bunnyEarLeft.scene.children)
+        // this.chassis.object.add(this.antena.bunnyEarLeft)
+
+        // this.antena.bunnyEarRight = this.objects.getConvertedMesh(this.models.bunnyEarRight.scene.children)
+        // this.chassis.object.add(this.antena.bunnyEarRight)
+
         this.antena.speed = new THREE.Vector2()
         this.antena.absolutePosition = new THREE.Vector2()
         this.antena.localPosition = new THREE.Vector2()
@@ -166,6 +174,12 @@ export default class Car
 
             this.antena.object.rotation.y = this.antena.localPosition.x * 0.1
             this.antena.object.rotation.x = this.antena.localPosition.y * 0.1
+
+            // this.antena.bunnyEarLeft.rotation.y = this.antena.localPosition.x * 0.1
+            // this.antena.bunnyEarLeft.rotation.x = this.antena.localPosition.y * 0.1
+
+            // this.antena.bunnyEarRight.rotation.y = this.antena.localPosition.x * 0.1
+            // this.antena.bunnyEarRight.rotation.x = this.antena.localPosition.y * 0.1
         })
 
         // Debug
