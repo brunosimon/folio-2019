@@ -1,0 +1,30 @@
+
+package algodat;
+import java.util.Scanner;
+import java.util.LinkedList;
+public class Ihsanjs1 { 
+
+    public static void main(String[] args) {
+       LinkedList<String> li=new LinkedList<>();
+       Scanner input = new Scanner(System.in);
+        System.out.print("Isi data :");
+       String a = input.nextLine();
+       li.add(a);
+       System.out.print("Isi data :");
+       String b = input.nextLine();
+       li.add(b);
+        System.out.println("Ouput :"+li+", Ukuran :"+li.size());
+        System.out.print("Isi data di awal :");
+        String c = input.nextLine();
+        li.addFirst(c);
+        System.out.print("Isi data di akhir :");
+        String d = input.nextLine();
+        li.addLast(d);
+        System.out.println("Ouput :"+li+", Ukuran :"+li.size());
+        System.out.println("Hapus data awal & akhir ");
+        li.removeFirst();
+        li.removeLast();
+        System.out.println("Ouput :"+li+", Ukuran :"+li.size());
+    }
+    
+}
