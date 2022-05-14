@@ -2,6 +2,7 @@
 {
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
 }
 
 body,
@@ -37,4 +38,231 @@ html
 .canvas.has-cursor-pointer
 {
     cursor: pointer;
+}
+
+.threejs-journey
+{
+    display: none;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    width: 420px;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.threejs-journey.is-active
+{
+    display: flex;
+}
+
+.threejs-journey .message
+{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    /* width: 100%; */
+    font-family: 'Comic Neue', cursive;
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 18px;
+    opacity: 0;
+    transform: translateY(120px);
+    transition: transform 0.5s cubic-bezier(0.5, 0, 0.25, 1), opacity 0.5s 0.2s cubic-bezier(0.5, 0, 0.25, 1);
+}
+
+.threejs-journey .message.is-visible
+{
+    opacity: 1;
+}
+
+.threejs-journey .boy
+{
+    position: absolute;
+    bottom: 100%;
+    left: 20px;
+    width: 132px;
+    height: 118px;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.threejs-journey .boy .variant
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 112px;
+    height: 100%;
+    transform: translateY(100%);
+    transition: transform 0.15s ease-in;
+}
+
+.threejs-journey .boy .variant.is-yay
+{
+    background: url('../images/boyYay.png');
+}
+
+.threejs-journey .boy .variant.is-shrugging
+{
+    background: url('../images/boyShrugging.png');
+}
+
+.threejs-journey.is-hover-yes .boy .variant.is-yay
+{
+    transform: translateY(0);
+    transition-delay: 0.1s;
+    transition-timing-function: ease-out;
+}
+
+.threejs-journey.is-hover-no .boy .variant.is-shrugging
+{
+    transform: translateY(0);
+    transition-delay: 0.1s;
+    transition-timing-function: ease-out;
+}
+
+.threejs-journey.is-hover-none .boy .variant.is-hi
+{
+    transform: translateY(0);
+    transition-delay: 0.1s;
+    transition-timing-function: ease-out;
+}
+
+.threejs-journey .boy .is-hi .body
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../images/boyHiBody.png');
+}
+
+.threejs-journey .boy .is-hi .arm
+{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 49px;
+    height: 69px;
+    background: url('../images/boyHiArm.png');
+    animation: boyArmWave 3s infinite ease-in-out;
+    transform-origin: 30% 90%;
+}
+
+@keyframes boyArmWave
+{
+    0% { transform: rotate(0deg); }
+    2.5% { transform: rotate(15deg); }
+    7.5% { transform: rotate(-15deg); }
+
+    12.5% { transform: rotate(15deg); }
+    17.5% { transform: rotate(-15deg); }
+    20% { transform: rotate(0deg); }
+
+    100% { transform: rotate(0deg); }
+}
+
+.threejs-journey .message .bubble
+{
+    position: relative;
+    padding: 20px 30px;
+    border: 2px solid #ffffff;
+    border-radius: 8px;
+    background: linear-gradient(#fdb572ab, #fdb5721a);
+}
+
+.threejs-journey .message .tip
+{
+    position: absolute;
+    width: 12px;
+    height: 16px;
+    left: calc(100% - 1px);
+    bottom: 13px;
+    background: url('../images/bubbleTip.svg');
+}
+
+.threejs-journey .message.is-answers
+{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.threejs-journey .message .answer
+{
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    margin-left: 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.threejs-journey .message .answer .background
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+}
+
+.threejs-journey .message .answer .hover
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    transform-origin: 0 0;
+    transform: scaleX(0);
+    transition: transform ease-in-out 0.2s;
+    will-change: transform;
+}
+
+.threejs-journey .message .answer:hover .hover
+{
+    transform: scaleX(1);
+}
+
+.threejs-journey .message .answer .label
+{
+    position: relative;
+}
+
+.threejs-journey .message .answer.is-no
+{
+    color: #ffffff;
+}
+
+.threejs-journey .message .answer.is-no .background
+{
+    border: 2px solid #ffffff;
+    background: linear-gradient(#fdb5721a, #fdb572ab);
+    color: #ffffff;
+}
+
+.threejs-journey .message .answer.is-yes
+{
+    color: #feae69;
+}
+
+.threejs-journey .message .answer.is-yes .background
+{
+    background: #ffffff;
+    opacity: 0.75;
+}
+
+.threejs-journey .message .answer.is-no .hover
+{
+    transform-origin: 100% 0;
+    opacity: 0.2;
 }

@@ -7,6 +7,14 @@ import projectsThreejsJourneySlideBSources from '../../../models/projects/threej
 import projectsThreejsJourneySlideCSources from '../../../models/projects/threejsJourney/slideC.jpg'
 import projectsThreejsJourneySlideDSources from '../../../models/projects/threejsJourney/slideD.jpg'
 
+import projectsMadboxSlideASources from '../../../models/projects/madbox/slideA.jpg'
+import projectsMadboxSlideBSources from '../../../models/projects/madbox/slideB.jpg'
+import projectsMadboxSlideCSources from '../../../models/projects/madbox/slideC.jpg'
+
+import projectsScoutSlideASources from '../../../models/projects/scout/slideA.jpg'
+import projectsScoutSlideBSources from '../../../models/projects/scout/slideB.jpg'
+import projectsScoutSlideCSources from '../../../models/projects/scout/slideC.jpg'
+
 import projectsChartogneSlideASources from '../../../models/projects/chartogne/slideA.jpg'
 import projectsChartogneSlideBSources from '../../../models/projects/chartogne/slideB.jpg'
 import projectsChartogneSlideCSources from '../../../models/projects/chartogne/slideC.jpg'
@@ -27,10 +35,10 @@ import projectsOranoSlideASources from '../../../models/projects/orano/slideA.jp
 import projectsOranoSlideBSources from '../../../models/projects/orano/slideB.jpg'
 import projectsOranoSlideCSources from '../../../models/projects/orano/slideC.jpg'
 
-import projectsGleecChatSlideASources from '../../../models/projects/gleecChat/slideA.jpg'
-import projectsGleecChatSlideBSources from '../../../models/projects/gleecChat/slideB.jpg'
-import projectsGleecChatSlideCSources from '../../../models/projects/gleecChat/slideC.jpg'
-import projectsGleecChatSlideDSources from '../../../models/projects/gleecChat/slideD.jpg'
+// import projectsGleecChatSlideASources from '../../../models/projects/gleecChat/slideA.jpg'
+// import projectsGleecChatSlideBSources from '../../../models/projects/gleecChat/slideB.jpg'
+// import projectsGleecChatSlideCSources from '../../../models/projects/gleecChat/slideC.jpg'
+// import projectsGleecChatSlideDSources from '../../../models/projects/gleecChat/slideD.jpg'
 
 import projectsKepplerSlideASources from '../../../models/projects/keppler/slideA.jpg'
 import projectsKepplerSlideBSources from '../../../models/projects/keppler/slideB.jpg'
@@ -128,6 +136,56 @@ export default class ProjectsSection
                 distinctions:
                 [
                     { type: 'fwa', x: 3.95, y: 4.15 }
+                ]
+            },
+            {
+                name: 'Madbox',
+                imageSources:
+                [
+                    projectsMadboxSlideASources,
+                    projectsMadboxSlideBSources,
+                    projectsMadboxSlideCSources
+                ],
+                floorTexture: this.resources.items.projectsMadboxFloorTexture,
+                link:
+                {
+                    href: 'https://madbox.io',
+                    x: - 4.8,
+                    y: - 4,
+                    halfExtents:
+                    {
+                        x: 3.2,
+                        y: 1.5
+                    }
+                },
+                distinctions:
+                [
+                    { type: 'awwwards', x: 3.95, y: 4.15 },
+                    { type: 'fwa', x: 5.6, y: 4.15 }
+                ]
+            },
+            {
+                name: 'Scout',
+                imageSources:
+                [
+                    projectsScoutSlideASources,
+                    projectsScoutSlideBSources,
+                    projectsScoutSlideCSources
+                ],
+                floorTexture: this.resources.items.projectsScoutFloorTexture,
+                link:
+                {
+                    href: 'https://fromscout.com',
+                    x: - 4.8,
+                    y: - 2,
+                    halfExtents:
+                    {
+                        x: 3.2,
+                        y: 1.5
+                    }
+                },
+                distinctions:
+                [
                 ]
             },
             {
@@ -265,34 +323,34 @@ export default class ProjectsSection
                     { type: 'cssda', x: 7.2, y: 4.15 }
                 ]
             },
-            {
-                name: 'gleecChat',
-                imageSources:
-                [
-                    projectsGleecChatSlideASources,
-                    projectsGleecChatSlideBSources,
-                    projectsGleecChatSlideCSources,
-                    projectsGleecChatSlideDSources
-                ],
-                floorTexture: this.resources.items.projectsGleecChatFloorTexture,
-                link:
-                {
-                    href: 'http://gleec.imm-g-prod.com',
-                    x: - 4.8,
-                    y: - 3.4,
-                    halfExtents:
-                    {
-                        x: 3.2,
-                        y: 1.5
-                    }
-                },
-                distinctions:
-                [
-                    { type: 'awwwards', x: 3.95, y: 4.15 },
-                    { type: 'fwa', x: 5.6, y: 4.15 },
-                    { type: 'cssda', x: 7.2, y: 4.15 }
-                ]
-            },
+            // {
+            //     name: 'gleecChat',
+            //     imageSources:
+            //     [
+            //         projectsGleecChatSlideASources,
+            //         projectsGleecChatSlideBSources,
+            //         projectsGleecChatSlideCSources,
+            //         projectsGleecChatSlideDSources
+            //     ],
+            //     floorTexture: this.resources.items.projectsGleecChatFloorTexture,
+            //     link:
+            //     {
+            //         href: 'http://gleec.imm-g-prod.com',
+            //         x: - 4.8,
+            //         y: - 3.4,
+            //         halfExtents:
+            //         {
+            //             x: 3.2,
+            //             y: 1.5
+            //         }
+            //     },
+            //     distinctions:
+            //     [
+            //         { type: 'awwwards', x: 3.95, y: 4.15 },
+            //         { type: 'fwa', x: 5.6, y: 4.15 },
+            //         { type: 'cssda', x: 7.2, y: 4.15 }
+            //     ]
+            // },
             {
                 name: 'keppler',
                 imageSources:

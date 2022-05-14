@@ -97,12 +97,14 @@ import projectsDistinctionsCSSDABaseSource from '../models/projects/distinctions
 import projectsDistinctionsCSSDACollisionSource from '../models/projects/distinctions/cssda/collision.glb'
 
 import projectsThreejsJourneyFloorSource from '../models/projects/threejsJourney/floorTexture.png'
+import projectsMadboxFloorSource from '../models/projects/madbox/floorTexture.png'
+import projectsScoutFloorSource from '../models/projects/scout/floorTexture.png'
 import projectsChartogneFloorSource from '../models/projects/chartogne/floorTexture.png'
 import projectsZenlyFloorSource from '../models/projects/zenly/floorTexture.png'
 import projectsCitrixRedbullFloorSource from '../models/projects/citrixRedbull/floorTexture.png'
 import projectsPriorHoldingsFloorSource from '../models/projects/priorHoldings/floorTexture.png'
 import projectsOranoFloorSource from '../models/projects/orano/floorTexture.png'
-import projectsGleecChatFloorSource from '../models/projects/gleecChat/floorTexture.png'
+// import projectsGleecChatFloorSource from '../models/projects/gleecChat/floorTexture.png'
 import projectsKepplerFloorSource from '../models/projects/keppler/floorTexture.png'
 
 // Information
@@ -313,12 +315,14 @@ export default class Resources extends EventEmitter
             { name: 'projectsDistinctionsCSSDACollision', source: projectsDistinctionsCSSDACollisionSource },
 
             { name: 'projectsThreejsJourneyFloor', source: projectsThreejsJourneyFloorSource, type: 'texture' },
+            { name: 'projectsMadboxFloor', source: projectsMadboxFloorSource, type: 'texture' },
+            { name: 'projectsScoutFloor', source: projectsScoutFloorSource, type: 'texture' },
             { name: 'projectsChartogneFloor', source: projectsChartogneFloorSource, type: 'texture' },
             { name: 'projectsZenlyFloor', source: projectsZenlyFloorSource, type: 'texture' },
             { name: 'projectsCitrixRedbullFloor', source: projectsCitrixRedbullFloorSource, type: 'texture' },
             { name: 'projectsPriorHoldingsFloor', source: projectsPriorHoldingsFloorSource, type: 'texture' },
             { name: 'projectsOranoFloor', source: projectsOranoFloorSource, type: 'texture' },
-            { name: 'projectsGleecChatFloor', source: projectsGleecChatFloorSource, type: 'texture' },
+            // { name: 'projectsGleecChatFloor', source: projectsGleecChatFloorSource, type: 'texture' },
             { name: 'projectsKepplerFloor', source: projectsKepplerFloorSource, type: 'texture' },
 
             // Information
