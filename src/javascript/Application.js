@@ -5,13 +5,14 @@ import Sizes from './Utils/Sizes.js'
 import Time from './Utils/Time.js'
 import World from './World/index.js'
 import Resources from './Resources.js'
+import Camera from './Camera.js'
+import ThreejsJourney from './ThreejsJourney.js'
 
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import BlurPass from './Passes/Blur.js'
 import GlowsPass from './Passes/Glows.js'
-import Camera from './Camera.js'
 
 export default class Application
 {
@@ -35,6 +36,7 @@ export default class Application
         this.setPasses()
         this.setWorld()
         this.setTitle()
+        this.setThreejsJourney()
     }
 
     /**
@@ -263,6 +265,18 @@ export default class Application
 
             document.title = `${'_'.repeat(this.title.width - this.title.position)}🚗${'_'.repeat(this.title.position)}`
         }, this.title.frequency)
+    }
+
+    /**
+     * Set Three.js Journey
+     */
+    setThreejsJourney()
+    {
+        this.threejsJourney = new ThreejsJourney({
+            config: this.config,
+            time: this.time,
+            world: this.world
+        })
     }
 
     /**
