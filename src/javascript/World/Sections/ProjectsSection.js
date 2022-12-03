@@ -280,7 +280,7 @@ export default class ProjectsSection
                 floorTexture: this.resources.items.projectsOranoFloorTexture,
                 link:
                 {
-                    href: 'https://www.orano.group/experience/innovation/',
+                    href: 'https://orano.imm-g-prod.com/experience/innovation/en',
                     x: - 4.8,
                     y: - 3.4,
                     halfExtents:
