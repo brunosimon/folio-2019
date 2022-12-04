@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --config ./bundler/webpack.prod.js",
-    "dev": "webpack-dev-server --config ./bundler/webpack.dev.js",
-    "watch": "webpack --watch --config ./bundler/webpack.config.js"
+    "dev": "webpack-dev-server --config ./bundler/webpack.dev.js"
   },
   "repository": {
     "type": "git",
