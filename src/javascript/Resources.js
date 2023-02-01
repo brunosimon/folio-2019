@@ -211,10 +211,8 @@ import wig4Source from '../models/wigs/wig4.glb'
 // import eggBaseSource from '../models/egg/base.glb'
 // import eggCollisionSource from '../models/egg/collision.glb'
 
-export default class Resources extends EventEmitter
-{
-    constructor()
-    {
+export default class Resources extends EventEmitter {
+    constructor() {
         super()
 
         this.loader = new Loader()
@@ -430,13 +428,11 @@ export default class Resources extends EventEmitter
             // { name: 'eggCollision', source: eggCollisionSource },
         ])
 
-        this.loader.on('fileEnd', (_resource, _data) =>
-        {
+        this.loader.on('fileEnd', (_resource, _data) => {
             this.items[_resource.name] = _data
 
             // Texture
-            if(_resource.type === 'texture')
-            {
+            if (_resource.type === 'texture') {
                 const texture = new THREE.Texture(_data)
                 texture.needsUpdate = true
 
@@ -447,8 +443,7 @@ export default class Resources extends EventEmitter
             this.trigger('progress', [this.loader.loaded / this.loader.toLoad])
         })
 
-        this.loader.on('end', () =>
-        {
+        this.loader.on('end', () => {
             // Trigger ready
             this.trigger('ready')
         })

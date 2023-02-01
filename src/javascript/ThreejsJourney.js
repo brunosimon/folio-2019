@@ -1,9 +1,7 @@
 import { TweenLite } from 'gsap/TweenLite'
 
-export default class ThreejsJourney
-{
-    constructor(_options)
-    {
+export default class ThreejsJourney {
+    constructor(_options) {
         // Options
         this.config = _options.config
         this.time = _options.time
@@ -23,160 +21,138 @@ export default class ThreejsJourney
         this.minTraveledDistance = (this.config.debug ? 5 : 75) * (this.seenCount + 1)
         this.prevent = !!window.localStorage.getItem('threejsJourneyPrevent')
 
-        if(this.config.debug)
+        if (this.config.debug)
             this.start()
-        
-        if(this.prevent)
+
+        if (this.prevent)
             return
 
         this.setYesNo()
         this.setLog()
 
-        this.time.on('tick', () =>
-        {
-            if(this.world.physics)
-            {
+        this.time.on('tick', () => {
+            if (this.world.physics) {
                 this.traveledDistance += this.world.physics.car.forwardSpeed
 
-                if(!this.config.touch && !this.shown && this.traveledDistance > this.minTraveledDistance)
-                {
+                if (!this.config.touch && !this.shown && this.traveledDistance > this.minTraveledDistance) {
                     this.start()
                 }
             }
         })
     }
 
-    setYesNo()
-    {
+    setYesNo() {
         // Clicks
-        this.$yes.addEventListener('click', () =>
-        {
-            TweenLite.delayedCall(2, () =>
-            {
+        this.$yes.addEventListener('click', () => {
+            TweenLite.delayedCall(2, () => {
                 this.hide()
             })
             window.localStorage.setItem('threejsJourneyPrevent', 1)
         })
 
-        this.$no.addEventListener('click', () =>
-        {
+        this.$no.addEventListener('click', () => {
             this.next()
 
-            TweenLite.delayedCall(5, () =>
-            {
+            TweenLite.delayedCall(5, () => {
                 this.hide()
             })
         })
 
         // Hovers
-        this.$yes.addEventListener('mouseenter', () =>
-        {
+        this.$yes.addEventListener('mouseenter', () => {
             this.$container.classList.remove('is-hover-none')
             this.$container.classList.remove('is-hover-no')
             this.$container.classList.add('is-hover-yes')
         })
 
-        this.$no.addEventListener('mouseenter', () =>
-        {
+        this.$no.addEventListener('mouseenter', () => {
             this.$container.classList.remove('is-hover-none')
             this.$container.classList.add('is-hover-no')
             this.$container.classList.remove('is-hover-yes')
         })
 
-        this.$yes.addEventListener('mouseleave', () =>
-        {
+        this.$yes.addEventListener('mouseleave', () => {
             this.$container.classList.add('is-hover-none')
             this.$container.classList.remove('is-hover-no')
             this.$container.classList.remove('is-hover-yes')
         })
 
-        this.$no.addEventListener('mouseleave', () =>
-        {
+        this.$no.addEventListener('mouseleave', () => {
             this.$container.classList.add('is-hover-none')
             this.$container.classList.remove('is-hover-no')
             this.$container.classList.remove('is-hover-yes')
         })
     }
 
-    setLog()
-    {
-//         console.log(
-//             `%c 
-// ▶
-// ▶▶▶▶
-// ▶▶▶▶▶▶▶
-// ▶▶▶▶▶▶▶▶▶▶
-// ▶▶▶▶▶▶▶▶     ▶
-// ▶▶▶▶      ▶▶▶▶▶▶▶▶
-// ▶     ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶
-//    ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶
-//       ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶      
-// ▶▶        ▶▶▶▶▶▶▶▶▶▶     ▶   ▶▶▶
-// ▶▶▶▶▶▶        ▶      ▶▶▶▶▶   ▶▶▶▶▶▶
-// ▶▶▶▶▶▶▶▶▶▶▶       ▶▶▶▶▶▶▶▶   ▶▶▶▶▶▶▶▶▶
-// ▶▶▶▶▶▶▶▶▶▶▶▶▶   ▶▶▶▶▶▶▶▶▶▶   ▶▶▶▶▶▶▶
-// ▶▶▶▶▶▶▶▶▶▶▶▶▶   ▶▶▶▶▶▶▶▶▶▶   ▶▶▶▶
-// ▶▶▶▶▶▶▶▶▶▶▶▶▶   ▶▶▶▶▶▶▶▶▶▶   ▶
-//  ▶▶▶▶▶▶▶▶▶▶▶▶   ▶▶▶▶▶▶▶▶▶▶
-//      ▶▶▶▶▶▶▶▶   ▶▶▶▶▶▶▶
-// ▶▶▶▶     ▶▶▶▶   ▶▶▶
-// ▶▶▶▶▶▶▶     ▶   
-// ▶▶▶▶▶▶▶▶▶▶
-// ▶▶▶▶▶▶▶
-// ▶▶
-//             `,
-//             'color: #705df2;'
-//         )
-        console.log('%cWhat are you doing here?! you sneaky developer...', 'color: #32ffce');
-        console.log('%cDo you want to learn how this portfolio has been made?', 'color: #32ffce');
-        console.log('%cCheckout Three.js Journey 👉 https://threejs-journey.com?c=p2', 'color: #32ffce');
-        console.log('%c— Bruno', 'color: #777777');
+    setLog() {
+        //         console.log(
+        //             `%c 
+        // ▶
+        // ▶▶▶▶
+        // ▶▶▶▶▶▶▶
+        // ▶▶▶▶▶▶▶▶▶▶
+        // ▶▶▶▶▶▶▶▶     ▶
+        // ▶▶▶▶      ▶▶▶▶▶▶▶▶
+        // ▶     ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶
+        //    ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶
+        //       ▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶▶      
+        // ▶▶        ▶▶▶▶▶▶▶▶▶▶     ▶   ▶▶▶
+        // ▶▶▶▶▶▶        ▶      ▶▶▶▶▶   ▶▶▶▶▶▶
+        // ▶▶▶▶▶▶▶▶▶▶▶       ▶▶▶▶▶▶▶▶   ▶▶▶▶▶▶▶▶▶
+        // ▶▶▶▶▶▶▶▶▶▶▶▶▶   ▶▶▶▶▶▶▶▶▶▶   ▶▶▶▶▶▶▶
+        // ▶▶▶▶▶▶▶▶▶▶▶▶▶   ▶▶▶▶▶▶▶▶▶▶   ▶▶▶▶
+        // ▶▶▶▶▶▶▶▶▶▶▶▶▶   ▶▶▶▶▶▶▶▶▶▶   ▶
+        //  ▶▶▶▶▶▶▶▶▶▶▶▶   ▶▶▶▶▶▶▶▶▶▶
+        //      ▶▶▶▶▶▶▶▶   ▶▶▶▶▶▶▶
+        // ▶▶▶▶     ▶▶▶▶   ▶▶▶
+        // ▶▶▶▶▶▶▶     ▶   
+        // ▶▶▶▶▶▶▶▶▶▶
+        // ▶▶▶▶▶▶▶
+        // ▶▶
+        //             `,
+        //             'color: #38B7FF;'
+        //         )
+        console.log('%cWhat are you doing here?! you sneaky developer...', 'color: #38B7FF');
+        console.log('%cDo you want to learn how this portfolio has been made?', 'color: #38B7FF');
+        console.log('%cCheckout Three.js Journey 👉 https://threejs-journey.com?c=p2', 'color: #38B7FF');
+        console.log('%c— Bruno', 'color: #38B7FF');
     }
 
-    hide()
-    {
-        for(const _$message of this.$messages)
-        {
+    hide() {
+        for (const _$message of this.$messages) {
             _$message.classList.remove('is-visible')
         }
 
-        TweenLite.delayedCall(0.5, () =>
-        {
+        TweenLite.delayedCall(0.5, () => {
             this.$container.classList.remove('is-active')
         })
     }
 
-    start()
-    {
+    start() {
         this.$container.classList.add('is-active')
 
-        window.requestAnimationFrame(() =>
-        {
+        window.requestAnimationFrame(() => {
             this.next()
 
-            TweenLite.delayedCall(4, () =>
-            {
+            TweenLite.delayedCall(4, () => {
                 this.next()
             })
-            TweenLite.delayedCall(7, () =>
-            {
+            TweenLite.delayedCall(7, () => {
                 this.next()
             })
         })
 
         this.shown = true
-        
+
         window.localStorage.setItem('threejsJourneySeenCount', this.seenCount + 1)
     }
 
-    updateMessages()
-    {
+    updateMessages() {
         let i = 0
 
         // Visibility
-        for(const _$message of this.$messages)
-        {
-            if(i < this.step)
+        for (const _$message of this.$messages) {
+            if (i < this.step)
                 _$message.classList.add('is-visible')
 
             i++
@@ -187,16 +163,13 @@ export default class ThreejsJourney
 
         let height = 0
         i = this.maxStep
-        for(const _$message of this.$messages)
-        {
+        for (const _$message of this.$messages) {
             const messageHeight = _$message.offsetHeight
-            if(i < this.step)
-            {
+            if (i < this.step) {
                 _$message.style.transform = `translateY(${- height}px)`
                 height += messageHeight + 20
             }
-            else
-            {
+            else {
                 _$message.style.transform = `translateY(${messageHeight}px)`
             }
 
@@ -207,9 +180,8 @@ export default class ThreejsJourney
         this.$messages.reverse()
     }
 
-    next()
-    {
-        if(this.step > this.maxStep)
+    next() {
+        if (this.step > this.maxStep)
             return
 
         this.step++
