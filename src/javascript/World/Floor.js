@@ -13,7 +13,7 @@ export default class Floor {
         // Geometry
         this.geometry = new THREE.PlaneBufferGeometry(2, 2, 10, 10)
 
-        // Couleurs du sols
+        // Couleurs du sol
         this.colors = {}
         this.colors.topLeft = '#38B7FF'
         this.colors.topRight = '#4800A3'
