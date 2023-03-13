@@ -2,10 +2,8 @@ import * as THREE from 'three'
 import CANNON from 'cannon'
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js'
 
-export default class Car
-{
-    constructor(_options)
-    {
+export default class Car {
+    constructor(_options) {
         // Options
         this.time = _options.time
         this.resources = _options.resources
@@ -25,8 +23,7 @@ export default class Car
         this.position = new THREE.Vector3()
 
         // Debug
-        if(this.debug)
-        {
+        if (this.debug) {
             this.debugFolder = this.debug.addFolder('car')
             // this.debugFolder.open()
         }
@@ -42,13 +39,11 @@ export default class Car
         this.setKlaxon()
     }
 
-    setModels()
-    {
+    setModels() {
         this.models = {}
 
         // Cyber truck
-        if(this.config.cyberTruck)
-        {
+        if (this.config.cyberTruck) {
             this.models.chassis = this.resources.items.carCyberTruckChassis
             this.models.antena = this.resources.items.carCyberTruckAntena
             this.models.backLightsBrake = this.resources.items.carCyberTruckBackLightsBrake
@@ -57,8 +52,7 @@ export default class Car
         }
 
         // Default
-        else
-        {
+        else {
             this.models.chassis = this.resources.items.carDefaultChassis
             this.models.antena = this.resources.items.carDefaultAntena
             // this.models.bunnyEarLeft = this.resources.items.carDefaultBunnyEarLeft
@@ -69,8 +63,7 @@ export default class Car
         }
     }
 
-    setMovement()
-    {
+    setMovement() {
         this.movement = {}
         this.movement.speed = new THREE.Vector3()
         this.movement.localSpeed = new THREE.Vector3()
@@ -78,8 +71,7 @@ export default class Car
         this.movement.localAcceleration = new THREE.Vector3()
 
         // Time tick
-        this.time.on('tick', () =>
-        {
+        this.time.on('tick', () => {
             // Movement
             const movementSpeed = new THREE.Vector3()
             movementSpeed.copy(this.chassis.object.position).sub(this.chassis.oldPosition)
@@ -93,15 +85,13 @@ export default class Car
             this.sounds.engine.speed = this.movement.localSpeed.x
             this.sounds.engine.acceleration = this.controls.actions.up ? (this.controls.actions.boost ? 1 : 0.5) : 0
 
-            if(this.movement.localAcceleration.x > 0.01)
-            {
+            if (this.movement.localAcceleration.x > 0.01) {
                 this.sounds.play('screech')
             }
         })
     }
 
-    setChassis()
-    {
+    setChassis() {
         this.chassis = {}
         this.chassis.offset = new THREE.Vector3(0, 0, - 0.28)
         this.chassis.object = this.objects.getConvertedMesh(this.models.chassis.scene.children)
@@ -112,14 +102,12 @@ export default class Car
         this.shadows.add(this.chassis.object, { sizeX: 3, sizeY: 2, offsetZ: 0.2 })
 
         // Time tick
-        this.time.on('tick', () =>
-        {
+        this.time.on('tick', () => {
             // Save old position for movement calculation
             this.chassis.oldPosition = this.chassis.object.position.clone()
 
             // Update if mode physics
-            if(!this.transformControls.enabled)
-            {
+            if (!this.transformControls.enabled) {
                 this.chassis.object.position.copy(this.physics.car.chassis.body.position).add(this.chassis.offset)
                 this.chassis.object.quaternion.copy(this.physics.car.chassis.body.quaternion)
             }
@@ -129,8 +117,7 @@ export default class Car
         })
     }
 
-    setAntena()
-    {
+    setAntena() {
         this.antena = {}
 
         this.antena.speedStrength = 10
@@ -151,8 +138,7 @@ export default class Car
         this.antena.localPosition = new THREE.Vector2()
 
         // Time tick
-        this.time.on('tick', () =>
-        {
+        this.time.on('tick', () => {
             const max = 1
             const accelerationX = Math.min(Math.max(this.movement.acceleration.x, - max), max)
             const accelerationY = Math.min(Math.max(this.movement.acceleration.y, - max), max)
@@ -183,8 +169,7 @@ export default class Car
         })
 
         // Debug
-        if(this.debug)
-        {
+        if (this.debug) {
             const folder = this.debugFolder.addFolder('antena')
             folder.open()
 
@@ -194,8 +179,7 @@ export default class Car
         }
     }
 
-    setBackLights()
-    {
+    setBackLights() {
         this.backLightsBrake = {}
 
         this.backLightsBrake.material = this.materials.pures.items.red.clone()
@@ -203,8 +187,7 @@ export default class Car
         this.backLightsBrake.material.opacity = 0.5
 
         this.backLightsBrake.object = this.objects.getConvertedMesh(this.models.backLightsBrake.scene.children)
-        for(const _child of this.backLightsBrake.object.children)
-        {
+        for (const _child of this.backLightsBrake.object.children) {
             _child.material = this.backLightsBrake.material
         }
 
@@ -218,29 +201,25 @@ export default class Car
         this.backLightsReverse.material.opacity = 0.5
 
         this.backLightsReverse.object = this.objects.getConvertedMesh(this.models.backLightsReverse.scene.children)
-        for(const _child of this.backLightsReverse.object.children)
-        {
+        for (const _child of this.backLightsReverse.object.children) {
             _child.material = this.backLightsReverse.material
         }
 
         this.chassis.object.add(this.backLightsReverse.object)
 
         // Time tick
-        this.time.on('tick', () =>
-        {
+        this.time.on('tick', () => {
             this.backLightsBrake.material.opacity = this.physics.controls.actions.brake ? 1 : 0.5
             this.backLightsReverse.material.opacity = this.physics.controls.actions.down ? 1 : 0.5
         })
     }
 
-    setWheels()
-    {
+    setWheels() {
         this.wheels = {}
         this.wheels.object = this.objects.getConvertedMesh(this.models.wheel.scene.children)
         this.wheels.items = []
 
-        for(let i = 0; i < 4; i++)
-        {
+        for (let i = 0; i < 4; i++) {
             const object = this.wheels.object.clone()
 
             this.wheels.items.push(object)
@@ -248,12 +227,9 @@ export default class Car
         }
 
         // Time tick
-        this.time.on('tick', () =>
-        {
-            if(!this.transformControls.enabled)
-            {
-                for(const _wheelKey in this.physics.car.wheels.bodies)
-                {
+        this.time.on('tick', () => {
+            if (!this.transformControls.enabled) {
+                for (const _wheelKey in this.physics.car.wheels.bodies) {
                     const wheelBody = this.physics.car.wheels.bodies[_wheelKey]
                     const wheelObject = this.wheels.items[_wheelKey]
 
@@ -264,59 +240,47 @@ export default class Car
         })
     }
 
-    setTransformControls()
-    {
+    setTransformControls() {
         this.transformControls = new TransformControls(this.camera.instance, this.renderer.domElement)
         this.transformControls.size = 0.5
         this.transformControls.attach(this.chassis.object)
         this.transformControls.enabled = false
         this.transformControls.visible = this.transformControls.enabled
 
-        document.addEventListener('keydown', (_event) =>
-        {
-            if(this.mode === 'transformControls')
-            {
-                if(_event.key === 'r')
-                {
+        document.addEventListener('keydown', (_event) => {
+            if (this.mode === 'transformControls') {
+                if (_event.key === 'r') {
                     this.transformControls.setMode('rotate')
                 }
-                else if(_event.key === 'g')
-                {
+                else if (_event.key === 'g') {
                     this.transformControls.setMode('translate')
                 }
             }
         })
 
-        this.transformControls.addEventListener('dragging-changed', (_event) =>
-        {
+        this.transformControls.addEventListener('dragging-changed', (_event) => {
             this.camera.orbitControls.enabled = !_event.value
         })
 
         this.container.add(this.transformControls)
 
-        if(this.debug)
-        {
+        if (this.debug) {
             const folder = this.debugFolder.addFolder('controls')
             folder.open()
 
-            folder.add(this.transformControls, 'enabled').onChange(() =>
-            {
+            folder.add(this.transformControls, 'enabled').onChange(() => {
                 this.transformControls.visible = this.transformControls.enabled
             })
         }
     }
 
-    setShootingBall()
-    {
-        if(!this.config.cyberTruck)
-        {
+    setShootingBall() {
+        if (!this.config.cyberTruck) {
             return
         }
 
-        window.addEventListener('keydown', (_event) =>
-        {
-            if(_event.key === 'b')
-            {
+        window.addEventListener('keydown', (_event) => {
+            if (_event.key === 'b') {
                 const angle = Math.random() * Math.PI * 2
                 const distance = 10
                 const x = this.position.x + Math.cos(angle) * distance
@@ -343,20 +307,16 @@ export default class Car
         })
     }
 
-    setKlaxon()
-    {
+    setKlaxon() {
         this.klaxon = {}
         this.klaxon.waitDuration = 150
         this.klaxon.can = true
 
-        window.addEventListener('keydown', (_event) =>
-        {
+        window.addEventListener('keydown', (_event) => {
             // Play horn sound
-            if(_event.key === 'h' && this.klaxon.can)
-            {
+            if (_event.key === 'h' && this.klaxon.can) {
                 this.klaxon.can = false
-                window.setTimeout(() =>
-                {
+                window.setTimeout(() => {
                     this.klaxon.can = true
                 }, this.klaxon.waitDuration)
 
@@ -365,8 +325,7 @@ export default class Car
             }
 
             // Rain horns
-            if(_event.key === 'k')
-            {
+            if (_event.key === 'k') {
                 const x = this.position.x + (Math.random() - 0.5) * 3
                 const y = this.position.y + (Math.random() - 0.5) * 3
                 const z = 6 + 2 * Math.random()
