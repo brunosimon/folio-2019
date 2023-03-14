@@ -3,10 +3,13 @@ import Project from './Project'
 import TweenLite from 'gsap/TweenLite'
 
 // projet 1 : noffta
-import projectsThreejsJourneySlideASources from '../../../models/projects/threejsJourney/slideA.jpg'
-import projectsThreejsJourneySlideBSources from '../../../models/projects/threejsJourney/slideB.jpg'
-import projectsThreejsJourneySlideCSources from '../../../models/projects/threejsJourney/slideC.jpg'
-import projectsThreejsJourneySlideDSources from '../../../models/projects/threejsJourney/slideD.jpg'
+import projectsnofftaSlideASources from '../../../models/projects/noffta/slideA.jpg'
+import projectsnofftaSlideBSources from '../../../models/projects/noffta/slideB.jpg'
+import projectsnofftaSlideCSources from '../../../models/projects/noffta/slideC.jpg'
+// import projectsThreejsJourneySlideASources from '../../../models/projects/threejsJourney/slideA.jpg'
+// import projectsThreejsJourneySlideBSources from '../../../models/projects/threejsJourney/slideB.jpg'
+// import projectsThreejsJourneySlideCSources from '../../../models/projects/threejsJourney/slideC.jpg'
+// import projectsThreejsJourneySlideDSources from '../../../models/projects/threejsJourney/slideD.jpg'
 
 // projet 2 : chiron
 import projectschironSlideASources from '../../../models/projects/chiron/slideA.jpg'
@@ -112,13 +115,12 @@ export default class ProjectsSection {
     setList() {
         this.list = [
             {
-                name: 'Three.js Journey',
+                name: 'Noffta',
                 imageSources:
                     [
-                        projectsThreejsJourneySlideASources,
-                        projectsThreejsJourneySlideBSources,
-                        projectsThreejsJourneySlideCSources,
-                        projectsThreejsJourneySlideDSources
+                        projectsnofftaSlideASources,
+                        projectsnofftaSlideBSources,
+                        projectsnofftaSlideCSources
                     ],
                 floorTexture: this.resources.items.projectsThreejsJourneyFloorTexture,
                 link:
@@ -293,13 +295,7 @@ export default class ProjectsSection {
                         x: 3.2,
                         y: 1.5
                     }
-                },
-                distinctions:
-                    [
-                        { type: 'awwwards', x: 3.95, y: 4.15 },
-                        { type: 'fwa', x: 5.6, y: 4.15 },
-                        { type: 'cssda', x: 7.2, y: 4.15 }
-                    ]
+                }
             }
             // {
             //     name: 'gleecChat',
