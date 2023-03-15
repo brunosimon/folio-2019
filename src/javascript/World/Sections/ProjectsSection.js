@@ -125,9 +125,9 @@ export default class ProjectsSection {
                 floorTexture: this.resources.items.projectsThreejsJourneyFloorTexture,
                 link:
                 {
-                    href: 'https://threejs-journey.com?c=p3',
+                    href: 'https://lucasmoramarco.fr/noffta',
                     x: - 4.8,
-                    y: - 3,
+                    y: - 4,
                     halfExtents:
                     {
                         x: 3.2,
@@ -146,7 +146,7 @@ export default class ProjectsSection {
                 floorTexture: this.resources.items.projectschironFloorTexture,
                 link:
                 {
-                    href: 'https://chiron.io',
+                    href: 'https://lucasmoramarco.fr/chiron',
                     x: - 4.8,
                     y: - 4,
                     halfExtents:
@@ -167,7 +167,7 @@ export default class ProjectsSection {
                 floorTexture: this.resources.items.projectsrobrunFloorTexture,
                 link:
                 {
-                    href: 'https://fromrobrun.com',
+                    href: 'https://lucasmoramarco.fr/robrun',
                     x: - 4.8,
                     y: - 2,
                     halfExtents:
@@ -191,7 +191,7 @@ export default class ProjectsSection {
                 floorTexture: this.resources.items.projectsupdaymeFloorTexture,
                 link:
                 {
-                    href: 'https://updayme.iversenc.fr',
+                    href: 'https://lucasmoramarco.fr/updayme',
                     x: - 4.8,
                     y: - 3.3,
                     halfExtents:
@@ -212,7 +212,7 @@ export default class ProjectsSection {
                 floorTexture: this.resources.items.projectskarmaFloorTexture,
                 link:
                 {
-                    href: 'https://zen.ly',
+                    href: 'https://lucasmoramarco.fr/karma',
                     x: - 4.8,
                     y: - 4.2,
                     halfExtents:
@@ -287,7 +287,7 @@ export default class ProjectsSection {
                 floorTexture: this.resources.items.projectsosakaFloorTexture,
                 link:
                 {
-                    href: 'https:thenewmobileworkforce.imm-g-prod.com/',
+                    href: 'https://lucasmoramarco.fr/osaka',
                     x: - 4.8,
                     y: - 4.4,
                     halfExtents:
