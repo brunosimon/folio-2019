@@ -2,52 +2,59 @@ import * as THREE from 'three'
 import Project from './Project'
 import TweenLite from 'gsap/TweenLite'
 
-import projectsThreejsJourneySlideASources from '../../../models/projects/threejsJourney/slideA.jpg'
-import projectsThreejsJourneySlideBSources from '../../../models/projects/threejsJourney/slideB.jpg'
-import projectsThreejsJourneySlideCSources from '../../../models/projects/threejsJourney/slideC.jpg'
-import projectsThreejsJourneySlideDSources from '../../../models/projects/threejsJourney/slideD.jpg'
+// projet 1 : noffta
+import projectsnofftaSlideASources from '../../../models/projects/noffta/slideA.jpg'
+import projectsnofftaSlideBSources from '../../../models/projects/noffta/slideB.jpg'
+import projectsnofftaSlideCSources from '../../../models/projects/noffta/slideC.jpg'
+// import projectsThreejsJourneySlideASources from '../../../models/projects/threejsJourney/slideA.jpg'
+// import projectsThreejsJourneySlideBSources from '../../../models/projects/threejsJourney/slideB.jpg'
+// import projectsThreejsJourneySlideCSources from '../../../models/projects/threejsJourney/slideC.jpg'
+// import projectsThreejsJourneySlideDSources from '../../../models/projects/threejsJourney/slideD.jpg'
 
-import projectsMadboxSlideASources from '../../../models/projects/madbox/slideA.jpg'
-import projectsMadboxSlideBSources from '../../../models/projects/madbox/slideB.jpg'
-import projectsMadboxSlideCSources from '../../../models/projects/madbox/slideC.jpg'
+// projet 2 : chiron
+import projectschironSlideASources from '../../../models/projects/chiron/slideA.jpg'
+import projectschironSlideBSources from '../../../models/projects/chiron/slideB.jpg'
+import projectschironSlideCSources from '../../../models/projects/chiron/slideC.jpg'
 
-import projectsScoutSlideASources from '../../../models/projects/scout/slideA.jpg'
-import projectsScoutSlideBSources from '../../../models/projects/scout/slideB.jpg'
-import projectsScoutSlideCSources from '../../../models/projects/scout/slideC.jpg'
+// projet 3 : robrun
+import projectsrobrunSlideASources from '../../../models/projects/robrun/slideA.jpg'
+import projectsrobrunSlideBSources from '../../../models/projects/robrun/slideB.jpg'
+import projectsrobrunSlideCSources from '../../../models/projects/robrun/slideC.jpg'
 
-import projectsChartogneSlideASources from '../../../models/projects/chartogne/slideA.jpg'
-import projectsChartogneSlideBSources from '../../../models/projects/chartogne/slideB.jpg'
-import projectsChartogneSlideCSources from '../../../models/projects/chartogne/slideC.jpg'
+// projet 4 : updayme
+import projectsupdaymeSlideASources from '../../../models/projects/updayme/slideA.jpg'
+import projectsupdaymeSlideBSources from '../../../models/projects/updayme/slideB.jpg'
+import projectsupdaymeSlideCSources from '../../../models/projects/updayme/slideC.jpg'
 
-import projectsZenlySlideASources from '../../../models/projects/zenly/slideA.jpg'
-import projectsZenlySlideBSources from '../../../models/projects/zenly/slideB.jpg'
-import projectsZenlySlideCSources from '../../../models/projects/zenly/slideC.jpg'
+// projet 5 : karma
+import projectskarmaSlideASources from '../../../models/projects/karma/slideA.jpg'
+import projectskarmaSlideBSources from '../../../models/projects/karma/slideB.jpg'
+import projectskarmaSlideCSources from '../../../models/projects/karma/slideC.jpg'
 
-import projectsCitrixRedbullSlideASources from '../../../models/projects/citrixRedbull/slideA.jpg'
-import projectsCitrixRedbullSlideBSources from '../../../models/projects/citrixRedbull/slideB.jpg'
-import projectsCitrixRedbullSlideCSources from '../../../models/projects/citrixRedbull/slideC.jpg'
+// projet 6 : osaka
+import projectsosakaSlideASources from '../../../models/projects/osaka/slideA.jpg'
+import projectsosakaSlideBSources from '../../../models/projects/osaka/slideB.jpg'
+import projectsosakaSlideCSources from '../../../models/projects/osaka/slideC.jpg'
 
-import projectsPriorHoldingsSlideASources from '../../../models/projects/priorHoldings/slideA.jpg'
-import projectsPriorHoldingsSlideBSources from '../../../models/projects/priorHoldings/slideB.jpg'
-import projectsPriorHoldingsSlideCSources from '../../../models/projects/priorHoldings/slideC.jpg'
+// import projectsPriorHoldingsSlideASources from '../../../models/projects/priorHoldings/slideA.jpg'
+// import projectsPriorHoldingsSlideBSources from '../../../models/projects/priorHoldings/slideB.jpg'
+// import projectsPriorHoldingsSlideCSources from '../../../models/projects/priorHoldings/slideC.jpg'
 
-import projectsOranoSlideASources from '../../../models/projects/orano/slideA.jpg'
-import projectsOranoSlideBSources from '../../../models/projects/orano/slideB.jpg'
-import projectsOranoSlideCSources from '../../../models/projects/orano/slideC.jpg'
+// import projectsOranoSlideASources from '../../../models/projects/orano/slideA.jpg'
+// import projectsOranoSlideBSources from '../../../models/projects/orano/slideB.jpg'
+// import projectsOranoSlideCSources from '../../../models/projects/orano/slideC.jpg'
 
 // import projectsGleecChatSlideASources from '../../../models/projects/gleecChat/slideA.jpg'
 // import projectsGleecChatSlideBSources from '../../../models/projects/gleecChat/slideB.jpg'
 // import projectsGleecChatSlideCSources from '../../../models/projects/gleecChat/slideC.jpg'
 // import projectsGleecChatSlideDSources from '../../../models/projects/gleecChat/slideD.jpg'
 
-import projectsKepplerSlideASources from '../../../models/projects/keppler/slideA.jpg'
-import projectsKepplerSlideBSources from '../../../models/projects/keppler/slideB.jpg'
-import projectsKepplerSlideCSources from '../../../models/projects/keppler/slideC.jpg'
+// import projectsKepplerSlideASources from '../../../models/projects/keppler/slideA.jpg'
+// import projectsKepplerSlideBSources from '../../../models/projects/keppler/slideB.jpg'
+// import projectsKepplerSlideCSources from '../../../models/projects/keppler/slideC.jpg'
 
-export default class ProjectsSection
-{
-    constructor(_options)
-    {
+export default class ProjectsSection {
+    constructor(_options) {
         // Options
         this.time = _options.time
         this.resources = _options.resources
@@ -62,8 +69,7 @@ export default class ProjectsSection
         this.y = _options.y
 
         // Debug
-        if(this.debug)
-        {
+        if (this.debug) {
             this.debugFolder = this.debug.addFolder('projects')
             this.debugFolder.open()
         }
@@ -85,20 +91,17 @@ export default class ProjectsSection
         this.setZone()
 
         // Add all project from the list
-        for(const _options of this.list)
-        {
+        for (const _options of this.list) {
             this.add(_options)
         }
     }
 
-    setGeometries()
-    {
+    setGeometries() {
         this.geometries = {}
         this.geometries.floor = new THREE.PlaneBufferGeometry(16, 8)
     }
 
-    setMeshes()
-    {
+    setMeshes() {
         this.meshes = {}
 
         // this.meshes.boardStructure = this.objects.getConvertedMesh(this.resources.items.projectsBoardStructure.scene.children, { floorShadowTexture: this.resources.items.projectsBoardStructureFloorShadowTexture })
@@ -109,47 +112,62 @@ export default class ProjectsSection
         this.meshes.areaLabel.matrixAutoUpdate = false
     }
 
-    setList()
-    {
+    setList() {
         this.list = [
             {
-                name: 'Three.js Journey',
+                name: 'Noffta',
                 imageSources:
-                [
-                    projectsThreejsJourneySlideASources,
-                    projectsThreejsJourneySlideBSources,
-                    projectsThreejsJourneySlideCSources,
-                    projectsThreejsJourneySlideDSources
-                ],
+                    [
+                        projectsnofftaSlideASources,
+                        projectsnofftaSlideBSources,
+                        projectsnofftaSlideCSources
+                    ],
                 floorTexture: this.resources.items.projectsThreejsJourneyFloorTexture,
                 link:
                 {
-                    href: 'https://threejs-journey.com?c=p3',
+                    href: 'https://lucasmoramarco.fr/noffta',
                     x: - 4.8,
-                    y: - 3,
+                    y: - 4,
                     halfExtents:
                     {
                         x: 3.2,
                         y: 1.5
                     }
-                },
-                distinctions:
-                [
-                    { type: 'fwa', x: 3.95, y: 4.15 }
-                ]
+                }
             },
             {
-                name: 'Madbox',
+                name: 'chiron',
                 imageSources:
-                [
-                    projectsMadboxSlideASources,
-                    projectsMadboxSlideBSources,
-                    projectsMadboxSlideCSources
-                ],
-                floorTexture: this.resources.items.projectsMadboxFloorTexture,
+                    [
+                        projectschironSlideASources,
+                        projectschironSlideBSources,
+                        projectschironSlideCSources
+                    ],
+                floorTexture: this.resources.items.projectschironFloorTexture,
                 link:
                 {
-                    href: 'https://madbox.io',
+                    href: 'https://lucasmoramarco.fr/chiron',
+                    x: - 4.8,
+                    y: - 4,
+                    halfExtents:
+                    {
+                        x: 3.2,
+                        y: 1.5
+                    }
+                }
+            },
+            {
+                name: 'robrun',
+                imageSources:
+                    [
+                        projectsrobrunSlideASources,
+                        projectsrobrunSlideBSources,
+                        projectsrobrunSlideCSources
+                    ],
+                floorTexture: this.resources.items.projectsrobrunFloorTexture,
+                link:
+                {
+                    href: 'https://lucasmoramarco.fr/robrun',
                     x: - 4.8,
                     y: - 4,
                     halfExtents:
@@ -159,47 +177,21 @@ export default class ProjectsSection
                     }
                 },
                 distinctions:
-                [
-                    { type: 'awwwards', x: 3.95, y: 4.15 },
-                    { type: 'fwa', x: 5.6, y: 4.15 }
-                ]
+                    [
+                    ]
             },
             {
-                name: 'Scout',
+                name: 'updayme',
                 imageSources:
-                [
-                    projectsScoutSlideASources,
-                    projectsScoutSlideBSources,
-                    projectsScoutSlideCSources
-                ],
-                floorTexture: this.resources.items.projectsScoutFloorTexture,
+                    [
+                        projectsupdaymeSlideASources,
+                        projectsupdaymeSlideBSources,
+                        projectsupdaymeSlideCSources
+                    ],
+                floorTexture: this.resources.items.projectsupdaymeFloorTexture,
                 link:
                 {
-                    href: 'https://fromscout.com',
-                    x: - 4.8,
-                    y: - 2,
-                    halfExtents:
-                    {
-                        x: 3.2,
-                        y: 1.5
-                    }
-                },
-                distinctions:
-                [
-                ]
-            },
-            {
-                name: 'Chartogne Taillet',
-                imageSources:
-                [
-                    projectsChartogneSlideASources,
-                    projectsChartogneSlideBSources,
-                    projectsChartogneSlideCSources
-                ],
-                floorTexture: this.resources.items.projectsChartogneFloorTexture,
-                link:
-                {
-                    href: 'https://chartogne-taillet.com',
+                    href: 'https://lucasmoramarco.fr/updayme',
                     x: - 4.8,
                     y: - 3.3,
                     halfExtents:
@@ -207,26 +199,20 @@ export default class ProjectsSection
                         x: 3.2,
                         y: 1.5
                     }
-                },
-                distinctions:
-                [
-                    { type: 'awwwards', x: 3.95, y: 4.15 },
-                    { type: 'fwa', x: 5.6, y: 4.15 },
-                    { type: 'cssda', x: 7.2, y: 4.15 }
-                ]
+                }
             },
             {
-                name: 'Zenly',
+                name: 'karma',
                 imageSources:
-                [
-                    projectsZenlySlideASources,
-                    projectsZenlySlideBSources,
-                    projectsZenlySlideCSources
-                ],
-                floorTexture: this.resources.items.projectsZenlyFloorTexture,
+                    [
+                        projectskarmaSlideASources,
+                        projectskarmaSlideBSources,
+                        projectskarmaSlideCSources
+                    ],
+                floorTexture: this.resources.items.projectskarmaFloorTexture,
                 link:
                 {
-                    href: 'https://zen.ly',
+                    href: 'https://lucasmoramarco.fr/karma',
                     x: - 4.8,
                     y: - 4.2,
                     halfExtents:
@@ -234,80 +220,74 @@ export default class ProjectsSection
                         x: 3.2,
                         y: 1.5
                     }
-                },
-                distinctions:
-                [
-                    { type: 'awwwards', x: 3.95, y: 4.15 },
-                    { type: 'fwa', x: 5.6, y: 4.15 },
-                    { type: 'cssda', x: 7.2, y: 4.15 }
-                ]
+                }
             },
+            // {
+            //     name: 'priorHoldings',
+            //     imageSources:
+            //         [
+            //             projectsPriorHoldingsSlideASources,
+            //             projectsPriorHoldingsSlideBSources,
+            //             projectsPriorHoldingsSlideCSources
+            //         ],
+            //     floorTexture: this.resources.items.projectsPriorHoldingsFloorTexture,
+            //     link:
+            //     {
+            //         href: 'https://prior.co.jp/discover/',
+            //         x: - 4.8,
+            //         y: - 3,
+            //         halfExtents:
+            //         {
+            //             x: 3.2,
+            //             y: 1.5
+            //         }
+            //     },
+            //     distinctions:
+            //         [
+            //             { type: 'awwwards', x: 3.95, y: 4.15 },
+            //             { type: 'fwa', x: 5.6, y: 4.15 },
+            //             { type: 'cssda', x: 7.2, y: 4.15 }
+            //         ]
+            // },
+            // {
+            //     name: 'orano',
+            //     imageSources:
+            //         [
+            //             projectsOranoSlideASources,
+            //             projectsOranoSlideBSources,
+            //             projectsOranoSlideCSources
+            //         ],
+            //     floorTexture: this.resources.items.projectsOranoFloorTexture,
+            //     link:
+            //     {
+            //         href: 'https://orano.imm-g-prod.com/experience/innovation/en',
+            //         x: - 4.8,
+            //         y: - 3.4,
+            //         halfExtents:
+            //         {
+            //             x: 3.2,
+            //             y: 1.5
+            //         }
+            //     },
+            //     distinctions:
+            //         [
+            //             { type: 'awwwards', x: 3.95, y: 4.15 },
+            //             { type: 'fwa', x: 5.6, y: 4.15 },
+            //             { type: 'cssda', x: 7.2, y: 4.15 }
+            //         ]
+            // },
             {
-                name: 'priorHoldings',
+                name: 'osaka',
                 imageSources:
-                [
-                    projectsPriorHoldingsSlideASources,
-                    projectsPriorHoldingsSlideBSources,
-                    projectsPriorHoldingsSlideCSources
-                ],
-                floorTexture: this.resources.items.projectsPriorHoldingsFloorTexture,
+                    [
+                        projectsosakaSlideASources,
+                        projectsosakaSlideBSources,
+                        projectsosakaSlideCSources
+                    ],
+                floorTexture: this.resources.items.projectsosakaFloorTexture,
                 link:
                 {
-                    href: 'https://prior.co.jp/discover/',
-                    x: - 4.8,
-                    y: - 3,
-                    halfExtents:
-                    {
-                        x: 3.2,
-                        y: 1.5
-                    }
-                },
-                distinctions:
-                [
-                    { type: 'awwwards', x: 3.95, y: 4.15 },
-                    { type: 'fwa', x: 5.6, y: 4.15 },
-                    { type: 'cssda', x: 7.2, y: 4.15 }
-                ]
-            },
-            {
-                name: 'orano',
-                imageSources:
-                [
-                    projectsOranoSlideASources,
-                    projectsOranoSlideBSources,
-                    projectsOranoSlideCSources
-                ],
-                floorTexture: this.resources.items.projectsOranoFloorTexture,
-                link:
-                {
-                    href: 'https://orano.imm-g-prod.com/experience/innovation/en',
-                    x: - 4.8,
-                    y: - 3.4,
-                    halfExtents:
-                    {
-                        x: 3.2,
-                        y: 1.5
-                    }
-                },
-                distinctions:
-                [
-                    { type: 'awwwards', x: 3.95, y: 4.15 },
-                    { type: 'fwa', x: 5.6, y: 4.15 },
-                    { type: 'cssda', x: 7.2, y: 4.15 }
-                ]
-            },
-            {
-                name: 'citrixRedbull',
-                imageSources:
-                [
-                    projectsCitrixRedbullSlideASources,
-                    projectsCitrixRedbullSlideBSources,
-                    projectsCitrixRedbullSlideCSources
-                ],
-                floorTexture: this.resources.items.projectsCitrixRedbullFloorTexture,
-                link:
-                {
-                    href: 'https://thenewmobileworkforce.imm-g-prod.com/',
+                    href: 'https://lucasmoramarco.fr/osaka',
                     x: - 4.8,
                     y: - 4.4,
                     halfExtents:
@@ -315,14 +295,8 @@ export default class ProjectsSection
                         x: 3.2,
                         y: 1.5
                     }
-                },
-                distinctions:
-                [
-                    { type: 'awwwards', x: 3.95, y: 4.15 },
-                    { type: 'fwa', x: 5.6, y: 4.15 },
-                    { type: 'cssda', x: 7.2, y: 4.15 }
-                ]
-            },
+                }
+            }
             // {
             //     name: 'gleecChat',
             //     imageSources:
@@ -351,33 +325,32 @@ export default class ProjectsSection
             //         { type: 'cssda', x: 7.2, y: 4.15 }
             //     ]
             // },
-            {
-                name: 'keppler',
-                imageSources:
-                [
-                    projectsKepplerSlideASources,
-                    projectsKepplerSlideBSources,
-                    projectsKepplerSlideCSources
-                ],
-                floorTexture: this.resources.items.projectsKepplerFloorTexture,
-                link:
-                {
-                    href: 'https://brunosimon.github.io/keppler/',
-                    x: 2.75,
-                    y: - 1.1,
-                    halfExtents:
-                    {
-                        x: 3.2,
-                        y: 1.5
-                    }
-                },
-                distinctions: []
-            }
+            // {
+            //     name: 'keppler',
+            //     imageSources:
+            //         [
+            //             projectsKepplerSlideASources,
+            //             projectsKepplerSlideBSources,
+            //             projectsKepplerSlideCSources
+            //         ],
+            //     floorTexture: this.resources.items.projectsKepplerFloorTexture,
+            //     link:
+            //     {
+            //         href: 'https://lucasmoramarco.fr',
+            //         x: 2.75,
+            //         y: - 1.1,
+            //         halfExtents:
+            //         {
+            //             x: 3.2,
+            //             y: 1.5
+            //         }
+            //     },
+            //     distinctions: []
+            // }
         ]
     }
 
-    setZone()
-    {
+    setZone() {
         const totalWidth = this.list.length * (this.interDistance / 2)
 
         const zone = this.zones.add({
@@ -386,27 +359,23 @@ export default class ProjectsSection
             data: { cameraAngle: 'projects' }
         })
 
-        zone.on('in', (_data) =>
-        {
+        zone.on('in', (_data) => {
             this.camera.angle.set(_data.cameraAngle)
             TweenLite.to(this.passes.horizontalBlurPass.material.uniforms.uStrength.value, 2, { x: 0 })
             TweenLite.to(this.passes.verticalBlurPass.material.uniforms.uStrength.value, 2, { y: 0 })
         })
 
-        zone.on('out', () =>
-        {
+        zone.on('out', () => {
             this.camera.angle.set('default')
             TweenLite.to(this.passes.horizontalBlurPass.material.uniforms.uStrength.value, 2, { x: this.passes.horizontalBlurPass.strength })
             TweenLite.to(this.passes.verticalBlurPass.material.uniforms.uStrength.value, 2, { y: this.passes.verticalBlurPass.strength })
         })
     }
 
-    add(_options)
-    {
+    add(_options) {
         const x = this.x + this.items.length * this.interDistance
         let y = this.y
-        if(this.items.length > 0)
-        {
+        if (this.items.length > 0) {
             y += (Math.random() - 0.5) * this.positionRandomess
         }
 
@@ -427,8 +396,7 @@ export default class ProjectsSection
         this.container.add(project.container)
 
         // Add tiles
-        if(this.items.length >= 1)
-        {
+        if (this.items.length >= 1) {
             const previousProject = this.items[this.items.length - 1]
             const start = new THREE.Vector2(previousProject.x + this.projectHalfWidth, previousProject.y)
             const end = new THREE.Vector2(project.x - this.projectHalfWidth, project.y)

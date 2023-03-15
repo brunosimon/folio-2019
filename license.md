@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2019 Bruno SIMON
+Copyright (c) 2019 Lucas MORAMARCO
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

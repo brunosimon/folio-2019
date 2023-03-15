@@ -1,13 +1,11 @@
-*
-{
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
 
 body,
-html
-{
+html {
     position: fixed;
     top: 0;
     left: 0;
@@ -16,8 +14,7 @@ html
     overflow: hidden;
 }
 
-.canvas
-{
+.canvas {
     position: fixed;
     top: 0;
     left: 0;
@@ -25,23 +22,19 @@ html
     height: 100%;
 }
 
-.canvas.has-cursor-grab
-{
+.canvas.has-cursor-grab {
     cursor: grab;
 }
 
-.canvas.has-cursor-grabbing
-{
+.canvas.has-cursor-grabbing {
     cursor: grabbing;
 }
 
-.canvas.has-cursor-pointer
-{
+.canvas.has-cursor-pointer {
     cursor: pointer;
 }
 
-.threejs-journey
-{
+.threejs-journey {
     display: none;
     flex-direction: column;
     justify-content: flex-end;
@@ -53,13 +46,11 @@ html
     user-select: none;
 }
 
-.threejs-journey.is-active
-{
+.threejs-journey.is-active {
     display: flex;
 }
 
-.threejs-journey .message
-{
+.threejs-journey .message {
     position: absolute;
     bottom: 0;
     right: 0;
@@ -73,13 +64,11 @@ html
     transition: transform 0.5s cubic-bezier(0.5, 0, 0.25, 1), opacity 0.5s 0.2s cubic-bezier(0.5, 0, 0.25, 1);
 }
 
-.threejs-journey .message.is-visible
-{
+.threejs-journey .message.is-visible {
     opacity: 1;
 }
 
-.threejs-journey .boy
-{
+.threejs-journey .boy {
     position: absolute;
     bottom: 100%;
     left: 20px;
@@ -89,8 +78,7 @@ html
     pointer-events: none;
 }
 
-.threejs-journey .boy .variant
-{
+.threejs-journey .boy .variant {
     position: absolute;
     top: 0;
     left: 0;
@@ -100,39 +88,33 @@ html
     transition: transform 0.15s ease-in;
 }
 
-.threejs-journey .boy .variant.is-yay
-{
+.threejs-journey .boy .variant.is-yay {
     background: url('../images/boyYay.png');
 }
 
-.threejs-journey .boy .variant.is-shrugging
-{
+.threejs-journey .boy .variant.is-shrugging {
     background: url('../images/boyShrugging.png');
 }
 
-.threejs-journey.is-hover-yes .boy .variant.is-yay
-{
+.threejs-journey.is-hover-yes .boy .variant.is-yay {
     transform: translateY(0);
     transition-delay: 0.1s;
     transition-timing-function: ease-out;
 }
 
-.threejs-journey.is-hover-no .boy .variant.is-shrugging
-{
+.threejs-journey.is-hover-no .boy .variant.is-shrugging {
     transform: translateY(0);
     transition-delay: 0.1s;
     transition-timing-function: ease-out;
 }
 
-.threejs-journey.is-hover-none .boy .variant.is-hi
-{
+.threejs-journey.is-hover-none .boy .variant.is-hi {
     transform: translateY(0);
     transition-delay: 0.1s;
     transition-timing-function: ease-out;
 }
 
-.threejs-journey .boy .is-hi .body
-{
+.threejs-journey .boy .is-hi .body {
     position: absolute;
     top: 0;
     left: 0;
@@ -141,8 +123,7 @@ html
     background: url('../images/boyHiBody.png');
 }
 
-.threejs-journey .boy .is-hi .arm
-{
+.threejs-journey .boy .is-hi .arm {
     position: absolute;
     bottom: 0;
     right: 0;
@@ -153,21 +134,37 @@ html
     transform-origin: 30% 90%;
 }
 
-@keyframes boyArmWave
-{
-    0% { transform: rotate(0deg); }
-    2.5% { transform: rotate(15deg); }
-    7.5% { transform: rotate(-15deg); }
+@keyframes boyArmWave {
+    0% {
+        transform: rotate(0deg);
+    }
 
-    12.5% { transform: rotate(15deg); }
-    17.5% { transform: rotate(-15deg); }
-    20% { transform: rotate(0deg); }
+    2.5% {
+        transform: rotate(15deg);
+    }
 
-    100% { transform: rotate(0deg); }
+    7.5% {
+        transform: rotate(-15deg);
+    }
+
+    12.5% {
+        transform: rotate(15deg);
+    }
+
+    17.5% {
+        transform: rotate(-15deg);
+    }
+
+    20% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
 }
 
-.threejs-journey .message .bubble
-{
+.threejs-journey .message .bubble {
     position: relative;
     padding: 20px 30px;
     border: 2px solid #ffffff;
@@ -175,8 +172,7 @@ html
     background: linear-gradient(#fdb572ab, #fdb5721a);
 }
 
-.threejs-journey .message .tip
-{
+.threejs-journey .message .tip {
     position: absolute;
     width: 12px;
     height: 16px;
@@ -185,14 +181,12 @@ html
     background: url('../images/bubbleTip.svg');
 }
 
-.threejs-journey .message.is-answers
-{
+.threejs-journey .message.is-answers {
     display: flex;
     justify-content: flex-end;
 }
 
-.threejs-journey .message .answer
-{
+.threejs-journey .message .answer {
     position: relative;
     display: flex;
     align-items: center;
@@ -204,8 +198,7 @@ html
     overflow: hidden;
 }
 
-.threejs-journey .message .answer .background
-{
+.threejs-journey .message .answer .background {
     position: absolute;
     top: 0;
     left: 0;
@@ -214,8 +207,7 @@ html
     border-radius: 8px;
 }
 
-.threejs-journey .message .answer .hover
-{
+.threejs-journey .message .answer .hover {
     position: absolute;
     top: 0;
     left: 0;
@@ -228,41 +220,34 @@ html
     will-change: transform;
 }
 
-.threejs-journey .message .answer:hover .hover
-{
+.threejs-journey .message .answer:hover .hover {
     transform: scaleX(1);
 }
 
-.threejs-journey .message .answer .label
-{
+.threejs-journey .message .answer .label {
     position: relative;
 }
 
-.threejs-journey .message .answer.is-no
-{
+.threejs-journey .message .answer.is-no {
     color: #ffffff;
 }
 
-.threejs-journey .message .answer.is-no .background
-{
+.threejs-journey .message .answer.is-no .background {
     border: 2px solid #ffffff;
-    background: linear-gradient(#fdb5721a, #fdb572ab);
+    background: linear-gradient(#38B7FF, #AD00FF);
     color: #ffffff;
 }
 
-.threejs-journey .message .answer.is-yes
-{
-    color: #feae69;
+.threejs-journey .message .answer.is-yes {
+    color: #38B7FF;
 }
 
-.threejs-journey .message .answer.is-yes .background
-{
+.threejs-journey .message .answer.is-yes .background {
     background: #ffffff;
     opacity: 0.75;
 }
 
-.threejs-journey .message .answer.is-no .hover
-{
+.threejs-journey .message .answer.is-no .hover {
     transform-origin: 100% 0;
     opacity: 0.2;
 }

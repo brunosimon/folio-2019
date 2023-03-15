@@ -1,4 +1,8 @@
-# Folio 2019
+# Portfolio 2023 Mode exploration
+
+Vous voulez visualiser mon portfolio de différentes façons ?
+[Mode Simple / Principale](https://lucasmoramarco.fr)
+[Mode Designer](https://designer.lucasmoramarco.fr)
 
 ## Setup
 Download [Node.js](https://nodejs.org/en/download/).

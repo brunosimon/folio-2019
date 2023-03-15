@@ -97,11 +97,11 @@ import projectsDistinctionsCSSDABaseSource from '../models/projects/distinctions
 import projectsDistinctionsCSSDACollisionSource from '../models/projects/distinctions/cssda/collision.glb'
 
 import projectsThreejsJourneyFloorSource from '../models/projects/threejsJourney/floorTexture.png'
-import projectsMadboxFloorSource from '../models/projects/madbox/floorTexture.png'
-import projectsScoutFloorSource from '../models/projects/scout/floorTexture.png'
-import projectsChartogneFloorSource from '../models/projects/chartogne/floorTexture.png'
-import projectsZenlyFloorSource from '../models/projects/zenly/floorTexture.png'
-import projectsCitrixRedbullFloorSource from '../models/projects/citrixRedbull/floorTexture.png'
+import projectschironFloorSource from '../models/projects/chiron/floorTexture.png'
+import projectsrobrunFloorSource from '../models/projects/robrun/floorTexture.png'
+import projectsupdaymeFloorSource from '../models/projects/updayme/floorTexture.png'
+import projectskarmaFloorSource from '../models/projects/karma/floorTexture.png'
+import projectsosakaFloorSource from '../models/projects/osaka/floorTexture.png'
 import projectsPriorHoldingsFloorSource from '../models/projects/priorHoldings/floorTexture.png'
 import projectsOranoFloorSource from '../models/projects/orano/floorTexture.png'
 // import projectsGleecChatFloorSource from '../models/projects/gleecChat/floorTexture.png'
@@ -115,8 +115,8 @@ import informationStaticFloorShadowSource from '../models/information/static/flo
 import informationBaguetteBaseSource from '../models/information/baguette/base.glb'
 import informationBaguetteCollisionSource from '../models/information/baguette/collision.glb'
 
-import informationContactTwitterLabelSource from '../models/information/static/contactTwitterLabel.png'
-import informationContactGithubLabelSource from '../models/information/static/contactGithubLabel.png'
+import informationModeSimpleLabelSource from '../models/information/static/modeSimpleLabel.png'
+import informationModeDesignerLabelSource from '../models/information/static/modeDesignerLabel.png'
 import informationContactLinkedinLabelSource from '../models/information/static/contactLinkedinLabel.png'
 import informationContactMailLabelSource from '../models/information/static/contactMailLabel.png'
 
@@ -211,10 +211,8 @@ import wig4Source from '../models/wigs/wig4.glb'
 // import eggBaseSource from '../models/egg/base.glb'
 // import eggCollisionSource from '../models/egg/collision.glb'
 
-export default class Resources extends EventEmitter
-{
-    constructor()
-    {
+export default class Resources extends EventEmitter {
+    constructor() {
         super()
 
         this.loader = new Loader()
@@ -315,11 +313,11 @@ export default class Resources extends EventEmitter
             { name: 'projectsDistinctionsCSSDACollision', source: projectsDistinctionsCSSDACollisionSource },
 
             { name: 'projectsThreejsJourneyFloor', source: projectsThreejsJourneyFloorSource, type: 'texture' },
-            { name: 'projectsMadboxFloor', source: projectsMadboxFloorSource, type: 'texture' },
-            { name: 'projectsScoutFloor', source: projectsScoutFloorSource, type: 'texture' },
-            { name: 'projectsChartogneFloor', source: projectsChartogneFloorSource, type: 'texture' },
-            { name: 'projectsZenlyFloor', source: projectsZenlyFloorSource, type: 'texture' },
-            { name: 'projectsCitrixRedbullFloor', source: projectsCitrixRedbullFloorSource, type: 'texture' },
+            { name: 'projectschironFloor', source: projectschironFloorSource, type: 'texture' },
+            { name: 'projectsrobrunFloor', source: projectsrobrunFloorSource, type: 'texture' },
+            { name: 'projectsupdaymeFloor', source: projectsupdaymeFloorSource, type: 'texture' },
+            { name: 'projectskarmaFloor', source: projectskarmaFloorSource, type: 'texture' },
+            { name: 'projectsosakaFloor', source: projectsosakaFloorSource, type: 'texture' },
             { name: 'projectsPriorHoldingsFloor', source: projectsPriorHoldingsFloorSource, type: 'texture' },
             { name: 'projectsOranoFloor', source: projectsOranoFloorSource, type: 'texture' },
             // { name: 'projectsGleecChatFloor', source: projectsGleecChatFloorSource, type: 'texture' },
@@ -333,8 +331,8 @@ export default class Resources extends EventEmitter
             { name: 'informationBaguetteBase', source: informationBaguetteBaseSource },
             { name: 'informationBaguetteCollision', source: informationBaguetteCollisionSource },
 
-            { name: 'informationContactTwitterLabel', source: informationContactTwitterLabelSource, type: 'texture' },
-            { name: 'informationContactGithubLabel', source: informationContactGithubLabelSource, type: 'texture' },
+            { name: 'informationModeSimpleLabel', source: informationModeSimpleLabelSource, type: 'texture' },
+            { name: 'informationModeDesignerLabel', source: informationModeDesignerLabelSource, type: 'texture' },
             { name: 'informationContactLinkedinLabel', source: informationContactLinkedinLabelSource, type: 'texture' },
             { name: 'informationContactMailLabel', source: informationContactMailLabelSource, type: 'texture' },
 
@@ -430,13 +428,11 @@ export default class Resources extends EventEmitter
             // { name: 'eggCollision', source: eggCollisionSource },
         ])
 
-        this.loader.on('fileEnd', (_resource, _data) =>
-        {
+        this.loader.on('fileEnd', (_resource, _data) => {
             this.items[_resource.name] = _data
 
             // Texture
-            if(_resource.type === 'texture')
-            {
+            if (_resource.type === 'texture') {
                 const texture = new THREE.Texture(_data)
                 texture.needsUpdate = true
 
@@ -447,8 +443,7 @@ export default class Resources extends EventEmitter
             this.trigger('progress', [this.loader.loaded / this.loader.toLoad])
         })
 
-        this.loader.on('end', () =>
-        {
+        this.loader.on('end', () => {
             // Trigger ready
             this.trigger('ready')
         })
