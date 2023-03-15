@@ -85,15 +85,11 @@ export default class InformationSection {
         this.links.options = [
             {
                 href: 'https://lucasmoramarco.fr',
-                labelTexture: this.resources.items.informationContactTwitterLabelTexture
+                labelTexture: this.resources.items.informationModeSimpleLabelTexture
             },
             {
                 href: 'https://designer.lucasmoramarco.fr',
-                labelTexture: this.resources.items.informationContactTwitterLabelTexture
-            },
-            {
-                href: 'https://instagram.com/lucasmoramarco?igshid=YmMyMTA2M2Y=',
-                labelTexture: this.resources.items.informationContactGithubLabelTexture
+                labelTexture: this.resources.items.informationModeDesignerLabelTexture
             },
             {
                 href: 'https://www.linkedin.com/in/lucas-moramarco/',

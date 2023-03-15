@@ -169,7 +169,7 @@ export default class ProjectsSection {
                 {
                     href: 'https://lucasmoramarco.fr/robrun',
                     x: - 4.8,
-                    y: - 2,
+                    y: - 4,
                     halfExtents:
                     {
                         x: 3.2,
