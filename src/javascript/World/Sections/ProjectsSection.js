@@ -336,7 +336,7 @@ export default class ProjectsSection {
             //     floorTexture: this.resources.items.projectsKepplerFloorTexture,
             //     link:
             //     {
-            //         href: 'https://brunosimon.github.io/keppler/',
+            //         href: 'https://lucasmoramarco.fr',
             //         x: 2.75,
             //         y: - 1.1,
             //         halfExtents:

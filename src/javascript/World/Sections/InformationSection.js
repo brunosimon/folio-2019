@@ -84,7 +84,11 @@ export default class InformationSection {
         // Options
         this.links.options = [
             {
-                href: 'https://twitter.com/bruno_simon/',
+                href: 'https://lucasmoramarco.fr',
+                labelTexture: this.resources.items.informationContactTwitterLabelTexture
+            },
+            {
+                href: 'https://designer.lucasmoramarco.fr',
                 labelTexture: this.resources.items.informationContactTwitterLabelTexture
             },
             {
