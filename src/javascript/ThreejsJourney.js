@@ -1,4 +1,4 @@
-import { TweenLite } from 'gsap/TweenLite'
+import { TweenLite } from 'gsap'
 
 export default class ThreejsJourney
 {

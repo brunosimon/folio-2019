@@ -1,6 +1,6 @@
 import * as THREE from 'three'
-import { TweenLite } from 'gsap/TweenLite'
-import { Back } from 'gsap/EasePack'
+import { TweenLite } from 'gsap'
+import { Back } from 'gsap'
 
 import EventEmitter from '../Utils/EventEmitter.js'
 import AreaFloorBorderBufferGeometry from '../Geometries/AreaFloorBorderBufferGeometry.js'
