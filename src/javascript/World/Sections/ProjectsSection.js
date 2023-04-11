@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import Project from './Project'
-import TweenLite from 'gsap/TweenLite'
+import TweenLite from 'gsap'
 
 import projectsThreejsJourneySlideASources from '../../../models/projects/threejsJourney/slideA.jpg'
 import projectsThreejsJourneySlideBSources from '../../../models/projects/threejsJourney/slideB.jpg'

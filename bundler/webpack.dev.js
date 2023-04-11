@@ -7,7 +7,7 @@ module.exports = webpackMerge(
         mode: 'development',
         devServer:
         {
-            contentBase: './dist',
+            static: './directory-name',
             open: true
         }
     }
