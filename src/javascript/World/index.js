@@ -20,8 +20,8 @@ import PlaygroundSection from './Sections/PlaygroundSection.js'
 // import DistinctionDSection from './Sections/DistinctionDSection.js'
 import Controls from './Controls.js'
 import Sounds from './Sounds.js'
-import { TweenLite } from 'gsap/TweenLite'
-import { Power2 } from 'gsap/EasePack'
+import { TweenLite } from 'gsap'
+import { Power2 } from 'gsap'
 import EasterEggs from './EasterEggs.js'
 
 export default class
