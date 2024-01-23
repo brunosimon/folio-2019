@@ -1,9 +1,10 @@
 import * as THREE from 'three'
 
-class AreaFloorBorderBufferGeometry
+class AreaFloorBorderBufferGeometry extends THREE.BufferGeometry
 {
     constructor(_width, _height, _thickness)
     {
+        super();
         // Parameters
         this.parameters = {
             width: _width,
@@ -92,15 +93,11 @@ class AreaFloorBorderBufferGeometry
         indices[7 * 3 + 1] = 4
         indices[7 * 3 + 2] = 7
 
-        const geometry = new THREE.BufferGeometry()
-
         // Set indices
-        geometry.setIndex(new THREE.BufferAttribute(indices, 1, false))
+        this.setIndex(new THREE.BufferAttribute(indices, 1, false))
 
         // Set attributes
-        geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3))
-
-        return geometry
+        this.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3))
     }
 }
 
