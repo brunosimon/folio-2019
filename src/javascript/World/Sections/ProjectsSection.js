@@ -2,48 +2,6 @@ import * as THREE from 'three'
 import Project from './Project'
 import TweenLite from 'gsap/TweenLite'
 
-import projectsThreejsJourneySlideASources from '../../../models/projects/threejsJourney/slideA.jpg'
-import projectsThreejsJourneySlideBSources from '../../../models/projects/threejsJourney/slideB.jpg'
-import projectsThreejsJourneySlideCSources from '../../../models/projects/threejsJourney/slideC.jpg'
-import projectsThreejsJourneySlideDSources from '../../../models/projects/threejsJourney/slideD.jpg'
-
-import projectsMadboxSlideASources from '../../../models/projects/madbox/slideA.jpg'
-import projectsMadboxSlideBSources from '../../../models/projects/madbox/slideB.jpg'
-import projectsMadboxSlideCSources from '../../../models/projects/madbox/slideC.jpg'
-
-import projectsScoutSlideASources from '../../../models/projects/scout/slideA.jpg'
-import projectsScoutSlideBSources from '../../../models/projects/scout/slideB.jpg'
-import projectsScoutSlideCSources from '../../../models/projects/scout/slideC.jpg'
-
-import projectsChartogneSlideASources from '../../../models/projects/chartogne/slideA.jpg'
-import projectsChartogneSlideBSources from '../../../models/projects/chartogne/slideB.jpg'
-import projectsChartogneSlideCSources from '../../../models/projects/chartogne/slideC.jpg'
-
-import projectsZenlySlideASources from '../../../models/projects/zenly/slideA.jpg'
-import projectsZenlySlideBSources from '../../../models/projects/zenly/slideB.jpg'
-import projectsZenlySlideCSources from '../../../models/projects/zenly/slideC.jpg'
-
-import projectsCitrixRedbullSlideASources from '../../../models/projects/citrixRedbull/slideA.jpg'
-import projectsCitrixRedbullSlideBSources from '../../../models/projects/citrixRedbull/slideB.jpg'
-import projectsCitrixRedbullSlideCSources from '../../../models/projects/citrixRedbull/slideC.jpg'
-
-import projectsPriorHoldingsSlideASources from '../../../models/projects/priorHoldings/slideA.jpg'
-import projectsPriorHoldingsSlideBSources from '../../../models/projects/priorHoldings/slideB.jpg'
-import projectsPriorHoldingsSlideCSources from '../../../models/projects/priorHoldings/slideC.jpg'
-
-import projectsOranoSlideASources from '../../../models/projects/orano/slideA.jpg'
-import projectsOranoSlideBSources from '../../../models/projects/orano/slideB.jpg'
-import projectsOranoSlideCSources from '../../../models/projects/orano/slideC.jpg'
-
-// import projectsGleecChatSlideASources from '../../../models/projects/gleecChat/slideA.jpg'
-// import projectsGleecChatSlideBSources from '../../../models/projects/gleecChat/slideB.jpg'
-// import projectsGleecChatSlideCSources from '../../../models/projects/gleecChat/slideC.jpg'
-// import projectsGleecChatSlideDSources from '../../../models/projects/gleecChat/slideD.jpg'
-
-import projectsKepplerSlideASources from '../../../models/projects/keppler/slideA.jpg'
-import projectsKepplerSlideBSources from '../../../models/projects/keppler/slideB.jpg'
-import projectsKepplerSlideCSources from '../../../models/projects/keppler/slideC.jpg'
-
 export default class ProjectsSection
 {
     constructor(_options)
@@ -116,10 +74,10 @@ export default class ProjectsSection
                 name: 'Three.js Journey',
                 imageSources:
                 [
-                    projectsThreejsJourneySlideASources,
-                    projectsThreejsJourneySlideBSources,
-                    projectsThreejsJourneySlideCSources,
-                    projectsThreejsJourneySlideDSources
+                    './models/projects/threejsJourney/slideA.jpg',
+                    './models/projects/threejsJourney/slideB.jpg',
+                    './models/projects/threejsJourney/slideC.jpg',
+                    './models/projects/threejsJourney/slideD.jpg'
                 ],
                 floorTexture: this.resources.items.projectsThreejsJourneyFloorTexture,
                 link:
@@ -142,9 +100,9 @@ export default class ProjectsSection
                 name: 'Madbox',
                 imageSources:
                 [
-                    projectsMadboxSlideASources,
-                    projectsMadboxSlideBSources,
-                    projectsMadboxSlideCSources
+                    './models/projects/madbox/slideA.jpg',
+                    './models/projects/madbox/slideB.jpg',
+                    './models/projects/madbox/slideC.jpg'
                 ],
                 floorTexture: this.resources.items.projectsMadboxFloorTexture,
                 link:
@@ -168,9 +126,9 @@ export default class ProjectsSection
                 name: 'Scout',
                 imageSources:
                 [
-                    projectsScoutSlideASources,
-                    projectsScoutSlideBSources,
-                    projectsScoutSlideCSources
+                    './models/projects/scout/slideA.jpg',
+                    './models/projects/scout/slideB.jpg',
+                    './models/projects/scout/slideC.jpg'
                 ],
                 floorTexture: this.resources.items.projectsScoutFloorTexture,
                 link:
@@ -192,9 +150,9 @@ export default class ProjectsSection
                 name: 'Chartogne Taillet',
                 imageSources:
                 [
-                    projectsChartogneSlideASources,
-                    projectsChartogneSlideBSources,
-                    projectsChartogneSlideCSources
+                    './models/projects/chartogne/slideA.jpg',
+                    './models/projects/chartogne/slideB.jpg',
+                    './models/projects/chartogne/slideC.jpg'
                 ],
                 floorTexture: this.resources.items.projectsChartogneFloorTexture,
                 link:
@@ -219,9 +177,9 @@ export default class ProjectsSection
                 name: 'Zenly',
                 imageSources:
                 [
-                    projectsZenlySlideASources,
-                    projectsZenlySlideBSources,
-                    projectsZenlySlideCSources
+                    './models/projects/zenly/slideA.jpg',
+                    './models/projects/zenly/slideB.jpg',
+                    './models/projects/zenly/slideC.jpg'
                 ],
                 floorTexture: this.resources.items.projectsZenlyFloorTexture,
                 link:
@@ -246,9 +204,9 @@ export default class ProjectsSection
                 name: 'priorHoldings',
                 imageSources:
                 [
-                    projectsPriorHoldingsSlideASources,
-                    projectsPriorHoldingsSlideBSources,
-                    projectsPriorHoldingsSlideCSources
+                    './models/projects/priorHoldings/slideA.jpg',
+                    './models/projects/priorHoldings/slideB.jpg',
+                    './models/projects/priorHoldings/slideC.jpg'
                 ],
                 floorTexture: this.resources.items.projectsPriorHoldingsFloorTexture,
                 link:
@@ -273,9 +231,9 @@ export default class ProjectsSection
                 name: 'orano',
                 imageSources:
                 [
-                    projectsOranoSlideASources,
-                    projectsOranoSlideBSources,
-                    projectsOranoSlideCSources
+                    './models/projects/orano/slideA.jpg',
+                    './models/projects/orano/slideB.jpg',
+                    './models/projects/orano/slideC.jpg'
                 ],
                 floorTexture: this.resources.items.projectsOranoFloorTexture,
                 link:
@@ -300,9 +258,9 @@ export default class ProjectsSection
                 name: 'citrixRedbull',
                 imageSources:
                 [
-                    projectsCitrixRedbullSlideASources,
-                    projectsCitrixRedbullSlideBSources,
-                    projectsCitrixRedbullSlideCSources
+                    './models/projects/citrixRedbull/slideA.jpg',
+                    './models/projects/citrixRedbull/slideB.jpg',
+                    './models/projects/citrixRedbull/slideC.jpg'
                 ],
                 floorTexture: this.resources.items.projectsCitrixRedbullFloorTexture,
                 link:
@@ -327,10 +285,10 @@ export default class ProjectsSection
             //     name: 'gleecChat',
             //     imageSources:
             //     [
-            //         projectsGleecChatSlideASources,
-            //         projectsGleecChatSlideBSources,
-            //         projectsGleecChatSlideCSources,
-            //         projectsGleecChatSlideDSources
+            //         './models/projects/gleecChat/slideA.jpg',
+            //         './models/projects/gleecChat/slideB.jpg',
+            //         './models/projects/gleecChat/slideC.jpg',
+            //         './models/projects/gleecChat/slideD.jpg'
             //     ],
             //     floorTexture: this.resources.items.projectsGleecChatFloorTexture,
             //     link:
@@ -355,9 +313,9 @@ export default class ProjectsSection
                 name: 'keppler',
                 imageSources:
                 [
-                    projectsKepplerSlideASources,
-                    projectsKepplerSlideBSources,
-                    projectsKepplerSlideCSources
+                    './models/projects/keppler/slideA.jpg',
+                    './models/projects/keppler/slideB.jpg',
+                    './models/projects/keppler/slideC.jpg'
                 ],
                 floorTexture: this.resources.items.projectsKepplerFloorTexture,
                 link:

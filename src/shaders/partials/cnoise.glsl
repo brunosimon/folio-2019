@@ -1,4 +1,4 @@
-#pragma glslify: random = require(./random.glsl)
+#include ./random.glsl
 
 vec2 fade(vec2 t)
 {
@@ -43,5 +43,3 @@ float cnoise(vec2 P)
 
     return 2.3 * n_xy;
 }
-
-#pragma glslify: export(cnoise)

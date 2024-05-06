@@ -4,5 +4,3 @@ float easeSin(float _value)
 {
     return sin((_value - 0.5) * M_PI) * 0.5 + 0.5;
 }
-
-#pragma glslify: export(easeSin)

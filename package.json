@@ -1,48 +1,21 @@
 {
-  "name": "three.js-template",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "threejs-journey-exercise",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "build": "webpack --config ./bundler/webpack.prod.js",
-    "dev": "webpack-dev-server --config ./bundler/webpack.dev.js",
-    "watch": "webpack --watch --config ./bundler/webpack.config.js"
+    "dev": "vite",
+    "build": "vite build"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/brunosimon/three.js-template.git"
-  },
-  "author": "brunosimon",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/brunosimon/three.js-template/issues"
-  },
-  "homepage": "https://github.com/brunosimon/three.js-template#readme",
   "devDependencies": {
-    "@babel/core": "^7.7.7",
-    "@babel/preset-env": "^7.7.7",
-    "babel-loader": "^8.0.6",
-    "cannon": "^0.6.2",
-    "clean-webpack-plugin": "^3.0.0",
-    "copy-webpack-plugin": "^5.1.1",
-    "css-loader": "^3.4.0",
-    "dat.gui": "^0.7.3",
-    "file-loader": "^5.0.2",
-    "glslify-loader": "^2.0.0",
-    "gsap": "^2.1.3",
-    "howler": "^2.1.2",
-    "html-loader": "^0.5.5",
-    "html-webpack-plugin": "^3.2.0",
-    "raw-loader": "^4.0.0",
-    "style-loader": "^1.1.2",
-    "three": "^0.131.3",
-    "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.1",
-    "webpack-merge": "^4.2.2"
+    "vite": "^5.0.12",
+    "vite-plugin-glsl": "^1.2.1"
   },
-  "staticFiles": {
-    "staticPath": "static",
-    "watcherGlob": "**"
+  "dependencies": {
+    "gsap": "^2.1.3",
+    "dat.gui": "^0.7.3",
+    "three": "^0.131.3",
+    "howler": "^2.1.2",
+    "cannon": "^0.6.2"
   }
 }

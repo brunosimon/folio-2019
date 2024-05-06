@@ -8,5 +8,3 @@ float round(float _value)
     number = (number + number2)*signum;
     return number;
 }
-
-#pragma glslify: export(round)

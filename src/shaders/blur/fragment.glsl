@@ -6,7 +6,7 @@ uniform vec2 uStrength;
 
 varying vec2 vUv;
 
-#pragma glslify: blur9 = require(../partials/blur9.glsl)
+#include ../partials/blur9.glsl
 
 void main()
 {

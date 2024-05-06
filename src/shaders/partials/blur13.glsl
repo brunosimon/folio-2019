@@ -12,5 +12,3 @@ vec4 blur13(sampler2D image, vec2 uv, vec2 resolution, vec2 direction) {
   color += texture2D(image, uv - (off3 / resolution)) * 0.010381362401148057;
   return color;
 }
-
-#pragma glslify: export(blur13)

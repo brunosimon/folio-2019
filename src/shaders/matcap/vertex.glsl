@@ -25,7 +25,7 @@ uniform float uRevealProgress;
 
 varying vec3 vWorldPosition;
 
-#pragma glslify: easeSin = require(../partials/easeSin.glsl)
+#include ../partials/easeSin.glsl
 // Custom end
 
 void main() {
