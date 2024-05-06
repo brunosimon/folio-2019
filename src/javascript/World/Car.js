@@ -84,6 +84,7 @@ export default class Car
             // Movement
             const movementSpeed = new THREE.Vector3()
             movementSpeed.copy(this.chassis.object.position).sub(this.chassis.oldPosition)
+            movementSpeed.multiplyScalar(1 / this.time.delta * 17)
             this.movement.acceleration = movementSpeed.clone().sub(this.movement.speed)
             this.movement.speed.copy(movementSpeed)
 
