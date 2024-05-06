@@ -95,9 +95,10 @@ void main() {
     gl_FragColor = vec4(mix(outgoingLight, uIndirectColor, indirectStrength), diffuseColor.a);
     // Custom end
 
-    #include <premultiplied_alpha_fragment>
-    #include <tonemapping_fragment>
-    #include <encodings_fragment>
-    #include <fog_fragment>
-
+	#include <opaque_fragment>
+	#include <tonemapping_fragment>
+	#include <colorspace_fragment>
+	#include <fog_fragment>
+	#include <premultiplied_alpha_fragment>
+	#include <dithering_fragment>
 }

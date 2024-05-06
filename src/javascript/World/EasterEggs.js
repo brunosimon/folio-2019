@@ -50,7 +50,7 @@ export default class EasterEggs
 
         this.konamiCode.labelTexture.magFilter = THREE.NearestFilter
         this.konamiCode.labelTexture.minFilter = THREE.LinearFilter
-        this.konamiCode.label = new THREE.Mesh(new THREE.PlaneBufferGeometry(8, 8 / 16), new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false, color: 0xffffff, alphaMap: this.konamiCode.labelTexture }))
+        this.konamiCode.label = new THREE.Mesh(new THREE.PlaneGeometry(8, 8 / 16), new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false, color: 0xffffff, alphaMap: this.konamiCode.labelTexture }))
         this.konamiCode.label.position.x = this.konamiCode.x + 5
         this.konamiCode.label.position.y = this.konamiCode.y
         this.konamiCode.label.matrixAutoUpdate = false
@@ -274,7 +274,7 @@ export default class EasterEggs
         // Label
         this.resources.items.areaQuestionMarkTexture.magFilter = THREE.NearestFilter
         this.resources.items.areaQuestionMarkTexture.minFilter = THREE.LinearFilter
-        this.wigs.areaLabel = new THREE.Mesh(new THREE.PlaneBufferGeometry(1, 1), new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false, color: 0xffffff, alphaMap: this.resources.items.areaQuestionMarkTexture }))
+        this.wigs.areaLabel = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ transparent: true, depthWrite: false, color: 0xffffff, alphaMap: this.resources.items.areaQuestionMarkTexture }))
         this.wigs.areaLabel.position.x = 0
         this.wigs.areaLabel.position.y = 80
         this.wigs.areaLabel.matrixAutoUpdate = false

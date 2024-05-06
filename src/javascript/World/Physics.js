@@ -27,16 +27,15 @@ export default class Physics
 
         this.time.on('tick', () =>
         {
-            this.world.step(1 / 60, this.time.delta, 3)
+            this.world.step(this.time.delta / 1000)
         })
     }
 
     setWorld()
     {
         this.world = new CANNON.World()
-        this.world.gravity.set(0, 0, - 3.25)
+        this.world.gravity.set(0, 0, - 3.25 * 4)
         this.world.allowSleep = true
-        // this.world.gravity.set(0, 0, 0)
         // this.world.broadphase = new CANNON.SAPBroadphase(this.world)
         this.world.defaultContactMaterial.friction = 0
         this.world.defaultContactMaterial.restitution = 0.2
@@ -123,15 +122,15 @@ export default class Physics
         this.car.options.chassisHeight = 1.16
         this.car.options.chassisDepth = 2.03
         this.car.options.chassisOffset = new CANNON.Vec3(0, 0, 0.41)
-        this.car.options.chassisMass = 20
+        this.car.options.chassisMass = 40
         this.car.options.wheelFrontOffsetDepth = 0.635
         this.car.options.wheelBackOffsetDepth = - 0.475
         this.car.options.wheelOffsetWidth = 0.39
         this.car.options.wheelRadius = 0.25
         this.car.options.wheelHeight = 0.24
-        this.car.options.wheelSuspensionStiffness = 25
+        this.car.options.wheelSuspensionStiffness = 50
         this.car.options.wheelSuspensionRestLength = 0.1
-        this.car.options.wheelFrictionSlip = 5
+        this.car.options.wheelFrictionSlip = 10
         this.car.options.wheelDampingRelaxation = 1.8
         this.car.options.wheelDampingCompression = 1.5
         this.car.options.wheelMaxSuspensionForce = 100000
@@ -139,15 +138,15 @@ export default class Physics
         this.car.options.wheelMaxSuspensionTravel = 0.3
         this.car.options.wheelCustomSlidingRotationalSpeed = - 30
         this.car.options.wheelMass = 5
-        this.car.options.controlsSteeringSpeed = 0.005
+        this.car.options.controlsSteeringSpeed = 0.005 * 3
         this.car.options.controlsSteeringMax = Math.PI * 0.17
         this.car.options.controlsSteeringQuad = false
-        this.car.options.controlsAcceleratinMaxSpeed = 0.055
-        this.car.options.controlsAcceleratinMaxSpeedBoost = 0.11
-        this.car.options.controlsAcceleratingSpeed = 2
-        this.car.options.controlsAcceleratingSpeedBoost = 3.5
+        this.car.options.controlsAcceleratinMaxSpeed = 0.055 * 3 / 17
+        this.car.options.controlsAcceleratinMaxSpeedBoost = 0.11 * 3 / 17
+        this.car.options.controlsAcceleratingSpeed = 2 * 4 * 2
+        this.car.options.controlsAcceleratingSpeedBoost = 3.5 * 4 * 2
         this.car.options.controlsAcceleratingQuad = true
-        this.car.options.controlsBrakeStrength = 0.45
+        this.car.options.controlsBrakeStrength = 0.45 * 3
 
         /**
          * Upsize down
@@ -160,10 +159,10 @@ export default class Physics
         /**
          * Jump
          */
-        this.car.jump = (_toReturn = true, _strength = 60) =>
+        this.car.jump = (_toReturn = true, _strength = 150) =>
         {
             let worldPosition = this.car.chassis.body.position
-            worldPosition = worldPosition.vadd(new CANNON.Vec3(_toReturn ? 0.08 : 0, 0, 0))
+            worldPosition = worldPosition.vadd(new CANNON.Vec3(_toReturn ? 0.1 : 0, 0, 0))
             this.car.chassis.body.applyImpulse(new CANNON.Vec3(0, 0, _strength), worldPosition)
         }
 
@@ -275,12 +274,12 @@ export default class Physics
 
             this.car.model.material = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true })
 
-            this.car.model.chassis = new THREE.Mesh(new THREE.BoxBufferGeometry(this.car.options.chassisDepth, this.car.options.chassisWidth, this.car.options.chassisHeight), this.car.model.material)
+            this.car.model.chassis = new THREE.Mesh(new THREE.BoxGeometry(this.car.options.chassisDepth, this.car.options.chassisWidth, this.car.options.chassisHeight), this.car.model.material)
             this.car.model.container.add(this.car.model.chassis)
 
             this.car.model.wheels = []
 
-            const wheelGeometry = new THREE.CylinderBufferGeometry(this.car.options.wheelRadius, this.car.options.wheelRadius, this.car.options.wheelHeight, 8, 1)
+            const wheelGeometry = new THREE.CylinderGeometry(this.car.options.wheelRadius, this.car.options.wheelRadius, this.car.options.wheelHeight, 8, 1)
 
             for(let i = 0; i < 4; i++)
             {
@@ -355,7 +354,7 @@ export default class Physics
             positionDelta = positionDelta.vsub(this.car.oldPosition)
 
             this.car.oldPosition.copy(this.car.chassis.body.position)
-            this.car.speed = positionDelta.length()
+            this.car.speed = positionDelta.length() / this.time.delta
 
             // Update forward
             const localForward = new CANNON.Vec3(1, 0, 0)
@@ -525,7 +524,7 @@ export default class Physics
              * Accelerate
              */
             const accelerationSpeed = this.controls.actions.boost ? this.car.options.controlsAcceleratingSpeedBoost : this.car.options.controlsAcceleratingSpeed
-            const accelerateStrength = this.time.delta * accelerationSpeed
+            const accelerateStrength = 17 * accelerationSpeed
             const controlsAcceleratinMaxSpeed = this.controls.actions.boost ? this.car.options.controlsAcceleratinMaxSpeedBoost : this.car.options.controlsAcceleratinMaxSpeed
 
             // Accelerate up
@@ -740,16 +739,16 @@ export default class Physics
                 let modelGeometry = null
                 if(shape === 'cylinder')
                 {
-                    modelGeometry = new THREE.CylinderBufferGeometry(1, 1, 1, 8, 1)
+                    modelGeometry = new THREE.CylinderGeometry(1, 1, 1, 8, 1)
                     modelGeometry.rotateX(Math.PI * 0.5)
                 }
                 else if(shape === 'box')
                 {
-                    modelGeometry = new THREE.BoxBufferGeometry(1, 1, 1)
+                    modelGeometry = new THREE.BoxGeometry(1, 1, 1)
                 }
                 else if(shape === 'sphere')
                 {
-                    modelGeometry = new THREE.SphereBufferGeometry(1, 8, 8)
+                    modelGeometry = new THREE.SphereGeometry(1, 8, 8)
                 }
 
                 const modelMesh = new THREE.Mesh(modelGeometry, this.models.materials[_options.mass === 0 ? 'static' : 'dynamic'])

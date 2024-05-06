@@ -18,7 +18,7 @@ export default class Zone extends EventEmitter
 
         // Mesh
         this.mesh = new THREE.Mesh(
-            new THREE.BoxBufferGeometry(_options.halfExtents.x * 2, _options.halfExtents.y * 2, 3, 1, 1, 1),
+            new THREE.BoxGeometry(_options.halfExtents.x * 2, _options.halfExtents.y * 2, 3, 1, 1, 1),
             new THREE.MeshBasicMaterial({ color: 0xff00ff, wireframe: true })
         )
         this.mesh.position.x = _options.position.x

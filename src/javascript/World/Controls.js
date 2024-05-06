@@ -2,7 +2,6 @@ import mobileDoubleTriangle from '../../images/mobile/doubleTriangle.png'
 import mobileTriangle from '../../images/mobile/triangle.png'
 import mobileCross from '../../images/mobile/cross.png'
 import EventEmitter from '../Utils/EventEmitter'
-import { TweenLite } from 'gsap/TweenLite'
 
 export default class Controls extends EventEmitter
 {
@@ -51,38 +50,38 @@ export default class Controls extends EventEmitter
 
         this.keyboard.events.keyDown = (_event) =>
         {
-            switch(_event.key)
+            switch(_event.code)
             {
                 case 'ArrowUp':
-                case 'z':
-                case 'w':
+                case 'KeyW':
                     this.camera.pan.reset()
                     this.actions.up = true
                     break
 
                 case 'ArrowRight':
-                case 'd':
+                case 'KeyD':
                     this.actions.right = true
                     break
 
                 case 'ArrowDown':
-                case 's':
+                case 'KeyS':
                     this.camera.pan.reset()
                     this.actions.down = true
                     break
 
                 case 'ArrowLeft':
-                case 'q':
-                case 'a':
+                case 'KeyA':
                     this.actions.left = true
                     break
 
-                case 'Control':
-                case ' ':
+                case 'ControlLeft':
+                case 'ControlRight':
+                case 'Space':
                     this.actions.brake = true
                     break
 
-                case 'Shift':
+                case 'ShiftLeft':
+                case 'ShiftRight':
                     this.actions.boost = true
                     break
 
@@ -94,40 +93,40 @@ export default class Controls extends EventEmitter
 
         this.keyboard.events.keyUp = (_event) =>
         {
-            switch(_event.key)
+            switch(_event.code)
             {
                 case 'ArrowUp':
-                case 'z':
-                case 'w':
+                case 'KeyW':
                     this.actions.up = false
                     break
 
                 case 'ArrowRight':
-                case 'd':
+                case 'KeyD':
                     this.actions.right = false
                     break
 
                 case 'ArrowDown':
-                case 's':
+                case 'KeyS':
                     this.actions.down = false
                     break
 
                 case 'ArrowLeft':
-                case 'q':
-                case 'a':
+                case 'KeyA':
                     this.actions.left = false
                     break
 
-                case 'Control':
-                case ' ':
+                case 'ControlLeft':
+                case 'ControlRight':
+                case 'Space':
                     this.actions.brake = false
                     break
 
-                case 'Shift':
+                case 'ShiftLeft':
+                case 'ShiftRight':
                     this.actions.boost = false
                     break
 
-                case 'r':
+                case 'KeyR':
                     this.trigger('action', ['reset'])
                     break
             }

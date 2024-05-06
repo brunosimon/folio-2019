@@ -78,7 +78,7 @@ export default class InformationSection
         this.links.halfExtents.y = 1
         this.links.distanceBetween = 2.4
         this.links.labelWidth = this.links.halfExtents.x * 2 + 1
-        this.links.labelGeometry = new THREE.PlaneBufferGeometry(this.links.labelWidth, this.links.labelWidth * 0.25, 1, 1)
+        this.links.labelGeometry = new THREE.PlaneGeometry(this.links.labelWidth, this.links.labelWidth * 0.25, 1, 1)
         this.links.labelOffset = - 1.6
         this.links.items = []
 
@@ -155,7 +155,7 @@ export default class InformationSection
         this.activities.multiplier = 5.5
 
         // Geometry
-        this.activities.geometry = new THREE.PlaneBufferGeometry(2 * this.activities.multiplier, 1 * this.activities.multiplier, 1, 1)
+        this.activities.geometry = new THREE.PlaneGeometry(2 * this.activities.multiplier, 1 * this.activities.multiplier, 1, 1)
 
         // Texture
         this.activities.texture = this.resources.items.informationActivitiesTexture

@@ -76,6 +76,7 @@ export default class Car
         this.movement.localSpeed = new THREE.Vector3()
         this.movement.acceleration = new THREE.Vector3()
         this.movement.localAcceleration = new THREE.Vector3()
+        this.movement.lastScreech = 0
 
         // Time tick
         this.time.on('tick', () =>
@@ -93,8 +94,9 @@ export default class Car
             this.sounds.engine.speed = this.movement.localSpeed.x
             this.sounds.engine.acceleration = this.controls.actions.up ? (this.controls.actions.boost ? 1 : 0.5) : 0
 
-            if(this.movement.localAcceleration.x > 0.01)
+            if(this.movement.localAcceleration.x > 0.03 && this.time.elapsed - this.movement.lastScreech > 5000)
             {
+                this.movement.lastScreech = this.time.elapsed
                 this.sounds.play('screech')
             }
         })
@@ -346,21 +348,19 @@ export default class Car
     setKlaxon()
     {
         this.klaxon = {}
-        this.klaxon.waitDuration = 150
-        this.klaxon.can = true
+        this.klaxon.lastTime = this.time.elapsed
 
         window.addEventListener('keydown', (_event) =>
         {
             // Play horn sound
-            if(_event.key === 'h' && this.klaxon.can)
+            if(_event.code === 'KeyH')
             {
-                this.klaxon.can = false
-                window.setTimeout(() =>
+                if(this.time.elapsed - this.klaxon.lastTime > 400)
                 {
-                    this.klaxon.can = true
-                }, this.klaxon.waitDuration)
+                    this.physics.car.jump(false, 150)
+                    this.klaxon.lastTime = this.time.elapsed
+                }
 
-                this.physics.car.jump(false, 20)
                 this.sounds.play(Math.random() < 0.002 ? 'carHorn2' : 'carHorn1')
             }
 

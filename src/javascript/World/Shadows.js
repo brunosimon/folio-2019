@@ -148,7 +148,7 @@ export default class Shadows
 
     setGeometry()
     {
-        this.geometry = new THREE.PlaneBufferGeometry(1, 1, 1, 1)
+        this.geometry = new THREE.PlaneGeometry(1, 1, 1, 1)
     }
 
     setHelper()
@@ -162,7 +162,7 @@ export default class Shadows
 
         this.helper.active = false
 
-        this.helper.mesh = new THREE.Mesh(new THREE.BoxBufferGeometry(3, 1, 1, 1), new THREE.MeshNormalMaterial())
+        this.helper.mesh = new THREE.Mesh(new THREE.BoxGeometry(3, 1, 1, 1), new THREE.MeshNormalMaterial())
         this.helper.mesh.position.z = 1.5
         this.helper.mesh.position.y = - 3
         this.helper.mesh.visible = this.helper.active

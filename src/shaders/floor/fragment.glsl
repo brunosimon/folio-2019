@@ -4,7 +4,6 @@ varying vec2 vUv;
 
 void main()
 {
-    vec4 backgroundColor = texture2D(tBackground, vUv);
-
+    vec4 backgroundColor = texture(tBackground, vUv);
     gl_FragColor = backgroundColor;
 }

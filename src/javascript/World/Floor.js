@@ -13,7 +13,7 @@ export default class Floor
         this.container.matrixAutoUpdate = false
 
         // Geometry
-        this.geometry = new THREE.PlaneBufferGeometry(2, 2, 10, 10)
+        this.geometry = new THREE.PlaneGeometry(2, 2, 10, 10)
 
         // Colors
         this.colors = {}
@@ -32,14 +32,19 @@ export default class Floor
             const bottomRight = new THREE.Color(this.colors.bottomRight)
             const bottomLeft = new THREE.Color(this.colors.bottomLeft)
 
+            topLeft.convertLinearToSRGB()
+            topRight.convertLinearToSRGB()
+            bottomRight.convertLinearToSRGB()
+            bottomLeft.convertLinearToSRGB()
+
             const data = new Uint8Array([
-                Math.round(bottomLeft.r * 255), Math.round(bottomLeft.g * 255), Math.round(bottomLeft.b * 255),
-                Math.round(bottomRight.r * 255), Math.round(bottomRight.g * 255), Math.round(bottomRight.b * 255),
-                Math.round(topLeft.r * 255), Math.round(topLeft.g * 255), Math.round(topLeft.b * 255),
-                Math.round(topRight.r * 255), Math.round(topRight.g * 255), Math.round(topRight.b * 255)
+                Math.round(bottomLeft.r * 255), Math.round(bottomLeft.g * 255), Math.round(bottomLeft.b * 255), 255,
+                Math.round(bottomRight.r * 255), Math.round(bottomRight.g * 255), Math.round(bottomRight.b * 255), 255,
+                Math.round(topLeft.r * 255), Math.round(topLeft.g * 255), Math.round(topLeft.b * 255), 255,
+                Math.round(topRight.r * 255), Math.round(topRight.g * 255), Math.round(topRight.b * 255), 255
             ])
 
-            this.backgroundTexture = new THREE.DataTexture(data, 2, 2, THREE.RGBFormat)
+            this.backgroundTexture = new THREE.DataTexture(data, 2, 2)
             this.backgroundTexture.magFilter = THREE.LinearFilter
             this.backgroundTexture.needsUpdate = true
 

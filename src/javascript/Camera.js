@@ -1,7 +1,6 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import { TweenLite } from 'gsap/TweenLite'
-import { Power1 } from 'gsap/EasePack'
+import gsap from 'gsap'
 
 export default class Camera
 {
@@ -57,7 +56,7 @@ export default class Camera
             const angle = this.angle.items[_name]
             if(typeof angle !== 'undefined')
             {
-                TweenLite.to(this.angle.value, 2, { ...angle, ease: Power1.easeInOut })
+                gsap.to(this.angle.value, { ...angle, duration: 2, ease: 'power1.inOut' })
             }
         }
 
@@ -183,7 +182,7 @@ export default class Camera
         this.pan.mouse = new THREE.Vector2()
         this.pan.needsUpdate = false
         this.pan.hitMesh = new THREE.Mesh(
-            new THREE.PlaneBufferGeometry(500, 500, 1, 1),
+            new THREE.PlaneGeometry(500, 500, 1, 1),
             new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true, visible: false })
         )
         this.container.add(this.pan.hitMesh)

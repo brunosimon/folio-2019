@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 
-class AreaFloorBorderBufferGeometry
+class AreaFloorBorderGeometry
 {
     constructor(_width, _height, _thickness)
     {
@@ -12,7 +12,7 @@ class AreaFloorBorderBufferGeometry
         }
 
         // Set up
-        this.type = 'AreaFloorBufferGeometry'
+        this.type = 'AreaFloorGeometry'
 
         // buffers
         const length = 8
@@ -104,4 +104,4 @@ class AreaFloorBorderBufferGeometry
     }
 }
 
-export default AreaFloorBorderBufferGeometry
+export default AreaFloorBorderGeometry

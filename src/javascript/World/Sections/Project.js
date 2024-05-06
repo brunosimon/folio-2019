@@ -1,8 +1,7 @@
 import * as THREE from 'three'
 
 import ProjectBoardMaterial from '../../Materials/ProjectBoard.js'
-import TweenLite from 'gsap/TweenLite'
-import { Power4 } from 'gsap/EasePack'
+import gsap from 'gsap'
 
 export default class Project
 {
@@ -85,7 +84,7 @@ export default class Project
 
                 board.planeMesh.material.uniforms.uTexture.value = board.texture
 
-                TweenLite.to(board.planeMesh.material.uniforms.uTextureAlpha, 1, { value: 1, ease: Power4.inOut })
+                gsap.to(board.planeMesh.material.uniforms.uTextureAlpha, { value: 1, duration: 1, ease: 'power4.inOut' })
             })
 
             image.src = _imageSource

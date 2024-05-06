@@ -131,7 +131,7 @@ export default class IntroSection
         // Label
         this.otherInstructions.label = {}
 
-        this.otherInstructions.label.geometry = new THREE.PlaneBufferGeometry(6, 6, 1, 1)
+        this.otherInstructions.label.geometry = new THREE.PlaneGeometry(6, 6, 1, 1)
 
         this.otherInstructions.label.texture = this.resources.items.introInstructionsOtherTexture
         this.otherInstructions.label.texture.magFilter = THREE.NearestFilter

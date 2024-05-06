@@ -49,4 +49,5 @@ void main()
     strength *= uAlpha;
 
     gl_FragColor = vec4(uColor, strength);
+	#include <colorspace_fragment>
 }

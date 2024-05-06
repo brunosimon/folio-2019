@@ -1,4 +1,4 @@
-import { TweenLite } from 'gsap/TweenLite'
+import gsap from 'gsap'
 
 export default class ThreejsJourney
 {
@@ -51,7 +51,7 @@ export default class ThreejsJourney
         // Clicks
         this.$yes.addEventListener('click', () =>
         {
-            TweenLite.delayedCall(2, () =>
+            gsap.delayedCall(2, () =>
             {
                 this.hide()
             })
@@ -62,7 +62,7 @@ export default class ThreejsJourney
         {
             this.next()
 
-            TweenLite.delayedCall(5, () =>
+            gsap.delayedCall(5, () =>
             {
                 this.hide()
             })
@@ -140,7 +140,7 @@ export default class ThreejsJourney
             _$message.classList.remove('is-visible')
         }
 
-        TweenLite.delayedCall(0.5, () =>
+        gsap.delayedCall(0.5, () =>
         {
             this.$container.classList.remove('is-active')
         })
@@ -154,11 +154,11 @@ export default class ThreejsJourney
         {
             this.next()
 
-            TweenLite.delayedCall(4, () =>
+            gsap.delayedCall(4, () =>
             {
                 this.next()
             })
-            TweenLite.delayedCall(7, () =>
+            gsap.delayedCall(7, () =>
             {
                 this.next()
             })
