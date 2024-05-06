@@ -1,39 +1,5 @@
 import { Howl, Howler } from 'howler'
 
-import revealSound from '../../sounds/reveal/reveal-1.mp3'
-
-import engineSound from '../../sounds/engines/1/low_off.mp3'
-
-import brick1Sound from '../../sounds/bricks/brick-1.mp3'
-import brick2Sound from '../../sounds/bricks/brick-2.mp3'
-// import brick3Sound from '../../sounds/bricks/brick-3.mp3'
-import brick4Sound from '../../sounds/bricks/brick-4.mp3'
-// import brick5Sound from '../../sounds/bricks/brick-5.mp3'
-import brick6Sound from '../../sounds/bricks/brick-6.mp3'
-import brick7Sound from '../../sounds/bricks/brick-7.mp3'
-import brick8Sound from '../../sounds/bricks/brick-8.mp3'
-
-import bowlingPin1Sound from '../../sounds/bowling/pin-1.mp3'
-
-import carHit1Sound from '../../sounds/car-hits/car-hit-1.mp3'
-// import carHit2Sound from '../../sounds/car-hits/car-hit-2.mp3'
-import carHit3Sound from '../../sounds/car-hits/car-hit-3.mp3'
-import carHit4Sound from '../../sounds/car-hits/car-hit-4.mp3'
-import carHit5Sound from '../../sounds/car-hits/car-hit-5.mp3'
-
-import woodHit1Sound from '../../sounds/wood-hits/wood-hit-1.mp3'
-
-import screech1Sound from '../../sounds/screeches/screech-1.mp3'
-
-import uiArea1Sound from '../../sounds/ui/area-1.mp3'
-
-import carHorn1Sound from '../../sounds/car-horns/car-horn-1.mp3'
-import carHorn2Sound from '../../sounds/car-horns/car-horn-2.mp3'
-
-import horn1Sound from '../../sounds/horns/horn-1.mp3'
-import horn2Sound from '../../sounds/horns/horn-2.mp3'
-import horn3Sound from '../../sounds/horns/horn-3.mp3'
-
 export default class Sounds
 {
     constructor(_options)
@@ -63,7 +29,7 @@ export default class Sounds
         this.settings = [
             {
                 name: 'reveal',
-                sounds: [revealSound],
+                sounds: ['./sounds/reveal/reveal-1.mp3'],
                 minDelta: 100,
                 velocityMin: 0,
                 velocityMultiplier: 1,
@@ -74,7 +40,7 @@ export default class Sounds
             },
             {
                 name: 'brick',
-                sounds: [brick1Sound, brick2Sound, brick4Sound, brick6Sound, brick7Sound, brick8Sound],
+                sounds: ['./sounds/bricks/brick-1.mp3', './sounds/bricks/brick-2.mp3', './sounds/bricks/brick-4.mp3', './sounds/bricks/brick-6.mp3', './sounds/bricks/brick-7.mp3', './sounds/bricks/brick-8.mp3'],
                 minDelta: 100,
                 velocityMin: 1,
                 velocityMultiplier: 0.75,
@@ -85,7 +51,7 @@ export default class Sounds
             },
             {
                 name: 'bowlingPin',
-                sounds: [bowlingPin1Sound],
+                sounds: ['./sounds/bowling/pin-1.mp3'],
                 minDelta: 0,
                 velocityMin: 1,
                 velocityMultiplier: 0.5,
@@ -96,7 +62,7 @@ export default class Sounds
             },
             {
                 name: 'bowlingBall',
-                sounds: [bowlingPin1Sound, bowlingPin1Sound, bowlingPin1Sound],
+                sounds: ['./sounds/bowling/pin-1.mp3', './sounds/bowling/pin-1.mp3', './sounds/bowling/pin-1.mp3'],
                 minDelta: 0,
                 velocityMin: 1,
                 velocityMultiplier: 0.5,
@@ -107,7 +73,7 @@ export default class Sounds
             },
             {
                 name: 'carHit',
-                sounds: [carHit1Sound, carHit3Sound, carHit4Sound, carHit5Sound],
+                sounds: ['./sounds/car-hits/car-hit-1.mp3', './sounds/car-hits/car-hit-3.mp3', './sounds/car-hits/car-hit-4.mp3', './sounds/car-hits/car-hit-5.mp3'],
                 minDelta: 100,
                 velocityMin: 2,
                 velocityMultiplier: 1,
@@ -118,7 +84,7 @@ export default class Sounds
             },
             {
                 name: 'woodHit',
-                sounds: [woodHit1Sound],
+                sounds: ['./sounds/wood-hits/wood-hit-1.mp3'],
                 minDelta: 30,
                 velocityMin: 1,
                 velocityMultiplier: 1,
@@ -129,7 +95,7 @@ export default class Sounds
             },
             {
                 name: 'screech',
-                sounds: [screech1Sound],
+                sounds: ['./sounds/screeches/screech-1.mp3'],
                 minDelta: 1000,
                 velocityMin: 0,
                 velocityMultiplier: 1,
@@ -140,7 +106,7 @@ export default class Sounds
             },
             {
                 name: 'uiArea',
-                sounds: [uiArea1Sound],
+                sounds: ['./sounds/ui/area-1.mp3'],
                 minDelta: 100,
                 velocityMin: 0,
                 velocityMultiplier: 1,
@@ -151,7 +117,7 @@ export default class Sounds
             },
             {
                 name: 'carHorn1',
-                sounds: [carHorn1Sound],
+                sounds: ['./sounds/car-horns/car-horn-1.mp3'],
                 minDelta: 0,
                 velocityMin: 0,
                 velocityMultiplier: 1,
@@ -162,7 +128,7 @@ export default class Sounds
             },
             {
                 name: 'carHorn2',
-                sounds: [carHorn2Sound],
+                sounds: ['./sounds/car-horns/car-horn-2.mp3'],
                 minDelta: 0,
                 velocityMin: 0,
                 velocityMultiplier: 1,
@@ -173,7 +139,7 @@ export default class Sounds
             },
             {
                 name: 'horn',
-                sounds: [horn1Sound, horn2Sound, horn3Sound],
+                sounds: ['./sounds/horns/horn-1.mp3', './sounds/horns/horn-2.mp3', './sounds/horns/horn-3.mp3'],
                 minDelta: 100,
                 velocityMin: 1,
                 velocityMultiplier: 0.75,
@@ -274,7 +240,7 @@ export default class Sounds
         this.engine.volume.master = 0
 
         this.engine.sound = new Howl({
-            src: [engineSound],
+            src: ['./sounds/engines/1/low_off.mp3'],
             loop: true
         })
 
