@@ -78,9 +78,11 @@ export default class Project
             image.addEventListener('load', () =>
             {
                 board.texture = new THREE.Texture(image)
+                // board.texture.magFilter = THREE.NearestFilter
+                // board.texture.minFilter = THREE.LinearFilter
+                board.texture.anisotropy = 4
+                // board.texture.colorSpace = THREE.SRGBColorSpace
                 board.texture.needsUpdate = true
-                board.texture.magFilter = THREE.NearestFilter
-                board.texture.minFilter = THREE.LinearFilter
 
                 board.planeMesh.material.uniforms.uTexture.value = board.texture
 

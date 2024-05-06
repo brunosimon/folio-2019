@@ -106,16 +106,18 @@ export default class Resources extends EventEmitter
             { name: 'projectsDistinctionsCSSDABase', source: './models/projects/distinctions/cssda/base.glb' },
             { name: 'projectsDistinctionsCSSDACollision', source: './models/projects/distinctions/cssda/collision.glb' },
 
-            { name: 'projectsThreejsJourneyFloor', source: './models/projects/threejsJourney/floorTexture.png', type: 'texture' },
+            { name: 'projectsLuniFloor', source: './models/projects/luni/floorTexture.webp', type: 'texture' },
+            { name: 'projectsBonhomme10ansFloor', source: './models/projects/bonhomme10ans/floorTexture.webp', type: 'texture' },
+            { name: 'projectsThreejsJourneyFloor', source: './models/projects/threejsJourney/floorTexture.webp', type: 'texture' },
             { name: 'projectsMadboxFloor', source: './models/projects/madbox/floorTexture.png', type: 'texture' },
             { name: 'projectsScoutFloor', source: './models/projects/scout/floorTexture.png', type: 'texture' },
             { name: 'projectsChartogneFloor', source: './models/projects/chartogne/floorTexture.png', type: 'texture' },
-            { name: 'projectsZenlyFloor', source: './models/projects/zenly/floorTexture.png', type: 'texture' },
+            // { name: 'projectsZenlyFloor', source: './models/projects/zenly/floorTexture.png', type: 'texture' },
             { name: 'projectsCitrixRedbullFloor', source: './models/projects/citrixRedbull/floorTexture.png', type: 'texture' },
             { name: 'projectsPriorHoldingsFloor', source: './models/projects/priorHoldings/floorTexture.png', type: 'texture' },
             { name: 'projectsOranoFloor', source: './models/projects/orano/floorTexture.png', type: 'texture' },
             // { name: 'projectsGleecChatFloor', source: './models/projects/gleecChat/floorTexture.png', type: 'texture' },
-            { name: 'projectsKepplerFloor', source: './models/projects/keppler/floorTexture.png', type: 'texture' },
+            // { name: 'projectsKepplerFloor', source: './models/projects/keppler/floorTexture.png', type: 'texture' },
 
             // Information
             { name: 'informationStaticBase', source: './models/information/static/base.glb' },

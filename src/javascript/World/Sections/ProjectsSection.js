@@ -74,10 +74,10 @@ export default class ProjectsSection
                 name: 'Three.js Journey',
                 imageSources:
                 [
-                    './models/projects/threejsJourney/slideA.jpg',
-                    './models/projects/threejsJourney/slideB.jpg',
-                    './models/projects/threejsJourney/slideC.jpg',
-                    './models/projects/threejsJourney/slideD.jpg'
+                    './models/projects/threejsJourney/slideA.webp',
+                    './models/projects/threejsJourney/slideB.webp',
+                    './models/projects/threejsJourney/slideC.webp',
+                    './models/projects/threejsJourney/slideD.webp'
                 ],
                 floorTexture: this.resources.items.projectsThreejsJourneyFloorTexture,
                 link:
@@ -94,6 +94,87 @@ export default class ProjectsSection
                 distinctions:
                 [
                     { type: 'fwa', x: 3.95, y: 4.15 }
+                ]
+            },
+            {
+                name: 'Chartogne Taillet',
+                imageSources:
+                [
+                    './models/projects/chartogne/slideA.jpg',
+                    './models/projects/chartogne/slideB.jpg',
+                    './models/projects/chartogne/slideC.jpg'
+                ],
+                floorTexture: this.resources.items.projectsChartogneFloorTexture,
+                link:
+                {
+                    href: 'https://chartogne-taillet.com',
+                    x: - 4.8,
+                    y: - 3.3,
+                    halfExtents:
+                    {
+                        x: 3.2,
+                        y: 1.5
+                    }
+                },
+                distinctions:
+                [
+                    { type: 'awwwards', x: 3.95, y: 4.15 },
+                    { type: 'fwa', x: 5.6, y: 4.15 },
+                    { type: 'cssda', x: 7.2, y: 4.15 }
+                ]
+            },
+            {
+                name: 'Bonhomme | 10 ans',
+                imageSources:
+                [
+                    './models/projects/bonhomme10ans/slideA.webp',
+                    './models/projects/bonhomme10ans/slideB.webp',
+                    './models/projects/bonhomme10ans/slideC.webp',
+                    './models/projects/bonhomme10ans/slideD.webp'
+                ],
+                floorTexture: this.resources.items.projectsBonhomme10ansFloorTexture,
+                link:
+                {
+                    href: 'https://anniversary.bonhommeparis.com/',
+                    x: - 4.8,
+                    y: - 2,
+                    halfExtents:
+                    {
+                        x: 3.2,
+                        y: 1.5
+                    }
+                },
+                distinctions:
+                [
+                    { type: 'awwwards', x: 3.95, y: 4.15 },
+                    { type: 'fwa', x: 5.6, y: 4.15 },
+                ]
+            },
+            {
+                name: 'Luni.app',
+                imageSources:
+                [
+                    './models/projects/luni/slideA.webp',
+                    './models/projects/luni/slideB.webp',
+                    './models/projects/luni/slideC.webp',
+                    './models/projects/luni/slideD.webp'
+                ],
+                floorTexture: this.resources.items.projectsLuniFloorTexture,
+                link:
+                {
+                    href: 'https://luni.app',
+                    x: - 4.8,
+                    y: - 3,
+                    halfExtents:
+                    {
+                        x: 3.2,
+                        y: 1.5
+                    }
+                },
+                distinctions:
+                [
+                    { type: 'awwwards', x: 3.95, y: 4.15 },
+                    { type: 'fwa', x: 5.6, y: 4.15 },
                 ]
             },
             {
@@ -146,60 +227,33 @@ export default class ProjectsSection
                 [
                 ]
             },
-            {
-                name: 'Chartogne Taillet',
-                imageSources:
-                [
-                    './models/projects/chartogne/slideA.jpg',
-                    './models/projects/chartogne/slideB.jpg',
-                    './models/projects/chartogne/slideC.jpg'
-                ],
-                floorTexture: this.resources.items.projectsChartogneFloorTexture,
-                link:
-                {
-                    href: 'https://chartogne-taillet.com',
-                    x: - 4.8,
-                    y: - 3.3,
-                    halfExtents:
-                    {
-                        x: 3.2,
-                        y: 1.5
-                    }
-                },
-                distinctions:
-                [
-                    { type: 'awwwards', x: 3.95, y: 4.15 },
-                    { type: 'fwa', x: 5.6, y: 4.15 },
-                    { type: 'cssda', x: 7.2, y: 4.15 }
-                ]
-            },
-            {
-                name: 'Zenly',
-                imageSources:
-                [
-                    './models/projects/zenly/slideA.jpg',
-                    './models/projects/zenly/slideB.jpg',
-                    './models/projects/zenly/slideC.jpg'
-                ],
-                floorTexture: this.resources.items.projectsZenlyFloorTexture,
-                link:
-                {
-                    href: 'https://zen.ly',
-                    x: - 4.8,
-                    y: - 4.2,
-                    halfExtents:
-                    {
-                        x: 3.2,
-                        y: 1.5
-                    }
-                },
-                distinctions:
-                [
-                    { type: 'awwwards', x: 3.95, y: 4.15 },
-                    { type: 'fwa', x: 5.6, y: 4.15 },
-                    { type: 'cssda', x: 7.2, y: 4.15 }
-                ]
-            },
+            // {
+            //     name: 'Zenly',
+            //     imageSources:
+            //     [
+            //         './models/projects/zenly/slideA.jpg',
+            //         './models/projects/zenly/slideB.jpg',
+            //         './models/projects/zenly/slideC.jpg'
+            //     ],
+            //     floorTexture: this.resources.items.projectsZenlyFloorTexture,
+            //     link:
+            //     {
+            //         href: 'https://zen.ly',
+            //         x: - 4.8,
+            //         y: - 4.2,
+            //         halfExtents:
+            //         {
+            //             x: 3.2,
+            //             y: 1.5
+            //         }
+            //     },
+            //     distinctions:
+            //     [
+            //         { type: 'awwwards', x: 3.95, y: 4.15 },
+            //         { type: 'fwa', x: 5.6, y: 4.15 },
+            //         { type: 'cssda', x: 7.2, y: 4.15 }
+            //     ]
+            // },
             {
                 name: 'priorHoldings',
                 imageSources:
@@ -309,28 +363,28 @@ export default class ProjectsSection
             //         { type: 'cssda', x: 7.2, y: 4.15 }
             //     ]
             // },
-            {
-                name: 'keppler',
-                imageSources:
-                [
-                    './models/projects/keppler/slideA.jpg',
-                    './models/projects/keppler/slideB.jpg',
-                    './models/projects/keppler/slideC.jpg'
-                ],
-                floorTexture: this.resources.items.projectsKepplerFloorTexture,
-                link:
-                {
-                    href: 'https://brunosimon.github.io/keppler/',
-                    x: 2.75,
-                    y: - 1.1,
-                    halfExtents:
-                    {
-                        x: 3.2,
-                        y: 1.5
-                    }
-                },
-                distinctions: []
-            }
+            // {
+            //     name: 'keppler',
+            //     imageSources:
+            //     [
+            //         './models/projects/keppler/slideA.jpg',
+            //         './models/projects/keppler/slideB.jpg',
+            //         './models/projects/keppler/slideC.jpg'
+            //     ],
+            //     floorTexture: this.resources.items.projectsKepplerFloorTexture,
+            //     link:
+            //     {
+            //         href: 'https://brunosimon.github.io/keppler/',
+            //         x: 2.75,
+            //         y: - 1.1,
+            //         halfExtents:
+            //         {
+            //             x: 3.2,
+            //             y: 1.5
+            //         }
+            //     },
+            //     distinctions: []
+            // }
         ]
     }
 
