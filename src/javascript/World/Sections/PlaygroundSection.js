@@ -71,8 +71,8 @@ export default class PlaygroundSection
                 shape:
                 {
                     type: 'rectangle',
-                    widthCount: 5,
-                    heightCount: 6,
+                    widthCount: 6,
+                    heightCount: 12,
                     position: new THREE.Vector3(this.brickWalls.x - 6, this.brickWalls.y, 0),
                     offsetWidth: new THREE.Vector3(0, 1.05, 0),
                     offsetHeight: new THREE.Vector3(0, 0, 0.45),
@@ -85,8 +85,8 @@ export default class PlaygroundSection
                 shape:
                 {
                     type: 'brick',
-                    widthCount: 5,
-                    heightCount: 6,
+                    widthCount: 6,
+                    heightCount: 12,
                     position: new THREE.Vector3(this.brickWalls.x - 12, this.brickWalls.y, 0),
                     offsetWidth: new THREE.Vector3(0, 1.05, 0),
                     offsetHeight: new THREE.Vector3(0, 0, 0.45),

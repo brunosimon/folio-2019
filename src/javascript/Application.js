@@ -46,7 +46,7 @@ export default class Application
     {
         this.config = {}
         this.config.debug = window.location.hash === '#debug'
-        this.config.cyberTruck = window.location.hash === '#cybertruck'
+        this.config.cyberTruck = window.location.hash === '#jeep'
         this.config.touch = false
 
         window.addEventListener('touchstart', () =>
@@ -263,7 +263,7 @@ export default class Application
         {
             this.title.position = Math.round(this.title.absolutePosition % this.title.width)
 
-            document.title = `${'_'.repeat(this.title.width - this.title.position)}🚗${'_'.repeat(this.title.position)}`
+            document.title = `${'_'.repeat(this.title.width - this.title.position)}🏎️${'_'.repeat(this.title.position)}`
         }, this.title.frequency)
     }
 

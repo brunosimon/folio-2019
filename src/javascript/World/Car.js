@@ -49,16 +49,6 @@ export default class Car
         // Cyber truck
         if(this.config.cyberTruck)
         {
-            this.models.chassis = this.resources.items.carCyberTruckChassis
-            this.models.antena = this.resources.items.carCyberTruckAntena
-            this.models.backLightsBrake = this.resources.items.carCyberTruckBackLightsBrake
-            this.models.backLightsReverse = this.resources.items.carCyberTruckBackLightsReverse
-            this.models.wheel = this.resources.items.carCyberTruckWheel
-        }
-
-        // Default
-        else
-        {
             this.models.chassis = this.resources.items.carDefaultChassis
             this.models.antena = this.resources.items.carDefaultAntena
             // this.models.bunnyEarLeft = this.resources.items.carDefaultBunnyEarLeft
@@ -66,6 +56,18 @@ export default class Car
             this.models.backLightsBrake = this.resources.items.carDefaultBackLightsBrake
             this.models.backLightsReverse = this.resources.items.carDefaultBackLightsReverse
             this.models.wheel = this.resources.items.carDefaultWheel
+        }
+
+        // Default
+        else
+        {
+          this.models.chassis = this.resources.items.carCyberTruckChassis
+            this.models.antena = this.resources.items.carCyberTruckAntena
+            this.models.backLightsBrake = this.resources.items.carCyberTruckBackLightsBrake
+            this.models.backLightsReverse = this.resources.items.carDefaultBackLightsReverse
+            this.models.wheel = this.resources.items.carDefaultWheel
+            this.models.bunnyEarLeft = this.resources.items.carDefaultBunnyEarLeft
+            this.models.bunnyEarRight = this.resources.items.carDefaultBunnyEarRight
         }
     }
 
@@ -95,7 +97,7 @@ export default class Car
             this.sounds.engine.speed = this.movement.localSpeed.x
             this.sounds.engine.acceleration = this.controls.actions.up ? (this.controls.actions.boost ? 1 : 0.5) : 0
 
-            if(this.movement.localAcceleration.x > 0.03 && this.time.elapsed - this.movement.lastScreech > 5000)
+            if(this.movement.localAcceleration.x > 0.03 && this.time.elapsed - this.movement.lastScreech > 3000)
             {
                 this.movement.lastScreech = this.time.elapsed
                 this.sounds.play('screech')

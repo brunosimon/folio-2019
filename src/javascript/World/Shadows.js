@@ -17,8 +17,8 @@ export default class Shadows
         this.maxDistance = 3
         this.distancePower = 2
         this.zFightingDistance = 0.001
-        this.color = '#d04500'
-        this.wireframeVisible = false
+        this.color = '#F28D90'
+        this.wireframeVisible = true
         this.items = []
 
         this.container = new THREE.Object3D()

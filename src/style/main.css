@@ -246,13 +246,13 @@ html
 .threejs-journey .message .answer.is-no .background
 {
     border: 2px solid #ffffff;
-    background: linear-gradient(#fdb5721a, #fdb572ab);
+    background: linear-gradient(#fdb5721a, #fd7272ab);
     color: #ffffff;
 }
 
 .threejs-journey .message .answer.is-yes
 {
-    color: #feae69;
+    color: #69fe9b;
 }
 
 .threejs-journey .message .answer.is-yes .background

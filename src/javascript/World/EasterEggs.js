@@ -352,13 +352,13 @@ export default class EasterEggs
                     {
                         if(window.confirm(`
 You find an egg!
-Here is your code for a 30% discount on https://threejs-journey.xyz
+
 ${code}
 
 Would you like to go on the subscription page?
                         `))
                         {
-                            window.open(`https://threejs-journey.xyz/subscribe/${code}`, '_blank')
+                            window.open(`https://www.linkedin.com/in/ayan759619/`, '_blank')
                         }
 
                         window.setTimeout(() =>
