@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Racing Game</title>
+    <meta name="description" content="Multiplayer 3D racing game built with Three.js, Cannon.js and Socket.IO." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#000000">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=block" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        /* ── Lobby overlay ── */
+        #lobby {
+            position: fixed;
+            inset: 0;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            font-family: 'Comic Neue', monospace;
+        }
+        #lobby.hidden { display: none; }
+
+        .lobby-card {
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 40px 48px;
+            width: 420px;
+            max-width: 95vw;
+            color: #fff;
+        }
+
+        .lobby-title {
+            font-size: 26px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .lobby-step-label {
+            font-size: 11px;
+            text-align: center;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 28px;
+        }
+
+        /* Steps */
+        .step { display: none; }
+        .step.active { display: block; }
+
+        /* Name input */
+        .lobby-input {
+            width: 100%;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: #fff;
+            font-family: 'Comic Neue', monospace;
+            font-size: 18px;
+            font-weight: 700;
+            padding: 12px 16px;
+            outline: none;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        .lobby-input:focus { border-color: #fff; }
+        .lobby-input::placeholder { color: #444; }
+
+        /* Color grid */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 4px;
+        }
+        .color-swatch {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: transform 0.1s, border-color 0.1s;
+        }
+        .color-swatch:hover { transform: scale(1.08); }
+        .color-swatch.selected { border-color: #fff; transform: scale(1.08); }
+
+        /* Car type */
+        .car-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .car-option {
+            background: #1a1a1a;
+            border: 2px solid #333;
+            border-radius: 10px;
+            padding: 20px 12px 16px;
+            cursor: pointer;
+            text-align: center;
+            transition: border-color 0.1s, background 0.1s;
+        }
+        .car-option:hover { border-color: #555; }
+        .car-option.selected { border-color: #fff; background: #1e1e1e; }
+        .car-option .car-icon { font-size: 40px; margin-bottom: 8px; }
+        .car-option .car-name { font-size: 13px; font-weight: 700; color: #ccc; letter-spacing: 1px; text-transform: uppercase; }
+
+        /* Buttons */
+        .lobby-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 28px;
+        }
+        .lobby-btn {
+            flex: 1;
+            background: #fff;
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-family: 'Comic Neue', monospace;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: opacity 0.1s;
+        }
+        .lobby-btn:hover { opacity: 0.85; }
+        .lobby-btn.secondary {
+            background: #222;
+            color: #888;
+            border: 1px solid #333;
+        }
+        .lobby-btn.secondary:hover { color: #fff; border-color: #555; }
+        .lobby-btn:disabled { opacity: 0.3; cursor: default; }
+
+        /* Progress dots */
+        .lobby-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 28px;
+        }
+        .lobby-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #333;
+            transition: background 0.2s;
+        }
+        .lobby-dot.active { background: #fff; }
+    </style>
+</head>
+<body>
+
+    <canvas class="canvas js-canvas"></canvas>
+
+    <!-- ── Lobby overlay ── -->
+    <div id="lobby">
+        <div class="lobby-card">
+            <div class="lobby-title">🏎 Racing Game</div>
+            <div class="lobby-step-label" id="lobby-step-label">Step 1 of 3</div>
+
+            <div class="lobby-dots">
+                <div class="lobby-dot active" id="dot-0"></div>
+                <div class="lobby-dot" id="dot-1"></div>
+                <div class="lobby-dot" id="dot-2"></div>
+            </div>
+
+            <!-- Step 1: Name -->
+            <div class="step active" id="step-0">
+                <input
+                    id="lobby-name"
+                    class="lobby-input"
+                    type="text"
+                    maxlength="16"
+                    placeholder="Your name"
+                    autocomplete="off"
+                    spellcheck="false"
+                />
+                <div class="lobby-buttons">
+                    <button class="lobby-btn" id="btn-name-next">Next →</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Color -->
+            <div class="step" id="step-1">
+                <div class="color-grid" id="color-grid"></div>
+                <div class="lobby-buttons">
+                    <button class="lobby-btn secondary" id="btn-color-back">← Back</button>
+                    <button class="lobby-btn" id="btn-color-next">Next →</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Car type -->
+            <div class="step" id="step-2">
+                <div class="car-grid">
+                    <div class="car-option selected" data-type="default">
+                        <div class="car-icon">🚗</div>
+                        <div class="car-name">Default</div>
+                    </div>
+                    <div class="car-option" data-type="cybertruck">
+                        <div class="car-icon">🚙</div>
+                        <div class="car-name">Cybertruck</div>
+                    </div>
+                </div>
+                <div class="lobby-buttons">
+                    <button class="lobby-btn secondary" id="btn-car-back">← Back</button>
+                    <button class="lobby-btn" id="btn-play">Play 🏁</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Minimap -->
+    <div id="mp-minimap" style="
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        display: none;
+        z-index: 500;
+        pointer-events: none;
+        filter: drop-shadow(0 2px 8px rgba(0,0,0,0.7));
+    ">
+        <canvas id="mp-minimap-canvas"></canvas>
+    </div>
+
+    <!-- Local player label ("YOU") -->
+    <div id="mp-you" style="
+        position: fixed;
+        background: rgba(255,255,255,0.15);
+        color: #fff;
+        font-family: monospace;
+        font-size: 11px;
+        padding: 2px 8px;
+        border-radius: 4px;
+        pointer-events: none;
+        user-select: none;
+        white-space: nowrap;
+        transform: translate(-50%, -100%);
+        display: none;
+        z-index: 500;
+    "></div>
+
+    <!-- HUD: online count -->
+    <div id="mp-hud" style="
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        background: rgba(0,0,0,0.5);
+        color: rgba(255,255,255,0.7);
+        font-family: monospace;
+        font-size: 12px;
+        padding: 4px 10px;
+        border-radius: 4px;
+        display: none;
+        z-index: 500;
+    ">1 online</div>
+
+    <!-- Chat toggle button -->
+    <button id="chat-toggle" style="
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 1px solid rgba(255,255,255,0.15);
+        background: rgba(0,0,0,0.55);
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+        z-index: 600;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(6px);
+        transition: background 0.2s;
+    ">💬</button>
+
+    <!-- Chat badge (unread count) -->
+    <span id="chat-badge" style="
+        position: fixed;
+        bottom: 52px;
+        right: 18px;
+        min-width: 18px;
+        height: 18px;
+        border-radius: 9px;
+        background: #e74c3c;
+        color: #fff;
+        font-family: monospace;
+        font-size: 10px;
+        font-weight: bold;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 0 4px;
+        z-index: 601;
+        pointer-events: none;
+    ">0</span>
+
+    <!-- Chat panel -->
+    <div id="chat-panel" style="
+        position: fixed;
+        bottom: 72px;
+        right: 20px;
+        width: 300px;
+        max-height: 360px;
+        background: rgba(10,10,10,0.8);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 12px;
+        display: none;
+        flex-direction: column;
+        z-index: 600;
+        font-family: monospace;
+        overflow: hidden;
+    ">
+        <div style="padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.08); color: rgba(255,255,255,0.6); font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Chat</div>
+        <div id="chat-messages" style="
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px 14px;
+            max-height: 260px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        "></div>
+        <form id="chat-form" style="padding: 8px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; gap: 6px;">
+            <input id="chat-input" type="text" maxlength="120" autocomplete="off" placeholder="Type a message..." style="
+                flex: 1;
+                background: rgba(255,255,255,0.08);
+                border: 1px solid rgba(255,255,255,0.1);
+                border-radius: 6px;
+                color: #fff;
+                font-family: monospace;
+                font-size: 12px;
+                padding: 6px 10px;
+                outline: none;
+            ">
+            <button type="submit" style="
+                background: rgba(255,255,255,0.12);
+                border: 1px solid rgba(255,255,255,0.1);
+                border-radius: 6px;
+                color: #fff;
+                font-size: 12px;
+                padding: 6px 10px;
+                cursor: pointer;
+            ">↵</button>
+        </form>
+    </div>
+
+    <!-- Toast for join/leave events -->
+    <div id="mp-toast" style="
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0,0,0,0.75);
+        color: #fff;
+        font-family: monospace;
+        font-size: 12px;
+        padding: 6px 16px;
+        border-radius: 4px;
+        display: none;
+        z-index: 500;
+        pointer-events: none;
+    "></div>
+
+    <script type="module" src="./index.js"></script>
+</body>
+</html>

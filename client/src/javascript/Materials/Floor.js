@@ -5,9 +5,7 @@ import shaderVertex from '../../shaders/floor/vertex.glsl'
 
 export default function()
 {
-    const uniforms = {
-        tBackground: { value: null }
-    }
+    const uniforms = {}
 
     const material = new THREE.ShaderMaterial({
         wireframe: false,
