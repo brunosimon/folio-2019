@@ -183,14 +183,48 @@ export default class Physics
             this.car.chassis.body.position.set(0, 0, 12)
             this.car.chassis.body.sleep()
             this.car.chassis.body.addShape(this.car.chassis.shape, this.car.options.chassisOffset)
-            this.car.chassis.body.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 0, 1), - Math.PI * 0.5)
+            this.car.chassis.body.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 0, 1), 0)
 
             /**
-             * Sound
+             * Sound + bumper car collision response
              */
             this.car.chassis.body.addEventListener('collide', (_event) =>
             {
-                if(_event.body.mass === 0)
+                const body = _event.body
+
+                if(body && body.isBumperCar)
+                {
+                    // Cooldown so rapid stacking contacts don't multiply the impulse
+                    const now = Date.now()
+                    if(now - this.car.lastBumpTime < 400) return
+                    this.car.lastBumpTime = now
+
+                    const myPos  = this.car.chassis.body.position
+                    const hitPos = body.position
+
+                    // Direction away from the remote car (XY plane only + small upward kick)
+                    const dx = myPos.x - hitPos.x
+                    const dy = myPos.y - hitPos.y
+                    const len = Math.sqrt(dx * dx + dy * dy) || 1
+                    const nx = dx / len
+                    const ny = dy / len
+
+                    // Scale impulse by impact velocity for natural feel
+                    const relVel = _event.contact ? Math.abs(_event.contact.getImpactVelocityAlongNormal()) : 5
+                    const strength = Math.max(180, Math.min(550, relVel * 35 + 120))
+
+                    const impulse = new CANNON.Vec3(nx * strength, ny * strength, strength * 0.18)
+                    this.car.chassis.body.applyImpulse(impulse, myPos)
+
+                    // Yaw spin — makes it feel like a real bumper car impact
+                    this.car.chassis.body.angularVelocity.z += nx * 7
+
+                    this.sounds.play('carHit', 10)
+
+                    // Notify World so it can relay the bump to the remote player
+                    if(this.car.onBump) this.car.onBump(body.remoteCarId, [myPos.x, myPos.y, myPos.z])
+                }
+                else if(_event.body && _event.body.mass === 0)
                 {
                     const relativeVelocity = _event.contact.getImpactVelocityAlongNormal()
                     this.sounds.play('carHit', relativeVelocity)
@@ -584,6 +618,32 @@ export default class Physics
                 this.car.vehicle.setBrake(0, 3)
             }
         })
+
+        /**
+         * Bumper car state
+         */
+        this.car.lastBumpTime = 0
+        this.car.onBump = null  // set by World.js to relay bump to remote player
+
+        // Called when this client receives a bump from a remote player
+        this.car.receiveBump = (fromPos) =>
+        {
+            const now = Date.now()
+            if(now - this.car.lastBumpTime < 400) return
+            this.car.lastBumpTime = now
+
+            const body = this.car.chassis.body
+            const dx = body.position.x - fromPos[0]
+            const dy = body.position.y - fromPos[1]
+            const len = Math.sqrt(dx * dx + dy * dy) || 1
+            const nx = dx / len
+            const ny = dy / len
+
+            const strength = 350
+            const impulse = new CANNON.Vec3(nx * strength, ny * strength, strength * 0.18)
+            body.applyImpulse(impulse, body.position)
+            body.angularVelocity.z += nx * 7
+        }
 
         // Create the initial car
         this.car.create()

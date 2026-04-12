@@ -1,21 +1,15 @@
 {
-  "name": "bruno-simon-folio-2019",
+  "name": "folio-bruno-multiplayer",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build"
+    "dev": "concurrently --names \"client,server\" --prefix-colors \"cyan,yellow\" \"npm run dev --prefix client\" \"cd server && node src/index.js\"",
+    "build": "npm run build --prefix client",
+    "server": "npm run dev --prefix server",
+    "client": "npm run dev --prefix client"
   },
   "devDependencies": {
-    "vite": "^5.2.11",
-    "vite-plugin-glsl": "^1.3.0"
-  },
-  "dependencies": {
-    "cannon": "^0.6.2",
-    "dat.gui": "^0.7.9",
-    "gsap": "^3.12.5",
-    "howler": "^2.2.4",
-    "three": "^0.164.1",
-    "vite-plugin-restart": "^0.4.0"
+    "concurrently": "^8.2.2",
+    "playwright": "^1.59.1"
   }
 }

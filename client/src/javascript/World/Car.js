@@ -1,6 +1,18 @@
 import * as THREE from 'three'
 import CANNON from 'cannon'
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js'
+import MatcapMaterial from '../Materials/Matcap.js'
+
+const BODY_MATCAP = [
+    'matcapRedTexture',
+    'matcapBlueTexture',
+    'matcapEmeraldGreenTexture',
+    'matcapOrangeTexture',
+    'matcapPurpleTexture',
+    'matcapEmeraldGreenTexture',  // teal
+    'matcapRedTexture',           // pink
+    'matcapWhiteTexture',
+]
 
 export default class Car
 {
@@ -19,6 +31,7 @@ export default class Car
         this.camera = _options.camera
         this.debug = _options.debug
         this.config = _options.config
+        this.carColor = _options.carColor ?? 0
 
         // Set up
         this.container = new THREE.Object3D()
@@ -34,6 +47,7 @@ export default class Car
         this.setModels()
         this.setMovement()
         this.setChassis()
+        this._applyCarColor()
         this.setAntena()
         this.setBackLights()
         this.setWheels()
@@ -101,6 +115,47 @@ export default class Car
                 this.sounds.play('screech')
             }
         })
+    }
+
+    _applyCarColor()
+    {
+        // Default car body = shadeRed, CyberTruck body = shadeMetal
+        const bodyShadeKey = this.config.cyberTruck ? 'metal' : 'red'
+        const sharedMat    = this.materials.shades.items[bodyShadeKey]
+
+        const texName = BODY_MATCAP[this.carColor % BODY_MATCAP.length]
+        const texture = this.resources.items[texName] || this.resources.items.matcapWhiteTexture
+
+        // Build a fresh material (same approach as RemoteCar) so there are no
+        // issues with cloning / shared uniform references.
+        const mat = MatcapMaterial()
+        mat.uniforms.matcap.value                       = texture
+        mat.uniforms.uRevealProgress.value              = 0   // reveal animates this
+        mat.uniforms.uIndirectDistanceAmplitude.value   = 1.75
+        mat.uniforms.uIndirectDistanceStrength.value    = 0.5
+        mat.uniforms.uIndirectDistancePower.value       = 2.0
+        mat.uniforms.uIndirectAngleStrength.value       = 1.5
+        mat.uniforms.uIndirectAngleOffset.value         = 0.6
+        mat.uniforms.uIndirectAnglePower.value          = 1.0
+        mat.uniforms.uIndirectColor.value               = new THREE.Color('#d04500')
+
+        // Register with the reveal system so uRevealProgress animates with the rest
+        this.materials.shades.items._carBody = mat
+
+        // Apply to chassis meshes — match by shared material instance OR by name
+        let replaced = 0
+        this.chassis.object.traverse((child) =>
+        {
+            if(!child.isMesh) return
+            const byMat  = sharedMat && child.material === sharedMat
+            const byName = child.name.match(this.config.cyberTruck ? /^shadeMetal/i : /^shadeRed/i)
+            if(byMat || byName)
+            {
+                child.material = mat
+                replaced++
+            }
+        })
+        console.log(`[car color] carColor=${this.carColor} shade=${bodyShadeKey} replaced=${replaced}`)
     }
 
     setChassis()
