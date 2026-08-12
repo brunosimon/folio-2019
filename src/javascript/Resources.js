@@ -42,29 +42,8 @@ export default class Resources extends EventEmitter
             { name: 'introArrowKeyBase', source: './models/intro/arrowKey/base.glb' },
             { name: 'introArrowKeyCollision', source: './models/intro/arrowKey/collision.glb' },
 
-            { name: 'introBBase', source: './models/intro/b/base.glb' },
-            { name: 'introBCollision', source: './models/intro/b/collision.glb' },
-
-            { name: 'introRBase', source: './models/intro/r/base.glb' },
-            { name: 'introRCollision', source: './models/intro/r/collision.glb' },
-
-            { name: 'introUBase', source: './models/intro/u/base.glb' },
-            { name: 'introUCollision', source: './models/intro/u/collision.glb' },
-
-            { name: 'introNBase', source: './models/intro/n/base.glb' },
-            { name: 'introNCollision', source: './models/intro/n/collision.glb' },
-
-            { name: 'introOBase', source: './models/intro/o/base.glb' },
-            { name: 'introOCollision', source: './models/intro/o/collision.glb' },
-
-            { name: 'introSBase', source: './models/intro/s/base.glb' },
-            { name: 'introSCollision', source: './models/intro/s/collision.glb' },
-
-            { name: 'introIBase', source: './models/intro/i/base.glb' },
-            { name: 'introICollision', source: './models/intro/i/collision.glb' },
-
-            { name: 'introMBase', source: './models/intro/m/base.glb' },
-            { name: 'introMCollision', source: './models/intro/m/collision.glb' },
+            // Alphabet master file (individual letters extracted at runtime)
+            { name: 'alphabetMaster', source: './models/intro/alphabet.glb' },
 
             { name: 'introCreativeBase', source: './models/intro/creative/base.glb' },
             { name: 'introCreativeCollision', source: './models/intro/creative/collision.glb' },
@@ -228,6 +207,12 @@ export default class Resources extends EventEmitter
         {
             this.items[_resource.name] = _data
 
+            // Extract individual letters from alphabet master
+            if(_resource.name === 'alphabetMaster' && _data.scene)
+            {
+                this.extractAlphabetLetters(_data.scene)
+            }
+
             // Texture
             if(_resource.type === 'texture')
             {
@@ -245,6 +230,39 @@ export default class Resources extends EventEmitter
         {
             // Trigger ready
             this.trigger('ready')
+        })
+    }
+
+    extractAlphabetLetters(_scene)
+    {
+        /**
+         * Extract individual letter models from the master alphabet scene
+         * Maps node indices to letter A-Z and creates resources for each
+         */
+        const LETTER_MAP = {
+            0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f',
+            6: 'g', 7: 'h', 8: 'i', 9: 'j', 10: 'k', 11: 'l',
+            12: 'm', 13: 'n', 14: 'o', 15: 'p', 16: 'q', 17: 'r',
+            18: 's', 19: 't', 20: 'u', 21: 'v', 22: 'w', 23: 'x',
+            24: 'y', 25: 'z'
+        }
+
+        // Extract each letter from the scene
+        _scene.children.forEach((letterNode, index) =>
+        {
+            const letterName = LETTER_MAP[index]
+            if (!letterName) return
+
+            // Create a new scene for this letter
+            const letterScene = new THREE.Scene()
+            const clonedNode = letterNode.clone(true)
+            letterScene.add(clonedNode)
+
+            // Store as both base and collision (same model)
+            this.items[`intro${letterName.toUpperCase()}Base`] = { scene: letterScene }
+            this.items[`intro${letterName.toUpperCase()}Collision`] = { scene: letterScene }
+
+            console.log(`✓ Extracted letter ${letterName.toUpperCase()} from alphabet master`)
         })
     }
 }
